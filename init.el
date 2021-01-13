@@ -87,8 +87,8 @@
 (dotfiles/leader
   "w" '(:ignore t :which-key "Window")
   "ww" '(window-swap-states :which-key "Swap")
-  "wk" '(kill-buffer-and-window :which-key "Kill")
-  "wd" '(delete-window :which-key "Delete")
+  "wd" '(kill-buffer-and-window :which-key "Delete")
+  "wc" '(delete-window :which-key "Close")
   "wh" '(windmove-left :which-key "Left")
   "wj" '(windmove-down :which-key "Down")
   "wk" '(windmove-up :which-key "Up")
@@ -148,7 +148,7 @@
      (emacs-lisp . t)))
 
   (require 'org-tempo)
-  (add-to-list 'org-structure-template-alist '("s" . "src "))
+  (add-to-list 'org-structure-template-alist '("s" . "src"))
   (add-to-list 'org-structure-template-alist '("q" . "quote"))
   (add-to-list 'org-structure-template-alist '("e" . "example"))
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
