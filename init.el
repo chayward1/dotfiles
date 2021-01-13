@@ -11,6 +11,9 @@
 
 (defvar dotfiles/leader-key "SPC")
 
+(defvar dotfiles/src "~/.local/source/")
+(defvar dotfiles/brain (concat dotfiles/src "brain"))
+
 (defvar dotfiles/home user-emacs-directory)
 (defvar dotfiles/cache "~/.cache/emacs")
 
@@ -116,6 +119,15 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package magit
+  :custom (magit-display-buffer-function
+           #'magit-display-buffer-same-window-except-diff-v1))
+
+(use-package forge)
+
+(dotfiles/leader
+  "g" '(magit-status :which-key "Magit"))
+
 (use-package all-the-icons)
 
 (use-package all-the-icons-dired
@@ -177,12 +189,14 @@
 
 (use-package lsp-ui
   :commands lsp-ui-mode
-  :custom (lsp-ui-doc-position 'bottom))
+  :custom (lsp-ui-doc-position 'at-point))
 
 (use-package dap-mode)
 
 (use-package company-lsp
-  :commands company-lsp)
+  :commands company-lsp
+  :custom (company-minimum-prefix-length 1)
+          (company-idle-delay dotfiles/idle))
 
 (use-package python-mode
   :hook (python-mode . lsp)
@@ -190,3 +204,34 @@
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
+
+(use-package org-roam
+  :hook (after-init . org-roam-mode)
+  :custom (org-roam-directory dotfiles/brain))
+
+(use-package org-roam-server
+  :hook (org-roam-mode . org-roam-server-mode))
+
+(dotfiles/leader
+  "r" '(:ignore t :which-key "Roam")
+  "rf" '(org-roam-find-file :which-key "Find")
+  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "rc" '(org-roam-capture :which-key "Capture")
+  "rd" '(:ignore t :which-key "Dailies")
+  "rdd" '(org-roam-dailies-find-date :which-key "Date")
+  "rdt" '(org-roam-dailies-find-today :which-key "Today")
+  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "rdy" '(org-roam-dailies-find-yesterday :which-ley "Yesterday"))
+
+(setq org-roam-capture-templates
+      '(("d" "default" plain (function org-roam-capture--get-point)
+         "%?"
+         :file-name "${slug}"
+         :head "#+TITLE: ${title}\n"
+         :unnarrowed t)))
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry (function org-roam-capture--get-point)
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+TITLE: %<%Y-%m-%d>\n")))

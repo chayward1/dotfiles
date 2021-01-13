@@ -41,6 +41,13 @@ Avoid the infamous *Emacs pinky* by binding =SPC= as a leader key, utilizing the
 (defvar dotfiles/leader-key "SPC")
 #+end_src
 
+Stored source projects are in ~~/.local/source/~.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/src "~/.local/source/")
+(defvar dotfiles/brain (concat dotfiles/src "brain"))
+#+end_src
+
 Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. To solve this issue, and to retain hermetic evaluation of the Emacs directory, we it to ~~/.cache/emacs~ shortly after initialization, before most packages are loaded.
 
 #+begin_src emacs-lisp
@@ -188,7 +195,7 @@ https://github.com/redguardtoo/evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
 
-*** Zoom
+*** Font
 
 Increase the font size in buffers with =SPC f=.
 + Increase =j=
@@ -288,6 +295,32 @@ https://github.com/Fanael/rainbow-delimiters
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** VCS
+
+Another flagship feature of Emacs is =magit=, a complete git porcelain within Emacs.
+
+https://github.com/magit/magit
+
+#+begin_src emacs-lisp
+(use-package magit
+  :custom (magit-display-buffer-function
+           #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+https://github.com/magit/forge
++ Requires ~$GITHUB_TOKEN~
+
+#+begin_src emacs-lisp
+(use-package forge)
+#+end_src
+
+Open the *status* page for the current repository with =SPC g=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "g" '(magit-status :which-key "Magit"))
 #+end_src
 
 ** Files
@@ -439,7 +472,7 @@ https://emacs-lsp.github.io/lsp-ui/
 #+begin_src emacs-lisp
 (use-package lsp-ui
   :commands lsp-ui-mode
-  :custom (lsp-ui-doc-position 'bottom))
+  :custom (lsp-ui-doc-position 'at-point))
 #+end_src
 
 https://emacs-lsp.github.io/dap-mode/
@@ -453,10 +486,12 @@ Text completion framework via =company= aka *Complete Anything*.
 
 http://company-mode.github.io/
 + Integrate with =lsp-mode=
-
+  
 #+begin_src emacs-lisp
 (use-package company-lsp
-  :commands company-lsp)
+  :commands company-lsp
+  :custom (company-minimum-prefix-length 1)
+          (company-idle-delay dotfiles/idle))
 #+end_src
 
 ** Python
@@ -481,4 +516,67 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
+#+end_src
+
+* Writing
+:PROPERTIES:
+:header-args: :tangle init.el :results silent
+:END:
+
+https://github.com/org-roam/org-roam
++ Rudimentary roam replica with =org-mode=
+
+#+begin_src emacs-lisp
+(use-package org-roam
+  :hook (after-init . org-roam-mode)
+  :custom (org-roam-directory dotfiles/brain))
+#+end_src
+
+https://github.com/org-roam/org-roam
++ Visualizes the =org-roam= database
++ Available on http://localhost:8080
+
+#+begin_src emacs-lisp
+(use-package org-roam-server
+  :hook (org-roam-mode . org-roam-server-mode))
+#+end_src
+
+Configure keybindings behind =SPC r=.
++ Find with =f=
++ Buffer with =b=
++ Capture with =c=
++ Dailies with =d=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "r" '(:ignore t :which-key "Roam")
+  "rf" '(org-roam-find-file :which-key "Find")
+  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "rc" '(org-roam-capture :which-key "Capture")
+  "rd" '(:ignore t :which-key "Dailies")
+  "rdd" '(org-roam-dailies-find-date :which-key "Date")
+  "rdt" '(org-roam-dailies-find-today :which-key "Today")
+  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "rdy" '(org-roam-dailies-find-yesterday :which-ley "Yesterday"))
+#+end_src
+
+Configure the default capture template for new topics.
+
+#+begin_src emacs-lisp
+(setq org-roam-capture-templates
+      '(("d" "default" plain (function org-roam-capture--get-point)
+         "%?"
+         :file-name "${slug}"
+         :head "#+TITLE: ${title}\n"
+         :unnarrowed t)))
+#+end_src
+
+Configure the default capture template for daily entries.
+
+#+begin_src emacs-lisp
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry (function org-roam-capture--get-point)
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+TITLE: %<%Y-%m-%d>\n")))
 #+end_src
