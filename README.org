@@ -1,0 +1,385 @@
+#+TITLE: Dotfiles
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
++ 100% Literate
++ 100% Immutable
++ 100% Reproducible
+  
+* Configuration
+:PROPERTIES:
+:header-args: :tangle init.el
+:END:
+
+Define a function to build literate programming projects.
+
+#+begin_src emacs-lisp
+(defun dotfiles/tangle (dir)
+  "Recursively tangle the Org files within a directory."
+  (let ((org-files (directory-files-recursively dir "org")))
+    (dolist (f org-files)
+      (org-babel-tangle-file f))))
+#+end_src
+
+Configure the system font with a single ~font-family~ and define the size, of which variations to the font size are relative to this value.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/font "Fira Code")
+(defvar dotfiles/font-size 96)
+#+end_src
+
+Functionality like =completion= and =hints= can be delayed to avoid popups for common manuevers. Adjust this value to your personal taste.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/idle 0.0)
+#+end_src
+
+Avoid the infamous *Emacs pinky* by binding =SPC= as a leader key, utilizing the thumb instead of the weaker pinky finger. You may change this value if you want to use something else.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/leader-key "SPC")
+#+end_src
+
+Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. To solve this issue, and to retain hermetic evaluation of the Emacs directory, we it to ~~/.cache/emacs~ shortly after initialization, before most packages are loaded.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/home user-emacs-directory)
+(defvar dotfiles/cache "~/.cache/emacs")
+
+(setq create-lockfiles nil
+      make-backup-files nil
+      user-emacs-directory dotfiles/cache)
+#+end_src
+
+** Packages
+
+https://github.com/raxod502/straight.el
++ Use the development branch
++ Integrate with ~use-package~
+
+Apply the configurations prior to bootstrapping the package manager, by setting (writing) to the variables that =straight= will ultimately read from.
+  
+  #+begin_src emacs-lisp
+(setq straight-repository-branch "develop"
+      straight-use-package-by-default t)
+  #+end_src
+
+Bootstrap the package manager, downloading, installing, or configuring depending on the state of the configuration. All packages are downloaded and built from source, and can be pinned to specific git commit hashes.
+  
+  #+begin_src emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+  #+end_src
+
+Complete the integration with ~use-package~ by installing it with =straight=.
+  
+  #+begin_src emacs-lisp
+(straight-use-package 'use-package)
+  #+end_src
+
+** Cleanup
+
+Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs.
+
+https://github.com/emacscollective/no-littering
++ Reduce the files created by Emacs
+
+#+begin_src emacs-lisp
+(use-package no-littering)
+#+end_src
+
+Emacs' default user interface is horrendous, but with less than 10 lines of code we can change that.
+
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t)
+(global-prettify-symbols-mode)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+#+end_src
+
+Write out to all *3* of Emacs' default font faces.
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
+#+end_src
+
+** Keybindings
+
+Make the =ESC= key quit prompts, instead of the default =C-g=.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src
+
+https://github.com/justbur/emacs-which-key
++ Display the currently incomplete keybinding in a mini-buffer.
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :diminish which-key-mode
+  :init (which-key-mode)
+  :config (setq which-key-idle-delay dotfiles/idle))
+#+end_src
+  
+https://github.com/noctuid/general.el
++ Easily configure prefixed keybindings
++ Cleaner than default binding methods
+
+#+begin_src emacs-lisp
+(use-package general
+  :config
+  (general-create-definer dotfiles/leader
+    :states '(normal motion)
+    :keymaps 'override
+    :prefix dotfiles/leader-key))
+#+end_src 
+
+*** Evil
+
+After a few hour with =vim= I knew it was game over, I cannot even think of another way I would feel comfortable editing text. Luckily, there exist packages to emulate this within Emacs.
+
+https://evil.readthedocs.io/en/latest/index.html
++ Extendable VI layer for Emacs
++ Disable default keybindings
+
+#+begin_src emacs-lisp
+(use-package evil
+  :init (setq evil-want-integration t
+	            evil-want-keybinding nil)
+  :config (evil-mode 1))
+#+end_src
+
+https://github.com/emacs-evil/evil-collection
++ Community keybindings for =evil-mode=
+
+#+begin_src emacs-lisp
+(use-package evil-collection
+  :after evil
+  :config (evil-collection-init))
+#+end_src
+
+https://github.com/redguardtoo/evil-nerd-commenter
++ Toggle comments with =M-;=
+
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :bind ("M-;" . evilnc-comment-or-uncomment-lines))
+#+end_src
+
+*** Shortcuts
+
+Again cherry picked from =Doom=, I want to continue utilizing the muscle memory I have developed from a year of mainlining the framework.
+
++ Find files =SPC . (period)=
++ Switch buffers with =SPC , (comma)=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "," '(switch-to-buffer :which-key "Buffer")
+  "." '(find-file :which-key "File"))
+#+end_src
+
+Quit emacs with =SPC q=.
++ Saving =q=
++ Without =w=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "q" '(:ignore t :which-key "Quit")
+  "qq" '(save-buffers-kill-emacs :which-key "Save")
+  "qw" '(kill-emacs :which-key "Now"))
+#+end_src
+
+Window management with =SPC w=.
++ Swap with =w=
++ Kill with =k=
++ Delete with =d=
++ Motions with =h,j,k,l=
++ Split with =s + <MOTION>=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "w" '(:ignore t :which-key "Window")
+  "ww" '(window-swap-states :which-key "Swap")
+  "wk" '(kill-buffer-and-window :which-key "Kill")
+  "wd" '(delete-window :which-key "Delete")
+  "wh" '(windmove-left :which-key "Left")
+  "wj" '(windmove-down :which-key "Down")
+  "wk" '(windmove-up :which-key "Up")
+  "wl" '(windmove-right :which-key "Right")
+  "ws" '(:ignore t :which-key "Split")
+  "wsj" '(split-window-below :which-key "Down")
+  "wsl" '(split-window-right :which-key "Right"))
+#+end_src
+
+** Editor
+
+Relative line numbers are important when using =VI= emulation keys. You can prefix most commands with a *number*, allowing you to jump up / down by a line count.
+
+#+begin_example
+  5:
+  4:
+  3:
+  2:
+  1:
+156: << CURRENT LINE >>
+  1:
+  2:
+  3:
+  4:
+  5:
+#+end_example
+
+https://github.com/emacsmirror/linum-relative
++ Integrate with ~display-line-numbers-mode~ for performance
+
+#+begin_src emacs-lisp
+(use-package linum-relative
+  :init (setq linum-relative-backend
+	      'display-line-numbers-mode)
+  :config (linum-relative-global-mode))
+#+end_src
+
+https://github.com/Fanael/rainbow-delimiters
++ Colourize nested parenthesis
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Files
+
+Emacs' can feel more modern when icon-fonts are installed and prioritized. I feel that this makes navigation of folders much faster, given that file types may be quickly identified by their corresponding icons.
+
+https://github.com/domtronn/all-the-icons.el
++ Collects various icon fonts
+
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+#+end_src
+  
+https://github.com/jtbm37/all-the-icons-dired
++ Integration with dired
+
+#+begin_src emacs-lisp
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
+
+When opening =dired=, I don't want to have to press =RET= twice to navigate to the current directory. This can be avoided with ~dired-jump~, included in the =dired-x= package shipped with =dired=.
+
+#+begin_src emacs-lisp
+(require 'dired-x)
+#+end_src
+
+Open a dired buffer with =SPC d=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "d" '(dired-jump :which-key "Dired"))
+#+end_src
+
+** Shell 
+
+While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
+
+https://github.com/zwild/eshell-prompt-extras
++ Enable lambda shell prompt
+
+#+begin_src emacs-lisp
+(use-package eshell-prompt-extras
+  :config (setq eshell-highlight-prompt nil
+	            eshell-prompt-function 'epe-theme-lambda))
+#+end_src
+
+Open an =eshell= buffer with =SPC e=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "e" '(eshell :which-key "Shell"))
+#+end_src
+
+** Themes
+
+Bring Emacs' out of the eighties by cherry picking a few modules from =Doom=.
+
+https://github.com/hlissner/emacs-doom-themes
++ Modern colour themes
+
+#+begin_src emacs-lisp
+(use-package doom-themes
+  :init (load-theme 'doom-moonlight t))
+#+end_src
+
+https://github.com/seagle0128/doom-modeline
++ Elegant status bar / modeline
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 16)))
+#+end_src
+
+** Writing
+
+*Organize your plain life in plain text*
+
+=Org-mode= is one of the hallmark features of Emacs, and provides the basis for my Literate Programming platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
+
++ https://orgmode.org
++ https://orgmode.org/worg/org-contrib/babel/languages/index.html
++ https://orgmode.org/manual/Structure-Templates.html
+
+#+begin_src emacs-lisp
+(use-package org
+  :hook
+  (org-mode . (lambda ()
+		(org-indent-mode)
+		(visual-line-mode 1)
+		(variable-pitch-mode 1)))
+  :config
+  (setq org-ellipsis " ▾"
+	org-log-done 'time
+	org-log-into-drawer t
+	org-src-preserve-indentation t)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)
+     (python . t)
+     (emacs-lisp . t)))
+
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("s" . "src "))
+  (add-to-list 'org-structure-template-alist '("q" . "quote"))
+  (add-to-list 'org-structure-template-alist '("e" . "example"))
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+#+end_src
+
+https://github.com/integral-dw/org-superstar-mode
++ Make the headline stars more *super*
+
+#+begin_src emacs-lisp
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode))
+#+end_src
+
+* Development
