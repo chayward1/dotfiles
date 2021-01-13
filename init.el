@@ -63,6 +63,8 @@
     :keymaps 'override
     :prefix dotfiles/leader-key))
 
+(use-package hydra)
+
 (use-package evil
   :init (setq evil-want-integration t
 	            evil-want-keybinding nil)
@@ -74,6 +76,15 @@
 
 (use-package evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
+
+(defhydra hydra-text-scale (:timeout 4)
+  "Scale"
+  ("j" text-scale-increase "Increase")
+  ("k" text-scale-decrease "Decrease")
+  ("f" nil "Finished" :exit t))
+
+(dotfiles/leader
+  "f" '(hydra-text-scale/body :which-key "Font"))
 
 (dotfiles/leader
   "," '(switch-to-buffer :which-key "Buffer")
@@ -125,6 +136,9 @@
 (use-package doom-themes
   :init (load-theme 'doom-moonlight t))
 
+(dotfiles/leader
+  "t" '(load-theme t nil :which-key "Theme"))
+
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
@@ -159,20 +173,20 @@
   :hook (org-mode . org-superstar-mode))
 
 (use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :hook (lsp-mode . lsp-deferred))
+  :commands lsp)
 
 (use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode))
+  :commands lsp-ui-mode
+  :custom (lsp-ui-doc-position 'bottom))
 
 (use-package dap-mode)
 
+(use-package company-lsp
+  :commands company-lsp)
+
 (use-package python-mode
-  :hook (python-mode . lsp-deferred)
+  :hook (python-mode . lsp)
   :config (require 'dap-python)
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
-
-(use-package pyvenv
-  :config (pyvenv-mode 1))

@@ -9,7 +9,7 @@ Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
   
 * Configuration
 :PROPERTIES:
-:header-args: :tangle init.el
+:header-args: :tangle init.el :results silent
 :END:
 
 Define a function to build literate programming projects.
@@ -149,6 +149,13 @@ https://github.com/noctuid/general.el
     :prefix dotfiles/leader-key))
 #+end_src 
 
+https://github.com/abo-abo/hydra
++ Transient keybindings sharing a common prefix
+
+#+begin_src emacs-lisp
+(use-package hydra)
+#+end_src
+
 *** Evil
 
 After a few hour with =vim= I knew it was game over, I cannot even think of another way I would feel comfortable editing text. Luckily, there exist packages to emulate this within Emacs.
@@ -179,6 +186,26 @@ https://github.com/redguardtoo/evil-nerd-commenter
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
+#+end_src
+
+*** Zoom
+
+Increase the font size in buffers with =SPC f=.
++ Increase =j=
++ Decrease =k=
++ Finish =f=
+
+#+begin_src emacs-lisp
+(defhydra hydra-text-scale (:timeout 4)
+  "Scale"
+  ("j" text-scale-increase "Increase")
+  ("k" text-scale-decrease "Decrease")
+  ("f" nil "Finished" :exit t))
+#+end_src
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "f" '(hydra-text-scale/body :which-key "Font"))
 #+end_src
 
 *** Shortcuts
@@ -327,6 +354,13 @@ https://github.com/hlissner/emacs-doom-themes
   :init (load-theme 'doom-moonlight t))
 #+end_src
 
+Load a theme with =SPC t=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "t" '(load-theme t nil :which-key "Theme"))
+#+end_src
+
 https://github.com/seagle0128/doom-modeline
 + Elegant status bar / modeline
 
@@ -384,7 +418,7 @@ https://github.com/integral-dw/org-superstar-mode
 
 * Development
 :PROPERTIES:
-:header-args: :tangle init.el
+:header-args: :tangle init.el :results silent
 :END:
 
 An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
@@ -396,8 +430,7 @@ https://emacs-lsp.github.io/lsp-mode/
   
 #+begin_src emacs-lisp
 (use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :hook (lsp-mode . lsp-deferred))
+  :commands lsp)
 #+end_src
 
 https://emacs-lsp.github.io/lsp-ui/
@@ -405,7 +438,8 @@ https://emacs-lsp.github.io/lsp-ui/
 
 #+begin_src emacs-lisp
 (use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode))
+  :commands lsp-ui-mode
+  :custom (lsp-ui-doc-position 'bottom))
 #+end_src
 
 https://emacs-lsp.github.io/dap-mode/
@@ -413,6 +447,16 @@ https://emacs-lsp.github.io/dap-mode/
 
 #+begin_src emacs-lisp
 (use-package dap-mode)
+#+end_src
+
+Text completion framework via =company= aka *Complete Anything*.
+
+http://company-mode.github.io/
++ Integrate with =lsp-mode=
+
+#+begin_src emacs-lisp
+(use-package company-lsp
+  :commands company-lsp)
 #+end_src
 
 ** Python
@@ -428,19 +472,13 @@ pip install --user "python-language-server[all]"
 #+end_src
 
 https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
-
++ Built in mode
+  
 #+begin_src emacs-lisp
 (use-package python-mode
-  :hook (python-mode . lsp-deferred)
+  :hook (python-mode . lsp)
   :config (require 'dap-python)
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
-#+end_src
-
-Use the =pyvenv= package to use the =virtualenv= environment in Emacs. This allows =pyvenv-activate= to cause =lsp-mode= and =dap-mode= to be configured for the virtual environment.
-
-#+begin_src emacs-lisp
-(use-package pyvenv
-  :config (pyvenv-mode 1))
 #+end_src
