@@ -157,3 +157,22 @@
 
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . lsp-deferred))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode))
+
+(use-package dap-mode)
+
+(use-package python-mode
+  :hook (python-mode . lsp-deferred)
+  :config (require 'dap-python)
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (dap-python-executable "python3")    ;; Same as above.
+          (dap-python-debugger 'debugpy))
+
+(use-package pyvenv
+  :config (pyvenv-mode 1))

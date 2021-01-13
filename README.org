@@ -383,3 +383,64 @@ https://github.com/integral-dw/org-superstar-mode
 #+end_src
 
 * Development
+:PROPERTIES:
+:header-args: :tangle init.el
+:END:
+
+An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
++ https://microsoft.github.io/language-server-protocol/
++ https://microsoft.github.io/debug-adapter-protocol/
+
+https://emacs-lsp.github.io/lsp-mode/
++ Language servers for Emacs
+  
+#+begin_src emacs-lisp
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . lsp-deferred))
+#+end_src
+
+https://emacs-lsp.github.io/lsp-ui/
++ UI improvements for =lsp-mode=
+
+#+begin_src emacs-lisp
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode))
+#+end_src
+
+https://emacs-lsp.github.io/dap-mode/
++ Debug adapters for Emacs
+
+#+begin_src emacs-lisp
+(use-package dap-mode)
+#+end_src
+
+** Python
+
+Full *IDE* experience for Python within Emacs.
++ Completion, jumps via =lsp-mode=
++ Debugging via =dap-mode=
+
+Install the =pyls= language server.
+
+#+begin_src shell :tangle no
+pip install --user "python-language-server[all]"
+#+end_src
+
+https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
+
+#+begin_src emacs-lisp
+(use-package python-mode
+  :hook (python-mode . lsp-deferred)
+  :config (require 'dap-python)
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (dap-python-executable "python3")    ;; Same as above.
+          (dap-python-debugger 'debugpy))
+#+end_src
+
+Use the =pyvenv= package to use the =virtualenv= environment in Emacs. This allows =pyvenv-activate= to cause =lsp-mode= and =dap-mode= to be configured for the virtual environment.
+
+#+begin_src emacs-lisp
+(use-package pyvenv
+  :config (pyvenv-mode 1))
+#+end_src
