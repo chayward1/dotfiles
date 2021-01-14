@@ -584,6 +584,26 @@ Configure the default capture template for daily entries.
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 #+end_src
 
+** Blogging
+
+https://github.com/kaushalmodi/ox-hugo
++ Configure for =one-post-per-file=
+
+#+begin_src emacs-lisp
+(use-package ox-hugo
+  :after ox)
+#+end_src
+
+Creaate a capture template for blog posts in the =posts= sub directory.
+
+#+begin_src emacs-lisp
+(add-to-list 'org-roam-capture-templates
+             '("b" "blog" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "posts/${slug}"
+               :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ../\n#+HUGO_SECTION: ./\n"))
+#+end_src
+
 ** Presentations
 
 Produce high quality presentations that work anywhere with =HTML/JS= via the =reveal.js= package.
@@ -593,5 +613,16 @@ https://github.com/hexmode/ox-reveal
 
 #+begin_src emacs-lisp
 (use-package ox-reveal
+  :after ox
   :custom (org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.9.2/"))
+#+end_src
+
+Create a capture template for presentations stored in the =slides= sub directory.
+
+#+begin_src emacs-lisp
+(add-to-list 'org-roam-capture-templates
+             '("s" "slides" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "slides/${slug}"
+               :head "#+TITLE: ${title}\n"))
 #+end_src

@@ -239,5 +239,21 @@
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 
+(use-package ox-hugo
+  :after ox)
+
+(add-to-list 'org-roam-capture-templates
+             '("b" "blog" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "posts/${slug}"
+               :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ../\n#+HUGO_SECTION: ./\n"))
+
 (use-package ox-reveal
+  :after ox
   :custom (org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.9.2/"))
+
+(add-to-list 'org-roam-capture-templates
+             '("s" "slides" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "slides/${slug}"
+               :head "#+TITLE: ${title}\n"))
