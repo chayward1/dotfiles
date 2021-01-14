@@ -521,6 +521,19 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
           (dap-python-debugger 'debugpy))
 #+end_src
 
+** Rust
+
+Full *IDE* experience for Rust within Emacs.
++ Completion via =lsp-mode=
++ Debugging via =dap-mode=
+
+https://github.com/brotzeit/rustic
++ Install via ~lsp-install-server~
+  
+#+begin_src emacs-lisp
+(use-package rustic)
+#+end_src
+  
 * Writing
 :PROPERTIES:
 :header-args: :tangle init.el :results silent
@@ -644,3 +657,4 @@ Create a capture template for presentations stored in the =slides= sub directory
                :file-name "slides/${slug}"
                :head "#+TITLE: ${title}\n"))
 #+end_src
+

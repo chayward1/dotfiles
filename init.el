@@ -208,6 +208,8 @@
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
 
+(use-package rustic)
+
 (use-package org-roam
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory dotfiles/brain))
