@@ -242,6 +242,9 @@
 (setq org-agenda-files '("~/.local/source/secrets/"
                          "~/.local/source/brain/daily/"))
 
+(dotfiles/leader
+  "a" '(org-agenda :which-key "Agenda"))
+
 (use-package ox-hugo
   :after ox)
 

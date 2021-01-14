@@ -595,6 +595,13 @@ Configure agenda sources.
                          "~/.local/source/brain/daily/"))
 #+end_src
 
+Open an agenda buffer with =SPC a=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "a" '(org-agenda :which-key "Agenda"))
+#+end_src
+
 ** Blogging
 
 https://github.com/kaushalmodi/ox-hugo
