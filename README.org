@@ -463,7 +463,11 @@ https://emacs-lsp.github.io/lsp-mode/
   
 #+begin_src emacs-lisp
 (use-package lsp-mode
-  :commands lsp)
+  :commands lsp
+  :config
+  (setq gc-cons-threshold 100000000
+        lsp-completion-provider 'company-capf
+        lsp-idle-delay dotfiles/idle))
 #+end_src
 
 https://emacs-lsp.github.io/lsp-ui/
@@ -490,8 +494,7 @@ http://company-mode.github.io/
 #+begin_src emacs-lisp
 (use-package company-lsp
   :commands company-lsp
-  :custom (company-minimum-prefix-length 1)
-          (company-idle-delay dotfiles/idle))
+  :custom (company-minimum-prefix-length 1))
 #+end_src
 
 ** Python

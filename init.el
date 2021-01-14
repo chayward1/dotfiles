@@ -185,7 +185,11 @@
   :hook (org-mode . org-superstar-mode))
 
 (use-package lsp-mode
-  :commands lsp)
+  :commands lsp
+  :config
+  (setq gc-cons-threshold 100000000
+        lsp-completion-provider 'company-capf
+        lsp-idle-delay dotfiles/idle))
 
 (use-package lsp-ui
   :commands lsp-ui-mode
@@ -195,8 +199,7 @@
 
 (use-package company-lsp
   :commands company-lsp
-  :custom (company-minimum-prefix-length 1)
-          (company-idle-delay dotfiles/idle))
+  :custom (company-minimum-prefix-length 1))
 
 (use-package python-mode
   :hook (python-mode . lsp)
