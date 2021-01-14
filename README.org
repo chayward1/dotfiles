@@ -567,7 +567,7 @@ Configure the default capture template for new topics.
 
 #+begin_src emacs-lisp
 (setq org-roam-capture-templates
-      '(("d" "default" plain (function org-roam-capture--get-point)
+      '(("d" "Default" plain (function org-roam-capture--get-point)
          "%?"
          :file-name "${slug}"
          :head "#+TITLE: ${title}\n"
@@ -578,7 +578,7 @@ Configure the default capture template for daily entries.
 
 #+begin_src emacs-lisp
 (setq org-roam-dailies-capture-templates
-      '(("d" "default" entry (function org-roam-capture--get-point)
+      '(("d" "Default" entry (function org-roam-capture--get-point)
          "* %?"
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
@@ -616,7 +616,7 @@ Creaate a capture template for blog posts in the =posts= sub directory.
 
 #+begin_src emacs-lisp
 (add-to-list 'org-roam-capture-templates
-             '("b" "blog" plain (function org-roam-capture--get-point)
+             '("b" "Blogging" plain (function org-roam-capture--get-point)
                "%?"
                :file-name "posts/${slug}"
                :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ../\n#+HUGO_SECTION: ./\n"))
@@ -639,7 +639,7 @@ Create a capture template for presentations stored in the =slides= sub directory
 
 #+begin_src emacs-lisp
 (add-to-list 'org-roam-capture-templates
-             '("s" "slides" plain (function org-roam-capture--get-point)
+             '("p" "Presentation" plain (function org-roam-capture--get-point)
                "%?"
                :file-name "slides/${slug}"
                :head "#+TITLE: ${title}\n"))

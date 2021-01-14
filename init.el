@@ -227,14 +227,14 @@
   "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 
 (setq org-roam-capture-templates
-      '(("d" "default" plain (function org-roam-capture--get-point)
+      '(("d" "Default" plain (function org-roam-capture--get-point)
          "%?"
          :file-name "${slug}"
          :head "#+TITLE: ${title}\n"
          :unnarrowed t)))
 
 (setq org-roam-dailies-capture-templates
-      '(("d" "default" entry (function org-roam-capture--get-point)
+      '(("d" "Default" entry (function org-roam-capture--get-point)
          "* %?"
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
@@ -249,7 +249,7 @@
   :after ox)
 
 (add-to-list 'org-roam-capture-templates
-             '("b" "blog" plain (function org-roam-capture--get-point)
+             '("b" "Blogging" plain (function org-roam-capture--get-point)
                "%?"
                :file-name "posts/${slug}"
                :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ../\n#+HUGO_SECTION: ./\n"))
@@ -259,7 +259,7 @@
   :custom (org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.9.2/"))
 
 (add-to-list 'org-roam-capture-templates
-             '("s" "slides" plain (function org-roam-capture--get-point)
+             '("p" "Presentation" plain (function org-roam-capture--get-point)
                "%?"
                :file-name "slides/${slug}"
                :head "#+TITLE: ${title}\n"))
