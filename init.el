@@ -224,7 +224,7 @@
   "rdd" '(org-roam-dailies-find-date :which-key "Date")
   "rdt" '(org-roam-dailies-find-today :which-key "Today")
   "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "rdy" '(org-roam-dailies-find-yesterday :which-ley "Yesterday"))
+  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 
 (setq org-roam-capture-templates
       '(("d" "default" plain (function org-roam-capture--get-point)

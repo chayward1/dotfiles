@@ -560,7 +560,7 @@ Configure keybindings behind =SPC r=.
   "rdd" '(org-roam-dailies-find-date :which-key "Date")
   "rdt" '(org-roam-dailies-find-today :which-key "Today")
   "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "rdy" '(org-roam-dailies-find-yesterday :which-ley "Yesterday"))
+  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 #+end_src
 
 Configure the default capture template for new topics.
