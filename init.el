@@ -239,6 +239,9 @@
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 
+(setq org-agenda-files '("~/.local/source/secrets/"
+                         "~/.local/source/brain/daily/"))
+
 (use-package ox-hugo
   :after ox)
 

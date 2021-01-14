@@ -584,6 +584,17 @@ Configure the default capture template for daily entries.
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 #+end_src
 
+** Agenda
+
+Configure agenda sources.
++ Dailies ~~/.local/source/brain/daily/~
++ Secrets ~~/.local/source/secrets/~
+  
+#+begin_src emacs-lisp
+(setq org-agenda-files '("~/.local/source/secrets/"
+                         "~/.local/source/brain/daily/"))
+#+end_src
+
 ** Blogging
 
 https://github.com/kaushalmodi/ox-hugo
