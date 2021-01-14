@@ -235,3 +235,6 @@
          "* %?"
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
+
+(use-package ox-reveal
+  :custom (org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.9.2/"))
