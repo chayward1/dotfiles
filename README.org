@@ -403,7 +403,91 @@ https://github.com/seagle0128/doom-modeline
   :custom ((doom-modeline-height 16)))
 #+end_src
 
-** Writing
+* Development
+:PROPERTIES:
+:header-args: :tangle init.el :results silent
+:END:
+
+An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
++ https://microsoft.github.io/language-server-protocol/
++ https://microsoft.github.io/debug-adapter-protocol/
+
+https://emacs-lsp.github.io/lsp-mode/
++ Language servers for Emacs
+  
+#+begin_src emacs-lisp
+(use-package lsp-mode
+  :custom (gc-cons-threshold 1000000000)
+          (lsp-idle-delay 0.500))
+#+end_src
+
+https://emacs-lsp.github.io/lsp-ui/
++ UI improvements for =lsp-mode=
+
+#+begin_src emacs-lisp
+(use-package lsp-ui
+  :custom (lsp-ui-doc-position 'at-point)
+          (lsp-ui-doc-delay 0.500))
+#+end_src
+
+https://emacs-lsp.github.io/dap-mode/
++ Debug adapters for Emacs
+
+#+begin_src emacs-lisp
+(use-package dap-mode)
+#+end_src
+
+Text completion framework via =company= aka *Complete Anything*.
+
+http://company-mode.github.io/
++ Integrate with =lsp-mode=
+  
+#+begin_src emacs-lisp
+(use-package company)
+(use-package company-lsp)
+#+end_src
+
+** Python
+
+Full *IDE* experience for Python within Emacs.
++ Completion, jumps via =lsp-mode=
++ Debugging via =dap-mode=
+
+Install the =pyls= language server.
+
+#+begin_src shell :tangle no
+pip install --user "python-language-server[all]"
+#+end_src
+
+https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
++ Built in mode
+  
+#+begin_src emacs-lisp
+(use-package python-mode
+  :hook (python-mode . lsp)
+  :config (require 'dap-python)
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (dap-python-executable "python3")    ;; Same as above.
+          (dap-python-debugger 'debugpy))
+#+end_src
+
+** Rust
+
+Full *IDE* experience for Rust within Emacs.
++ Completion via =lsp-mode=
++ Debugging via =dap-mode=
+
+https://github.com/brotzeit/rustic
++ Install via ~lsp-install-server~
+  
+#+begin_src emacs-lisp
+(use-package rustic)
+#+end_src
+  
+* Writing
+:PROPERTIES:
+:header-args: :tangle init.el :results silent
+:END:
 
 *Organize your plain life in plain text*
 
@@ -448,96 +532,6 @@ https://github.com/integral-dw/org-superstar-mode
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
 #+end_src
-
-* Development
-:PROPERTIES:
-:header-args: :tangle init.el :results silent
-:END:
-
-An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
-+ https://microsoft.github.io/language-server-protocol/
-+ https://microsoft.github.io/debug-adapter-protocol/
-
-https://emacs-lsp.github.io/lsp-mode/
-+ Language servers for Emacs
-  
-#+begin_src emacs-lisp
-(use-package lsp-mode
-  :commands lsp
-  :config
-  (setq gc-cons-threshold 100000000
-        lsp-completion-provider 'company-capf
-        lsp-idle-delay dotfiles/idle))
-#+end_src
-
-https://emacs-lsp.github.io/lsp-ui/
-+ UI improvements for =lsp-mode=
-
-#+begin_src emacs-lisp
-(use-package lsp-ui
-  :commands lsp-ui-mode
-  :custom (lsp-ui-doc-position 'at-point))
-#+end_src
-
-https://emacs-lsp.github.io/dap-mode/
-+ Debug adapters for Emacs
-
-#+begin_src emacs-lisp
-(use-package dap-mode)
-#+end_src
-
-Text completion framework via =company= aka *Complete Anything*.
-
-http://company-mode.github.io/
-+ Integrate with =lsp-mode=
-  
-#+begin_src emacs-lisp
-(use-package company-lsp
-  :commands company-lsp
-  :custom (company-minimum-prefix-length 1))
-#+end_src
-
-** Python
-
-Full *IDE* experience for Python within Emacs.
-+ Completion, jumps via =lsp-mode=
-+ Debugging via =dap-mode=
-
-Install the =pyls= language server.
-
-#+begin_src shell :tangle no
-pip install --user "python-language-server[all]"
-#+end_src
-
-https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
-+ Built in mode
-  
-#+begin_src emacs-lisp
-(use-package python-mode
-  :hook (python-mode . lsp)
-  :config (require 'dap-python)
-  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-          (dap-python-executable "python3")    ;; Same as above.
-          (dap-python-debugger 'debugpy))
-#+end_src
-
-** Rust
-
-Full *IDE* experience for Rust within Emacs.
-+ Completion via =lsp-mode=
-+ Debugging via =dap-mode=
-
-https://github.com/brotzeit/rustic
-+ Install via ~lsp-install-server~
-  
-#+begin_src emacs-lisp
-(use-package rustic)
-#+end_src
-  
-* Writing
-:PROPERTIES:
-:header-args: :tangle init.el :results silent
-:END:
 
 https://github.com/org-roam/org-roam
 + Rudimentary roam replica with =org-mode=

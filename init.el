@@ -155,6 +155,28 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
 
+(use-package lsp-mode
+  :custom (gc-cons-threshold 1000000000)
+          (lsp-idle-delay 0.500))
+
+(use-package lsp-ui
+  :custom (lsp-ui-doc-position 'at-point)
+          (lsp-ui-doc-delay 0.500))
+
+(use-package dap-mode)
+
+(use-package company)
+(use-package company-lsp)
+
+(use-package python-mode
+  :hook (python-mode . lsp)
+  :config (require 'dap-python)
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (dap-python-executable "python3")    ;; Same as above.
+          (dap-python-debugger 'debugpy))
+
+(use-package rustic)
+
 (use-package org
   :hook
   (org-mode . (lambda ()
@@ -183,32 +205,6 @@
 
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
-
-(use-package lsp-mode
-  :commands lsp
-  :config
-  (setq gc-cons-threshold 100000000
-        lsp-completion-provider 'company-capf
-        lsp-idle-delay dotfiles/idle))
-
-(use-package lsp-ui
-  :commands lsp-ui-mode
-  :custom (lsp-ui-doc-position 'at-point))
-
-(use-package dap-mode)
-
-(use-package company-lsp
-  :commands company-lsp
-  :custom (company-minimum-prefix-length 1))
-
-(use-package python-mode
-  :hook (python-mode . lsp)
-  :config (require 'dap-python)
-  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-          (dap-python-executable "python3")    ;; Same as above.
-          (dap-python-debugger 'debugpy))
-
-(use-package rustic)
 
 (use-package org-roam
   :hook (after-init . org-roam-mode)
