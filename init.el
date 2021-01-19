@@ -12,7 +12,8 @@
 (defvar dotfiles/leader-key "SPC")
 
 (defvar dotfiles/src "~/.local/source/")
-(defvar dotfiles/brain (concat dotfiles/src "brain"))
+(defvar dotfiles/pass (concat dotfiles/src "passwords/"))
+(defvar dotfiles/brain (concat dotfiles/src "brain/"))
 
 (defvar dotfiles/home user-emacs-directory)
 (defvar dotfiles/cache "~/.cache/emacs")
@@ -155,6 +156,9 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
 
+(use-package password-store
+  :custom (password-store-dir dotfiles/pass))
+
 (use-package lsp-mode
   :custom (gc-cons-threshold 1000000000)
           (lsp-idle-delay 0.500))
@@ -237,8 +241,8 @@
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 
-(setq org-agenda-files '("~/.local/source/secrets/"
-                         "~/.local/source/brain/daily/"))
+(setq org-agenda-files '("~/.local/source/brain/daily/"
+                         "~/.local/source/secrets/org/"))
 
 (dotfiles/leader
   "a" '(org-agenda :which-key "Agenda"))

@@ -45,7 +45,8 @@ Stored source projects are in ~~/.local/source/~.
 
 #+begin_src emacs-lisp
 (defvar dotfiles/src "~/.local/source/")
-(defvar dotfiles/brain (concat dotfiles/src "brain"))
+(defvar dotfiles/pass (concat dotfiles/src "passwords/"))
+(defvar dotfiles/brain (concat dotfiles/src "brain/"))
 #+end_src
 
 Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. To solve this issue, and to retain hermetic evaluation of the Emacs directory, we it to ~~/.cache/emacs~ shortly after initialization, before most packages are loaded.
@@ -403,6 +404,15 @@ https://github.com/seagle0128/doom-modeline
   :custom ((doom-modeline-height 16)))
 #+end_src
 
+** Passwords
+
+Pass makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. =password-store.el= provides a wrapper for the functionality within Emacs.
+
+#+begin_src emacs-lisp
+(use-package password-store
+  :custom (password-store-dir dotfiles/pass))
+#+end_src
+
 * Development
 :PROPERTIES:
 :header-args: :tangle init.el :results silent
@@ -595,11 +605,11 @@ Configure the default capture template for daily entries.
 
 Configure agenda sources.
 + Dailies ~~/.local/source/brain/daily/~
-+ Secrets ~~/.local/source/secrets/~
++ Secrets ~~/.local/source/secrets/org/~
   
 #+begin_src emacs-lisp
-(setq org-agenda-files '("~/.local/source/secrets/"
-                         "~/.local/source/brain/daily/"))
+(setq org-agenda-files '("~/.local/source/brain/daily/"
+                         "~/.local/source/secrets/org/"))
 #+end_src
 
 Open an agenda buffer with =SPC a=.
