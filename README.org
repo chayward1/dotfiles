@@ -491,12 +491,12 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
 + Built in mode
   
 #+begin_src emacs-lisp
-;; (use-package python-mode
-;;   :hook (python-mode . lsp)
-;;   :config (require 'dap-python)
-;;   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-;;           (dap-python-executable "python3")    ;; Same as above.
-;;           (dap-python-debugger 'debugpy))
+(use-package python-mode
+  :hook (python-mode . lsp)
+  :config (require 'dap-python)
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (dap-python-executable "python3")    ;; Same as above.
+          (dap-python-debugger 'debugpy))
 #+end_src
 
 ** Rust
@@ -509,9 +509,26 @@ https://github.com/brotzeit/rustic
 + Install via ~lsp-install-server~
   
 #+begin_src emacs-lisp
-;; (use-package rustic)
+(use-package rustic)
 #+end_src
+
+** Go
+
+Full *IDE* experience for Rust within Emacs.
++ Completion via =lsp-mode=
++ Debugging via =dap-mode=
   
+Install the =gopls= language server.
+
+#+begin_src sh :tangle no
+GO111MODULE=on go get golang.org/x/tools/gopls@latest
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package go-mode
+  :hook (go-mode . lsp))
+#+end_src
+
 * Writing
 :PROPERTIES:
 :header-args: :tangle init.el :results silent
