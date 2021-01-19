@@ -459,6 +459,22 @@ http://company-mode.github.io/
 (use-package company-lsp)
 #+end_src
 
+** C/C++
+
+Full *IDE* experience for Python within Emacs.
+
++ Completion, jumps via =lsp-mode=
++ Debugging via =dap-mode=
+
+Install the =ccls= language server.
++ https://github.com/MaskRay/ccls
+
+#+begin_src emacs-lisp
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
+#+end_src
+  
 ** Python
 
 Full *IDE* experience for Python within Emacs.
@@ -475,12 +491,12 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
 + Built in mode
   
 #+begin_src emacs-lisp
-(use-package python-mode
-  :hook (python-mode . lsp)
-  :config (require 'dap-python)
-  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-          (dap-python-executable "python3")    ;; Same as above.
-          (dap-python-debugger 'debugpy))
+;; (use-package python-mode
+;;   :hook (python-mode . lsp)
+;;   :config (require 'dap-python)
+;;   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+;;           (dap-python-executable "python3")    ;; Same as above.
+;;           (dap-python-debugger 'debugpy))
 #+end_src
 
 ** Rust
@@ -493,7 +509,7 @@ https://github.com/brotzeit/rustic
 + Install via ~lsp-install-server~
   
 #+begin_src emacs-lisp
-(use-package rustic)
+;; (use-package rustic)
 #+end_src
   
 * Writing
@@ -601,6 +617,46 @@ Configure the default capture template for daily entries.
          "* %?"
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
+#+end_src
+
+** Mail
+
+#+begin_src emacs-lisp
+;; (use-package mu4e
+;;   :ensure nil
+;;   :config
+;;   (setq mu4e-change-filenames-when-moving t
+;;         mu4e-update-interval (* 5 60) ;; Every 5 minutes.
+;;         mu4e-get-mail-command "mbsync -a"
+;;         mu4e-maildir "~/.cache/mail")
+
+;;   ;; Ensure plain text scales for all devices.
+;;   (setq mu4e-compose-format-flowed t)
+
+;;   ;; GPG signing key for outbound mail.
+;;   (setq mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
+;;   (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
+      
+;;   ;; Use SMTP to send messages.
+;;   (setq message-send-mail-function 'smtpmail-send-it)
+
+;;   ;; Configure mail account(s).
+;;   (setq mu4e-contexts
+;;     (list
+;;       ;; Main
+;;       ;; chris@chrishayward.xyz
+;;       (make-mu4e-context
+;;         :name "Main"
+;;         :match-func
+;;           (lambda (msg)
+;;             (when msg 
+;;               (string-prefix-p "/Main" (mu4e-message-field msg :maildir))))
+;;         :vars
+;;           '((user-full-name . "Christopher James Hayward")
+;;             (user-mail-address . "chris@chrishayward.xyz")
+;;             (smtpmail-smtp-server . "mail.chrishayward.xyz")
+;;             (smtpmail-smtp-service . 587)
+;;             (smtpmail-stream-type . startls))))))
 #+end_src
 
 ** Agenda

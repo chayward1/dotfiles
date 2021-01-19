@@ -173,14 +173,18 @@
 (use-package company)
 (use-package company-lsp)
 
-(use-package python-mode
-  :hook (python-mode . lsp)
-  :config (require 'dap-python)
-  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-          (dap-python-executable "python3")    ;; Same as above.
-          (dap-python-debugger 'debugpy))
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
 
-(use-package rustic)
+;; (use-package python-mode
+;;   :hook (python-mode . lsp)
+;;   :config (require 'dap-python)
+;;   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+;;           (dap-python-executable "python3")    ;; Same as above.
+;;           (dap-python-debugger 'debugpy))
+
+;; (use-package rustic)
 
 (use-package org
   :hook
@@ -241,6 +245,42 @@
          "* %?"
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
+
+;; (use-package mu4e
+;;   :ensure nil
+;;   :config
+;;   (setq mu4e-change-filenames-when-moving t
+;;         mu4e-update-interval (* 5 60) ;; Every 5 minutes.
+;;         mu4e-get-mail-command "mbsync -a"
+;;         mu4e-maildir "~/.cache/mail")
+
+;;   ;; Ensure plain text scales for all devices.
+;;   (setq mu4e-compose-format-flowed t)
+
+;;   ;; GPG signing key for outbound mail.
+;;   (setq mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
+;;   (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
+      
+;;   ;; Use SMTP to send messages.
+;;   (setq message-send-mail-function 'smtpmail-send-it)
+
+;;   ;; Configure mail account(s).
+;;   (setq mu4e-contexts
+;;     (list
+;;       ;; Main
+;;       ;; chris@chrishayward.xyz
+;;       (make-mu4e-context
+;;         :name "Main"
+;;         :match-func
+;;           (lambda (msg)
+;;             (when msg 
+;;               (string-prefix-p "/Main" (mu4e-message-field msg :maildir))))
+;;         :vars
+;;           '((user-full-name . "Christopher James Hayward")
+;;             (user-mail-address . "chris@chrishayward.xyz")
+;;             (smtpmail-smtp-server . "mail.chrishayward.xyz")
+;;             (smtpmail-smtp-service . 587)
+;;             (smtpmail-stream-type . startls))))))
 
 (setq org-agenda-files '("~/.local/source/brain/daily/"
                          "~/.local/source/secrets/org/"))
