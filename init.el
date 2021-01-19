@@ -97,7 +97,8 @@
 (dotfiles/leader
   "q" '(:ignore t :which-key "Quit")
   "qq" '(save-buffers-kill-emacs :which-key "Save")
-  "qw" '(kill-emacs :which-key "Now"))
+  "qw" '(kill-emacs :which-key "Now")
+  "qf" '(delete-frame :which-key "Frame"))
 
 (dotfiles/leader
   "w" '(:ignore t :which-key "Window")

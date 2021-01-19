@@ -232,12 +232,14 @@ Again cherry picked from =Doom=, I want to continue utilizing the muscle memory 
 Quit emacs with =SPC q=.
 + Saving =q=
 + Without =w=
++ Frame (daemon) =f=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "q" '(:ignore t :which-key "Quit")
   "qq" '(save-buffers-kill-emacs :which-key "Save")
-  "qw" '(kill-emacs :which-key "Now"))
+  "qw" '(kill-emacs :which-key "Now")
+  "qf" '(delete-frame :which-key "Frame"))
 #+end_src
 
 Window management with =SPC w=.
