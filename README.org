@@ -96,6 +96,42 @@ Complete the integration with ~use-package~ by installing it with =straight=.
 (straight-use-package 'use-package)
   #+end_src
 
+*Organize your plain life in plain text*
+
+=Org-mode= is one of the hallmark features of Emacs, and provides the basis for my Literate Programming platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
+
++ https://orgmode.org
++ https://orgmode.org/worg/org-contrib/babel/languages/index.html
++ https://orgmode.org/manual/Structure-Templates.html
+
+#+begin_src emacs-lisp
+(use-package org
+  :hook
+  (org-mode . (lambda ()
+		(org-indent-mode)
+		(visual-line-mode 1)
+		(variable-pitch-mode 1)))
+  :config
+  (setq org-ellipsis " ▾"
+	org-log-done 'time
+	org-log-into-drawer t
+	org-src-preserve-indentation t)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)
+     (python . t)
+     (emacs-lisp . t)))
+
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("s" . "src"))
+  (add-to-list 'org-structure-template-alist '("q" . "quote"))
+  (add-to-list 'org-structure-template-alist '("e" . "example"))
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+#+end_src
+
 ** Cleanup
 
 Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs.
@@ -538,41 +574,6 @@ GO111MODULE=on go get golang.org/x/tools/gopls@latest
 :header-args: :tangle init.el :results silent
 :END:
 
-*Organize your plain life in plain text*
-
-=Org-mode= is one of the hallmark features of Emacs, and provides the basis for my Literate Programming platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
-
-+ https://orgmode.org
-+ https://orgmode.org/worg/org-contrib/babel/languages/index.html
-+ https://orgmode.org/manual/Structure-Templates.html
-
-#+begin_src emacs-lisp
-(use-package org
-  :hook
-  (org-mode . (lambda ()
-		(org-indent-mode)
-		(visual-line-mode 1)
-		(variable-pitch-mode 1)))
-  :config
-  (setq org-ellipsis " ▾"
-	org-log-done 'time
-	org-log-into-drawer t
-	org-src-preserve-indentation t)
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((shell . t)
-     (python . t)
-     (emacs-lisp . t)))
-
-  (require 'org-tempo)
-  (add-to-list 'org-structure-template-alist '("s" . "src"))
-  (add-to-list 'org-structure-template-alist '("q" . "quote"))
-  (add-to-list 'org-structure-template-alist '("e" . "example"))
-  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python"))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
-#+end_src
 
 https://github.com/integral-dw/org-superstar-mode
 + Make the headline stars more *super*

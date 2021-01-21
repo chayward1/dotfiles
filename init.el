@@ -40,6 +40,32 @@
 
 (straight-use-package 'use-package)
 
+(use-package org
+  :hook
+  (org-mode . (lambda ()
+		(org-indent-mode)
+		(visual-line-mode 1)
+		(variable-pitch-mode 1)))
+  :config
+  (setq org-ellipsis " ▾"
+	org-log-done 'time
+	org-log-into-drawer t
+	org-src-preserve-indentation t)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)
+     (python . t)
+     (emacs-lisp . t)))
+
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("s" . "src"))
+  (add-to-list 'org-structure-template-alist '("q" . "quote"))
+  (add-to-list 'org-structure-template-alist '("e" . "example"))
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+
 (use-package no-littering)
 
 (setq inhibit-startup-message t)
@@ -188,32 +214,6 @@
 
 (use-package go-mode
   :hook (go-mode . lsp))
-
-(use-package org
-  :hook
-  (org-mode . (lambda ()
-		(org-indent-mode)
-		(visual-line-mode 1)
-		(variable-pitch-mode 1)))
-  :config
-  (setq org-ellipsis " ▾"
-	org-log-done 'time
-	org-log-into-drawer t
-	org-src-preserve-indentation t)
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((shell . t)
-     (python . t)
-     (emacs-lisp . t)))
-
-  (require 'org-tempo)
-  (add-to-list 'org-structure-template-alist '("s" . "src"))
-  (add-to-list 'org-structure-template-alist '("q" . "quote"))
-  (add-to-list 'org-structure-template-alist '("e" . "example"))
-  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python"))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
