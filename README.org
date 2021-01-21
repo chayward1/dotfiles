@@ -2,6 +2,8 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
+#+ROAM_KEY: https://github.com/chayward1/dotfiles
+
 #+begin_example
            ^^                   @@@@@@@@@
       ^^       ^^            @@@@@@@@@@@@@@@
@@ -497,6 +499,58 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
+** Mail
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package mu4e
+  :config
+  (setq mu4e-change-filenames-when-moving t
+        mu4e-update-interval (* 5 60) ;; Every 5 minutes.
+        mu4e-get-mail-command "mbsync -a"
+        mu4e-maildir "~/.cache/mail"
+        mu4e-compose-signature 
+          (concat "Chris Hayward\n"
+                  "https://chrishayward.xyz\n"))
+
+  ;; Ensure plain text scales for all devices.
+  (setq mu4e-compose-format-flowed t)
+
+  ;; GPG signing key for outbound mail.
+  (setq mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
+  (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
+
+  (setq message-send-mail-function 'smtpmail-send-it)  
+
+  ;; Configure mail account(s).
+  (setq mu4e-contexts
+    (list
+      ;; Main
+      ;; chris@chrishayward.xyz
+      (make-mu4e-context
+        :name "Main"
+        :match-func
+          (lambda (msg)
+            (when msg 
+              (string-prefix-p "/Main" (mu4e-message-field msg :maildir))))
+        :vars
+          '((user-full-name . "Christopher James Hayward")
+            (user-mail-address . "chris@chrishayward.xyz")
+            (smtpmail-smtp-server . "mail.chrishayward.xyz")
+            (smtpmail-smtp-service . 587)
+            (smtpmail-stream-type . starttls))))))
+#+end_src
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "m" '(mu4e :which-key "Mail"))
+#+end_src
+
+** Brain
+
 [[https://github.com/org-roam/org-roam][Org-roam]] is a rudimentary roam replica built on =Org mode=.
 
 #+begin_src emacs-lisp
@@ -552,56 +606,6 @@ Configure the default capture template for daily entries.
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 #+end_src
 
-** Mail
-
-#+begin_src emacs-lisp
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package mu4e
-  :config
-  (setq mu4e-change-filenames-when-moving t
-        mu4e-update-interval (* 5 60) ;; Every 5 minutes.
-        mu4e-get-mail-command "mbsync -a"
-        mu4e-maildir "~/.cache/mail"
-        mu4e-compose-signature 
-          (concat "Chris Hayward\n"
-                  "https://chrishayward.xyz\n"))
-
-  ;; Ensure plain text scales for all devices.
-  (setq mu4e-compose-format-flowed t)
-
-  ;; GPG signing key for outbound mail.
-  (setq mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
-  (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
-
-  (setq message-send-mail-function 'smtpmail-send-it)  
-
-  ;; Configure mail account(s).
-  (setq mu4e-contexts
-    (list
-      ;; Main
-      ;; chris@chrishayward.xyz
-      (make-mu4e-context
-        :name "Main"
-        :match-func
-          (lambda (msg)
-            (when msg 
-              (string-prefix-p "/Main" (mu4e-message-field msg :maildir))))
-        :vars
-          '((user-full-name . "Christopher James Hayward")
-            (user-mail-address . "chris@chrishayward.xyz")
-            (smtpmail-smtp-server . "mail.chrishayward.xyz")
-            (smtpmail-smtp-service . 587)
-            (smtpmail-stream-type . starttls))))))
-#+end_src
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "m" '(mu4e :which-key "Mail"))
-#+end_src
-
 ** Agenda
 
 Configure agenda sources.
@@ -639,6 +643,33 @@ Creaate a capture template for blog posts in the =posts= sub directory.
                "%?"
                :file-name "posts/${slug}"
                :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ../\n#+HUGO_SECTION: ./\n"))
+#+end_src
+
+** Screencasts
+
+Create screencasts with =one-frame-per-action= GIF recording via [[https://github.com/takaxp/emacs-gif-screencast][emacs-gif-screencast]].
+
++ Can be paused / resumed
++ High quality images
++ Optimized size
+
+It requires the installation of ~scrot~ and ~convert~ from the =ImageMagick= library.
+  
+#+begin_src emacs-lisp
+(use-package gif-screencast
+  :custom
+  (gif-screencast-output-directory "~/.local/source/brain/screen/"))
+#+end_src
+
+Screencast controls behind =SPC p=.
++ Start / stop with =s=
++ Pause with =p=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "p" '(:ignore t :which-key "Screencast")
+  "ps" '(gif-screencast-start-or-stop :which-key "Start / Stop")
+  "pp" '(gif-screencast-toggle-pause :which-key "Pause"))
 #+end_src
 
 ** Presentations

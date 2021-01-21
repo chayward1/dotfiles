@@ -191,37 +191,6 @@
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
 
-(use-package org-roam
-  :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory "~/.local/source/brain"))
-
-(use-package org-roam-server
-  :hook (org-roam-mode . org-roam-server-mode))
-
-(dotfiles/leader
-  "r" '(:ignore t :which-key "Roam")
-  "rf" '(org-roam-find-file :which-key "Find")
-  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
-  "rc" '(org-roam-capture :which-key "Capture")
-  "rd" '(:ignore t :which-key "Dailies")
-  "rdd" '(org-roam-dailies-find-date :which-key "Date")
-  "rdt" '(org-roam-dailies-find-today :which-key "Today")
-  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
-
-(setq org-roam-capture-templates
-      '(("d" "Default" plain (function org-roam-capture--get-point)
-         "%?"
-         :file-name "${slug}"
-         :head "#+TITLE: ${title}\n"
-         :unnarrowed t)))
-
-(setq org-roam-dailies-capture-templates
-      '(("d" "Default" entry (function org-roam-capture--get-point)
-         "* %?"
-         :file-name "daily/%<%Y-%m-%d>"
-         :head "#+TITLE: %<%Y-%m-%d>\n")))
-
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 
 (use-package mu4e
@@ -264,6 +233,37 @@
 (dotfiles/leader
   "m" '(mu4e :which-key "Mail"))
 
+(use-package org-roam
+  :hook (after-init . org-roam-mode)
+  :custom (org-roam-directory "~/.local/source/brain"))
+
+(use-package org-roam-server
+  :hook (org-roam-mode . org-roam-server-mode))
+
+(dotfiles/leader
+  "r" '(:ignore t :which-key "Roam")
+  "rf" '(org-roam-find-file :which-key "Find")
+  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "rc" '(org-roam-capture :which-key "Capture")
+  "rd" '(:ignore t :which-key "Dailies")
+  "rdd" '(org-roam-dailies-find-date :which-key "Date")
+  "rdt" '(org-roam-dailies-find-today :which-key "Today")
+  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+
+(setq org-roam-capture-templates
+      '(("d" "Default" plain (function org-roam-capture--get-point)
+         "%?"
+         :file-name "${slug}"
+         :head "#+TITLE: ${title}\n"
+         :unnarrowed t)))
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "Default" entry (function org-roam-capture--get-point)
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+TITLE: %<%Y-%m-%d>\n")))
+
 (setq org-agenda-files '("~/.local/source/brain/daily/"
                          "~/.local/source/secrets/org/"))
 
@@ -278,6 +278,15 @@
                "%?"
                :file-name "posts/${slug}"
                :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ../\n#+HUGO_SECTION: ./\n"))
+
+(use-package gif-screencast
+  :custom
+  (gif-screencast-output-directory "~/.local/source/brain/screen/"))
+
+(dotfiles/leader
+  "p" '(:ignore t :which-key "Screencast")
+  "ps" '(gif-screencast-start-or-stop :which-key "Start / Stop")
+  "pp" '(gif-screencast-toggle-pause :which-key "Pause"))
 
 (use-package ox-reveal
   :after ox
