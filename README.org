@@ -470,141 +470,6 @@ https://github.com/seagle0128/doom-modeline
   :custom ((doom-modeline-height 16)))
 #+end_src
 
-* Development
-:PROPERTIES:
-:header-args: :tangle init.el :results silent
-:END:
-
-An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
-
-Turn Emacs into an *IDE* (or better) with the [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
-
-[[https://emacs-lsp.github.io/lsp-mode/][Lsp-mode]] brings support for language servers into Emacs.
-  
-#+begin_src emacs-lisp
-(use-package lsp-mode
-  :custom (gc-cons-threshold 1000000000)
-          (lsp-idle-delay 0.500))
-#+end_src
-
-https://emacs-lsp.github.io/lsp-ui/
-+ UI improvements for =lsp-mode=
-
-#+begin_src emacs-lisp
-(use-package lsp-ui
-  :custom (lsp-ui-doc-position 'at-point)
-          (lsp-ui-doc-delay 0.500))
-#+end_src
-
-** Passwords
-
-Pass makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. =password-store.el= provides a wrapper for the functionality within Emacs.
-
-#+begin_src emacs-lisp
-(use-package password-store
-  :custom (password-store-dir "~/.local/source/passwords"))
-#+end_src
-
-** Debugging
-
-Handled through the [[https://microsoft.github.io/debug-adapter-protocol/][Debug Adapter Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
-
-[[https://emacs-lsp.github.io/dap-mode/][Dap-mode]] adds support for the protocol to Emacs.
-
-#+begin_src emacs-lisp
-(use-package dap-mode)
-#+end_src
-
-** Completion
-
-Text completion framework via =company= aka *Complete Anything*.
-
-http://company-mode.github.io/
-+ Integrate with =lsp-mode=
-  
-#+begin_src emacs-lisp
-(use-package company)
-(use-package company-lsp)
-#+end_src
-
-** Languages
-
-Support for individual languages are implemented here.
-
-*** C/C++
-
-Full *IDE* experience for Python within Emacs.
-
-+ Completion, jumps via =lsp-mode=
-+ Debugging via =dap-mode=
-
-Install the =ccls= language server.
-+ https://github.com/MaskRay/ccls
-
-#+begin_src emacs-lisp
-(use-package ccls
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp))))
-#+end_src
-  
-*** Python
-
-Full *IDE* experience for Python within Emacs.
-+ Completion, jumps via =lsp-mode=
-+ Debugging via =dap-mode=
-
-Install the =pyls= language server.
-
-#+begin_src shell :tangle no
-pip install --user "python-language-server[all]"
-#+end_src
-
-https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
-+ Built in mode
-  
-#+begin_src emacs-lisp
-(use-package python-mode
-  :hook (python-mode . lsp)
-  :config (require 'dap-python)
-  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-          (dap-python-executable "python3")    ;; Same as above.
-          (dap-python-debugger 'debugpy))
-#+end_src
-
-*** Rust
-
-Full *IDE* experience for Rust within Emacs.
-+ Completion via =lsp-mode=
-+ Debugging via =dap-mode=
-
-https://github.com/brotzeit/rustic
-+ Install via ~lsp-install-server~
-
-#+begin_src shell :tangle no
-rustup default nightly
-#+end_src  
-
-#+begin_src emacs-lisp
-(use-package rustic)
-#+end_src
-
-*** Go
-
-Full *IDE* experience for Rust within Emacs.
-+ Completion via =lsp-mode=
-+ Debugging via =dap-mode=
-  
-Install the =gopls= language server.
-
-#+begin_src sh :tangle no
-GO111MODULE=on go get golang.org/x/tools/gopls@latest
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package go-mode
-  :hook (go-mode . lsp))
-#+end_src
-
 * Writing
 :PROPERTIES:
 :header-args: :tangle init.el :results silent
@@ -783,5 +648,140 @@ Create a capture template for presentations stored in the =slides= sub directory
                "%?"
                :file-name "slides/${slug}"
                :head "#+TITLE: ${title}\n"))
+#+end_src
+
+* Development
+:PROPERTIES:
+:header-args: :tangle init.el :results silent
+:END:
+
+An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
+
+Turn Emacs into an *IDE* (or better) with the [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
+
+[[https://emacs-lsp.github.io/lsp-mode/][Lsp-mode]] brings support for language servers into Emacs.
+  
+#+begin_src emacs-lisp
+(use-package lsp-mode
+  :custom (gc-cons-threshold 1000000000)
+          (lsp-idle-delay 0.500))
+#+end_src
+
+https://emacs-lsp.github.io/lsp-ui/
++ UI improvements for =lsp-mode=
+
+#+begin_src emacs-lisp
+(use-package lsp-ui
+  :custom (lsp-ui-doc-position 'at-point)
+          (lsp-ui-doc-delay 0.500))
+#+end_src
+
+** Passwords
+
+Pass makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. =password-store.el= provides a wrapper for the functionality within Emacs.
+
+#+begin_src emacs-lisp
+(use-package password-store
+  :custom (password-store-dir "~/.local/source/passwords"))
+#+end_src
+
+** Debugging
+
+Handled through the [[https://microsoft.github.io/debug-adapter-protocol/][Debug Adapter Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
+
+[[https://emacs-lsp.github.io/dap-mode/][Dap-mode]] adds support for the protocol to Emacs.
+
+#+begin_src emacs-lisp
+(use-package dap-mode)
+#+end_src
+
+** Completion
+
+Text completion framework via =company= aka *Complete Anything*.
+
+http://company-mode.github.io/
++ Integrate with =lsp-mode=
+  
+#+begin_src emacs-lisp
+(use-package company)
+(use-package company-lsp)
+#+end_src
+
+** Languages
+
+Support for individual languages are implemented here.
+
+*** C/C++
+
+Full *IDE* experience for Python within Emacs.
+
++ Completion, jumps via =lsp-mode=
++ Debugging via =dap-mode=
+
+Install the =ccls= language server.
++ https://github.com/MaskRay/ccls
+
+#+begin_src emacs-lisp
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
+#+end_src
+  
+*** Python
+
+Full *IDE* experience for Python within Emacs.
++ Completion, jumps via =lsp-mode=
++ Debugging via =dap-mode=
+
+Install the =pyls= language server.
+
+#+begin_src shell :tangle no
+pip install --user "python-language-server[all]"
+#+end_src
+
+https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
++ Built in mode
+  
+#+begin_src emacs-lisp
+(use-package python-mode
+  :hook (python-mode . lsp)
+  :config (require 'dap-python)
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (dap-python-executable "python3")    ;; Same as above.
+          (dap-python-debugger 'debugpy))
+#+end_src
+
+*** Rust
+
+Full *IDE* experience for Rust within Emacs.
++ Completion via =lsp-mode=
++ Debugging via =dap-mode=
+
+https://github.com/brotzeit/rustic
++ Install via ~lsp-install-server~
+
+#+begin_src shell :tangle no
+rustup default nightly
+#+end_src  
+
+#+begin_src emacs-lisp
+(use-package rustic)
+#+end_src
+
+*** Go
+
+Full *IDE* experience for Rust within Emacs.
++ Completion via =lsp-mode=
++ Debugging via =dap-mode=
+  
+Install the =gopls= language server.
+
+#+begin_src sh :tangle no
+GO111MODULE=on go get golang.org/x/tools/gopls@latest
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package go-mode
+  :hook (go-mode . lsp))
 #+end_src
 
