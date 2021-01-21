@@ -317,7 +317,7 @@ Open the *status* page for the current repository with =SPC g=.
   "g" '(magit-status :which-key "Magit"))
 #+end_src
 
-** Shell 
+** Shell
 
 While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
 
@@ -360,6 +360,19 @@ When opening =dired=, I don't want to have to press =RET= twice to navigate to t
 
 #+begin_src emacs-lisp
 (require 'dired-x)
+#+end_src
+
+By default =dired= will create a new buffer everytime you press =RET= over a directory. In my workflow this leads to many unwanted =dired= buffers that have to be cleaned up manually. [[https://github.com/crocket/dired-single][Dired-single]] lets us reuse the same dired buffer.
+
++ Move up a directory with =h=
++ Open a single buffer with =l=
+
+#+begin_src emacs-lisp
+(use-package dired-single
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-single-up-directory
+    "l" 'dired-single-buffer))
 #+end_src
 
 Open a dired buffer with =SPC d=.

@@ -145,6 +145,12 @@
 
 (require 'dired-x)
 
+(use-package dired-single
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-single-up-directory
+    "l" 'dired-single-buffer))
+
 (dotfiles/leader
   "d" '(dired-jump :which-key "Dired"))
 
