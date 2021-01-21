@@ -22,7 +22,7 @@ Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
 + 100% Immutable
 + 100% Reproducible
 
-#+begin_src emacs-lisp :tangle init.el :results silent
+#+begin_src emacs-lisp :tangle ~/.local/source/dotfiles/init.el :results silent
 (defun dotfiles/tangle (dir)
   "Recursively tangle the Org files within a directory."
   (interactive)
@@ -33,7 +33,7 @@ Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
 
 * Core
 :PROPERTIES:
-:header-args: :tangle init.el :results silent
+:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
 :END:
 
 Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory.
@@ -290,7 +290,7 @@ Window management with =SPC w=.
 
 * Editor
 :PROPERTIES:
-:header-args: :tangle init.el :results silent
+:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
 :END:
 
 *Bring Emacs out of the eighties*
@@ -487,7 +487,7 @@ https://github.com/seagle0128/doom-modeline
 
 * Writing
 :PROPERTIES:
-:header-args: :tangle init.el :results silent
+:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
 :END:
 
 I am using [[https://orgmode.org][Org-mode]] extensively for writing projects for different purposes. Improvements beyond what are required for my Literate Programming platform include:
@@ -696,7 +696,7 @@ Create a capture template for presentations stored in the =slides= sub directory
 
 * Development
 :PROPERTIES:
-:header-args: :tangle init.el :results silent
+:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
 :END:
 
 An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
