@@ -241,11 +241,13 @@ https://github.com/redguardtoo/evil-nerd-commenter
 Again cherry picked from =Doom=, I want to continue utilizing the muscle memory I have developed from a year of mainlining the framework.
 
 + Find files =SPC . (period)=
++ Close buffers with =SPC / (slash)=
 + Switch buffers with =SPC , (comma)=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "," '(switch-to-buffer :which-key "Buffer")
+  "/" '(kill-buffer-and-window :which-key "Close")
   "." '(find-file :which-key "File"))
 #+end_src
 
@@ -269,7 +271,6 @@ Quit emacs with =SPC q=.
 Window management with =SPC w=.
 + Swap with =w=
 + Close with =c=
-+ Delete with =d=
 + Motions with =h,j,k,l=
 + Split with =s + <MOTION>=
 
@@ -277,7 +278,6 @@ Window management with =SPC w=.
 (dotfiles/leader
   "w" '(:ignore t :which-key "Window")
   "ww" '(window-swap-states :which-key "Swap")
-  "wd" '(kill-buffer-and-window :which-key "Delete")
   "wc" '(delete-window :which-key "Close")
   "wh" '(windmove-left :which-key "Left")
   "wj" '(windmove-down :which-key "Down")

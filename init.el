@@ -101,6 +101,7 @@
 
 (dotfiles/leader
   "," '(switch-to-buffer :which-key "Buffer")
+  "/" '(kill-buffer-and-window :which-key "Close")
   "." '(find-file :which-key "File"))
 
 (dotfiles/leader
@@ -112,7 +113,6 @@
 (dotfiles/leader
   "w" '(:ignore t :which-key "Window")
   "ww" '(window-swap-states :which-key "Swap")
-  "wd" '(kill-buffer-and-window :which-key "Delete")
   "wc" '(delete-window :which-key "Close")
   "wh" '(windmove-left :which-key "Left")
   "wj" '(windmove-down :which-key "Down")
