@@ -1,26 +1,18 @@
 (defun dotfiles/tangle (dir)
   "Recursively tangle the Org files within a directory."
+  (interactive)
   (let ((org-files (directory-files-recursively dir "org")))
     (dolist (f org-files)
       (org-babel-tangle-file f))))
 
-(defvar dotfiles/font "Fira Code")
-(defvar dotfiles/font-size 96)
-
-(defvar dotfiles/idle 0.0)
-
-(defvar dotfiles/leader-key "SPC")
-
-(defvar dotfiles/src "~/.local/source/")
-(defvar dotfiles/pass (concat dotfiles/src "passwords/"))
-(defvar dotfiles/brain (concat dotfiles/src "brain/"))
-
 (defvar dotfiles/home user-emacs-directory)
+
 (defvar dotfiles/cache "~/.cache/emacs")
 
+(setq user-emacs-directory dotfiles/cache)
+
 (setq create-lockfiles nil
-      make-backup-files nil
-      user-emacs-directory dotfiles/cache)
+      make-backup-files nil)
 
 (setq straight-repository-branch "develop"
       straight-use-package-by-default t)
@@ -39,6 +31,15 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
+
+(use-package no-littering)
+
+(setq inhibit-startup-message t)
+(global-prettify-symbols-mode)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
 
 (use-package org
   :hook
@@ -66,25 +67,16 @@
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 
-(use-package no-littering)
-
-(setq inhibit-startup-message t)
-(global-prettify-symbols-mode)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-
-(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
-(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
-(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
-
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(defvar dotfiles/idle 0.0)
 
 (use-package which-key
   :diminish which-key-mode
   :init (which-key-mode)
   :config (setq which-key-idle-delay dotfiles/idle))
+
+(defvar dotfiles/leader-key "SPC")
 
 (use-package general
   :config
@@ -106,15 +98,6 @@
 
 (use-package evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
-
-(defhydra hydra-text-scale (:timeout 4)
-  "Scale"
-  ("j" text-scale-increase "Increase")
-  ("k" text-scale-decrease "Decrease")
-  ("f" nil "Finished" :exit t))
-
-(dotfiles/leader
-  "f" '(hydra-text-scale/body :which-key "Font"))
 
 (dotfiles/leader
   "," '(switch-to-buffer :which-key "Buffer")
@@ -139,14 +122,6 @@
   "wsj" '(split-window-below :which-key "Down")
   "wsl" '(split-window-right :which-key "Right"))
 
-(use-package linum-relative
-  :init (setq linum-relative-backend
-	      'display-line-numbers-mode)
-  :config (linum-relative-global-mode))
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
 (use-package magit
   :custom (magit-display-buffer-function
            #'magit-display-buffer-same-window-except-diff-v1))
@@ -155,6 +130,13 @@
 
 (dotfiles/leader
   "g" '(magit-status :which-key "Magit"))
+
+(use-package eshell-prompt-extras
+  :config (setq eshell-highlight-prompt nil
+	            eshell-prompt-function 'epe-theme-lambda))
+
+(dotfiles/leader
+  "e" '(eshell :which-key "Shell"))
 
 (use-package all-the-icons)
 
@@ -166,12 +148,29 @@
 (dotfiles/leader
   "d" '(dired-jump :which-key "Dired"))
 
-(use-package eshell-prompt-extras
-  :config (setq eshell-highlight-prompt nil
-	            eshell-prompt-function 'epe-theme-lambda))
+(defvar dotfiles/font "Fira Code")
+(defvar dotfiles/font-size 96)
+
+(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "Scale"
+  ("j" text-scale-increase "Increase")
+  ("k" text-scale-decrease "Decrease")
+  ("f" nil "Finished" :exit t))
 
 (dotfiles/leader
-  "e" '(eshell :which-key "Shell"))
+  "f" '(hydra-text-scale/body :which-key "Font"))
+
+(use-package linum-relative
+  :init (setq linum-relative-backend
+	      'display-line-numbers-mode)
+  :config (linum-relative-global-mode))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package doom-themes
   :init (load-theme 'doom-moonlight t))
@@ -183,9 +182,6 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
 
-(use-package password-store
-  :custom (password-store-dir dotfiles/pass))
-
 (use-package lsp-mode
   :custom (gc-cons-threshold 1000000000)
           (lsp-idle-delay 0.500))
@@ -193,6 +189,9 @@
 (use-package lsp-ui
   :custom (lsp-ui-doc-position 'at-point)
           (lsp-ui-doc-delay 0.500))
+
+(use-package password-store
+  :custom (password-store-dir "~/.local/source/passwords"))
 
 (use-package dap-mode)
 
@@ -220,7 +219,7 @@
 
 (use-package org-roam
   :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory dotfiles/brain))
+  :custom (org-roam-directory "~/.local/source/brain"))
 
 (use-package org-roam-server
   :hook (org-roam-mode . org-roam-server-mode))

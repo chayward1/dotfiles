@@ -2,80 +2,82 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
+#+begin_example
+           ^^                   @@@@@@@@@
+      ^^       ^^            @@@@@@@@@@@@@@@
+                           @@@@@@@@@@@@@@@@@@              ^^
+                          @@@@@@@@@@@@@@@@@@@@
+~~~~ ~~ ~~~~~ ~~~~~~~~ ~~ &&&&&&&&&&&&&&&&&&&& ~~~~~~~ ~~~~~~~~~~~ ~~~
+~         ~~   ~  ~       ~~~~~~~~~~~~~~~~~~~~ ~       ~~     ~~ ~
+  ~      ~~      ~~ ~~ ~~  ~~~~~~~~~~~~~ ~~~~  ~     ~~~    ~ ~~~  ~ ~~ 
+  ~  ~~     ~         ~      ~~~~~~  ~~ ~~~       ~~ ~ ~~  ~~ ~ 
+~  ~       ~ ~      ~           ~~ ~~~~~~  ~      ~~  ~             ~~
+      ~             ~        ~      ~      ~~   ~             ~
+#+end_example
+
 Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
 + 100% Literate
 + 100% Immutable
 + 100% Reproducible
-  
-* Configuration
-:PROPERTIES:
-:header-args: :tangle init.el :results silent
-:END:
 
-Define a function to build literate programming projects.
-
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle init.el :results silent
 (defun dotfiles/tangle (dir)
   "Recursively tangle the Org files within a directory."
+  (interactive)
   (let ((org-files (directory-files-recursively dir "org")))
     (dolist (f org-files)
       (org-babel-tangle-file f))))
 #+end_src
 
-Configure the system font with a single ~font-family~ and define the size, of which variations to the font size are relative to this value.
+* Core
+:PROPERTIES:
+:header-args: :tangle init.el :results silent
+:END:
 
-#+begin_src emacs-lisp
-(defvar dotfiles/font "Fira Code")
-(defvar dotfiles/font-size 96)
-#+end_src
-
-Functionality like =completion= and =hints= can be delayed to avoid popups for common manuevers. Adjust this value to your personal taste.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/idle 0.0)
-#+end_src
-
-Avoid the infamous *Emacs pinky* by binding =SPC= as a leader key, utilizing the thumb instead of the weaker pinky finger. You may change this value if you want to use something else.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/leader-key "SPC")
-#+end_src
-
-Stored source projects are in ~~/.local/source/~.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/src "~/.local/source/")
-(defvar dotfiles/pass (concat dotfiles/src "passwords/"))
-(defvar dotfiles/brain (concat dotfiles/src "brain/"))
-#+end_src
-
-Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. To solve this issue, and to retain hermetic evaluation of the Emacs directory, we it to ~~/.cache/emacs~ shortly after initialization, before most packages are loaded.
+Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory.
 
 #+begin_src emacs-lisp
 (defvar dotfiles/home user-emacs-directory)
-(defvar dotfiles/cache "~/.cache/emacs")
+#+end_src
 
+How can we solve this issue?
+
+#+begin_src emacs-lisp
+(defvar dotfiles/cache "~/.cache/emacs")
+#+end_src
+
+Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~.
+
+#+begin_src emacs-lisp
+(setq user-emacs-directory dotfiles/cache)
+#+end_src
+
+Because this project uses version-control, we can disable more unwanted features:
++ Lock files
++ Backup files
+
+#+begin_src emacs-lisp
 (setq create-lockfiles nil
-      make-backup-files nil
-      user-emacs-directory dotfiles/cache)
+      make-backup-files nil)
 #+end_src
 
 ** Packages
 
-https://github.com/raxod502/straight.el
+Download and install packages using [[https://github.com/raxod502/straight.el][straight.el]], a functional package manager that integrates with =use-package=, giving us more control over where packages are sourced from.
+
 + Use the development branch
 + Integrate with ~use-package~
-
+  
 Apply the configurations prior to bootstrapping the package manager, by setting (writing) to the variables that =straight= will ultimately read from.
   
-  #+begin_src emacs-lisp
+#+begin_src emacs-lisp
 (setq straight-repository-branch "develop"
       straight-use-package-by-default t)
-  #+end_src
+#+end_src
 
 Bootstrap the package manager, downloading, installing, or configuring depending on the state of the configuration. All packages are downloaded and built from source, and can be pinned to specific git commit hashes.
   
-  #+begin_src emacs-lisp
+#+begin_src emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -88,21 +90,43 @@ Bootstrap the package manager, downloading, installing, or configuring depending
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-  #+end_src
+#+end_src
 
 Complete the integration with ~use-package~ by installing it with =straight=.
   
-  #+begin_src emacs-lisp
+#+begin_src emacs-lisp
 (straight-use-package 'use-package)
-  #+end_src
+#+end_src
+
+** Cleanup
+
+Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs.
+
+Install [[https://github.com/emacscollective/no-littering][no-littering]] to reduce the files created by Emacs.
+
+#+begin_src emacs-lisp
+(use-package no-littering)
+#+end_src
+
+Emacs' default user interface is horrendous, but with less than 10 lines of code we can change that.
+
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t)
+(global-prettify-symbols-mode)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+#+end_src
+
+** Babel
 
 *Organize your plain life in plain text*
 
-=Org-mode= is one of the hallmark features of Emacs, and provides the basis for my Literate Programming platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
+[[https://orgmode.org][Org-mode]] is one of the hallmark features of Emacs, and provides the basis for my Literate Programming platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
 
-+ https://orgmode.org
-+ https://orgmode.org/worg/org-contrib/babel/languages/index.html
-+ https://orgmode.org/manual/Structure-Templates.html
++ [[https://orgmode.org/worg/org-contrib/babel/languages/index.html][Babel languages]]
++ [[https://orgmode.org/manual/Structure-Templates.html][Structure templates]]
 
 #+begin_src emacs-lisp
 (use-package org
@@ -132,46 +156,21 @@ Complete the integration with ~use-package~ by installing it with =straight=.
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+end_src
 
-** Cleanup
+** Keys
 
-Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs.
-
-https://github.com/emacscollective/no-littering
-+ Reduce the files created by Emacs
-
-#+begin_src emacs-lisp
-(use-package no-littering)
-#+end_src
-
-Emacs' default user interface is horrendous, but with less than 10 lines of code we can change that.
-
-#+begin_src emacs-lisp
-(setq inhibit-startup-message t)
-(global-prettify-symbols-mode)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-#+end_src
-
-Write out to all *3* of Emacs' default font faces.
-
-#+begin_src emacs-lisp
-(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
-(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
-(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
-#+end_src
-
-** Keybindings
-
-Make the =ESC= key quit prompts, instead of the default =C-g=.
+Make the =ESC= key quit (most) prompts, instead of the default =C-g=.
 
 #+begin_src emacs-lisp
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
-https://github.com/justbur/emacs-which-key
-+ Display the currently incomplete keybinding in a mini-buffer.
+Functionality like =completion= and =hints= can be delayed to avoid popups for common manuevers. Adjust this value to your personal taste.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/idle 0.0)
+#+end_src
+
+Download [[https://github.com/justbur/emacs-which-key][which-key]], a package that displays the current incomplete keybinding input in a mini-buffer, showing available completion options.
 
 #+begin_src emacs-lisp
 (use-package which-key
@@ -179,10 +178,14 @@ https://github.com/justbur/emacs-which-key
   :init (which-key-mode)
   :config (setq which-key-idle-delay dotfiles/idle))
 #+end_src
-  
-https://github.com/noctuid/general.el
-+ Easily configure prefixed keybindings
-+ Cleaner than default binding methods
+
+Avoid the infamous *Emacs pinky* by binding =SPC= as a leader key, utilizing the thumb instead of the weaker pinky finger. You may change this value if you want to use something else.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/leader-key "SPC")
+#+end_src
+
+Implement the *leader* key mentioned above using [[https://github.com/noctuid/general.el][general.el]], letting us easily configure prefixed keybindings in a much cleaner manner than the default methods.
 
 #+begin_src emacs-lisp
 (use-package general
@@ -193,8 +196,7 @@ https://github.com/noctuid/general.el
     :prefix dotfiles/leader-key))
 #+end_src 
 
-https://github.com/abo-abo/hydra
-+ Transient keybindings sharing a common prefix
+Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharing a common prefix.
 
 #+begin_src emacs-lisp
 (use-package hydra)
@@ -232,26 +234,6 @@ https://github.com/redguardtoo/evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
 
-*** Font
-
-Increase the font size in buffers with =SPC f=.
-+ Increase =j=
-+ Decrease =k=
-+ Finish =f=
-
-#+begin_src emacs-lisp
-(defhydra hydra-text-scale (:timeout 4)
-  "Scale"
-  ("j" text-scale-increase "Increase")
-  ("k" text-scale-decrease "Decrease")
-  ("f" nil "Finished" :exit t))
-#+end_src
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "f" '(hydra-text-scale/body :which-key "Font"))
-#+end_src
-
 *** Shortcuts
 
 Again cherry picked from =Doom=, I want to continue utilizing the muscle memory I have developed from a year of mainlining the framework.
@@ -265,6 +247,8 @@ Again cherry picked from =Doom=, I want to continue utilizing the muscle memory 
   "." '(find-file :which-key "File"))
 #+end_src
 
+**** Quit
+
 Quit emacs with =SPC q=.
 + Saving =q=
 + Without =w=
@@ -277,6 +261,8 @@ Quit emacs with =SPC q=.
   "qw" '(kill-emacs :which-key "Now")
   "qf" '(delete-frame :which-key "Frame"))
 #+end_src
+
+**** Windows
 
 Window management with =SPC w=.
 + Swap with =w=
@@ -300,7 +286,127 @@ Window management with =SPC w=.
   "wsl" '(split-window-right :which-key "Right"))
 #+end_src
 
-** Editor
+* Editor
+:PROPERTIES:
+:header-args: :tangle init.el :results silent
+:END:
+
+*Bring Emacs out of the eighties*
+
+** Git
+
+Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complete git porcelain within Emacs.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :custom (magit-display-buffer-function
+           #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+Work directly with github issues / pull requests using [[https://github.com/magit/forge][Forge]].
++ Requires a valid ~$GITHUB_TOKEN~
+
+#+begin_src emacs-lisp
+(use-package forge)
+#+end_src
+
+Open the *status* page for the current repository with =SPC g=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "g" '(magit-status :which-key "Magit"))
+#+end_src
+
+** Shell 
+
+While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
+
+https://github.com/zwild/eshell-prompt-extras
++ Enable lambda shell prompt
+
+#+begin_src emacs-lisp
+(use-package eshell-prompt-extras
+  :config (setq eshell-highlight-prompt nil
+	            eshell-prompt-function 'epe-theme-lambda))
+#+end_src
+
+Open an =eshell= buffer with =SPC e=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "e" '(eshell :which-key "Shell"))
+#+end_src
+
+** Files
+
+Emacs' can feel more modern when icon-fonts are installed and prioritized. I feel that this makes navigation of folders much faster, given that file types may be quickly identified by their corresponding icons.
+
+https://github.com/domtronn/all-the-icons.el
++ Collects various icon fonts
+
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+#+end_src
+  
+https://github.com/jtbm37/all-the-icons-dired
++ Integration with dired
+
+#+begin_src emacs-lisp
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
+
+When opening =dired=, I don't want to have to press =RET= twice to navigate to the current directory. This can be avoided with ~dired-jump~, included in the =dired-x= package shipped with =dired=.
+
+#+begin_src emacs-lisp
+(require 'dired-x)
+#+end_src
+
+Open a dired buffer with =SPC d=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "d" '(dired-jump :which-key "Dired"))
+#+end_src
+
+** Fonts
+
+Configure the system font with a single ~font-family~ and define the size, of which variations to the font size are relative to this value.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/font "Fira Code")
+(defvar dotfiles/font-size 96)
+#+end_src
+
+Write out to all *3* of Emacs' default font faces.
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
+#+end_src
+
+Define a transient keybinding for scaling the text.
+  
+#+begin_src emacs-lisp
+(defhydra hydra-text-scale (:timeout 4)
+  "Scale"
+  ("j" text-scale-increase "Increase")
+  ("k" text-scale-decrease "Decrease")
+  ("f" nil "Finished" :exit t))
+#+end_src
+
+Increase the font size in buffers with =SPC f=.
++ Increase =j=
++ Decrease =k=
++ Finish =f=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "f" '(hydra-text-scale/body :which-key "Font"))
+#+end_src
+
+** Lines
 
 Relative line numbers are important when using =VI= emulation keys. You can prefix most commands with a *number*, allowing you to jump up / down by a line count.
 
@@ -336,84 +442,6 @@ https://github.com/Fanael/rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-** VCS
-
-Another flagship feature of Emacs is =magit=, a complete git porcelain within Emacs.
-
-https://github.com/magit/magit
-
-#+begin_src emacs-lisp
-(use-package magit
-  :custom (magit-display-buffer-function
-           #'magit-display-buffer-same-window-except-diff-v1))
-#+end_src
-
-https://github.com/magit/forge
-+ Requires ~$GITHUB_TOKEN~
-
-#+begin_src emacs-lisp
-(use-package forge)
-#+end_src
-
-Open the *status* page for the current repository with =SPC g=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "g" '(magit-status :which-key "Magit"))
-#+end_src
-
-** Files
-
-Emacs' can feel more modern when icon-fonts are installed and prioritized. I feel that this makes navigation of folders much faster, given that file types may be quickly identified by their corresponding icons.
-
-https://github.com/domtronn/all-the-icons.el
-+ Collects various icon fonts
-
-#+begin_src emacs-lisp
-(use-package all-the-icons)
-#+end_src
-  
-https://github.com/jtbm37/all-the-icons-dired
-+ Integration with dired
-
-#+begin_src emacs-lisp
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
-#+end_src
-
-When opening =dired=, I don't want to have to press =RET= twice to navigate to the current directory. This can be avoided with ~dired-jump~, included in the =dired-x= package shipped with =dired=.
-
-#+begin_src emacs-lisp
-(require 'dired-x)
-#+end_src
-
-Open a dired buffer with =SPC d=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "d" '(dired-jump :which-key "Dired"))
-#+end_src
-
-** Shell 
-
-While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
-
-https://github.com/zwild/eshell-prompt-extras
-+ Enable lambda shell prompt
-
-#+begin_src emacs-lisp
-(use-package eshell-prompt-extras
-  :config (setq eshell-highlight-prompt nil
-	            eshell-prompt-function 'epe-theme-lambda))
-#+end_src
-
-Open an =eshell= buffer with =SPC e=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "e" '(eshell :which-key "Shell"))
-#+end_src
-
 ** Themes
 
 Bring Emacs' out of the eighties by cherry picking a few modules from =Doom=.
@@ -442,26 +470,16 @@ https://github.com/seagle0128/doom-modeline
   :custom ((doom-modeline-height 16)))
 #+end_src
 
-** Passwords
-
-Pass makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. =password-store.el= provides a wrapper for the functionality within Emacs.
-
-#+begin_src emacs-lisp
-(use-package password-store
-  :custom (password-store-dir dotfiles/pass))
-#+end_src
-
 * Development
 :PROPERTIES:
 :header-args: :tangle init.el :results silent
 :END:
 
 An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
-+ https://microsoft.github.io/language-server-protocol/
-+ https://microsoft.github.io/debug-adapter-protocol/
 
-https://emacs-lsp.github.io/lsp-mode/
-+ Language servers for Emacs
+Turn Emacs into an *IDE* (or better) with the [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
+
+[[https://emacs-lsp.github.io/lsp-mode/][Lsp-mode]] brings support for language servers into Emacs.
   
 #+begin_src emacs-lisp
 (use-package lsp-mode
@@ -478,12 +496,26 @@ https://emacs-lsp.github.io/lsp-ui/
           (lsp-ui-doc-delay 0.500))
 #+end_src
 
-https://emacs-lsp.github.io/dap-mode/
-+ Debug adapters for Emacs
+** Passwords
+
+Pass makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. =password-store.el= provides a wrapper for the functionality within Emacs.
+
+#+begin_src emacs-lisp
+(use-package password-store
+  :custom (password-store-dir "~/.local/source/passwords"))
+#+end_src
+
+** Debugging
+
+Handled through the [[https://microsoft.github.io/debug-adapter-protocol/][Debug Adapter Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
+
+[[https://emacs-lsp.github.io/dap-mode/][Dap-mode]] adds support for the protocol to Emacs.
 
 #+begin_src emacs-lisp
 (use-package dap-mode)
 #+end_src
+
+** Completion
 
 Text completion framework via =company= aka *Complete Anything*.
 
@@ -495,7 +527,11 @@ http://company-mode.github.io/
 (use-package company-lsp)
 #+end_src
 
-** C/C++
+** Languages
+
+Support for individual languages are implemented here.
+
+*** C/C++
 
 Full *IDE* experience for Python within Emacs.
 
@@ -511,7 +547,7 @@ Install the =ccls= language server.
          (lambda () (require 'ccls) (lsp))))
 #+end_src
   
-** Python
+*** Python
 
 Full *IDE* experience for Python within Emacs.
 + Completion, jumps via =lsp-mode=
@@ -535,7 +571,7 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
           (dap-python-debugger 'debugpy))
 #+end_src
 
-** Rust
+*** Rust
 
 Full *IDE* experience for Rust within Emacs.
 + Completion via =lsp-mode=
@@ -552,7 +588,7 @@ rustup default nightly
 (use-package rustic)
 #+end_src
 
-** Go
+*** Go
 
 Full *IDE* experience for Rust within Emacs.
 + Completion via =lsp-mode=
@@ -574,27 +610,24 @@ GO111MODULE=on go get golang.org/x/tools/gopls@latest
 :header-args: :tangle init.el :results silent
 :END:
 
+I am using [[https://orgmode.org][Org-mode]] extensively for writing projects for different purposes. Improvements beyond what are required for my Literate Programming platform include:
 
-https://github.com/integral-dw/org-superstar-mode
-+ Make the headline stars more *super*
+[[https://github.com/integral-dw/org-superstar-mode][Org-superstar-mode]] for making headline stars more *super*.
 
 #+begin_src emacs-lisp
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
-https://github.com/org-roam/org-roam
-+ Rudimentary roam replica with =org-mode=
+[[https://github.com/org-roam/org-roam][Org-roam]] is a rudimentary roam replica built on =Org mode=.
 
 #+begin_src emacs-lisp
 (use-package org-roam
   :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory dotfiles/brain))
+  :custom (org-roam-directory "~/.local/source/brain"))
 #+end_src
 
-https://github.com/org-roam/org-roam
-+ Visualizes the =org-roam= database
-+ Available on http://localhost:8080
+[[https://github.com/org-roam/org-roam-server][Org-roam-server]] is a web application that visualizes the =Org roam= database, available when Emacs' running at [[http://localhost:8080][localhost:8080]].
 
 #+begin_src emacs-lisp
 (use-package org-roam-server
@@ -711,8 +744,9 @@ Open an agenda buffer with =SPC a=.
 
 ** Blogging
 
-https://github.com/kaushalmodi/ox-hugo
-+ Configure for =one-post-per-file=
+I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=.
+
+[[https://github.com/kaushalmodi/ox-hugo][Ox-hugo]], configured for =one-post-per-file= is my technique for managing my blog.
 
 #+begin_src emacs-lisp
 (use-package ox-hugo 
@@ -731,10 +765,9 @@ Creaate a capture template for blog posts in the =posts= sub directory.
 
 ** Presentations
 
-Produce high quality presentations that work anywhere with =HTML/JS= via the =reveal.js= package.
+Produce high quality presentations that work anywhere with =HTML/JS= and the [[https://revealjs.com][Reveal.js]] package.
 
-https://github.com/hexmode/ox-reveal
-+ Configure to use =cdn=
+[[https://github.com/hexmode/ox-reveal][Ox-reveal]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version of =Reveal.js=.
 
 #+begin_src emacs-lisp
 (use-package ox-reveal
