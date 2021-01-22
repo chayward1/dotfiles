@@ -100,9 +100,9 @@
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 
 (dotfiles/leader
+  "." '(find-file :which-key "Files")
   "," '(switch-to-buffer :which-key "Buffer")
-  "/" '(kill-buffer-and-window :which-key "Close")
-  "." '(find-file :which-key "File"))
+  "c" '(kill-buffer-and-window :which-key "Close"))
 
 (dotfiles/leader
   "q" '(:ignore t :which-key "Quit")

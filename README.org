@@ -48,7 +48,7 @@ How can we solve this issue?
 (defvar dotfiles/cache "~/.cache/emacs")
 #+end_src
 
-Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~.
+Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post [[https://chrishayward.xyz/posts/immutable_emacs/][Immutable Emacs]].
 
 #+begin_src emacs-lisp
 (setq user-emacs-directory dotfiles/cache)
@@ -240,15 +240,15 @@ https://github.com/redguardtoo/evil-nerd-commenter
 
 Again cherry picked from =Doom=, I want to continue utilizing the muscle memory I have developed from a year of mainlining the framework.
 
-+ Find files =SPC . (period)=
-+ Close buffers with =SPC / (slash)=
++ Close buffers with =SPC c=
++ Find files with =SPC . (period)=
 + Switch buffers with =SPC , (comma)=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "," '(switch-to-buffer :which-key "Buffer")
-  "/" '(kill-buffer-and-window :which-key "Close")
-  "." '(find-file :which-key "File"))
+  "." '(find-file :which-key "Files")
+  "," '(switch-to-buffer :which-key "Buffers")
+  "c" '(kill-buffer-and-window :which-key "Close"))
 #+end_src
 
 **** Quit
