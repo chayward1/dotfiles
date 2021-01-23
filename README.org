@@ -493,13 +493,13 @@ https://github.com/seagle0128/doom-modeline
 :END:
 
 #+begin_src emacs-lisp
-(defun desktop/run (command)
+(defun dotfiles/run (command)
   (let ((command-parts (split-string command "[ ]+")))
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 #+end_src
 
 #+begin_src emacs-lisp
-(defun desktop/set-wallpaper (path)
+(defun dotfiles/set-wallpaper (path)
   (interactive)
   (when (file-exists-p path)
     (let ((command (concat "feh --bg-scale " path)))
@@ -507,34 +507,30 @@ https://github.com/seagle0128/doom-modeline
 #+end_src
 
 #+begin_src emacs-lisp
-(defun desktop/init-hook ()
+(defun dotfiles/init-hook ()
   (exwm-workspace-switch-create 1)
   (setq display-time-and-date t)
   (display-battery-mode 1)
-  (display-time-mode 1))
+  (display-time-mode 1)
+)
 #+end_src
 
 #+begin_src emacs-lisp
-(defun desktop/update-display ()
-  (desktop/run "autorandr --change --force")
-  ;; (desktop/set-wallpaper "TODO")
-  (message "Display: %s"
-    (string-trim
-      (shell-command-to-string "autorandr --current"))))
+(defun dotfiles/update-display ()
+  (dotfiles/run "autorandr --change --force")
+  ;; (dotfiles/set-wallpaper "TODO")
+)
 #+end_src
 
 #+begin_src emacs-lisp
 (use-package exwm
   :config
-
   (require 'exwm-randr)
   (exwm-randr-enable)
-  (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal")
 
-  (add-hook 'exwm-init-hook #'desktop/init-hook)
-  (add-hook 'exwm-randr-screen-change-hook #'desktop/update-display)
-
-  (desktop/update-display)
+  (add-hook 'exwm-init-hook #'dotfiles/init-hook)
+  (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
+  (dotfiles/update-display)
 
   (setq exwm-input-prefix-keys
         '(?\M-x
@@ -677,6 +673,24 @@ Configure the default capture template for daily entries.
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 #+end_src
 
+** Agenda
+
+Configure agenda sources.
++ Dailies ~~/.local/source/brain/daily/~
++ Secrets ~~/.local/source/secrets/org/~
+  
+#+begin_src emacs-lisp
+(setq org-agenda-files '("~/.local/source/brain/daily/"
+                         "~/.local/source/secrets/org/"))
+#+end_src
+
+Open an agenda buffer with =SPC a=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "a" '(org-agenda :which-key "Agenda"))
+#+end_src
+
 ** Blogging
 
 I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=.
@@ -696,24 +710,6 @@ Creaate a capture template for blog posts in the =posts= sub directory.
                "%?"
                :file-name "posts/${slug}"
                :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ~/.local/source/website\n#+HUGO_SECTION: posts\n"))
-#+end_src
-
-** Agenda
-
-Configure agenda sources.
-+ Dailies ~~/.local/source/brain/daily/~
-+ Secrets ~~/.local/source/secrets/org/~
-  
-#+begin_src emacs-lisp
-(setq org-agenda-files '("~/.local/source/brain/daily/"
-                         "~/.local/source/secrets/org/"))
-#+end_src
-
-Open an agenda buffer with =SPC a=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "a" '(org-agenda :which-key "Agenda"))
 #+end_src
 
 ** Screencasts

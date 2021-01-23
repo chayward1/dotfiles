@@ -190,40 +190,36 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
 
-(defun desktop/run (command)
+(defun dotfiles/run (command)
   (let ((command-parts (split-string command "[ ]+")))
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
-(defun desktop/set-wallpaper (path)
+(defun dotfiles/set-wallpaper (path)
   (interactive)
   (when (file-exists-p path)
     (let ((command (concat "feh --bg-scale " path)))
       (start-process-shell-command "feh" nil command))))
 
-(defun desktop/init-hook ()
+(defun dotfiles/init-hook ()
   (exwm-workspace-switch-create 1)
   (setq display-time-and-date t)
   (display-battery-mode 1)
-  (display-time-mode 1))
+  (display-time-mode 1)
+)
 
-(defun desktop/update-display ()
-  (desktop/run "autorandr --change --force")
-  ;; (desktop/set-wallpaper "TODO")
-  (message "Display: %s"
-    (string-trim
-      (shell-command-to-string "autorandr --current"))))
+(defun dotfiles/update-display ()
+  (dotfiles/run "autorandr --change --force")
+  ;; (dotfiles/set-wallpaper "TODO")
+)
 
 (use-package exwm
   :config
-
   (require 'exwm-randr)
   (exwm-randr-enable)
-  (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal")
 
-  (add-hook 'exwm-init-hook #'desktop/init-hook)
-  (add-hook 'exwm-randr-screen-change-hook #'desktop/update-display)
-
-  (desktop/update-display)
+  (add-hook 'exwm-init-hook #'dotfiles/init-hook)
+  (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
+  (dotfiles/update-display)
 
   (setq exwm-input-prefix-keys
         '(?\M-x
@@ -320,6 +316,12 @@
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 
+(setq org-agenda-files '("~/.local/source/brain/daily/"
+                         "~/.local/source/secrets/org/"))
+
+(dotfiles/leader
+  "a" '(org-agenda :which-key "Agenda"))
+
 (use-package ox-hugo 
   :after ox)
 
@@ -328,12 +330,6 @@
                "%?"
                :file-name "posts/${slug}"
                :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ~/.local/source/website\n#+HUGO_SECTION: posts\n"))
-
-(setq org-agenda-files '("~/.local/source/brain/daily/"
-                         "~/.local/source/secrets/org/"))
-
-(dotfiles/leader
-  "a" '(org-agenda :which-key "Agenda"))
 
 (use-package gif-screencast
   :custom
