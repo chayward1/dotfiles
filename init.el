@@ -107,6 +107,12 @@
   "c" '(kill-buffer-and-window :which-key "Close"))
 
 (dotfiles/leader
+  "h" '(:ignore t :which-key "Help")
+  "hp" '(describe-package :which-key "Package")
+  "hv" '(describe-variable :which-key "Variable")
+  "hf" '(describe-function :which-key "Function"))
+
+(dotfiles/leader
   "q" '(:ignore t :which-key "Quit")
   "qq" '(save-buffers-kill-emacs :which-key "Save")
   "qw" '(kill-emacs :which-key "Now")
@@ -204,8 +210,7 @@
   (exwm-workspace-switch-create 1)
   (setq display-time-and-date t)
   (display-battery-mode 1)
-  (display-time-mode 1)
-)
+  (display-time-mode 1))
 
 (defun dotfiles/update-display ()
   (dotfiles/run "autorandr --change --force")
@@ -216,28 +221,24 @@
   :config
   (require 'exwm-randr)
   (exwm-randr-enable)
-
   (add-hook 'exwm-init-hook #'dotfiles/init-hook)
   (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
   (dotfiles/update-display)
-
   (setq exwm-input-prefix-keys
         '(?\M-x
-          ?\C-\ ) ;; C-SPC
-
+          ?\C-g
+          ?\C-\ )
         exwm-input-global-keys
         `(([?\s-r] . exwm-reset)
           ([?\s-&] . (lambda (command)
                        (interactive (list (read-shell-command "λ ")))
                        (start-process-shell-command command nil command)))
-
           ,@(mapcar (lambda (i)
                       `(,(kbd (format "s-%d" i)) .
                         (lambda ()
                           (interactive)
                           (exwm-workspace-switch-create ,i))))
                     (number-sequence 1 9))))
-
   (exwm-enable))
 
 (use-package org-superstar
@@ -336,9 +337,9 @@
   (gif-screencast-output-directory "~/.local/source/brain/screen/"))
 
 (dotfiles/leader
-  "p" '(:ignore t :which-key "Screencast")
-  "ps" '(gif-screencast-start-or-stop :which-key "Start / Stop")
-  "pp" '(gif-screencast-toggle-pause :which-key "Pause"))
+  "s" '(:ignore t :which-key "Screencast")
+  "ss" '(gif-screencast-start-or-stop :which-key "Start / Stop")
+  "sp" '(gif-screencast-toggle-pause :which-key "Pause"))
 
 (use-package ox-reveal
   :after ox
@@ -381,3 +382,9 @@
 
 (use-package go-mode
   :hook (go-mode . lsp))
+
+(defun dotfiles/go-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(add-hook 'go-mode-hook #'dotfiles/go-hook)

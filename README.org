@@ -253,6 +253,21 @@ Again cherry picked from =Doom=, I want to continue utilizing the muscle memory 
   "c" '(kill-buffer-and-window :which-key "Close"))
 #+end_src
 
+**** Help
+
+Run helper functions with =SPC h=.
++ Packages =p=
++ Variables =v=
++ Functions =f=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "h" '(:ignore t :which-key "Help")
+  "hp" '(describe-package :which-key "Package")
+  "hv" '(describe-variable :which-key "Variable")
+  "hf" '(describe-function :which-key "Function"))
+#+end_src
+
 **** Quit
 
 Quit emacs with =SPC q=.
@@ -492,11 +507,17 @@ https://github.com/seagle0128/doom-modeline
 :header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
 :END:
 
+I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=.
+
+Some methods must be called and applied to the current call process in order to function correctly with Emacs hooks.
+
 #+begin_src emacs-lisp
 (defun dotfiles/run (command)
   (let ((command-parts (split-string command "[ ]+")))
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 #+end_src
+
+Setting the wallpaper is one example; this must occur every time the screen change hook is called.
 
 #+begin_src emacs-lisp
 (defun dotfiles/set-wallpaper (path)
@@ -506,14 +527,22 @@ https://github.com/seagle0128/doom-modeline
       (start-process-shell-command "feh" nil command))))
 #+end_src
 
+When the window manager first launches the ~init-hook~ will be called, this allows us to define some custom logic when it's initialized.
+
++ Display time and date
++ Display battery info (if available)
+
+In my personal configuration, I do not want the battery or time displayed within Emacs when it's not running as desktop environment because that information is typically already available.
+
 #+begin_src emacs-lisp
 (defun dotfiles/init-hook ()
   (exwm-workspace-switch-create 1)
   (setq display-time-and-date t)
   (display-battery-mode 1)
-  (display-time-mode 1)
-)
+  (display-time-mode 1))
 #+end_src
+
+Using =autorandr= with pre configured profiles, switching screens (AKA hot plugging) is also handled through a hook.
 
 #+begin_src emacs-lisp
 (defun dotfiles/update-display ()
@@ -522,33 +551,45 @@ https://github.com/seagle0128/doom-modeline
 )
 #+end_src
 
+Finally we configure the window manager.
+
++ Enable =randr= support
+
+Connect our custom hooks and configure the input keys, a custom layer for defining which keys are captured by Emacs, and which are passed through to =X= applications.
+
++ Pass through to Emacs
+  + =M-x= to Emacs
+  + =C-g= to Emacs
+  + =C-SPC= to Emacs
+  
++ Bindings with =S= (Super / Win)
+  + Reset =S-r=
+  + Launch =S-&=
+  + Workspace =S-[1..9]=
+  
 #+begin_src emacs-lisp
 (use-package exwm
   :config
   (require 'exwm-randr)
   (exwm-randr-enable)
-
   (add-hook 'exwm-init-hook #'dotfiles/init-hook)
   (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
   (dotfiles/update-display)
-
   (setq exwm-input-prefix-keys
         '(?\M-x
-          ?\C-\ ) ;; C-SPC
-
+          ?\C-g
+          ?\C-\ )
         exwm-input-global-keys
         `(([?\s-r] . exwm-reset)
           ([?\s-&] . (lambda (command)
                        (interactive (list (read-shell-command "λ ")))
                        (start-process-shell-command command nil command)))
-
           ,@(mapcar (lambda (i)
                       `(,(kbd (format "s-%d" i)) .
                         (lambda ()
                           (interactive)
                           (exwm-workspace-switch-create ,i))))
                     (number-sequence 1 9))))
-
   (exwm-enable))
 #+end_src
 
@@ -728,15 +769,15 @@ It requires the installation of ~scrot~ and ~convert~ from the =ImageMagick= lib
   (gif-screencast-output-directory "~/.local/source/brain/screen/"))
 #+end_src
 
-Screencast controls behind =SPC p=.
+Screencast controls behind =SPC s=.
 + Start / stop with =s=
-+ Pause with =p=
++ Pause with =t=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "p" '(:ignore t :which-key "Screencast")
-  "ps" '(gif-screencast-start-or-stop :which-key "Start / Stop")
-  "pp" '(gif-screencast-toggle-pause :which-key "Pause"))
+  "s" '(:ignore t :which-key "Screencast")
+  "ss" '(gif-screencast-start-or-stop :which-key "Start / Stop")
+  "sp" '(gif-screencast-toggle-pause :which-key "Pause"))
 #+end_src
 
 ** Presentations
@@ -894,4 +935,19 @@ GO111MODULE=on go get golang.org/x/tools/gopls@latest
 #+begin_src emacs-lisp
 (use-package go-mode
   :hook (go-mode . lsp))
+#+end_src
+
+Apply some custom behaviour before saving:
+
++ Format buffer
++ Organize imports
+
+#+begin_src emacs-lisp
+(defun dotfiles/go-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+#+end_src
+  
+#+begin_src emacs-lisp
+(add-hook 'go-mode-hook #'dotfiles/go-hook)
 #+end_src
