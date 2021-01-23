@@ -185,6 +185,7 @@ Avoid the infamous *Emacs pinky* by binding =SPC= as a leader key, utilizing the
 
 #+begin_src emacs-lisp
 (defvar dotfiles/leader-key "SPC")
+(defvar dotfiles/leader-key-global "C-SPC")
 #+end_src
 
 Implement the *leader* key mentioned above using [[https://github.com/noctuid/general.el][general.el]], letting us easily configure prefixed keybindings in a much cleaner manner than the default methods.
@@ -195,7 +196,8 @@ Implement the *leader* key mentioned above using [[https://github.com/noctuid/ge
   (general-create-definer dotfiles/leader
     :states '(normal motion)
     :keymaps 'override
-    :prefix dotfiles/leader-key))
+    :prefix dotfiles/leader-key
+    :global-prefix dotfiles/leader-key-global))
 #+end_src 
 
 Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharing a common prefix.
@@ -483,6 +485,75 @@ https://github.com/seagle0128/doom-modeline
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
+#+end_src
+
+* Desktop
+:PROPERTIES:
+:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
+:END:
+
+#+begin_src emacs-lisp
+(defun desktop/run (command)
+  (let ((command-parts (split-string command "[ ]+")))
+    (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+#+end_src
+
+#+begin_src emacs-lisp
+(defun desktop/set-wallpaper (path)
+  (interactive)
+  (when (file-exists-p path)
+    (let ((command (concat "feh --bg-scale " path)))
+      (start-process-shell-command "feh" nil command))))
+#+end_src
+
+#+begin_src emacs-lisp
+(defun desktop/init-hook ()
+  (exwm-workspace-switch-create 1)
+  (setq display-time-and-date t)
+  (display-battery-mode 1)
+  (display-time-mode 1))
+#+end_src
+
+#+begin_src emacs-lisp
+(defun desktop/update-display ()
+  (desktop/run "autorandr --change --force")
+  ;; (desktop/set-wallpaper "TODO")
+  (message "Display: %s"
+    (string-trim
+      (shell-command-to-string "autorandr --current"))))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package exwm
+  :config
+
+  (require 'exwm-randr)
+  (exwm-randr-enable)
+  (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal")
+
+  (add-hook 'exwm-init-hook #'desktop/init-hook)
+  (add-hook 'exwm-randr-screen-change-hook #'desktop/update-display)
+
+  (desktop/update-display)
+
+  (setq exwm-input-prefix-keys
+        '(?\M-x
+          ?\C-\ ) ;; C-SPC
+
+        exwm-input-global-keys
+        `(([?\s-r] . exwm-reset)
+          ([?\s-&] . (lambda (command)
+                       (interactive (list (read-shell-command "λ ")))
+                       (start-process-shell-command command nil command)))
+
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 1 9))))
+
+  (exwm-enable))
 #+end_src
 
 * Writing

@@ -77,13 +77,15 @@
   :config (setq which-key-idle-delay dotfiles/idle))
 
 (defvar dotfiles/leader-key "SPC")
+(defvar dotfiles/leader-key-global "C-SPC")
 
 (use-package general
   :config
   (general-create-definer dotfiles/leader
     :states '(normal motion)
     :keymaps 'override
-    :prefix dotfiles/leader-key))
+    :prefix dotfiles/leader-key
+    :global-prefix dotfiles/leader-key-global))
 
 (use-package hydra)
 
@@ -187,6 +189,60 @@
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
+
+(defun desktop/run (command)
+  (let ((command-parts (split-string command "[ ]+")))
+    (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+
+(defun desktop/set-wallpaper (path)
+  (interactive)
+  (when (file-exists-p path)
+    (let ((command (concat "feh --bg-scale " path)))
+      (start-process-shell-command "feh" nil command))))
+
+(defun desktop/init-hook ()
+  (exwm-workspace-switch-create 1)
+  (setq display-time-and-date t)
+  (display-battery-mode 1)
+  (display-time-mode 1))
+
+(defun desktop/update-display ()
+  (desktop/run "autorandr --change --force")
+  ;; (desktop/set-wallpaper "TODO")
+  (message "Display: %s"
+    (string-trim
+      (shell-command-to-string "autorandr --current"))))
+
+(use-package exwm
+  :config
+
+  (require 'exwm-randr)
+  (exwm-randr-enable)
+  (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal")
+
+  (add-hook 'exwm-init-hook #'desktop/init-hook)
+  (add-hook 'exwm-randr-screen-change-hook #'desktop/update-display)
+
+  (desktop/update-display)
+
+  (setq exwm-input-prefix-keys
+        '(?\M-x
+          ?\C-\ ) ;; C-SPC
+
+        exwm-input-global-keys
+        `(([?\s-r] . exwm-reset)
+          ([?\s-&] . (lambda (command)
+                       (interactive (list (read-shell-command "λ ")))
+                       (start-process-shell-command command nil command)))
+
+          ,@(mapcar (lambda (i)
+                      `(,(kbd (format "s-%d" i)) .
+                        (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                    (number-sequence 1 9))))
+
+  (exwm-enable))
 
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
