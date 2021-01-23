@@ -101,7 +101,7 @@
 
 (dotfiles/leader
   "." '(find-file :which-key "Files")
-  "," '(switch-to-buffer :which-key "Buffer")
+  "," '(switch-to-buffer :which-key "Buffers")
   "c" '(kill-buffer-and-window :which-key "Close"))
 
 (dotfiles/leader
@@ -264,12 +264,6 @@
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 
-(setq org-agenda-files '("~/.local/source/brain/daily/"
-                         "~/.local/source/secrets/org/"))
-
-(dotfiles/leader
-  "a" '(org-agenda :which-key "Agenda"))
-
 (use-package ox-hugo 
   :after ox)
 
@@ -277,7 +271,13 @@
              '("b" "Blogging" plain (function org-roam-capture--get-point)
                "%?"
                :file-name "posts/${slug}"
-               :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ../\n#+HUGO_SECTION: ./\n"))
+               :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ~/.local/source/website\n#+HUGO_SECTION: posts\n"))
+
+(setq org-agenda-files '("~/.local/source/brain/daily/"
+                         "~/.local/source/secrets/org/"))
+
+(dotfiles/leader
+  "a" '(org-agenda :which-key "Agenda"))
 
 (use-package gif-screencast
   :custom

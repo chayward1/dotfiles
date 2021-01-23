@@ -606,24 +606,6 @@ Configure the default capture template for daily entries.
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 #+end_src
 
-** Agenda
-
-Configure agenda sources.
-+ Dailies ~~/.local/source/brain/daily/~
-+ Secrets ~~/.local/source/secrets/org/~
-  
-#+begin_src emacs-lisp
-(setq org-agenda-files '("~/.local/source/brain/daily/"
-                         "~/.local/source/secrets/org/"))
-#+end_src
-
-Open an agenda buffer with =SPC a=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "a" '(org-agenda :which-key "Agenda"))
-#+end_src
-
 ** Blogging
 
 I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=.
@@ -642,7 +624,25 @@ Creaate a capture template for blog posts in the =posts= sub directory.
              '("b" "Blogging" plain (function org-roam-capture--get-point)
                "%?"
                :file-name "posts/${slug}"
-               :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ../\n#+HUGO_SECTION: ./\n"))
+               :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ~/.local/source/website\n#+HUGO_SECTION: posts\n"))
+#+end_src
+
+** Agenda
+
+Configure agenda sources.
++ Dailies ~~/.local/source/brain/daily/~
++ Secrets ~~/.local/source/secrets/org/~
+  
+#+begin_src emacs-lisp
+(setq org-agenda-files '("~/.local/source/brain/daily/"
+                         "~/.local/source/secrets/org/"))
+#+end_src
+
+Open an agenda buffer with =SPC a=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "a" '(org-agenda :which-key "Agenda"))
 #+end_src
 
 ** Screencasts
