@@ -317,6 +317,66 @@
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
 
+(defvar dotfiles/bib "~/.local/source/brain/resources.bib")
+(defvar dotfiles/notes "~/.local/source/brain/notes/")
+
+(use-package org-noter
+  :after org
+  :config
+  (setq org-noter-always-create-frame nil
+        org-noter-notes-search-path dotfiles/notes))
+
+(use-package org-pdftools
+  :hook (org-mode . org-pdftools-setup-link))
+
+(use-package org-noter-pdftools
+  :after org-noter
+  :config
+  (with-eval-after-load 'pdf-annot
+    (add-hook 'pdf-annot-active-handler-functions #'org-noter-pdftools-jump-to-note)))
+
+(setq bibtex-completion-notes-path dotfiles/notes
+      bibtex-completion-bibliography dotfiles/bib
+      bibtex-completion-pdf-field "file"
+      bibtex-completion-notes-template-multiple-files
+      (concat
+        "#+TITLE: ${title}\n"
+        "#+ROAM_KEY: cite:${=key=}\n"
+        "#* TODO Notes\n"
+        ":PROPERTIES:\n"
+        ":CUSTOM_ID: ${=key}\n"
+        ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+        ":AUTHOR: ${author-abbrev}\n"
+        ":JOURNAL: ${journaltitle}\n"
+        ":DATE: ${date}\n"
+        ":YEAR: ${year}\n"
+        ":DOI: ${doi}\n"
+        ":URL: ${url}\n"
+        ":END:\n\n"))
+
+(use-package org-ref
+  :config
+  (setq org-ref-completion-library 'org-ref-helm-cite
+        org-ref-get-pdf-filename-function 'org-refg-get-pdf-filename-helm-bibtex
+        org-ref-default-bibliography dotfiles/bib
+        org-ref-bibliography-notes dotfiles/notes
+        org-ref-notes-directory dotfiles/notes
+        org-ref-notes-function 'orb-edit-notes
+        org-ref-note-title-format "* TODO %y - %t\n:PROPERTIES:\n:CUSTOM_ID: %k\n:NOTER_DOCUMENT: %F\n:ROAM_KEY: cite:%k\n:AUTHOR: %9a\n:JOURNAL: %j\n:YEAR: %y\n:VOLUME: %v\n:PAGES: %p\n:DOI: %D\n:URL: %U\n:END:\n\n"))
+
+(use-package org-roam-bibtex
+  :after (org-roam)
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
+  (setq orb-preformat-keywords
+        '("=key=" "title" "url" "file" "author-or-editor" "keywords")))
+
+(add-to-list 'org-roam-capture-templates
+             '("n" "Notes" plain (function org-roam-capture--get-point)
+               ""
+               :file-name "notes/${slug}"
+               :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY:${ref}\n\n* ${title} :PROPERTIES:\n:CUSTOM_ID: ${=key=}\n:URL: ${url}\n:AUTHOR: ${author-or-editor}\n:NOTER_DOCUMENT:%(orb-process-file-field \"${=key=}\")\n:NOTER_PAGE:\n:END:\n\n"))
+
 (setq org-agenda-files '("~/.local/source/brain/daily/"
                          "~/.local/source/secrets/org/"))
 
