@@ -593,6 +593,8 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
   (exwm-enable))
 #+end_src
 
+** 
+
 * Writing
 :PROPERTIES:
 :header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
