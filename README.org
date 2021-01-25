@@ -486,11 +486,9 @@ https://github.com/hlissner/emacs-doom-themes
   :init (load-theme 'doom-moonlight t))
 #+end_src
 
-Load a theme with =SPC t=.
-
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "t" '(load-theme t nil :which-key "Theme"))
+  "t" '(load-theme t nil :which-key "Themes"))
 #+end_src
 
 https://github.com/seagle0128/doom-modeline
@@ -509,10 +507,17 @@ https://github.com/seagle0128/doom-modeline
 
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=.
 
+#+begin_src emacs-lisp
+(defun dotfiles/run (command)
+  "Run an external process."
+  (interactive (list (read-shell-command "λ ")))
+  (start-process-shell-command command nil command))
+#+end_src
+
 Some methods must be called and applied to the current call process in order to function correctly with Emacs hooks.
 
 #+begin_src emacs-lisp
-(defun dotfiles/run (command)
+(defun dotfiles/run-in-background (command)
   (let ((command-parts (split-string command "[ ]+")))
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 #+end_src
@@ -520,13 +525,18 @@ Some methods must be called and applied to the current call process in order to 
 Setting the wallpaper is one example; this must occur every time the screen change hook is called.
 
 #+begin_src emacs-lisp
-(defun dotfiles/set-wallpaper (path)
-  (interactive)
-  (when (file-exists-p path)
-    (let ((command (concat "feh --bg-scale " path)))
-      (start-process-shell-command "feh" nil command))))
+;; (defun dotfiles/set-wallpaper (path)
+;;   (interactive)
+;;   (when (file-exists-p path)
+;;     (let ((command (concat "feh --bg-scale " path)))
+;;       (start-process-shell-command "feh" nil command))))
 #+end_src
 
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "r" '(dotfiles/run :which-key "Run"))
+#+end_src
+  
 When the window manager first launches the ~init-hook~ will be called, this allows us to define some custom logic when it's initialized.
 
 + Display time and date
@@ -546,9 +556,8 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
 
 #+begin_src emacs-lisp
 (defun dotfiles/update-display ()
-  (dotfiles/run "autorandr --change --force")
-  ;; (dotfiles/set-wallpaper "TODO")
-)
+  (dotfiles/run-in-background "autorandr --change --force"))
+  ;; (dotfiles/set-wallpaper "TODO"))
 #+end_src
 
 Finally we configure the window manager.
@@ -566,7 +575,7 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
   + Reset =S-r=
   + Launch =S-&=
   + Workspace =S-[1..9]=
-  
+    
 #+begin_src emacs-lisp
 (use-package exwm
   :config
@@ -581,9 +590,7 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
           ?\C-\ )
         exwm-input-global-keys
         `(([?\s-r] . exwm-reset)
-          ([?\s-&] . (lambda (command)
-                       (interactive (list (read-shell-command "λ ")))
-                       (start-process-shell-command command nil command)))
+          ([?\s-&] . dotfiles/run)
           ,@(mapcar (lambda (i)
                       `(,(kbd (format "s-%d" i)) .
                         (lambda ()
@@ -592,8 +599,6 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
                     (number-sequence 1 9))))
   (exwm-enable))
 #+end_src
-
-** 
 
 * Writing
 :PROPERTIES:
@@ -612,11 +617,12 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
 ** Mail
 
 #+begin_src emacs-lisp
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 #+end_src
 
 #+begin_src emacs-lisp
 (use-package mu4e
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
   (setq mu4e-change-filenames-when-moving t
         mu4e-update-interval (* 5 60) ;; Every 5 minutes.
@@ -676,7 +682,7 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
   :hook (org-roam-mode . org-roam-server-mode))
 #+end_src
 
-Configure keybindings behind =SPC r=.
+Configure keybindings behind =SPC b=.
 + Find with =f=
 + Buffer with =b=
 + Capture with =c=
@@ -684,15 +690,15 @@ Configure keybindings behind =SPC r=.
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "r" '(:ignore t :which-key "Roam")
-  "rf" '(org-roam-find-file :which-key "Find")
-  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
-  "rc" '(org-roam-capture :which-key "Capture")
-  "rd" '(:ignore t :which-key "Dailies")
-  "rdd" '(org-roam-dailies-find-date :which-key "Date")
-  "rdt" '(org-roam-dailies-find-today :which-key "Today")
-  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+  "b" '(:ignore t :which-key "Roam")
+  "bf" '(org-roam-find-file :which-key "Find")
+  "bb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "bc" '(org-roam-capture :which-key "Capture")
+  "bd" '(:ignore t :which-key "Dailies")
+  "bdd" '(org-roam-dailies-find-date :which-key "Date")
+  "bdt" '(org-roam-dailies-find-today :which-key "Today")
+  "bdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "bdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 #+end_src
 
 Configure the default capture template for new topics.
@@ -915,6 +921,19 @@ Pass makes managing passwords extremely easy, encrypring them in a file structur
 #+begin_src emacs-lisp
 (use-package password-store
   :custom (password-store-dir "~/.local/source/passwords"))
+#+end_src
+
+Configure keybindings behind =SPC p=.
++ Copy with =p=
++ Rename with =r=
++ Generate with =g=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "p" '(:ignore t :which-key "Passwords")
+  "pp" '(password-store-copy :which-key "Copy")
+  "pr" '(password-store-rename :which-key "Rename")
+  "pg" '(password-store-generate :which-key "Generate"))
 #+end_src
 
 ** Debugging

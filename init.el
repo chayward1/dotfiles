@@ -190,21 +190,29 @@
   :init (load-theme 'doom-moonlight t))
 
 (dotfiles/leader
-  "t" '(load-theme t nil :which-key "Theme"))
+  "t" '(load-theme t nil :which-key "Themes"))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
 
 (defun dotfiles/run (command)
+  "Run an external process."
+  (interactive (list (read-shell-command "λ ")))
+  (start-process-shell-command command nil command))
+
+(defun dotfiles/run-in-background (command)
   (let ((command-parts (split-string command "[ ]+")))
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
-(defun dotfiles/set-wallpaper (path)
-  (interactive)
-  (when (file-exists-p path)
-    (let ((command (concat "feh --bg-scale " path)))
-      (start-process-shell-command "feh" nil command))))
+;; (defun dotfiles/set-wallpaper (path)
+;;   (interactive)
+;;   (when (file-exists-p path)
+;;     (let ((command (concat "feh --bg-scale " path)))
+;;       (start-process-shell-command "feh" nil command))))
+
+(dotfiles/leader
+  "r" '(dotfiles/run :which-key "Run"))
 
 (defun dotfiles/init-hook ()
   (exwm-workspace-switch-create 1)
@@ -213,9 +221,8 @@
   (display-time-mode 1))
 
 (defun dotfiles/update-display ()
-  (dotfiles/run "autorandr --change --force")
-  ;; (dotfiles/set-wallpaper "TODO")
-)
+  (dotfiles/run-in-background "autorandr --change --force"))
+  ;; (dotfiles/set-wallpaper "TODO"))
 
 (use-package exwm
   :config
@@ -230,9 +237,7 @@
           ?\C-\ )
         exwm-input-global-keys
         `(([?\s-r] . exwm-reset)
-          ([?\s-&] . (lambda (command)
-                       (interactive (list (read-shell-command "λ ")))
-                       (start-process-shell-command command nil command)))
+          ([?\s-&] . dotfiles/run)
           ,@(mapcar (lambda (i)
                       `(,(kbd (format "s-%d" i)) .
                         (lambda ()
@@ -244,9 +249,10 @@
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
 
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 
 (use-package mu4e
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
   (setq mu4e-change-filenames-when-moving t
         mu4e-update-interval (* 5 60) ;; Every 5 minutes.
@@ -294,15 +300,15 @@
   :hook (org-roam-mode . org-roam-server-mode))
 
 (dotfiles/leader
-  "r" '(:ignore t :which-key "Roam")
-  "rf" '(org-roam-find-file :which-key "Find")
-  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
-  "rc" '(org-roam-capture :which-key "Capture")
-  "rd" '(:ignore t :which-key "Dailies")
-  "rdd" '(org-roam-dailies-find-date :which-key "Date")
-  "rdt" '(org-roam-dailies-find-today :which-key "Today")
-  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+  "b" '(:ignore t :which-key "Roam")
+  "bf" '(org-roam-find-file :which-key "Find")
+  "bb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "bc" '(org-roam-capture :which-key "Capture")
+  "bd" '(:ignore t :which-key "Dailies")
+  "bdd" '(org-roam-dailies-find-date :which-key "Date")
+  "bdt" '(org-roam-dailies-find-today :which-key "Today")
+  "bdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "bdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 
 (setq org-roam-capture-templates
       '(("d" "Default" plain (function org-roam-capture--get-point)
@@ -421,6 +427,12 @@
 
 (use-package password-store
   :custom (password-store-dir "~/.local/source/passwords"))
+
+(dotfiles/leader
+  "p" '(:ignore t :which-key "Passwords")
+  "pp" '(password-store-copy :which-key "Copy")
+  "pr" '(password-store-rename :which-key "Rename")
+  "pg" '(password-store-generate :which-key "Generate"))
 
 (use-package dap-mode)
 
