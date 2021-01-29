@@ -305,6 +305,15 @@ Window management with =SPC w=.
   "wsl" '(split-window-right :which-key "Right"))
 #+end_src
 
+**** Tweaks
+
+Place runtime tweaks behind =SPC t=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "t" '(:ignore t :which-key "Tweaks"))
+#+end_src
+
 * Editor
 :PROPERTIES:
 :header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
@@ -428,14 +437,14 @@ Define a transient keybinding for scaling the text.
   ("f" nil "Finished" :exit t))
 #+end_src
 
-Increase the font size in buffers with =SPC f=.
+Increase the font size in buffers with =SPC t f=.
 + Increase =j=
 + Decrease =k=
 + Finish =f=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "f" '(hydra-text-scale/body :which-key "Font"))
+  "tf" '(hydra-text-scale/body :which-key "Font"))
 #+end_src
 
 ** Lines
@@ -476,28 +485,36 @@ https://github.com/Fanael/rainbow-delimiters
 
 ** Themes
 
-Bring Emacs' out of the eighties by cherry picking a few modules from =Doom=.
-
-https://github.com/hlissner/emacs-doom-themes
-+ Modern colour themes
+Bring Emacs' out of the *eighties* by cherry picking a few modules from =doom-emacs=. High quality and modern colour themes are provided in the [[https://github.com/hlissner/emacs-doom-themes][doom-themes]] package.
 
 #+begin_src emacs-lisp
 (use-package doom-themes
   :init (load-theme 'doom-moonlight t))
 #+end_src
 
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "t" '(load-theme t nil :which-key "Themes"))
-#+end_src
-
-https://github.com/seagle0128/doom-modeline
-+ Elegant status bar / modeline
+[[https://github.com/seagle0128/doom-modeline][doom-modeline]] provides an elegant status bar / modeline.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
+#+end_src
+
+Load a theme with =SPC t t=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tt" '(load-theme t t :which-key "Theme"))
+#+end_src
+
+** Dashboard
+
+#+begin_src emacs-lisp
+(use-package dashboard
+  :config
+  (setq dashboard-center-content t
+        dashboard-startup-banner 'logo)
+  (dashboard-setup-startup-hook))
 #+end_src
 
 * Desktop
@@ -534,7 +551,7 @@ Setting the wallpaper is one example; this must occur every time the screen chan
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "r" '(dotfiles/run :which-key "Run"))
+  "x" '(dotfiles/run :which-key "Execute"))
 #+end_src
   
 When the window manager first launches the ~init-hook~ will be called, this allows us to define some custom logic when it's initialized.
@@ -682,7 +699,7 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
   :hook (org-roam-mode . org-roam-server-mode))
 #+end_src
 
-Configure keybindings behind =SPC b=.
+Configure keybindings behind =SPC r=.
 + Find with =f=
 + Buffer with =b=
 + Capture with =c=
@@ -690,15 +707,15 @@ Configure keybindings behind =SPC b=.
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "b" '(:ignore t :which-key "Roam")
-  "bf" '(org-roam-find-file :which-key "Find")
-  "bb" '(org-roam-buffer-toggle-display :which-key "Buffer")
-  "bc" '(org-roam-capture :which-key "Capture")
-  "bd" '(:ignore t :which-key "Dailies")
-  "bdd" '(org-roam-dailies-find-date :which-key "Date")
-  "bdt" '(org-roam-dailies-find-today :which-key "Today")
-  "bdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "bdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+  "r" '(:ignore t :which-key "Roam")
+  "rf" '(org-roam-find-file :which-key "Find")
+  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "rc" '(org-roam-capture :which-key "Capture")
+  "rd" '(:ignore t :which-key "Dailies")
+  "rdd" '(org-roam-dailies-find-date :which-key "Date")
+  "rdt" '(org-roam-dailies-find-today :which-key "Today")
+  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 #+end_src
 
 Configure the default capture template for new topics.
@@ -914,6 +931,17 @@ https://emacs-lsp.github.io/lsp-ui/
           (lsp-ui-doc-delay 0.500))
 #+end_src
 
+** Projects
+
+Configure [[https://projectile.mx][projectile]], a project interaction library for Emacs. It provides a nice set of features for operating on a project level without introducing external dependencies.
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :config
+  (setq projectile-project-search-path '("~/.local/source"))
+  (projectile-mode))
+#+end_src
+
 ** Passwords
 
 Pass makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. =password-store.el= provides a wrapper for the functionality within Emacs.
@@ -994,12 +1022,12 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
 + Built in mode
   
 #+begin_src emacs-lisp
-(use-package python-mode
-  :hook (python-mode . lsp)
-  :config (require 'dap-python)
-  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-          (dap-python-executable "python3")    ;; Same as above.
-          (dap-python-debugger 'debugpy))
+;; (use-package python-mode
+;;   :hook (python-mode . lsp)
+;;   :config (require 'dap-python)
+;;   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+;;           (dap-python-executable "python3")    ;; Same as above.
+;;           (dap-python-debugger 'debugpy))
 #+end_src
 
 *** Rust
@@ -1016,7 +1044,7 @@ rustup default nightly
 #+end_src  
 
 #+begin_src emacs-lisp
-(use-package rustic)
+;; (use-package rustic)
 #+end_src
 
 *** Go
@@ -1032,8 +1060,8 @@ GO111MODULE=on go get golang.org/x/tools/gopls@latest
 #+end_src
 
 #+begin_src emacs-lisp
-(use-package go-mode
-  :hook (go-mode . lsp))
+;; (use-package go-mode
+;;   :hook (go-mode . lsp))
 #+end_src
 
 Apply some custom behaviour before saving:
@@ -1042,11 +1070,11 @@ Apply some custom behaviour before saving:
 + Organize imports
 
 #+begin_src emacs-lisp
-(defun dotfiles/go-hook ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+;; (defun dotfiles/go-hook ()
+;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
+;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 #+end_src
   
 #+begin_src emacs-lisp
-(add-hook 'go-mode-hook #'dotfiles/go-hook)
+;; (add-hook 'go-mode-hook #'dotfiles/go-hook)
 #+end_src

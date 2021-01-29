@@ -130,6 +130,9 @@
   "wsj" '(split-window-below :which-key "Down")
   "wsl" '(split-window-right :which-key "Right"))
 
+(dotfiles/leader
+  "t" '(:ignore t :which-key "Tweaks"))
+
 (use-package magit
   :custom (magit-display-buffer-function
            #'magit-display-buffer-same-window-except-diff-v1))
@@ -176,7 +179,7 @@
   ("f" nil "Finished" :exit t))
 
 (dotfiles/leader
-  "f" '(hydra-text-scale/body :which-key "Font"))
+  "tf" '(hydra-text-scale/body :which-key "Font"))
 
 (use-package linum-relative
   :init (setq linum-relative-backend
@@ -189,12 +192,18 @@
 (use-package doom-themes
   :init (load-theme 'doom-moonlight t))
 
-(dotfiles/leader
-  "t" '(load-theme t nil :which-key "Themes"))
-
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 16)))
+
+(dotfiles/leader
+  "tt" '(load-theme t t :which-key "Theme"))
+
+(use-package dashboard
+  :config
+  (setq dashboard-center-content t
+        dashboard-startup-banner 'logo)
+  (dashboard-setup-startup-hook))
 
 (defun dotfiles/run (command)
   "Run an external process."
@@ -212,7 +221,7 @@
 ;;       (start-process-shell-command "feh" nil command))))
 
 (dotfiles/leader
-  "r" '(dotfiles/run :which-key "Run"))
+  "x" '(dotfiles/run :which-key "Execute"))
 
 (defun dotfiles/init-hook ()
   (exwm-workspace-switch-create 1)
@@ -300,15 +309,15 @@
   :hook (org-roam-mode . org-roam-server-mode))
 
 (dotfiles/leader
-  "b" '(:ignore t :which-key "Roam")
-  "bf" '(org-roam-find-file :which-key "Find")
-  "bb" '(org-roam-buffer-toggle-display :which-key "Buffer")
-  "bc" '(org-roam-capture :which-key "Capture")
-  "bd" '(:ignore t :which-key "Dailies")
-  "bdd" '(org-roam-dailies-find-date :which-key "Date")
-  "bdt" '(org-roam-dailies-find-today :which-key "Today")
-  "bdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "bdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+  "r" '(:ignore t :which-key "Roam")
+  "rf" '(org-roam-find-file :which-key "Find")
+  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "rc" '(org-roam-capture :which-key "Capture")
+  "rd" '(:ignore t :which-key "Dailies")
+  "rdd" '(org-roam-dailies-find-date :which-key "Date")
+  "rdt" '(org-roam-dailies-find-today :which-key "Today")
+  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 
 (setq org-roam-capture-templates
       '(("d" "Default" plain (function org-roam-capture--get-point)
@@ -425,6 +434,11 @@
   :custom (lsp-ui-doc-position 'at-point)
           (lsp-ui-doc-delay 0.500))
 
+(use-package projectile
+  :config
+  (setq projectile-project-search-path '("~/.local/source"))
+  (projectile-mode))
+
 (use-package password-store
   :custom (password-store-dir "~/.local/source/passwords"))
 
@@ -443,20 +457,20 @@
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp))))
 
-(use-package python-mode
-  :hook (python-mode . lsp)
-  :config (require 'dap-python)
-  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-          (dap-python-executable "python3")    ;; Same as above.
-          (dap-python-debugger 'debugpy))
+;; (use-package python-mode
+;;   :hook (python-mode . lsp)
+;;   :config (require 'dap-python)
+;;   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+;;           (dap-python-executable "python3")    ;; Same as above.
+;;           (dap-python-debugger 'debugpy))
 
-(use-package rustic)
+;; (use-package rustic)
 
-(use-package go-mode
-  :hook (go-mode . lsp))
+;; (use-package go-mode
+;;   :hook (go-mode . lsp))
 
-(defun dotfiles/go-hook ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+;; (defun dotfiles/go-hook ()
+;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
+;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
-(add-hook 'go-mode-hook #'dotfiles/go-hook)
+;; (add-hook 'go-mode-hook #'dotfiles/go-hook)
