@@ -63,7 +63,7 @@ Because this project uses version-control, we can disable more unwanted features
       make-backup-files nil)
 #+end_src
 
-** Packages
+** Package management
 
 Download and install packages using [[https://github.com/raxod502/straight.el][straight.el]], a functional package manager that integrates with =use-package=, giving us more control over where packages are sourced from.
 
@@ -100,7 +100,7 @@ Complete the integration with ~use-package~ by installing it with =straight=.
 (straight-use-package 'use-package)
 #+end_src
 
-** Cleanup
+** Hermetic evaluation
 
 Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs.
 
@@ -121,7 +121,7 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
 (tooltip-mode -1)
 #+end_src
 
-** Babel
+** Literate programming
 
 *Organize your plain life in plain text*
 
@@ -158,7 +158,7 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+end_src
 
-** Keys
+** Custom keybindings
 
 Make the =ESC= key quit (most) prompts, instead of the default =C-g=.
 
@@ -206,8 +206,6 @@ Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharin
 (use-package hydra)
 #+end_src
 
-*** Evil
-
 After a few hour with =vim= I knew it was game over, I cannot even think of another way I would feel comfortable editing text. Luckily, there exist packages to emulate this within Emacs.
 
 https://evil.readthedocs.io/en/latest/index.html
@@ -238,8 +236,6 @@ https://github.com/redguardtoo/evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
 
-*** Shortcuts
-
 Again cherry picked from =Doom=, I want to continue utilizing the muscle memory I have developed from a year of mainlining the framework.
 
 + Close buffers with =SPC c=
@@ -252,8 +248,6 @@ Again cherry picked from =Doom=, I want to continue utilizing the muscle memory 
   "," '(switch-to-buffer :which-key "Buffers")
   "c" '(kill-buffer-and-window :which-key "Close"))
 #+end_src
-
-**** Help
 
 Run helper functions with =SPC h=.
 + Packages =p=
@@ -268,8 +262,6 @@ Run helper functions with =SPC h=.
   "hf" '(describe-function :which-key "Function"))
 #+end_src
 
-**** Quit
-
 Quit emacs with =SPC q=.
 + Saving =q=
 + Without =w=
@@ -282,8 +274,6 @@ Quit emacs with =SPC q=.
   "qw" '(kill-emacs :which-key "Now")
   "qf" '(delete-frame :which-key "Frame"))
 #+end_src
-
-**** Windows
 
 Window management with =SPC w=.
 + Swap with =w=
@@ -305,8 +295,6 @@ Window management with =SPC w=.
   "wsl" '(split-window-right :which-key "Right"))
 #+end_src
 
-**** Tweaks
-
 Place runtime tweaks behind =SPC t=.
 
 #+begin_src emacs-lisp
@@ -314,14 +302,7 @@ Place runtime tweaks behind =SPC t=.
   "t" '(:ignore t :which-key "Tweaks"))
 #+end_src
 
-* Editor
-:PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
-:END:
-
-*Bring Emacs out of the eighties*
-
-** Git
+** Version control
 
 Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complete git porcelain within Emacs.
 
@@ -345,7 +326,7 @@ Open the *status* page for the current repository with =SPC g=.
   "g" '(magit-status :which-key "Magit"))
 #+end_src
 
-** Shell
+** Terminal emulation
 
 While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
 
@@ -365,7 +346,7 @@ Open an =eshell= buffer with =SPC e=.
   "e" '(eshell :which-key "Shell"))
 #+end_src
 
-** Files
+** File management
 
 Emacs' can feel more modern when icon-fonts are installed and prioritized. I feel that this makes navigation of folders much faster, given that file types may be quickly identified by their corresponding icons.
 
@@ -410,117 +391,7 @@ Open a dired buffer with =SPC d=.
   "d" '(dired-jump :which-key "Dired"))
 #+end_src
 
-** Fonts
-
-Configure the system font with a single ~font-family~ and define the size, of which variations to the font size are relative to this value.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/font "Fira Code")
-(defvar dotfiles/font-size 96)
-#+end_src
-
-Write out to all *3* of Emacs' default font faces.
-
-#+begin_src emacs-lisp
-(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
-(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
-(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
-#+end_src
-
-Define a transient keybinding for scaling the text.
-  
-#+begin_src emacs-lisp
-(defhydra hydra-text-scale (:timeout 4)
-  "Scale"
-  ("j" text-scale-increase "Increase")
-  ("k" text-scale-decrease "Decrease")
-  ("f" nil "Finished" :exit t))
-#+end_src
-
-Increase the font size in buffers with =SPC t f=.
-+ Increase =j=
-+ Decrease =k=
-+ Finish =f=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "tf" '(hydra-text-scale/body :which-key "Font"))
-#+end_src
-
-** Lines
-
-Relative line numbers are important when using =VI= emulation keys. You can prefix most commands with a *number*, allowing you to jump up / down by a line count.
-
-#+begin_example
-  5:
-  4:
-  3:
-  2:
-  1:
-156: << CURRENT LINE >>
-  1:
-  2:
-  3:
-  4:
-  5:
-#+end_example
-
-https://github.com/emacsmirror/linum-relative
-+ Integrate with ~display-line-numbers-mode~ for performance
-
-#+begin_src emacs-lisp
-(use-package linum-relative
-  :init (setq linum-relative-backend
-	      'display-line-numbers-mode)
-  :config (linum-relative-global-mode))
-#+end_src
-
-https://github.com/Fanael/rainbow-delimiters
-+ Colourize nested parenthesis
-
-#+begin_src emacs-lisp
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-#+end_src
-
-** Themes
-
-Bring Emacs' out of the *eighties* by cherry picking a few modules from =doom-emacs=. High quality and modern colour themes are provided in the [[https://github.com/hlissner/emacs-doom-themes][doom-themes]] package.
-
-#+begin_src emacs-lisp
-(use-package doom-themes
-  :init (load-theme 'doom-moonlight t))
-#+end_src
-
-[[https://github.com/seagle0128/doom-modeline][doom-modeline]] provides an elegant status bar / modeline.
-
-#+begin_src emacs-lisp
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 16)))
-#+end_src
-
-Load a theme with =SPC t t=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "tt" '(load-theme t t :which-key "Theme"))
-#+end_src
-
-** Dashboard
-
-#+begin_src emacs-lisp
-(use-package dashboard
-  :config
-  (setq dashboard-center-content t
-        dashboard-startup-banner 'logo)
-  (dashboard-setup-startup-hook))
-#+end_src
-
-* Desktop
-:PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
-:END:
+** Desktop environment
 
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=.
 
@@ -615,6 +486,15 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
                           (exwm-workspace-switch-create ,i))))
                     (number-sequence 1 9))))
   (exwm-enable))
+#+end_src
+
+*** X11
+:PROPERTIES:
+:header-args: :tangle ~/.local/source/dotfiles/config/xinitrc
+:END:
+
+#+begin_src conf
+exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
 
 * Writing
@@ -905,7 +785,7 @@ Create a capture template for presentations stored in the =slides= sub directory
                :head "#+TITLE: ${title}\n"))
 #+end_src
 
-* Development
+* Projects
 :PROPERTIES:
 :header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
 :END:
@@ -931,7 +811,7 @@ https://emacs-lsp.github.io/lsp-ui/
           (lsp-ui-doc-delay 0.500))
 #+end_src
 
-** Projects
+** Management
 
 Configure [[https://projectile.mx][projectile]], a project interaction library for Emacs. It provides a nice set of features for operating on a project level without introducing external dependencies.
 
@@ -1077,4 +957,134 @@ Apply some custom behaviour before saving:
   
 #+begin_src emacs-lisp
 ;; (add-hook 'go-mode-hook #'dotfiles/go-hook)
+#+end_src
+* Interface
+:PROPERTIES:
+:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
+:END:
+
+*Bring Emacs out of the eighties*
+
+** Fonts
+
+Configure the system font with a single ~font-family~ and define the size, of which variations to the font size are relative to this value.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/font "Fira Code")
+(defvar dotfiles/font-size 96)
+#+end_src
+
+Write out to all *3* of Emacs' default font faces.
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
+#+end_src
+
+Define a transient keybinding for scaling the text.
+  
+#+begin_src emacs-lisp
+(defhydra hydra-text-scale (:timeout 4)
+  "Scale"
+  ("j" text-scale-increase "Increase")
+  ("k" text-scale-decrease "Decrease")
+  ("f" nil "Finished" :exit t))
+#+end_src
+
+Increase the font size in buffers with =SPC t f=.
++ Increase =j=
++ Decrease =k=
++ Finish =f=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tf" '(hydra-text-scale/body :which-key "Font"))
+#+end_src
+
+** Lines
+
+Relative line numbers are important when using =VI= emulation keys. You can prefix most commands with a *number*, allowing you to jump up / down by a line count.
+
+#+begin_example
+  5:
+  4:
+  3:
+  2:
+  1:
+156: << CURRENT LINE >>
+  1:
+  2:
+  3:
+  4:
+  5:
+#+end_example
+
+https://github.com/emacsmirror/linum-relative
++ Integrate with ~display-line-numbers-mode~ for performance
+
+#+begin_src emacs-lisp
+(use-package linum-relative
+  :init (setq linum-relative-backend
+	      'display-line-numbers-mode)
+  :config (linum-relative-global-mode))
+#+end_src
+
+https://github.com/Fanael/rainbow-delimiters
++ Colourize nested parenthesis
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Themes
+
+Cherry pick a few modules from =doom-emacs=. High quality and modern colour themes are provided in the [[https://github.com/hlissner/emacs-doom-themes][doom-themes]] package.
+
+#+begin_src emacs-lisp
+(use-package doom-themes
+  :init (load-theme 'doom-moonlight t))
+#+end_src
+
+[[https://github.com/seagle0128/doom-modeline][doom-modeline]] provides an elegant status bar / modeline.
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 16)))
+#+end_src
+
+Load a theme with =SPC t t=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tt" '(load-theme t t :which-key "Theme"))
+#+end_src
+
+** Dashboard
+
+Present a dashboard when first launching Emacs.
+
+#+begin_src emacs-lisp
+(use-package dashboard
+  :config
+  (setq dashboard-center-content t
+        dashboard-set-init-info t
+        dashboard-set-file-icons t
+        dashboard-set-heading-icons t
+        dashboard-startup-banner 'logo
+        dashboard-projects-backend 'projectile
+        dashboard-items '((projects . 5)
+                          (recents . 5)
+                          (agenda . 5 )))
+  (dashboard-setup-startup-hook))
+#+end_src
+
+When running in *daemon* mode, ensure that the dashboard is the initial buffer.
+
+#+begin_src emacs-lisp
+(setq initial-buffer-choice
+      (lambda ()
+        (get-buffer "*dashboard*")))
 #+end_src
