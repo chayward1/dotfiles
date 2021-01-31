@@ -488,15 +488,6 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
   (exwm-enable))
 #+end_src
 
-*** X11
-:PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/config/xinitrc
-:END:
-
-#+begin_src conf
-exec dbus-launch --exit-with-session emacs -mm --debug-init
-#+end_src
-
 * Writing
 :PROPERTIES:
 :header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
@@ -902,12 +893,12 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
 + Built in mode
   
 #+begin_src emacs-lisp
-;; (use-package python-mode
-;;   :hook (python-mode . lsp)
-;;   :config (require 'dap-python)
-;;   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-;;           (dap-python-executable "python3")    ;; Same as above.
-;;           (dap-python-debugger 'debugpy))
+(use-package python-mode
+  :hook (python-mode . lsp)
+  :config (require 'dap-python)
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (dap-python-executable "python3")    ;; Same as above.
+          (dap-python-debugger 'debugpy))
 #+end_src
 
 *** Rust
@@ -924,7 +915,7 @@ rustup default nightly
 #+end_src  
 
 #+begin_src emacs-lisp
-;; (use-package rustic)
+(use-package rustic)
 #+end_src
 
 *** Go
@@ -940,8 +931,8 @@ GO111MODULE=on go get golang.org/x/tools/gopls@latest
 #+end_src
 
 #+begin_src emacs-lisp
-;; (use-package go-mode
-;;   :hook (go-mode . lsp))
+(use-package go-mode
+  :hook (go-mode . lsp))
 #+end_src
 
 Apply some custom behaviour before saving:
@@ -950,13 +941,13 @@ Apply some custom behaviour before saving:
 + Organize imports
 
 #+begin_src emacs-lisp
-;; (defun dotfiles/go-hook ()
-;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(defun dotfiles/go-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
 #+end_src
   
 #+begin_src emacs-lisp
-;; (add-hook 'go-mode-hook #'dotfiles/go-hook)
+(add-hook 'go-mode-hook #'dotfiles/go-hook)
 #+end_src
 * Interface
 :PROPERTIES:
@@ -1060,6 +1051,16 @@ Load a theme with =SPC t t=.
 #+begin_src emacs-lisp
 (dotfiles/leader
   "tt" '(load-theme t t :which-key "Theme"))
+#+end_src
+
+** Ligatures
+
+Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-code-mode]], perform this action *only* when ~Fira Code~ is set as the current font.
+
+#+begin_src emacs-lisp
+;; (use-package fira-code-mode
+;;   :config
+;;   (global-fira-code-mode))
 #+end_src
 
 ** Dashboard
