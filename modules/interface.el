@@ -32,8 +32,6 @@
 (dotfiles/leader
   "tt" '(load-theme t t :which-key "Theme"))
 
-(setenv "BROWSER" "flatpak run org.mozilla.firefox")
-
 ;; (use-package fira-code-mode
 ;;   :config
 ;;   (global-fira-code-mode))

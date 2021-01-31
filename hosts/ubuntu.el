@@ -1,3 +1,5 @@
+(setenv "BROWSER" "flatpak run org.mozilla.firefox")
+
 (defvar dotfiles/modules '(core
                            desktop
                            writing
