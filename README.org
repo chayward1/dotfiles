@@ -22,23 +22,21 @@ Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
 + 100% Immutable
 + 100% Reproducible
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle ~/.local/source/dotfiles/init.el
+;; NOTE: This file is tangled from README.org
 (defconst IS-LINUX (eq system-type 'gnu/linux))
 (defconst IS-WINDOWS (memq system-type '(cygwin ms-dos windows-nt)))
-#+end_src
 
-#+begin_src emacs-lisp
-(defun dotfiles/tangle (dir)
-  "Recursively tangle the Org files within a directory."
-  (interactive)
-  (let ((org-files (directory-files-recursively dir "org")))
-    (dolist (f org-files)
-      (org-babel-tangle-file f))))
+(load-file "~/.local/source/dotfiles/modules/core.el")
+(load-file "~/.local/source/dotfiles/modules/desktop.el")
+(load-file "~/.local/source/dotfiles/modules/writing.el")
+(load-file "~/.local/source/dotfiles/modules/projects.el")
+(load-file "~/.local/source/dotfiles/modules/interface.el")
 #+end_src
 
 * Core
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
+:header-args: :tangle ~/.local/source/dotfiles/modules/core.el :results silent
 :END:
 
 Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory.
@@ -161,6 +159,15 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+#+end_src
+
+#+begin_src emacs-lisp
+(defun core/tangle (dir)
+  "Recursively tangle the Org files within a directory."
+  (interactive)
+  (let ((org-files (directory-files-recursively dir "org")))
+    (dolist (f org-files)
+      (org-babel-tangle-file f))))
 #+end_src
 
 ** Custom keybindings
@@ -396,7 +403,10 @@ Open a dired buffer with =SPC d=.
   "d" '(dired-jump :which-key "Dired"))
 #+end_src
 
-** Desktop environment
+* Desktop
+:PROPERTIES:
+:header-args: :tangle ~/.local/source/dotfiles/modules/desktop.el :results silent
+:END:
 
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=.
 
@@ -485,7 +495,7 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
 
 * Writing
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
+:header-args: :tangle ~/.local/source/dotfiles/modules/writing.el :results silent
 :END:
 
 I am using [[https://orgmode.org][Org-mode]] extensively for writing projects for different purposes. Improvements beyond what are required for my Literate Programming platform include:
@@ -795,7 +805,7 @@ Create a capture template for presentations stored in the =slides= sub directory
 
 * Projects
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
+:header-args: :tangle ~/.local/source/dotfiles/modules/projects.el :results silent
 :END:
 
 An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
@@ -958,7 +968,7 @@ Apply some custom behaviour before saving:
 
 * Interface
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
+:header-args: :tangle ~/.local/source/dotfiles/modules/interface.el :results silent
 :END:
 
 *Bring Emacs out of the eighties*
