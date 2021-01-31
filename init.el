@@ -1,9 +1,8 @@
-;; NOTE: This file is tangled from README.org
-(defconst IS-LINUX (eq system-type 'gnu/linux))
-(defconst IS-WINDOWS (memq system-type '(cygwin ms-dos windows-nt)))
+(let ((host-file (concat "~/.local/source/dotfiles/hosts/" system-name ".el")))
+  (when (file-exists-p host-file)
+    (load-file host-file)))
 
-(load-file "~/.local/source/dotfiles/modules/core.el")
-(load-file "~/.local/source/dotfiles/modules/desktop.el")
-(load-file "~/.local/source/dotfiles/modules/writing.el")
-(load-file "~/.local/source/dotfiles/modules/projects.el")
-(load-file "~/.local/source/dotfiles/modules/interface.el")
+(dolist (m dotfiles/modules)
+  (let ((mod-file (concat "~/.local/source/dotfiles/modules/" (symbol-name m) ".el")))
+    (when (file-exists-p mod-file)
+      (load-file mod-file))))
