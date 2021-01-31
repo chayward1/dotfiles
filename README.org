@@ -22,7 +22,12 @@ Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
 + 100% Immutable
 + 100% Reproducible
 
-#+begin_src emacs-lisp :tangle ~/.local/source/dotfiles/init.el :results silent
+#+begin_src emacs-lisp
+(defconst IS-LINUX (eq system-type 'gnu/linux))
+(defconst IS-WINDOWS (memq system-type '(cygwin ms-dos windows-nt)))
+#+end_src
+
+#+begin_src emacs-lisp
 (defun dotfiles/tangle (dir)
   "Recursively tangle the Org files within a directory."
   (interactive)
@@ -410,19 +415,10 @@ Some methods must be called and applied to the current call process in order to 
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 #+end_src
 
-Setting the wallpaper is one example; this must occur every time the screen change hook is called.
-
-#+begin_src emacs-lisp
-;; (defun dotfiles/set-wallpaper (path)
-;;   (interactive)
-;;   (when (file-exists-p path)
-;;     (let ((command (concat "feh --bg-scale " path)))
-;;       (start-process-shell-command "feh" nil command))))
-#+end_src
-
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "x" '(dotfiles/run :which-key "Execute"))
+  "x" '(dotfiles/run :which-key "Execute")
+  "z" '(async-shell-command :which-key "Async"))
 #+end_src
   
 When the window manager first launches the ~init-hook~ will be called, this allows us to define some custom logic when it's initialized.
@@ -445,7 +441,6 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
 #+begin_src emacs-lisp
 (defun dotfiles/update-display ()
   (dotfiles/run-in-background "autorandr --change --force"))
-  ;; (dotfiles/set-wallpaper "TODO"))
 #+end_src
 
 Finally we configure the window manager.

@@ -1,10 +1,3 @@
-(defun dotfiles/tangle (dir)
-  "Recursively tangle the Org files within a directory."
-  (interactive)
-  (let ((org-files (directory-files-recursively dir "org")))
-    (dolist (f org-files)
-      (org-babel-tangle-file f))))
-
 (defvar dotfiles/home user-emacs-directory)
 
 (defvar dotfiles/cache "~/.cache/emacs")
@@ -174,14 +167,9 @@
   (let ((command-parts (split-string command "[ ]+")))
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
-;; (defun dotfiles/set-wallpaper (path)
-;;   (interactive)
-;;   (when (file-exists-p path)
-;;     (let ((command (concat "feh --bg-scale " path)))
-;;       (start-process-shell-command "feh" nil command))))
-
 (dotfiles/leader
-  "x" '(dotfiles/run :which-key "Execute"))
+  "x" '(dotfiles/run :which-key "Execute")
+  "z" '(async-shell-command :which-key "Async"))
 
 (defun dotfiles/init-hook ()
   (exwm-workspace-switch-create 1)
@@ -191,7 +179,6 @@
 
 (defun dotfiles/update-display ()
   (dotfiles/run-in-background "autorandr --change --force"))
-  ;; (dotfiles/set-wallpaper "TODO"))
 
 (use-package exwm
   :config
