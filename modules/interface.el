@@ -38,8 +38,8 @@
 ;;   :config
 ;;   (global-fira-code-mode))
 
-(use-package fira-code-mode
-  :hook prog-mode)
+;; (use-package fira-code-mode
+;;   :hook prog-mode)
 
 (use-package dashboard
   :config

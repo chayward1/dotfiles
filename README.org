@@ -1087,8 +1087,8 @@ Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-cod
 #+end_src
 
 #+begin_src emacs-lisp
-(use-package fira-code-mode
-  :hook prog-mode)
+;; (use-package fira-code-mode
+;;   :hook prog-mode)
 #+end_src
 
 ** Dashboard
