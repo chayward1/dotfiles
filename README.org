@@ -938,7 +938,7 @@ GO111MODULE=on go get golang.org/x/tools/gopls@latest
 Set the ~GOPATH~ environment variable prior to loading, this allows us to change the default value of ~$HOME/go~ to ~$HOME.go~.
 
 #+begin_src emacs-lisp
-(setenv "GOPATH" "$HOME/.go/")
+(setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
 #+end_src
 
 #+begin_src emacs-lisp

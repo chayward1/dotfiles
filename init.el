@@ -446,7 +446,7 @@
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
 
-(setenv "GOPATH" "$HOME/.go/")
+(setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
 
 (use-package go-mode
   :hook (go-mode . lsp))
