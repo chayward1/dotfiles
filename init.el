@@ -332,12 +332,24 @@
 (use-package org-ref
   :config
   (setq org-ref-completion-library 'org-ref-helm-cite
-        org-ref-get-pdf-filename-function 'org-refg-get-pdf-filename-helm-bibtex
+        org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
         org-ref-default-bibliography dotfiles/bib
         org-ref-bibliography-notes dotfiles/notes
         org-ref-notes-directory dotfiles/notes
         org-ref-notes-function 'orb-edit-notes
-        org-ref-note-title-format "* TODO %y - %t\n:PROPERTIES:\n:CUSTOM_ID: %k\n:NOTER_DOCUMENT: %F\n:ROAM_KEY: cite:%k\n:AUTHOR: %9a\n:JOURNAL: %j\n:YEAR: %y\n:VOLUME: %v\n:PAGES: %p\n:DOI: %D\n:URL: %U\n:END:\n\n"))
+        org-ref-note-title-format "* TODO %y - %t\n
+:PROPERTIES:\n
+:CUSTOM_ID: %k\n
+:NOTER_DOCUMENT: %F\n
+:ROAM_KEY: cite:%k\n
+:AUTHOR: %9a\n
+:JOURNAL: %j\n
+:YEAR: %y\n
+:VOLUME: %v\n
+:PAGES: %p\n
+:DOI: %D\n
+:URL: %U\n
+:END:\n\n"))
 
 (use-package org-roam-bibtex
   :after (org-roam)
@@ -350,7 +362,15 @@
              '("n" "Notes" plain (function org-roam-capture--get-point)
                ""
                :file-name "notes/${slug}"
-               :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY:${ref}\n\n* ${title} :PROPERTIES:\n:CUSTOM_ID: ${=key=}\n:URL: ${url}\n:AUTHOR: ${author-or-editor}\n:NOTER_DOCUMENT:%(orb-process-file-field \"${=key=}\")\n:NOTER_PAGE:\n:END:\n\n"))
+               :head "#+TITLE: ${=key=}: ${title}\n\n
+#+ROAM_KEY:${ref}\n\n* ${title}\n
+:PROPERTIES:\n
+:CUSTOM_ID: ${=key=}\n
+:URL: ${url}\n
+:AUTHOR: ${author-or-editor}\n
+:NOTER_DOCUMENT:%(orb-process-file-field \"${=key=}\")\n
+:NOTER_PAGE:\n
+:END:\n\n"))
 
 (setq org-agenda-files '("~/.local/source/brain/daily/"
                          "~/.local/source/secrets/org/"))
@@ -365,7 +385,9 @@
              '("b" "Blogging" plain (function org-roam-capture--get-point)
                "%?"
                :file-name "posts/${slug}"
-               :head "#+TITLE: ${title}\n#+HUGO_BASE_DIR: ~/.local/source/website\n#+HUGO_SECTION: posts\n"))
+               :head "#+TITLE: ${title}\n
+#+HUGO_BASE_DIR: ~/.local/source/website\n
+#+HUGO_SECTION: posts\n"))
 
 (use-package gif-screencast
   :custom
