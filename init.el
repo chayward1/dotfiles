@@ -446,7 +446,7 @@
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
 
-(use-package rustic)
+(setenv "GOPATH" "$HOME/.go/")
 
 (use-package go-mode
   :hook (go-mode . lsp))
@@ -491,9 +491,14 @@
 (dotfiles/leader
   "tt" '(load-theme t t :which-key "Theme"))
 
+(setenv "BROWSER" "flatpak run org.mozilla.firefox")
+
 ;; (use-package fira-code-mode
 ;;   :config
 ;;   (global-fira-code-mode))
+
+(use-package fira-code-mode
+  :hook prog-mode)
 
 (use-package dashboard
   :config

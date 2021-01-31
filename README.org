@@ -923,23 +923,6 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
           (dap-python-debugger 'debugpy))
 #+end_src
 
-*** Rust
-
-Full *IDE* experience for Rust within Emacs.
-+ Completion via =lsp-mode=
-+ Debugging via =dap-mode=
-
-https://github.com/brotzeit/rustic
-+ Install via ~lsp-install-server~
-
-#+begin_src shell :tangle no
-rustup default nightly
-#+end_src  
-
-#+begin_src emacs-lisp
-(use-package rustic)
-#+end_src
-
 *** Go
 
 Full *IDE* experience for Rust within Emacs.
@@ -950,6 +933,12 @@ Install the =gopls= language server.
 
 #+begin_src sh :tangle no
 GO111MODULE=on go get golang.org/x/tools/gopls@latest
+#+end_src
+
+Set the ~GOPATH~ environment variable prior to loading, this allows us to change the default value of ~$HOME/go~ to ~$HOME.go~.
+
+#+begin_src emacs-lisp
+(setenv "GOPATH" "$HOME/.go/")
 #+end_src
 
 #+begin_src emacs-lisp
@@ -971,6 +960,7 @@ Apply some custom behaviour before saving:
 #+begin_src emacs-lisp
 (add-hook 'go-mode-hook #'dotfiles/go-hook)
 #+end_src
+
 * Interface
 :PROPERTIES:
 :header-args: :tangle ~/.local/source/dotfiles/init.el :results silent
@@ -1075,6 +1065,12 @@ Load a theme with =SPC t t=.
   "tt" '(load-theme t t :which-key "Theme"))
 #+end_src
 
+** Browser
+
+#+begin_src emacs-lisp
+(setenv "BROWSER" "flatpak run org.mozilla.firefox")
+#+end_src
+
 ** Ligatures
 
 Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-code-mode]], perform this action *only* when ~Fira Code~ is set as the current font.
@@ -1083,6 +1079,11 @@ Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-cod
 ;; (use-package fira-code-mode
 ;;   :config
 ;;   (global-fira-code-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package fira-code-mode
+  :hook prog-mode)
 #+end_src
 
 ** Dashboard
@@ -1111,3 +1112,4 @@ When running in *daemon* mode, ensure that the dashboard is the initial buffer.
       (lambda ()
         (get-buffer "*dashboard*")))
 #+end_src
+
