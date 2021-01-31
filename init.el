@@ -417,23 +417,23 @@
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp))))
 
-;; (use-package python-mode
-;;   :hook (python-mode . lsp)
-;;   :config (require 'dap-python)
-;;   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-;;           (dap-python-executable "python3")    ;; Same as above.
-;;           (dap-python-debugger 'debugpy))
+(use-package python-mode
+  :hook (python-mode . lsp)
+  :config (require 'dap-python)
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (dap-python-executable "python3")    ;; Same as above.
+          (dap-python-debugger 'debugpy))
 
-;; (use-package rustic)
+(use-package rustic)
 
-;; (use-package go-mode
-;;   :hook (go-mode . lsp))
+(use-package go-mode
+  :hook (go-mode . lsp))
 
-;; (defun dotfiles/go-hook ()
-;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(defun dotfiles/go-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
-;; (add-hook 'go-mode-hook #'dotfiles/go-hook)
+(add-hook 'go-mode-hook #'dotfiles/go-hook)
 
 (defvar dotfiles/font "Fira Code")
 (defvar dotfiles/font-size 96)
