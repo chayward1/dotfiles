@@ -674,6 +674,17 @@ Once the mail is being synchronized, and the mail has been indexed with =mu=, it
             (smtpmail-stream-type . starttls))))))
 #+end_src
 
+Use [[https://github.com/iqbalansari/mu4e-alert][mu4e-alert]] to give us desktop notifications about incoming mail.
+
+#+begin_src emacs-lisp
+(use-package mu4e-alert
+  :custom
+  (mu4e-alert-set-default-style 'libnotify)
+  :config
+  (mu4e-alert-enable-notifications)
+  (mu4e-alert-enable-mode-line-display))
+#+end_src
+
 Create a keybinding to open the mail dashboard with =SPC m=.
 
 #+begin_src emacs-lisp

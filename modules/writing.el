@@ -39,6 +39,13 @@
             (smtpmail-smtp-service . 587)
             (smtpmail-stream-type . starttls))))))
 
+(use-package mu4e-alert
+  :custom
+  (mu4e-alert-set-default-style 'libnotify)
+  :config
+  (mu4e-alert-enable-notifications)
+  (mu4e-alert-enable-mode-line-display))
+
 (dotfiles/leader
   "m" '(mu4e :which-key "Mail"))
 
