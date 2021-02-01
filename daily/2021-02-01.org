@@ -12,3 +12,12 @@ I feel like maintaining too many repositories is becoming a bit cumbersome. I wa
 I really enjoyed the =dailies= aspect of it, however I found much of the other features were quite under utilized in my workflow. I weighed quite heavily, the importance of the web application to visualize the database without understanding an adapting the *need* for one to exist in my workflow at all.
 
 Overall, the project is great, I really recommend anyone to check it out. For myself I will try wearing ~org-journal~ as a replacement, maybe one day finding a use for it again in my workflow.
+** 12:09 Added ~mu4e-alert~
+
++ Desktop notifications
++ Integration with status bar / modeline
++ Notitications for incoming mail alerts
+** 12:15 Registered in =COMP 206=
+** 14:15 Integrated =Vitalsource= bookshelf with =Zotero=
+
++ Created an org file under =notes/= for each one
