@@ -169,7 +169,7 @@
 
 (use-package gif-screencast
   :custom
-  (gif-screencast-output-directory "~/.local/source/brain/screen/"))
+  (gif-screencast-output-directory (concat dotfiles/brain "screens/")))
 
 (dotfiles/leader
   "s" '(:ignore t :which-key "Screencast")
@@ -185,3 +185,6 @@
                "%?"
                :file-name "slides/${slug}"
                :head "#+TITLE: ${title}\n"))
+
+mbsync -a
+mu index --maildir="~/.cache/mail"

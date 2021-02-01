@@ -21,12 +21,24 @@ Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
 + 100% Literate
 + 100% Immutable
 + 100% Reproducible
-
+  
 * Init
 :PROPERTIES:
 :header-args: :tangle ~/.local/source/dotfiles/init.el
 :END:
 
+Although later versions of Emacs introduce =early-init.el=, it's not used in this configuration for two reasons:
+
++ It's not required due to the modularity
++ Maintaining support for older versions
+
+Assuming you have completed all of the following tasks prior to proceeding further:
+
+1. Imported the =secrets=
+2. Initialized the =passwords=
+3. Defined the =host= file
+4. Created all required symbolic links
+   
 Load the host configuration.
 
 #+begin_src emacs-lisp
@@ -45,12 +57,15 @@ Load the enabled modules.
 #+end_src
 
 * Hosts
+
+Each host system that runs Emacs has a file defined in the =hosts/= sub directory, following the pattern of ~$HOSTNAME.el~. All of the configurations are defined within this file, the values of which are read from by the other modules during startup and installation. This does *not* cover hosts that are controlled via =TRAMP=, as that will be covered in another section.
+
 ** Example (Ubuntu)
 :PROPERTIES:
 :header-args: :tangle ~/.local/source/dotfiles/hosts/ubuntu.el
 :END:
 
-Set the browser to the flatpak currently installed.
+The first configuration, which was built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build. Setting the ~$BROWSER~ variable is required in the desktop module. Set the browser to the flatpak borwser currently installed, this could change to chromium, firefox, or any other browser by changing this environment variable.
 
 #+begin_src emacs-lisp
 (setenv "BROWSER" "flatpak run org.mozilla.firefox")
@@ -107,16 +122,19 @@ Secret keys and passwords are stored in a seperate repository.
 #+end_src
 
 * Modules
+
+Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundemental requirement to achieve the goal of modularity. Incorporating just the =core= module on a build server to build literate programming projects is just one example of what can be achieved.
+
 ** Core
 :PROPERTIES:
 :header-args: :tangle ~/.local/source/dotfiles/modules/core.el :results silent
 :END:
 
-Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory.
+Minimal configuration to make Emacs usable for my own personal workflow. This does very little in the ways of improving the visuals, only removing what is included by default and not required.
 
-How can we solve this issue?
+*** Cleanup
 
-Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post [[https://chrishayward.xyz/posts/immutable_emacs/][Immutable Emacs]].
+Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. How can we solve this issue? Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post [[https://chrishayward.xyz/posts/immutable_emacs/][Immutable Emacs]].
 
 #+begin_src emacs-lisp
 (setq user-emacs-directory dotfiles/cache)
@@ -243,6 +261,8 @@ Make the =ESC= key quit (most) prompts, instead of the default =C-g=.
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
+**** Hints
+
 Download [[https://github.com/justbur/emacs-which-key][which-key]], a package that displays the current incomplete keybinding input in a mini-buffer, showing available completion options.
 
 #+begin_src emacs-lisp
@@ -252,6 +272,7 @@ Download [[https://github.com/justbur/emacs-which-key][which-key]], a package th
   :config (setq which-key-idle-delay dotfiles/idle))
 #+end_src
 
+**** Leader
 
 Implement the *leader* key using [[https://github.com/noctuid/general.el][general.el]], letting us easily configure prefixed keybindings in a much cleaner manner than the default methods.
 
@@ -271,11 +292,9 @@ Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharin
 (use-package hydra)
 #+end_src
 
-After a few hour with =vim= I knew it was game over, I cannot even think of another way I would feel comfortable editing text. Luckily, there exist packages to emulate this within Emacs.
+**** Evil mode
 
-https://evil.readthedocs.io/en/latest/index.html
-+ Extendable VI layer for Emacs
-+ Disable default keybindings
+After a few hour with =vim= I knew it was game over, I cannot even think of another way I would feel comfortable editing text. Luckily, there exist packages to emulate this within Emacs. [[https://evil.readthedocs.io/en/latest/index.html][evil-mode]] is the extensible VI layer for Emacs.
 
 #+begin_src emacs-lisp
 (use-package evil
@@ -284,8 +303,7 @@ https://evil.readthedocs.io/en/latest/index.html
   :config (evil-mode 1))
 #+end_src
 
-https://github.com/emacs-evil/evil-collection
-+ Community keybindings for =evil-mode=
+Unfortunately the default keybindings are *lacking*, but there is a community curated package [[https://github.com/emacs-evil/evil-collection][evil-collection]], which does a much better job implementing keybindings you would expect to find.
 
 #+begin_src emacs-lisp
 (use-package evil-collection
@@ -307,6 +325,8 @@ https://github.com/redguardtoo/evil-nerd-commenter
 (use-package evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
+
+**** Shortcuts
 
 Again cherry picked from =Doom=, I want to continue utilizing the muscle memory I have developed from a year of mainlining the framework.
 
@@ -569,6 +589,38 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
 
 *** Mail
 
+Plain text email delivered via mu, mu4e and mbsync. I run my own email server, so your configuration may differ from mine. This is the ~mbsyncrc~ file I use to synchronize my local mail with my server. This is required for mu4e in Emacs.
+
+#+begin_src conf :tangle ~/.local/source/dotfiles/config/mbsyncrc
+IMAPStore xyz-remote
+Host mail.chrishayward.xyz
+User chris@chrishayward.xyz
+PassCmd "pass chrishayward.xyz/chris"
+SSLType IMAPS
+
+MaildirStore xyz-local
+Path ~/.cache/mail/
+Inbox ~/.cache/mail/inbox
+SubFolders Verbatim
+
+Channel xyz
+Master :xyz-remote:
+Slave :xyz-local:
+Patterns * !Archives
+Create Both
+Expunge Both
+SyncState *
+#+end_src
+
+The system typically expects to find this file at ~$HOME/.mbsyncrc~, but you may also specify a custom path if launching the command using arguments. I chose to symlink the default location to my repository.
+
+#+begin_src shell
+mbsync -a
+mu index --maildir="~/.cache/mail"
+#+end_src
+
+Once the mail is being synchronized, and the mail has been indexed with =mu=, it's time to install the required packages for Emacs.
+
 #+begin_src emacs-lisp
 (use-package mu4e
   :load-path "/usr/share/emacs/site-lisp/mu4e"
@@ -608,6 +660,8 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
             (smtpmail-smtp-service . 587)
             (smtpmail-stream-type . starttls))))))
 #+end_src
+
+Create a keybinding to open the mail dashboard with =SPC m=.
 
 #+begin_src emacs-lisp
 (dotfiles/leader
@@ -818,7 +872,7 @@ It requires the installation of ~scrot~ and ~convert~ from the =ImageMagick= lib
 #+begin_src emacs-lisp
 (use-package gif-screencast
   :custom
-  (gif-screencast-output-directory "~/.local/source/brain/screen/"))
+  (gif-screencast-output-directory (concat dotfiles/brain "screens/")))
 #+end_src
 
 Screencast controls behind =SPC s=.
