@@ -488,7 +488,13 @@ Open a dired buffer with =SPC d=.
 :header-args: :tangle ~/.local/source/dotfiles/modules/desktop.el :results silent
 :END:
 
-I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=.
+I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=. My workflow includes launching the window manager with =xinitrc=, without the use of a display manager, controlling *everything* within Emacs.
+
+#+begin_src conf :tangle ~/.local/source/dotfiles/config/xinitrc
+exec dbus-launch --exit-with-session emacs -mm --debug-init
+#+end_src
+
+Define a method to run an external process, allowing us to launch any application on a new process without interferring with Emacs.
 
 #+begin_src emacs-lisp
 (defun dotfiles/run (command)
@@ -505,10 +511,18 @@ Some methods must be called and applied to the current call process in order to 
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 #+end_src
 
+Place keybindings for executing shell commands behind =SPC x=.
+
++ Run with =x=
++ Run in backround with =g=
++ Run asynchronously with =z=
+
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "x" '(dotfiles/run :which-key "Execute")
-  "z" '(async-shell-command :which-key "Async"))
+  "x" '(:ignore t :which-key "Execute")
+  "xx" '(dotfiles/run :which-key "Run")
+  "xb" '(dotfiles/run-in-background :which-key "Run (background)")
+  "xz" '(async-shell-command :which-key "Async"))
 #+end_src
   
 When the window manager first launches the ~init-hook~ will be called, this allows us to define some custom logic when it's initialized.
@@ -614,7 +628,7 @@ SyncState *
 
 The system typically expects to find this file at ~$HOME/.mbsyncrc~, but you may also specify a custom path if launching the command using arguments. I chose to symlink the default location to my repository.
 
-#+begin_src shell
+#+begin_src shell :tangle no
 mbsync -a
 mu index --maildir="~/.cache/mail"
 #+end_src

@@ -185,6 +185,3 @@
                "%?"
                :file-name "slides/${slug}"
                :head "#+TITLE: ${title}\n"))
-
-mbsync -a
-mu index --maildir="~/.cache/mail"
