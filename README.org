@@ -16,7 +16,7 @@ V___________:|          |: |========================|    :|          |:   _-"
  -----------'  "-____-"  `-------------------------------'  "-____-"
 #+end_example
 
-Immutable GNU Emacs dotfiles, inspired by Doom, built for Life, Liberty, and the Open Road.
+Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Literate
 + 100% Immutable
 + 100% Reproducible
