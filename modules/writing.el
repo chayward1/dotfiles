@@ -51,6 +51,7 @@
   :config
   (setq org-journal-dir (concat dotfiles/home "/daily/")
         org-journal-file-type 'daily
+        org-journal-file-format "%Y-%m-%d.org"
         org-journal-enable-agenda-integration t
         org-icalendar-store-UID t
         org-icalendar-include-todo "all"

@@ -13,7 +13,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("/home/chris/.local/source/secrets/org/birthdays.org" "/home/chris/.local/source/secrets/org/courses.org" "/home/chris/.local/source/secrets/org/holidays.org" "/home/chris/.local/source/dotfiles/daily/20210201"))))
+    ("/home/chris/.local/source/secrets/org/birthdays.org" "/home/chris/.local/source/secrets/org/courses.org" "/home/chris/.local/source/secrets/org/holidays.org" "/home/chris/.local/source/dotfiles/daily/2021-02-01.org"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

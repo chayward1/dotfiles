@@ -1,0 +1,2 @@
+* Monday, 02/01/21
+** 00:44 Finished implementing ~org-journal~
