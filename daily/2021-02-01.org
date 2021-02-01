@@ -1,2 +1,14 @@
 * Monday, 02/01/21
 ** 00:44 Finished implementing ~org-journal~
+** 09:13 Continue work on merging =Brain= into =Dotfiles=
+
+I feel like maintaining too many repositories is becoming a bit cumbersome. I want to eventually minimize this down to only the minimum required:
+
++ Passwords :: Git backed repository for the unix password manager
++ Dotfiles :: Immutable system configuration
++ Secrets :: Security keys and PII
+** 09:15 Thoughts on ~org-roam~
+
+I really enjoyed the =dailies= aspect of it, however I found much of the other features were quite under utilized in my workflow. I weighed quite heavily, the importance of the web application to visualize the database without understanding an adapting the *need* for one to exist in my workflow at all.
+
+Overall, the project is great, I really recommend anyone to check it out. For myself I will try wearing ~org-journal~ as a replacement, maybe one day finding a use for it again in my workflow.
