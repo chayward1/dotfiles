@@ -4,4 +4,13 @@
 #+HUGO_BASE_DIR: ~/.local/source/website
 #+HUGO_SECTION: notes
 
+Knuth describes a *practitioner* in the introduction of his 1984 paper[fn:knuth-1984], as an essayist concerned with exposition and excellence of style. Someone who carefully selects the name for each variable and describes their meaning. They will strive for a program that is comprehensible because concepts are introduced in a manner best for human understanding.
+
+Summarized:
+
++ Exposition
++ Excellence
++ Comprehension
++ Documentation
+
 [fn:knuth-1984] Knuth, D. E. (1984). Literate Programming. The Computer Journal, 27(2), 97–111. https://doi.org/10.1093/comjnl/27.2.97
