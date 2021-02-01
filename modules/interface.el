@@ -35,12 +35,11 @@
 (dotfiles/leader
   "tt" '(load-theme t t :which-key "Theme"))
 
-;; (use-package fira-code-mode
-;;   :config
-;;   (global-fira-code-mode))
+(use-package fira-code-mode
+  :hook (prog-mode org-mode))
 
-;; (use-package fira-code-mode
-;;   :hook prog-mode)
+(dotfiles/leader
+  "tg" '(global-fira-code-mode :which-key "Ligatures"))
 
 (use-package dashboard
   :config

@@ -33,14 +33,15 @@
 (use-package org
   :hook
   (org-mode . (lambda ()
-		(org-indent-mode)
-		(visual-line-mode 1)
-		(variable-pitch-mode 1)))
+		      (org-indent-mode)
+		      (visual-line-mode 1)
+		      (variable-pitch-mode 1)))
   :config
   (setq org-ellipsis " ▾"
-	org-log-done 'time
-	org-log-into-drawer t
-	org-src-preserve-indentation t)
+	      org-log-done 'time
+	      org-log-into-drawer t
+        org-directory dotfiles/home
+	      org-src-preserve-indentation t)
 
   (org-babel-do-load-languages
    'org-babel-load-languages

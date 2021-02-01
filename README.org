@@ -41,7 +41,7 @@ Assuming you have completed all of the following tasks prior to proceeding furth
 Load the host configuration.
 
 #+begin_src emacs-lisp
-(let ((host-file (concat "~/.local/source/dotfiles/hosts/" system-name ".el")))
+(let ((host-file (concat user-emacs-directory "/hosts/" system-name ".el")))
   (when (file-exists-p host-file)
     (load-file host-file)))
 #+end_src
@@ -50,7 +50,7 @@ Load the enabled modules.
 
 #+begin_src emacs-lisp 
 (dolist (m dotfiles/modules)
-  (let ((mod-file (concat "~/.local/source/dotfiles/modules/" (symbol-name m) ".el")))
+  (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".el")))
     (when (file-exists-p mod-file)
       (load-file mod-file))))
 #+end_src
@@ -80,10 +80,11 @@ Add the modules you want to initialize to the ~dotfiles/modules~ variable.
                            interface))
 #+end_src
 
-Specify the cache directory.
+Specify the ~home~ and ~cache~ directories.
 
 #+begin_src emacs-lisp
 (defvar dotfiles/cache "~/.cache/emacs")
+(defvar dotfiles/home user-emacs-directory)
 #+end_src
 
 Functionality like =completion= and =hints= can be delayed to avoid popups for common manuevers. Adjust this value to your personal taste.
@@ -99,18 +100,10 @@ Avoid the infamous *Emacs pinky* by binding =SPC= as a leader key, utilizing the
 (defvar dotfiles/leader-key-global "C-SPC")
 #+end_src
 
-Define where the source repositories are stored, with most projects being relative from that directory.
+Define where the source repositories are stored, for integration with the *Projects* module.
 
 #+begin_src emacs-lisp
 (defvar dotfiles/src "~/.local/source/")
-#+end_src
-
-The brain project provides the basis for my agenda, notes, blog, and presentations.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/brain (concat dotfiles/src "brain/"))
-(defvar dotfiles/notes (concat dotfiles/brain "notes/"))
-(defvar dotfiles/bib (concat dotfiles/brain "resources.bib"))
 #+end_src
 
 Secret keys and passwords are stored in a seperate repository.
@@ -219,14 +212,15 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
 (use-package org
   :hook
   (org-mode . (lambda ()
-		(org-indent-mode)
-		(visual-line-mode 1)
-		(variable-pitch-mode 1)))
+		      (org-indent-mode)
+		      (visual-line-mode 1)
+		      (variable-pitch-mode 1)))
   :config
   (setq org-ellipsis " ▾"
-	org-log-done 'time
-	org-log-into-drawer t
-	org-src-preserve-indentation t)
+	      org-log-done 'time
+	      org-log-into-drawer t
+        org-directory dotfiles/home
+	      org-src-preserve-indentation t)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -599,9 +593,7 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
 :header-args: :tangle ~/.local/source/dotfiles/modules/writing.el :results silent
 :END:
 
-I am using [[https://orgmode.org][Org-mode]] extensively for writing projects for different purposes. Improvements beyond what are required for my Literate Programming platform include:
-
-[[https://github.com/integral-dw/org-superstar-mode][Org-superstar-mode]] for making headline stars more *super*.
+I am using [[https://orgmode.org][Org-mode]] extensively for writing projects for different purposes. Most of the improvements are done in the *Core* module for the Literate programming configuration. [[https://github.com/integral-dw/org-superstar-mode][Org-superstar-mode]] for making headline stars more *super*.
 
 #+begin_src emacs-lisp
 (use-package org-superstar
@@ -689,165 +681,12 @@ Create a keybinding to open the mail dashboard with =SPC m=.
   "m" '(mu4e :which-key "Mail"))
 #+end_src
 
-*** Brain
-
-[[https://github.com/org-roam/org-roam][Org-roam]] is a rudimentary roam replica built on =Org mode=.
-
-#+begin_src emacs-lisp
-(use-package org-roam
-  :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory dotfiles/brain))
-#+end_src
-
-[[https://github.com/org-roam/org-roam-server][Org-roam-server]] is a web application that visualizes the =Org roam= database, available when Emacs' running at [[http://localhost:8080][localhost:8080]].
-
-#+begin_src emacs-lisp
-(use-package org-roam-server
-  :hook (org-roam-mode . org-roam-server-mode))
-#+end_src
-
-Configure keybindings behind =SPC r=.
-+ Find with =f=
-+ Buffer with =b=
-+ Capture with =c=
-+ Dailies with =d=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "r" '(:ignore t :which-key "Roam")
-  "rf" '(org-roam-find-file :which-key "Find")
-  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
-  "rc" '(org-roam-capture :which-key "Capture")
-  "rd" '(:ignore t :which-key "Dailies")
-  "rdd" '(org-roam-dailies-find-date :which-key "Date")
-  "rdt" '(org-roam-dailies-find-today :which-key "Today")
-  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
-#+end_src
-
-Configure the default capture template for new topics.
-
-#+begin_src emacs-lisp
-(setq org-roam-capture-templates
-      '(("d" "Default" plain (function org-roam-capture--get-point)
-         "%?"
-         :file-name "${slug}"
-         :head "#+TITLE: ${title}\n"
-         :unnarrowed t)))
-#+end_src
-
-Configure the default capture template for daily entries.
-
-#+begin_src emacs-lisp
-(setq org-roam-dailies-capture-templates
-      '(("d" "Default" entry (function org-roam-capture--get-point)
-         "* %?"
-         :file-name "daily/%<%Y-%m-%d>"
-         :head "#+TITLE: %<%Y-%m-%d>\n")))
-#+end_src
-
-*** Notes
-
-#+begin_src emacs-lisp
-(use-package org-noter
-  :after org
-  :config
-  (setq org-noter-always-create-frame nil
-        org-noter-notes-search-path dotfiles/notes))
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package org-pdftools
-  :hook (org-mode . org-pdftools-setup-link))
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package org-noter-pdftools
-  :after org-noter
-  :config
-  (with-eval-after-load 'pdf-annot
-    (add-hook 'pdf-annot-active-handler-functions #'org-noter-pdftools-jump-to-note)))
-#+end_src
-
-#+begin_src emacs-lisp
-(setq bibtex-completion-notes-path dotfiles/notes
-      bibtex-completion-bibliography dotfiles/bib
-      bibtex-completion-pdf-field "file"
-      bibtex-completion-notes-template-multiple-files
-      (concat
-        "#+TITLE: ${title}\n"
-        "#+ROAM_KEY: cite:${=key=}\n"
-        "#* TODO Notes\n"
-        ":PROPERTIES:\n"
-        ":CUSTOM_ID: ${=key}\n"
-        ":NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
-        ":AUTHOR: ${author-abbrev}\n"
-        ":JOURNAL: ${journaltitle}\n"
-        ":DATE: ${date}\n"
-        ":YEAR: ${year}\n"
-        ":DOI: ${doi}\n"
-        ":URL: ${url}\n"
-        ":END:\n\n"))
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package org-ref
-  :config
-  (setq org-ref-completion-library 'org-ref-helm-cite
-        org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
-        org-ref-default-bibliography dotfiles/bib
-        org-ref-bibliography-notes dotfiles/notes
-        org-ref-notes-directory dotfiles/notes
-        org-ref-notes-function 'orb-edit-notes
-        org-ref-note-title-format "* TODO %y - %t\n
-:PROPERTIES:\n
-:CUSTOM_ID: %k\n
-:NOTER_DOCUMENT: %F\n
-:ROAM_KEY: cite:%k\n
-:AUTHOR: %9a\n
-:JOURNAL: %j\n
-:YEAR: %y\n
-:VOLUME: %v\n
-:PAGES: %p\n
-:DOI: %D\n
-:URL: %U\n
-:END:\n\n"))
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package org-roam-bibtex
-  :after (org-roam)
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :config
-  (setq orb-preformat-keywords
-        '("=key=" "title" "url" "file" "author-or-editor" "keywords")))
-#+end_src
-
-#+begin_src emacs-lisp
-(add-to-list 'org-roam-capture-templates
-             '("n" "Notes" plain (function org-roam-capture--get-point)
-               ""
-               :file-name "notes/${slug}"
-               :head "#+TITLE: ${=key=}: ${title}\n\n
-#+ROAM_KEY:${ref}\n\n* ${title}\n
-:PROPERTIES:\n
-:CUSTOM_ID: ${=key=}\n
-:URL: ${url}\n
-:AUTHOR: ${author-or-editor}\n
-:NOTER_DOCUMENT:%(orb-process-file-field \"${=key=}\")\n
-:NOTER_PAGE:\n
-:END:\n\n"))
-#+end_src
-
 *** Agenda
 
 Configure agenda sources.
-+ Dailies ~~/.local/source/brain/daily/~
-+ Secrets ~~/.local/source/secrets/org/~
   
 #+begin_src emacs-lisp
-(setq org-agenda-files '("~/.local/source/brain/daily/"
-                         "~/.local/source/secrets/org/"))
+(setq org-agenda-files '("~/.local/source/secrets/org/"))
 #+end_src
 
 Open an agenda buffer with =SPC a=.
@@ -859,25 +698,11 @@ Open an agenda buffer with =SPC a=.
 
 *** Blogging
 
-I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=.
-
-[[https://github.com/kaushalmodi/ox-hugo][Ox-hugo]], configured for =one-post-per-file= is my technique for managing my blog.
+I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=. [[https://github.com/kaushalmodi/ox-hugo][Ox-hugo]], configured for =one-post-per-file= is my technique for managing my blog.
 
 #+begin_src emacs-lisp
 (use-package ox-hugo 
   :after ox)
-#+end_src
-
-Creaate a capture template for blog posts in the =posts= sub directory.
-
-#+begin_src emacs-lisp
-(add-to-list 'org-roam-capture-templates
-             '("b" "Blogging" plain (function org-roam-capture--get-point)
-               "%?"
-               :file-name "posts/${slug}"
-               :head "#+TITLE: ${title}\n
-#+HUGO_BASE_DIR: ~/.local/source/website\n
-#+HUGO_SECTION: posts\n"))
 #+end_src
 
 *** Screencasts
@@ -888,12 +713,12 @@ Create screencasts with =one-frame-per-action= GIF recording via [[https://githu
 + High quality images
 + Optimized size
 
-It requires the installation of ~scrot~ and ~convert~ from the =ImageMagick= library.
+It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =ImageMagick= library.
   
 #+begin_src emacs-lisp
 (use-package gif-screencast
   :custom
-  (gif-screencast-output-directory (concat dotfiles/brain "screens/")))
+  (gif-screencast-output-directory (concat dotfiles/home "images/")))
 #+end_src
 
 Screencast controls behind =SPC s=.
@@ -909,24 +734,12 @@ Screencast controls behind =SPC s=.
 
 *** Presentations
 
-Produce high quality presentations that work anywhere with =HTML/JS= and the [[https://revealjs.com][Reveal.js]] package.
-
-[[https://github.com/hexmode/ox-reveal][Ox-reveal]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version of =Reveal.js=.
+Produce high quality presentations that work anywhere with =HTML/JS= and the [[https://revealjs.com][Reveal.js]] package. [[https://github.com/hexmode/ox-reveal][Ox-reveal]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version of =Reveal.js=.
 
 #+begin_src emacs-lisp
 (use-package ox-reveal
   :after ox
   :custom (org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.9.2/"))
-#+end_src
-
-Create a capture template for presentations stored in the =slides= sub directory.
-
-#+begin_src emacs-lisp
-(add-to-list 'org-roam-capture-templates
-             '("p" "Presentation" plain (function org-roam-capture--get-point)
-               "%?"
-               :file-name "slides/${slug}"
-               :head "#+TITLE: ${title}\n"))
 #+end_src
 
 ** Projects
@@ -1216,14 +1029,15 @@ Load a theme with =SPC t t=.
 Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-code-mode]], perform this action *only* when ~Fira Code~ is set as the current font.
 
 #+begin_src emacs-lisp
-;; (use-package fira-code-mode
-;;   :config
-;;   (global-fira-code-mode))
+(use-package fira-code-mode
+  :hook (prog-mode org-mode))
 #+end_src
 
+Toggle global ligature mode with =SPC t g=.
+
 #+begin_src emacs-lisp
-;; (use-package fira-code-mode
-;;   :hook prog-mode)
+(dotfiles/leader
+  "tg" '(global-fira-code-mode :which-key "Ligatures"))
 #+end_src
 
 *** Dashboard
