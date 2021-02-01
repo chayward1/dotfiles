@@ -1,7 +1,3 @@
-(defvar dotfiles/home user-emacs-directory)
-
-(defvar dotfiles/cache "~/.cache/emacs")
-
 (setq user-emacs-directory dotfiles/cache)
 
 (setq create-lockfiles nil
@@ -60,7 +56,7 @@
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 
-(defun core/tangle (dir)
+(defun dotfiles/tangle (dir)
   "Recursively tangle the Org files within a directory."
   (interactive)
   (let ((org-files (directory-files-recursively dir "org")))
@@ -69,15 +65,10 @@
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(defvar dotfiles/idle 0.0)
-
 (use-package which-key
   :diminish which-key-mode
   :init (which-key-mode)
   :config (setq which-key-idle-delay dotfiles/idle))
-
-(defvar dotfiles/leader-key "SPC")
-(defvar dotfiles/leader-key-global "C-SPC")
 
 (use-package general
   :config

@@ -16,8 +16,11 @@
 
 (use-package linum-relative
   :init (setq linum-relative-backend
-	      'display-line-numbers-mode)
+              'display-line-numbers-mode)
   :config (linum-relative-global-mode))
+
+(dotfiles/leader
+  "tl" '(linum-relative-global-mode :which-key "Lines"))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))

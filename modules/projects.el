@@ -12,7 +12,7 @@
   (projectile-mode))
 
 (use-package password-store
-  :custom (password-store-dir "~/.local/source/passwords"))
+  :custom (password-store-dir dotfiles/passwords))
 
 (dotfiles/leader
   "p" '(:ignore t :which-key "Passwords")

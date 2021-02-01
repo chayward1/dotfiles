@@ -1,8 +1,6 @@
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
 
-;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-
 (use-package mu4e
   :load-path "/usr/share/emacs/site-lisp/mu4e"
   :config
@@ -46,7 +44,7 @@
 
 (use-package org-roam
   :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory "~/.local/source/brain"))
+  :custom (org-roam-directory dotfiles/brain))
 
 (use-package org-roam-server
   :hook (org-roam-mode . org-roam-server-mode))
@@ -74,9 +72,6 @@
          "* %?"
          :file-name "daily/%<%Y-%m-%d>"
          :head "#+TITLE: %<%Y-%m-%d>\n")))
-
-(defvar dotfiles/bib "~/.local/source/brain/resources.bib")
-(defvar dotfiles/notes "~/.local/source/brain/notes/")
 
 (use-package org-noter
   :after org
