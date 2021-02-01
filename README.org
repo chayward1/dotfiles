@@ -14,9 +14,7 @@
   ~      ~~      ~~ ~~ ~~  ~~~~~~~~~~~~~ ~~~~  ~     ~~~    ~ ~~~  ~ ~~ 
   ~  ~~     ~         ~      ~~~~~~  ~~ ~~~       ~~ ~ ~~  ~~ ~ 
 ~  ~       ~ ~      ~           ~~ ~~~~~~  ~      ~~  ~             ~~
-      ~             ~        ~      ~      ~~   ~             ~
-#+end_example
-
+      ~             ~        ~      ~      ~~   ~             ~ #+end_example
 Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
 + 100% Literate
 + 100% Immutable
@@ -492,6 +490,21 @@ I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][
 
 #+begin_src conf :tangle ~/.local/source/dotfiles/config/xinitrc
 exec dbus-launch --exit-with-session emacs -mm --debug-init
+#+end_src
+
+When launching into a session, if the display server is not running then =startx= should be invoked, to run the window manager. Anything that needs to be included in the ~$PATH~ should occur before the end of this file.
+
+#+begin_src sh :tangle ~/.local/source/dotfiles/config/profile
+GOPATH="$HOME/.go/"
+export GOPATH
+
+if [ -d "$GOPATH/bin" ]; then
+    PATH="$GOPATH/bin:$PATH"
+fi
+
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+    exec startx
+fi
 #+end_src
 
 Define a method to run an external process, allowing us to launch any application on a new process without interferring with Emacs.
@@ -1059,11 +1072,13 @@ Install the =gopls= language server.
 GO111MODULE=on go get golang.org/x/tools/gopls@latest
 #+end_src
 
-Set the ~GOPATH~ environment variable prior to loading, this allows us to change the default value of ~$HOME/go~ to ~$HOME.go~.
+Set the ~GOPATH~ environment variable prior to loading, this allows us to change the default value of ~$HOME/go~ to ~$HOME/.go~.
 
 #+begin_src emacs-lisp
 (setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
 #+end_src
+
+Additionally, include the =bin= subdirectory of the ~$GOPATH~ in the ~$PATH~ variable, adding compiled golang programs.
 
 #+begin_src emacs-lisp
 (use-package go-mode
