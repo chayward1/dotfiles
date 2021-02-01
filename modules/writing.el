@@ -47,6 +47,22 @@
 (dotfiles/leader
   "a" '(org-agenda :which-key "Agenda"))
 
+(use-package org-journal
+  :config
+  (setq org-journal-dir (concat dotfiles/home "/daily/")
+        org-journal-file-type 'daily
+        org-journal-enable-agenda-integration t
+        org-icalendar-store-UID t
+        org-icalendar-include-todo "all"
+        org-icalendar-combined-agenda-file (concat dotfiles/home "calender.ics")))
+
+(dotfiles/leader
+  "f" '(:ignore t :which-key "Journal")
+  "ff" '(org-journal-new-entry :which-key "New")
+  "fs" '(org-journal-search :which-key "Search")
+  "fl" '(org-journal-open-next-entry :which-key "Next")
+  "fh" '(org-journal-open-previous-entry :which-key "Previous"))
+
 (use-package ox-hugo 
   :after ox)
 

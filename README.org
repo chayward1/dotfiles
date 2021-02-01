@@ -292,7 +292,7 @@ After a few hour with =vim= I knew it was game over, I cannot even think of anot
 #+begin_src emacs-lisp
 (use-package evil
   :init (setq evil-want-integration t
-	            evil-want-keybinding nil)
+	      evil-want-keybinding nil)
   :config (evil-mode 1))
 #+end_src
 
@@ -696,6 +696,28 @@ Open an agenda buffer with =SPC a=.
   "a" '(org-agenda :which-key "Agenda"))
 #+end_src
 
+*** Journal
+
+#+begin_src emacs-lisp
+(use-package org-journal
+  :config
+  (setq org-journal-dir (concat dotfiles/home "/daily/")
+        org-journal-file-type 'daily
+        org-journal-enable-agenda-integration t
+        org-icalendar-store-UID t
+        org-icalendar-include-todo "all"
+        org-icalendar-combined-agenda-file (concat dotfiles/home "calender.ics")))
+#+end_src
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "f" '(:ignore t :which-key "Journal")
+  "ff" '(org-journal-new-entry :which-key "New")
+  "fs" '(org-journal-search :which-key "Search")
+  "fl" '(org-journal-open-next-entry :which-key "Next")
+  "fh" '(org-journal-open-previous-entry :which-key "Previous"))
+#+end_src
+
 *** Blogging
 
 I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=. [[https://github.com/kaushalmodi/ox-hugo][Ox-hugo]], configured for =one-post-per-file= is my technique for managing my blog.
@@ -741,6 +763,7 @@ Produce high quality presentations that work anywhere with =HTML/JS= and the [[h
   :after ox
   :custom (org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.9.2/"))
 #+end_src
+
 
 ** Projects
 :PROPERTIES:
@@ -829,13 +852,7 @@ Support for individual languages are implemented here.
 
 **** C/C++
 
-Full *IDE* experience for Python within Emacs.
-
-+ Completion, jumps via =lsp-mode=
-+ Debugging via =dap-mode=
-
-Install the =ccls= language server.
-+ https://github.com/MaskRay/ccls
+Install the [[https://github.com/MaskRay/ccls][ccls]] language server.
 
 #+begin_src emacs-lisp
 (use-package ccls
@@ -845,18 +862,13 @@ Install the =ccls= language server.
   
 **** Python
 
-Full *IDE* experience for Python within Emacs.
-+ Completion, jumps via =lsp-mode=
-+ Debugging via =dap-mode=
-
 Install the =pyls= language server.
 
 #+begin_src shell :tangle no
 pip install --user "python-language-server[all]"
 #+end_src
 
-https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
-+ Built in mode
+[[https://www.emacswiki.org/emacs/PythonProgrammingInEmacs][python-mode]] is an Emacs built in mode.
   
 #+begin_src emacs-lisp
 (use-package python-mode
@@ -868,10 +880,6 @@ https://www.emacswiki.org/emacs/PythonProgrammingInEmacs
 #+end_src
 
 **** Go
-
-Full *IDE* experience for Rust within Emacs.
-+ Completion via =lsp-mode=
-+ Debugging via =dap-mode=
   
 Install the =gopls= language server.
 
