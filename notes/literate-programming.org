@@ -1,0 +1,7 @@
+#+TITLE: Literate Programming
+#+AUTHOR: Christopher James Hayward
+
+#+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_SECTION: notes
+
+[fn:knuth-1984] Knuth, D. E. (1984). Literate Programming. The Computer Journal, 27(2), 97–111. https://doi.org/10.1093/comjnl/27.2.97

@@ -1,0 +1,7 @@
+#+TITLE: Systems Analysis & Design
+#+AUTHOR: Christopher James Hayward
+
+#+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_SECTION: notes
+
+[fn:satzinger-2002] Satzinger, J. W., Jackson, R. B., & Burd, S. D. (2002). Systems Analysis and Design in a Changing World (2. ed). Course Technology. https://online.vitalsource.com/books/0176656766

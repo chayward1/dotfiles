@@ -1,0 +1,7 @@
+#+TITLE: Business Communication
+#+AUTHOR: Christopher James Hayward
+
+#+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_SECTION: notes
+
+[fn:guffey-2010] Guffey, M. E., Rogin, P., & Rhodes, K. (2010). Business Communication: Process and Product. https://online.vitalsource.com/books/0176573097
