@@ -1,7 +1,10 @@
 #+TITLE: Computer Science
 #+AUTHOR: Christopher James Hayward
 
+#+ROAM_KEY: https://chrishayward.xyz/notes/computer-science/
+
 #+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: notes
 
 [fn:scneider-2012] Schneider, G. M., & Gerstring, J. (2012). Invitation to Computer Science (6th ed.). https://online.vitalsource.com/books/0176692193
