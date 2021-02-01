@@ -2,7 +2,7 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+ROAM_KEY: https://github.com/chayward1/dotfiles
+#+ROAM_KEY: https://github.com/chayward1/dotfiles/
 
 #+begin_example
                               _.-="_-         _
@@ -30,25 +30,24 @@ Although later versions of Emacs introduce =early-init.el=, it's not used in thi
 
 + It's not required due to the modularity
 + Maintaining support for older versions
-
+  
 Assuming you have completed all of the following tasks prior to proceeding further:
 
 1. Imported the =secrets=
 2. Initialized the =passwords=
 3. Defined the =host= file
-4. Created all required symbolic links
-   
-Load the host configuration.
+4. Create a symbolic link from ~~/.emacs.d~ to this repository
+5. Run emacs ~~exec emacs -mm --debug-init~
 
+The rest of the code in this file is to define *what* gets loaded from *where* on *which* systems.
+   
 #+begin_src emacs-lisp
+;; Load the host configuration.
 (let ((host-file (concat user-emacs-directory "/hosts/" system-name ".el")))
   (when (file-exists-p host-file)
     (load-file host-file)))
-#+end_src
 
-Load the enabled modules.
-
-#+begin_src emacs-lisp 
+;; Load the enabled modules.
 (dolist (m dotfiles/modules)
   (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".el")))
     (when (file-exists-p mod-file)
