@@ -2,7 +2,10 @@
 #+AUTHOR: Christopher James Hayward
 #+DATE: 2021-01-19
 
+#+ROAM_KEY: https://chrishayward.xyz/posts/immutable-emacs/
+
 #+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: posts
 
 You can easily create an *Immutable* and *100% Reproducible* custom Emacs configuration with very little effort. My inspiration for this came from the =Emacs From Scratch= series by [[https://youtube.com/c/SystemCrafters][System Crafters]].

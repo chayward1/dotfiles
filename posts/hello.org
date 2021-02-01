@@ -2,7 +2,10 @@
 #+AUTHOR: Christopher James Hayward
 #+DATE: 2021-01-17
 
+#+ROAM_KEY: https://chrishayward.xyz/posts/hello
+
 #+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: posts
 
 #+begin_src c
