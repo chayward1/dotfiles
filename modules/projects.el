@@ -38,6 +38,8 @@
 
 (setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
 
+(setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
+
 (use-package go-mode
   :hook (go-mode . lsp))
 

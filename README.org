@@ -493,16 +493,9 @@ I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][
 exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
 
-When launching into a session, if the display server is not running then =startx= should be invoked, to run the window manager. Anything that needs to be included in the ~$PATH~ should occur before the end of this file.
+When launching into a session, if the display server is not running then =startx= should be invoked, to run the window manager.
 
 #+begin_src sh :tangle ~/.local/source/dotfiles/config/profile
-GOPATH="$HOME/.go/"
-export GOPATH
-
-if [ -d "$GOPATH/bin" ]; then
-    PATH="$GOPATH/bin:$PATH"
-fi
-
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
     exec startx
 fi
@@ -1080,6 +1073,12 @@ Set the ~GOPATH~ environment variable prior to loading, this allows us to change
 #+end_src
 
 Additionally, include the =bin= subdirectory of the ~$GOPATH~ in the ~$PATH~ variable, adding compiled golang programs.
+
+#+begin_src emacs-lisp
+(setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
+#+end_src
+
+Finally we can include the =go-mode= package, integrating it with =lsp=.
 
 #+begin_src emacs-lisp
 (use-package go-mode
