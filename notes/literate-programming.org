@@ -1,6 +1,8 @@
 #+TITLE: Literate Programming
 #+AUTHOR: Christopher James Hayward
 
+#+ROAM_KEY: https://chrishayward.xyz/notes/literate-programming/
+
 #+HUGO_BASE_DIR: ~/.local/source/website
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: notes
@@ -43,8 +45,6 @@ Illustrated above we see the process of *weaving* and *tangling* the literate so
 | org  | Literate document / file     |
 | src  | Machine readable source code |
 | doc  | Human readable documentation |
-
-It's not difficult to imagine a situation where an update to a program would update the all of the interested parties. Source code is typically built and tested without requiring the documentation, and in the same sense someone providing support for an application should not be required to dig through the source code to locate documentation.
 
 * Resources
 
