@@ -89,6 +89,9 @@
   :after evil
   :config (evil-collection-init))
 
+(use-package evil-surround
+  :config (global-evil-surround-mode 1))
+
 (use-package evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 

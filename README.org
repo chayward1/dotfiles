@@ -91,11 +91,15 @@ Define where the source repositories are stored, with most projects being relati
 (defvar dotfiles/src "~/.local/source/")
 #+end_src
 
+The brain project provides the basis for my agenda, notes, blog, and presentations.
+
 #+begin_src emacs-lisp
 (defvar dotfiles/brain (concat dotfiles/src "brain/"))
 (defvar dotfiles/notes (concat dotfiles/brain "notes/"))
 (defvar dotfiles/bib (concat dotfiles/brain "resources.bib"))
 #+end_src
+
+Secret keys and passwords are stored in a seperate repository.
 
 #+begin_src emacs-lisp
 (defvar dotfiles/secrets (concat dotfiles/src "secrets/"))
@@ -287,6 +291,13 @@ https://github.com/emacs-evil/evil-collection
 (use-package evil-collection
   :after evil
   :config (evil-collection-init))
+#+end_src
+
+Surround text with functions, quotations, and any other symbols using the [[https://github.com/emacs-evil/evil-surround][evil-surround]] package.
+
+#+begin_src emacs-lisp
+(use-package evil-surround
+  :config (global-evil-surround-mode 1))
 #+end_src
 
 https://github.com/redguardtoo/evil-nerd-commenter
