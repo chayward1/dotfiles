@@ -14,7 +14,9 @@
   ~      ~~      ~~ ~~ ~~  ~~~~~~~~~~~~~ ~~~~  ~     ~~~    ~ ~~~  ~ ~~ 
   ~  ~~     ~         ~      ~~~~~~  ~~ ~~~       ~~ ~ ~~  ~~ ~ 
 ~  ~       ~ ~      ~           ~~ ~~~~~~  ~      ~~  ~             ~~
-      ~             ~        ~      ~      ~~   ~             ~ #+end_example
+      ~             ~        ~      ~      ~~   ~             ~
+#+end_example
+
 Immutable GNU Emacs dotfiles, inspired by Doom, built for Liberty.
 + 100% Literate
 + 100% Immutable
