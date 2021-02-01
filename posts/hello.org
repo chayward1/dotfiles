@@ -1,0 +1,15 @@
+#+TITLE: Hello, world!
+#+AUTHOR: Christopher James Hayward
+#+DATE: 2021-01-17
+
+#+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_SECTION: posts
+
+#+begin_src c
+#include <stdio.h>
+
+int main() {
+  printf("Hello, world!");
+  return 0;
+}
+#+end_src
