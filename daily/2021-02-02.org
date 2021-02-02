@@ -1,2 +1,4 @@
 #+TITLE: 2021-02-02
 #+AUTHOR: Christopher James Hayward
+
+* TODO Firefox / EXWM
