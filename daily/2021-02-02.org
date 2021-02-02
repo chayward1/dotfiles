@@ -2,3 +2,8 @@
 #+AUTHOR: Christopher James Hayward
 
 * TODO Firefox / EXWM
+
+* TODO Dashboard upgrades
+
++ Link to AU
++ Link to Bookshelf
