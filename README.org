@@ -801,7 +801,8 @@ Create a keybinding to open the mail dashboard with =SPC m=.
 Configure agenda sources.
   
 #+begin_src emacs-lisp
-(setq org-agenda-files '("~/.local/source/secrets/org/"))
+(setq org-agenda-files '("~/.local/source/secrets/org/"
+                         "~/.local/source/dotfiles/daily/"))
 #+end_src
 
 Open an agenda buffer with =SPC a=.
@@ -837,8 +838,6 @@ Screencast controls behind =SPC s=.
   "ss" '(gif-screencast-start-or-stop :which-key "Start / Stop")
   "sp" '(gif-screencast-toggle-pause :which-key "Pause"))
 #+end_src
-
-
 
 ** Projects
 :PROPERTIES:

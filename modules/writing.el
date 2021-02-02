@@ -127,7 +127,8 @@
 (dotfiles/leader
   "m" '(mu4e :which-key "Mail"))
 
-(setq org-agenda-files '("~/.local/source/secrets/org/"))
+(setq org-agenda-files '("~/.local/source/secrets/org/"
+                         "~/.local/source/dotfiles/daily/"))
 
 (dotfiles/leader
   "a" '(org-agenda :which-key "Agenda"))
