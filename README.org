@@ -30,16 +30,13 @@ Although later versions of Emacs introduce =early-init.el=, it's not used in thi
 
 + It's not required due to the modularity
 + Maintaining support for older versions
-  
+
 Assuming you have completed all of the following tasks prior to proceeding further:
 
 1. Imported the =secrets=
 2. Initialized the =passwords=
 3. Defined the =host= file
-4. Create a symbolic link from ~~/.emacs.d~ to this repository
-5. Run emacs ~~exec emacs -mm --debug-init~
-
-The rest of the code in this file is to define *what* gets loaded from *where* on *which* systems.
+4. Created all required symbolic links
    
 #+begin_src emacs-lisp
 ;; Load the host configuration.
@@ -482,6 +479,8 @@ Open a dired buffer with =SPC d=.
 
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=. My workflow includes launching the window manager with =xinitrc=, without the use of a display manager, controlling *everything* within Emacs.
 
+*** Startup
+
 #+begin_src conf :tangle ~/.local/source/dotfiles/config/xinitrc
 exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
@@ -493,6 +492,8 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
     exec startx
 fi
 #+end_src
+
+*** Applications
 
 Define a method to run an external process, allowing us to launch any application on a new process without interferring with Emacs.
 
@@ -524,7 +525,9 @@ Place keybindings for executing shell commands behind =SPC x=.
   "xb" '(dotfiles/run-in-background :which-key "Run (background)")
   "xz" '(async-shell-command :which-key "Async"))
 #+end_src
-  
+
+*** Initialization
+
 When the window manager first launches the ~init-hook~ will be called, this allows us to define some custom logic when it's initialized.
 
 + Display time and date
@@ -540,12 +543,16 @@ In my personal configuration, I do not want the battery or time displayed within
   (display-time-mode 1))
 #+end_src
 
+*** Displays
+
 Using =autorandr= with pre configured profiles, switching screens (AKA hot plugging) is also handled through a hook.
 
 #+begin_src emacs-lisp
 (defun dotfiles/update-display ()
   (dotfiles/run-in-background "autorandr --change --force"))
 #+end_src
+
+*** Configuration
 
 Finally we configure the window manager.
 
@@ -599,7 +606,105 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
-*** Mail
+I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=. [[https://github.com/kaushalmodi/ox-hugo][Ox-hugo]], configured for =one-post-per-file= is my technique for managing my blog.
+
+#+begin_src emacs-lisp
+(use-package ox-hugo 
+  :after ox)
+#+end_src
+
+Produce high quality presentations that work anywhere with =HTML/JS= and the [[https://revealjs.com][Reveal.js]] package. [[https://github.com/hexmode/ox-reveal][Ox-reveal]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version of =Reveal.js=.
+
+#+begin_src emacs-lisp
+(use-package ox-reveal
+  :after ox
+  :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+#+end_src
+
+*** Roam
+
+#+begin_src emacs-lisp
+(use-package org-roam
+  :hook (after-init . org-roam-mode)
+  :custom (org-roam-directory org-directory))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package org-roam-server
+  :hook (org-roam-mode . org-roam-server-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "r" '(:ignore t :which-key "Roam")
+  "rf" '(org-roam-find-file :which-key "Find")
+  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "rd" '(:ignore t :which-key "Dailies")
+  "rdd" '(org-roam-dailies-find-date :which-key "Date")
+  "rdt" '(org-roam-dailies-find-today :which-key "Today")
+  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-roam-capture-templates
+      '(("p" "Posts" plain (function org-roam-capture--get-point)
+          "%?"
+          :file-name "posts/${slug}"
+          :unnarrowed t
+          :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+DATE: %<%Y-%m-%d>
+
+,#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
+
+,#+HUGO_BASE_DIR: ~/.local/source/website
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: posts
+")
+        ("n" "Notes" plain (function org-roam-capture--get-point)
+          "%?"
+          :file-name "notes/${slug}"
+          :unnarrowed t
+          :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+
+,#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
+
+,#+HUGO_BASE_DIR: ~/.local/source/website
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: notes
+")
+        ("s" "Slides" plain (function org-roam-capture--get-point)
+         "%?"
+         :file-name "slides/${slug}"
+         :unnarrowed t
+         :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+
+,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+")))
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-roam-dailies-capture-templates
+      '(("d" "Default" entry (function org-roam-capture--get-point)
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head
+"
+,#+TITLE: %<%Y-%m-%d>
+,#+AUTHOR: Christopher James Hayward
+")))
+#+end_src
+
+*** Email
 
 Plain text email delivered via mu, mu4e and mbsync. I run my own email server, so your configuration may differ from mine. This is the ~mbsyncrc~ file I use to synchronize my local mail with my server. This is required for mu4e in Emacs.
 
@@ -706,39 +811,7 @@ Open an agenda buffer with =SPC a=.
   "a" '(org-agenda :which-key "Agenda"))
 #+end_src
 
-*** Journal
-
-#+begin_src emacs-lisp
-(use-package org-journal
-  :config
-  (setq org-journal-dir (concat dotfiles/home "/daily/")
-        org-journal-file-type 'daily
-        org-journal-file-format "%Y-%m-%d.org"
-        org-journal-enable-agenda-integration t
-        org-icalendar-store-UID t
-        org-icalendar-include-todo "all"
-        org-icalendar-combined-agenda-file (concat dotfiles/home "calender.ics")))
-#+end_src
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "f" '(:ignore t :which-key "Journal")
-  "ff" '(org-journal-new-entry :which-key "New")
-  "fs" '(org-journal-search :which-key "Search")
-  "fl" '(org-journal-open-next-entry :which-key "Next")
-  "fh" '(org-journal-open-previous-entry :which-key "Previous"))
-#+end_src
-
-*** Blogging
-
-I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=. [[https://github.com/kaushalmodi/ox-hugo][Ox-hugo]], configured for =one-post-per-file= is my technique for managing my blog.
-
-#+begin_src emacs-lisp
-(use-package ox-hugo 
-  :after ox)
-#+end_src
-
-*** Screencasts
+*** Images
 
 Create screencasts with =one-frame-per-action= GIF recording via [[https://github.com/takaxp/emacs-gif-screencast][emacs-gif-screencast]].
 
@@ -765,15 +838,6 @@ Screencast controls behind =SPC s=.
   "sp" '(gif-screencast-toggle-pause :which-key "Pause"))
 #+end_src
 
-*** Presentations
-
-Produce high quality presentations that work anywhere with =HTML/JS= and the [[https://revealjs.com][Reveal.js]] package. [[https://github.com/hexmode/ox-reveal][Ox-reveal]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version of =Reveal.js=.
-
-#+begin_src emacs-lisp
-(use-package ox-reveal
-  :after ox
-  :custom (org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.9.2/"))
-#+end_src
 
 
 ** Projects
