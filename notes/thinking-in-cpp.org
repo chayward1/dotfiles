@@ -1,0 +1,10 @@
+#+TITLE: Thinking in C++
+#+AUTHOR: Christopher James Hayward
+
+#+ROAM_KEY: https://chrishayward.xyz/notes/thinking-in-cpp/
+
+#+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_AUTO_SET_LASTMOD: t
+#+HUGO_SECTION: notes
+
+[fn:eckel-2000] Eckel, Bruce. Thinking in C++. 2nd ed, Prentice Hall, 2000, https://online.vitalsource.com/books/9781269392440.
