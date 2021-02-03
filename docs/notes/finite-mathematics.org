@@ -7,4 +7,6 @@
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: notes
 
+#+HUGO_DRAFT: true
+
 [fn:barnett-2014] Barnett, R. A., Ziegler, M. R., & Byleen, K. E. (2014). Finite Mathematics for Business, Economics, Life Sciences and Social Sciences, Global Edition. Pearson Education Canada. https://online.vitalsource.com/books/9781269580786
