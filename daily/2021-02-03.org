@@ -1,0 +1,6 @@
+#+TITLE: 2021-02-03
+#+AUTHOR: Christopher James Hayward
+
+* Benefits of Literate Programming
+
+In the textbook [[file:../notes/thinking-in-cpp.org][Thinking in C++]], *Eckel* uses a custom system for extracting and building all of the source code examples from the text, this is prefaced in the section *Begin and end comment tags*. I beleive he could have benefited here from a [[file:../notes/literate-programming.org][Literate Programming]] environment, automating much of this work without polluting the source code with tags.
