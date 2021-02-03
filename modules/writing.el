@@ -28,7 +28,7 @@
 (setq org-roam-capture-templates
       '(("p" "Posts" plain (function org-roam-capture--get-point)
           "%?"
-          :file-name "posts/${slug}"
+          :file-name "docs/posts/${slug}"
           :unnarrowed t
           :head
 "
@@ -44,7 +44,7 @@
 ")
         ("n" "Notes" plain (function org-roam-capture--get-point)
           "%?"
-          :file-name "notes/${slug}"
+          :file-name "docs/notes/${slug}"
           :unnarrowed t
           :head
 "
@@ -59,7 +59,7 @@
 ")
         ("s" "Slides" plain (function org-roam-capture--get-point)
          "%?"
-         :file-name "slides/${slug}"
+         :file-name "docs/slides/${slug}"
          :unnarrowed t
          :head
 "
@@ -72,7 +72,7 @@
 (setq org-roam-dailies-capture-templates
       '(("d" "Default" entry (function org-roam-capture--get-point)
          "* %?"
-         :file-name "daily/%<%Y-%m-%d>"
+         :file-name "docs/daily/%<%Y-%m-%d>"
          :head
 "
 #+TITLE: %<%Y-%m-%d>
@@ -128,14 +128,14 @@
   "m" '(mu4e :which-key "Mail"))
 
 (setq org-agenda-files '("~/.local/source/secrets/org/"
-                         "~/.local/source/dotfiles/daily/"))
+                         "~/.local/source/dotfiles/docs/daily/"))
 
 (dotfiles/leader
   "a" '(org-agenda :which-key "Agenda"))
 
 (use-package gif-screencast
   :custom
-  (gif-screencast-output-directory (concat dotfiles/home "images/")))
+  (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 
 (dotfiles/leader
   "s" '(:ignore t :which-key "Screencast")

@@ -665,7 +665,7 @@ Organize the capture templates, this allows me to quickly dictate where each new
 (setq org-roam-capture-templates
       '(("p" "Posts" plain (function org-roam-capture--get-point)
           "%?"
-          :file-name "posts/${slug}"
+          :file-name "docs/posts/${slug}"
           :unnarrowed t
           :head
 "
@@ -681,7 +681,7 @@ Organize the capture templates, this allows me to quickly dictate where each new
 ")
         ("n" "Notes" plain (function org-roam-capture--get-point)
           "%?"
-          :file-name "notes/${slug}"
+          :file-name "docs/notes/${slug}"
           :unnarrowed t
           :head
 "
@@ -696,7 +696,7 @@ Organize the capture templates, this allows me to quickly dictate where each new
 ")
         ("s" "Slides" plain (function org-roam-capture--get-point)
          "%?"
-         :file-name "slides/${slug}"
+         :file-name "docs/slides/${slug}"
          :unnarrowed t
          :head
 "
@@ -713,7 +713,7 @@ By default I want my daily notes to live in ~daily/~ relative to my dotfiles.
 (setq org-roam-dailies-capture-templates
       '(("d" "Default" entry (function org-roam-capture--get-point)
          "* %?"
-         :file-name "daily/%<%Y-%m-%d>"
+         :file-name "docs/daily/%<%Y-%m-%d>"
          :head
 "
 ,#+TITLE: %<%Y-%m-%d>
@@ -819,7 +819,7 @@ Configure agenda sources.
   
 #+begin_src emacs-lisp
 (setq org-agenda-files '("~/.local/source/secrets/org/"
-                         "~/.local/source/dotfiles/daily/"))
+                         "~/.local/source/dotfiles/docs/daily/"))
 #+end_src
 
 Open an agenda buffer with =SPC a=.
@@ -842,7 +842,7 @@ It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =Ima
 #+begin_src emacs-lisp
 (use-package gif-screencast
   :custom
-  (gif-screencast-output-directory (concat dotfiles/home "images/")))
+  (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 #+end_src
 
 Screencast controls behind =SPC s=.
