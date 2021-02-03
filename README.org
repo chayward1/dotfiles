@@ -625,7 +625,9 @@ Download and install [[https://orgroam.com][org-roam]], a plain text knowledge m
 #+begin_src emacs-lisp
 (use-package org-roam
   :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory org-directory))
+  :custom
+  (org-roam-directory org-directory)
+  (org-roam-encrypt-files t))
 #+end_src
 
 Visualize the org-roam database with the server, available when the editor is running at http://localhost:8080
@@ -816,6 +818,15 @@ Create a keybinding to open the mail dashboard with =SPC m=.
 #+end_src
 
 *** Agenda
+
+Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
+
+#+begin_src emacs-lisp
+(unless (string-match-p "\\.gpg" org-agenda-file-regexp)
+  (setq org-agenda-file-regexp
+        (replace-regexp-in-string "\\\\\\.org" "\\\\.org\\\\(\\\\.gpg\\\\)?"
+                                  org-agenda-file-regexp)))
+#+end_src
 
 Configure agenda sources.
   
