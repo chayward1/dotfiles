@@ -8,10 +8,8 @@
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
 (dotfiles/leader
-  "x" '(:ignore t :which-key "Execute")
-  "xx" '(dotfiles/run :which-key "Run")
-  "xb" '(dotfiles/run-in-background :which-key "Run (background)")
-  "xz" '(async-shell-command :which-key "Async"))
+  "x" '(dotfiles/run :which-key "Run")
+  "z" '(async-shell-command :which-key "Async"))
 
 (defun dotfiles/init-hook ()
   (exwm-workspace-switch-create 1)
