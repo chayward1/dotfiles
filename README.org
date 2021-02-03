@@ -124,7 +124,7 @@ Minimal configuration to make Emacs usable for my own personal workflow. This do
 
 *** Cleanup
 
-Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. How can we solve this issue? Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post [[https://chrishayward.xyz/posts/immutable_emacs/][Immutable Emacs]].
+Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. How can we solve this issue? Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post [[https://chrishayward.xyz/posts/immutable-emacs/][Immutable Emacs]].
 
 #+begin_src emacs-lisp
 (setq user-emacs-directory dotfiles/cache)
