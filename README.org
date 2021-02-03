@@ -37,6 +37,8 @@ Assuming you have completed all of the following tasks prior to proceeding furth
 2. Initialized the =passwords=
 3. Defined the =host= file
 4. Created all required symbolic links
+
+Launch emacs: ~emacs -mm --debug-init~
    
 #+begin_src emacs-lisp
 ;; Load the host configuration.
