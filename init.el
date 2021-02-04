@@ -39,7 +39,7 @@
   "Directory containing the password store.")
 
 ;; Load the host configuration.
-(let ((host-file (concat user-emacs-directory "/hosts/" system-name ".el")))
+(let ((host-file (concat dotfiles/home "/hosts/" system-name ".el")))
   (when (file-exists-p host-file)
     (load-file host-file)))
 

@@ -124,7 +124,7 @@ The host configuration is loaded (if it exist) using the systems name.
 
 #+begin_src emacs-lisp
 ;; Load the host configuration.
-(let ((host-file (concat user-emacs-directory "/hosts/" system-name ".el")))
+(let ((host-file (concat dotfiles/home "/hosts/" system-name ".el")))
   (when (file-exists-p host-file)
     (load-file host-file)))
 #+end_src
