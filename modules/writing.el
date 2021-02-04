@@ -10,9 +10,8 @@
 
 (use-package org-roam
   :hook (after-init . org-roam-mode)
-  :custom
-  (org-roam-directory org-directory)
-  (org-roam-encrypt-files t))
+  :custom (org-roam-directory org-directory)
+          (org-roam-encrypt-files t))
 
 (use-package org-roam-server
   :hook (org-roam-mode . org-roam-server-mode))
@@ -87,25 +86,17 @@
 
 (use-package mu4e
   :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :custom (mu4e-maildir "~/.cache/mail")
+          (mu4e-update-interval (* 5 60))
+          (mu4e-get-mail-command "mbsync -a")
+          (mu4e-compose-format-flowed t)
+          (mu4e-change-filenames-when-moving t)
+          (message-send-mail-function 'smtpmail-send-it)  
+          (mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
+          (mu4e-compose-signature (concat "Chris Hayward\n"
+                                          "https://chrishayward.xyz\n"))
   :config
-  (setq mu4e-change-filenames-when-moving t
-        mu4e-update-interval (* 5 60) ;; Every 5 minutes.
-        mu4e-get-mail-command "mbsync -a"
-        mu4e-maildir "~/.cache/mail"
-        mu4e-compose-signature 
-          (concat "Chris Hayward\n"
-                  "https://chrishayward.xyz\n"))
-
-  ;; Ensure plain text scales for all devices.
-  (setq mu4e-compose-format-flowed t)
-
-  ;; GPG signing key for outbound mail.
-  (setq mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
   (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
-
-  (setq message-send-mail-function 'smtpmail-send-it)  
-
-  ;; Configure mail account(s).
   (setq mu4e-contexts
     (list
       ;; Main
@@ -124,11 +115,9 @@
             (smtpmail-stream-type . starttls))))))
 
 (use-package mu4e-alert
-  :custom
-  (mu4e-alert-set-default-style 'libnotify)
-  :config
-  (mu4e-alert-enable-notifications)
-  (mu4e-alert-enable-mode-line-display))
+  :custom (mu4e-alert-set-default-style 'libnotify)
+  :config (mu4e-alert-enable-notifications)
+          (mu4e-alert-enable-mode-line-display))
 
 (dotfiles/leader
   "m" '(mu4e :which-key "Mail"))
@@ -145,8 +134,7 @@
   "a" '(org-agenda :which-key "Agenda"))
 
 (use-package gif-screencast
-  :custom
-  (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
+  :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 
 (dotfiles/leader
   "s" '(:ignore t :which-key "Screencast")
