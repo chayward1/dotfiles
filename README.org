@@ -15,7 +15,7 @@ Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Reproducible
 
 Heavily inspired by [[https://github.com/hlissner/doom-emacs][Doom Emacs]] and [[https://youtube.com/c/SystemCrafters][System Crafters]].
-  
+
 * Init
 :PROPERTIES:
 :header-args: :tangle init.el
