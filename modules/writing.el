@@ -10,7 +10,9 @@
 
 (use-package org-roam
   :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory org-directory))
+  :custom
+  (org-roam-directory org-directory)
+  (org-roam-encrypt-files t))
 
 (use-package org-roam-server
   :hook (org-roam-mode . org-roam-server-mode))
@@ -127,8 +129,13 @@
 (dotfiles/leader
   "m" '(mu4e :which-key "Mail"))
 
-(setq org-agenda-files '("~/.local/source/secrets/org/"
-                         "~/.local/source/dotfiles/docs/daily/"))
+(unless (string-match-p "\\.gpg" org-agenda-file-regexp)
+  (setq org-agenda-file-regexp
+        (replace-regexp-in-string "\\\\\\.org" "\\\\.org\\\\(\\\\.gpg\\\\)?"
+                                  org-agenda-file-regexp)))
+
+(setq org-agenda-files '("~/.emacs.d/docs/"
+                         "~/.emacs.d/docs/daily/"))
 
 (dotfiles/leader
   "a" '(org-agenda :which-key "Agenda"))

@@ -831,8 +831,8 @@ Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
 Configure agenda sources.
   
 #+begin_src emacs-lisp
-(setq org-agenda-files '("~/.local/source/secrets/org/"
-                         "~/.local/source/dotfiles/docs/daily/"))
+(setq org-agenda-files '("~/.emacs.d/docs/"
+                         "~/.emacs.d/docs/daily/"))
 #+end_src
 
 Open an agenda buffer with =SPC a=.
