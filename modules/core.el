@@ -39,6 +39,7 @@
   :custom (org-ellipsis " ▾")
 	        (org-log-done 'time)
 	        (org-log-into-drawer t)
+          (org-image-actual-width nil)
           (org-directory dotfiles/home)
 	        (org-src-preserve-indentation t)
   :config (require 'org-tempo)

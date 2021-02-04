@@ -7,7 +7,7 @@
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
 #+ATTR_LATEX: :width 420px
-[[./docs/images/desktop.png]]
+[[./docs/images/desktop-alt.png]]
 
 Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Literate
@@ -261,6 +261,7 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
   :custom (org-ellipsis " ▾")
 	        (org-log-done 'time)
 	        (org-log-into-drawer t)
+          (org-image-actual-width nil)
           (org-directory dotfiles/home)
 	        (org-src-preserve-indentation t)
   :config (require 'org-tempo)
@@ -1230,6 +1231,11 @@ Toggle global ligature mode with =SPC t g=.
 #+end_src
 
 *** Dashboard
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/desktop.png]]
 
 Present a dashboard when first launching Emacs.
 
