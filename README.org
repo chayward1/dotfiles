@@ -4,27 +4,15 @@
 
 #+ROAM_KEY: https://github.com/chayward1/dotfiles/
 
-#+begin_example
-                              _.-="_-         _
-                         _.-="   _-          | ||"""""""---._______     __..
-             ___.===""""-.______-,,,,,,,,,,,,`-''----" """""       """""  __'
-      __.--""     __        ,'                   o \           __        [__|
- __-""=======.--""  ""--.=================================.--""  ""--.=======:
-]       [w] : /        \ : |========================|    : /        \ :  [w] :
-V___________:|          |: |========================|    :|          |:   _-"
- V__________: \        / :_|=======================/_____: \        / :__-"
- -----------'  "-____-"  `-------------------------------'  "-____-"
-#+end_example
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/desktop.png]]
 
 Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Literate
 + 100% Immutable
 + 100% Reproducible
-
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[./docs/images/desktop.png]]
   
 * Init
 :PROPERTIES:
