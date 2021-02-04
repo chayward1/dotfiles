@@ -21,23 +21,21 @@
   (dotfiles/run-in-background "autorandr --change --force"))
 
 (use-package exwm
-  :config
-  (require 'exwm-randr)
-  (exwm-randr-enable)
-  (add-hook 'exwm-init-hook #'dotfiles/init-hook)
-  (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
-  (dotfiles/update-display)
-  (setq exwm-input-prefix-keys
-        '(?\M-x
-          ?\C-g
-          ?\C-\ )
-        exwm-input-global-keys
-        `(([?\s-r] . exwm-reset)
-          ([?\s-&] . dotfiles/run)
-          ,@(mapcar (lambda (i)
-                      `(,(kbd (format "s-%d" i)) .
-                        (lambda ()
+  :custom (exwm-input-prefix-keys
+            '(?\M-x
+              ?\C-g
+              ?\C-\ ))
+          (exwm-input-global-keys
+            `(([?\s-r] . exwm-reset)
+              ,@(mapcar (lambda (i)
+                          `(,(kbd (format "s-%d" i)) .
+                          (lambda ()
                           (interactive)
                           (exwm-workspace-switch-create ,i))))
-                    (number-sequence 1 9))))
-  (exwm-enable))
+                          (number-sequence 1 9))))
+  :config (require 'exwm-randr)
+          (exwm-randr-enable)
+          (add-hook 'exwm-init-hook #'dotfiles/init-hook)
+          (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
+          (dotfiles/update-display)
+          (exwm-enable))
