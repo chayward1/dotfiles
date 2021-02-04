@@ -1,4 +1,5 @@
 #+TITLE: Dotfiles
+#+SUBTITLE: I showed you my source code, pls respond
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
@@ -1221,8 +1222,9 @@ Load a theme with =SPC t t=.
 Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-code-mode]], perform this action *only* when ~Fira Code~ is set as the current font.
 
 #+begin_src emacs-lisp
-(use-package fira-code-mode
-  :hook (prog-mode org-mode))
+(when (display-graphic-p)
+  (use-package fira-code-mode
+    :hook (prog-mode org-mode)))
 #+end_src
 
 Toggle global ligature mode with =SPC t g=.

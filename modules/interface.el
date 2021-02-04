@@ -34,8 +34,9 @@
 (dotfiles/leader
   "tt" '(load-theme t t :which-key "Theme"))
 
-(use-package fira-code-mode
-  :hook (prog-mode org-mode))
+(when (display-graphic-p)
+  (use-package fira-code-mode
+    :hook (prog-mode org-mode)))
 
 (dotfiles/leader
   "tg" '(global-fira-code-mode :which-key "Ligatures"))
