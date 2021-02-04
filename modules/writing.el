@@ -38,11 +38,13 @@
 #+AUTHOR: Christopher James Hayward
 #+DATE: %<%Y-%m-%d>
 
+#+EXPORT_FILE_NAME: ${slug}
 #+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
 
 #+HUGO_BASE_DIR: ../../website/
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: posts
+#+HUGO_DRAFT: true
 ")
         ("n" "Notes" plain (function org-roam-capture--get-point)
           "%?"
@@ -53,11 +55,13 @@
 #+TITLE: ${title}
 #+AUTHOR: Christopher James Hayward
 
+#+EXPORT_FILE_NAME: ${slug}
 #+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
 
 #+HUGO_BASE_DIR: ../../website
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: notes
+#+HUGO_DRAFT: true
 ")
         ("s" "Slides" plain (function org-roam-capture--get-point)
          "%?"
