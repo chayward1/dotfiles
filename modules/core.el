@@ -31,31 +31,25 @@
 (tooltip-mode -1)
 
 (use-package org
-  :hook
-  (org-mode . (lambda ()
-		      (org-indent-mode)
-		      (visual-line-mode 1)
-		      (variable-pitch-mode 1)))
-  :config
-  (setq org-ellipsis " ▾"
-	      org-log-done 'time
-	      org-log-into-drawer t
-        org-directory dotfiles/home
-	      org-src-preserve-indentation t)
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((shell . t)
-     (python . t)
-     (emacs-lisp . t)))
-
-  (require 'org-tempo)
-  (add-to-list 'org-structure-template-alist '("s" . "src"))
-  (add-to-list 'org-structure-template-alist '("q" . "quote"))
-  (add-to-list 'org-structure-template-alist '("e" . "example"))
-  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python"))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+  :hook (org-mode .
+        (lambda ()
+	        (org-indent-mode)
+		(visual-line-mode 1)
+		(variable-pitch-mode 1)))
+  :custom (org-ellipsis " ▾")
+	        (org-log-done 'time)
+	        (org-log-into-drawer t)
+          (org-directory dotfiles/home)
+	        (org-src-preserve-indentation t)
+  :config (require 'org-tempo)
+          (add-to-list 'org-structure-template-alist '("s" . "src"))
+          (add-to-list 'org-structure-template-alist '("q" . "quote"))
+          (add-to-list 'org-structure-template-alist '("e" . "example"))
+          (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+          (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)
+                                                                   (python . t)
+                                                                   (emacs-lisp . t))))
 
 (defun dotfiles/tangle (dir)
   "Recursively tangle the Org files within a directory."
@@ -68,8 +62,8 @@
 
 (use-package which-key
   :diminish which-key-mode
-  :init (which-key-mode)
-  :config (setq which-key-idle-delay dotfiles/idle))
+  :custom (which-key-idle-delay dotfiles/idle)
+  :config (which-key-mode))
 
 (use-package general
   :config
@@ -82,8 +76,8 @@
 (use-package hydra)
 
 (use-package evil
-  :init (setq evil-want-integration t
-	      evil-want-keybinding nil)
+  :custom (evil-want-integration t)  ;; Required for `evil-collection'.
+          (evil-want-keybinding nil) ;; Same as above
   :config (evil-mode 1))
 
 (use-package evil-collection
@@ -138,8 +132,8 @@
   "g" '(magit-status :which-key "Magit"))
 
 (use-package eshell-prompt-extras
-  :config (setq eshell-highlight-prompt nil
-	            eshell-prompt-function 'epe-theme-lambda))
+  :custom (eshell-highlight-prompt nil)
+	        (eshell-prompt-function 'epe-theme-lambda))
 
 (dotfiles/leader
   "e" '(eshell :which-key "Shell"))
@@ -152,10 +146,9 @@
 (require 'dired-x)
 
 (use-package dired-single
-  :config
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "h" 'dired-single-up-directory
-    "l" 'dired-single-buffer))
+  :config (evil-collection-define-key 'normal 'dired-mode-map
+            "h" 'dired-single-up-directory
+            "l" 'dired-single-buffer))
 
 (dotfiles/leader
   "d" '(dired-jump :which-key "Dired"))
