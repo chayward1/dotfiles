@@ -40,7 +40,7 @@
 
 #+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
 
-#+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_BASE_DIR: ../../website/
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: posts
 ")
@@ -55,7 +55,7 @@
 
 #+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
 
-#+HUGO_BASE_DIR: ~/.local/source/website
+#+HUGO_BASE_DIR: ../../website
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: notes
 ")
