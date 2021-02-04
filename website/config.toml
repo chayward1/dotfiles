@@ -1,0 +1,81 @@
+baseURL = "https://chrishayward.xyz/"
+theme = "hermit"
+
+defaultContentLanguage = "en"
+languageCode = "en-us"
+
+title = "Chris Hayward"
+copyright = "Licensed under Attribution 4.0 International (CC BY 4.0)"
+
+pygmentsCodefences = true
+pygmentsUseClasses = true
+
+[Author]
+  name = "Christopher James Hayward"
+
+[blackfriday]
+  nofollowLinks = true
+  noreferrerlinks = true
+
+[taxonomies]
+  tag = "tags"
+
+[params]
+  dateform = "Jan 2, 2006"
+  dateformShort = "Jan 2"
+  dateformNum = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04 -0700"
+
+  homeSubtitle = "IT, Logistics, Simulation"
+  footerCopyright = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
+
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/chayward1/"
+
+  [[params.social]]
+    name = "gitlab"
+    url = "https://gitlab.com/chayward1/"
+
+  [[params.social]]
+    name = "linkedin"
+    url = "https://linkedin.com/in/christopher-hayward-00b6a8197/"
+
+  # [[params.social]]
+  #   name = "youtube"
+  #   url = "https://youtube.com/channel/UCOOh07namjfzGwRuay1LqRQ"
+
+[privacy]
+  [privacy.disqus]
+    disable = true
+
+  [privacy.googleAnalytics]
+    disable = true
+    
+  [privacy.instagram]
+    disable = true
+
+  [privacy.twitter]
+    disable = true
+
+  [privacy.vimeo]
+    disable = true
+
+  [privacy.youtube]
+    disable = true
+
+[menu]
+  [[menu.main]]
+    name = "Posts"
+    url = "posts/"
+    weight = 10
+
+  [[menu.main]]
+    name = "Notes"
+    url = "notes/"
+    weight = 20
+
+  [[menu.main]]
+    name = "Contact"
+    url = "mailto:chris@chrishayward.xyz"
+    weight = 30
