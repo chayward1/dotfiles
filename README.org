@@ -208,31 +208,25 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
 
 #+begin_src emacs-lisp
 (use-package org
-  :hook
-  (org-mode . (lambda ()
-		      (org-indent-mode)
-		      (visual-line-mode 1)
-		      (variable-pitch-mode 1)))
-  :config
-  (setq org-ellipsis " ▾"
-	      org-log-done 'time
-	      org-log-into-drawer t
-        org-directory dotfiles/home
-	      org-src-preserve-indentation t)
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((shell . t)
-     (python . t)
-     (emacs-lisp . t)))
-
-  (require 'org-tempo)
-  (add-to-list 'org-structure-template-alist '("s" . "src"))
-  (add-to-list 'org-structure-template-alist '("q" . "quote"))
-  (add-to-list 'org-structure-template-alist '("e" . "example"))
-  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python"))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+  :hook (org-mode .
+        (lambda ()
+	        (org-indent-mode)
+		(visual-line-mode 1)
+		(variable-pitch-mode 1)))
+  :custom (org-ellipsis " ▾")
+	        (org-log-done 'time)
+	        (org-log-into-drawer t)
+          (org-directory dotfiles/home)
+	        (org-src-preserve-indentation t)
+  :config (require 'org-tempo)
+          (add-to-list 'org-structure-template-alist '("s" . "src"))
+          (add-to-list 'org-structure-template-alist '("q" . "quote"))
+          (add-to-list 'org-structure-template-alist '("e" . "example"))
+          (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+          (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)
+                                                                   (python . t)
+                                                                   (emacs-lisp . t))))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -259,8 +253,8 @@ Download [[https://github.com/justbur/emacs-which-key][which-key]], a package th
 #+begin_src emacs-lisp
 (use-package which-key
   :diminish which-key-mode
-  :init (which-key-mode)
-  :config (setq which-key-idle-delay dotfiles/idle))
+  :custom (which-key-idle-delay dotfiles/idle)
+  :config (which-key-mode))
 #+end_src
 
 **** Leader
@@ -289,8 +283,8 @@ After a few hour with =vim= I knew it was game over, I cannot even think of anot
 
 #+begin_src emacs-lisp
 (use-package evil
-  :init (setq evil-want-integration t
-	      evil-want-keybinding nil)
+  :custom (evil-want-integration t)  ;; Required for `evil-collection'.
+          (evil-want-keybinding nil) ;; Same as above
   :config (evil-mode 1))
 #+end_src
 
@@ -418,8 +412,8 @@ https://github.com/zwild/eshell-prompt-extras
 
 #+begin_src emacs-lisp
 (use-package eshell-prompt-extras
-  :config (setq eshell-highlight-prompt nil
-	            eshell-prompt-function 'epe-theme-lambda))
+  :custom (eshell-highlight-prompt nil)
+	        (eshell-prompt-function 'epe-theme-lambda))
 #+end_src
 
 Open an =eshell= buffer with =SPC e=.
@@ -461,10 +455,9 @@ By default =dired= will create a new buffer everytime you press =RET= over a dir
 
 #+begin_src emacs-lisp
 (use-package dired-single
-  :config
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "h" 'dired-single-up-directory
-    "l" 'dired-single-buffer))
+  :config (evil-collection-define-key 'normal 'dired-mode-map
+            "h" 'dired-single-up-directory
+            "l" 'dired-single-buffer))
 #+end_src
 
 Open a dired buffer with =SPC d=.
@@ -569,26 +562,24 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
     
 #+begin_src emacs-lisp
 (use-package exwm
-  :config
-  (require 'exwm-randr)
-  (exwm-randr-enable)
-  (add-hook 'exwm-init-hook #'dotfiles/init-hook)
-  (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
-  (dotfiles/update-display)
-  (setq exwm-input-prefix-keys
-        '(?\M-x
-          ?\C-g
-          ?\C-\ )
-        exwm-input-global-keys
-        `(([?\s-r] . exwm-reset)
-          ([?\s-&] . dotfiles/run)
-          ,@(mapcar (lambda (i)
-                      `(,(kbd (format "s-%d" i)) .
-                        (lambda ()
+  :custom (exwm-input-prefix-keys
+            '(?\M-x
+              ?\C-g
+              ?\C-\ ))
+          (exwm-input-global-keys
+            `(([?\s-r] . exwm-reset)
+              ,@(mapcar (lambda (i)
+                          `(,(kbd (format "s-%d" i)) .
+                          (lambda ()
                           (interactive)
                           (exwm-workspace-switch-create ,i))))
-                    (number-sequence 1 9))))
-  (exwm-enable))
+                          (number-sequence 1 9))))
+  :config (require 'exwm-randr)
+          (exwm-randr-enable)
+          (add-hook 'exwm-init-hook #'dotfiles/init-hook)
+          (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
+          (dotfiles/update-display)
+          (exwm-enable))
 #+end_src
 
 ** Writing
@@ -625,9 +616,8 @@ Download and install [[https://orgroam.com][org-roam]], a plain text knowledge m
 #+begin_src emacs-lisp
 (use-package org-roam
   :hook (after-init . org-roam-mode)
-  :custom
-  (org-roam-directory org-directory)
-  (org-roam-encrypt-files t))
+  :custom (org-roam-directory org-directory)
+          (org-roam-encrypt-files t))
 #+end_src
 
 Visualize the org-roam database with the server, available when the editor is running at http://localhost:8080
@@ -763,28 +753,25 @@ mu index --maildir="~/.cache/mail"
 
 Once the mail is being synchronized, and the mail has been indexed with =mu=, it's time to install the required packages for Emacs.
 
++ Update every 5 minutes
++ Scale text for all devices
++ Sign outbound mail with GPG key
++ Configure mail account(s)
+
 #+begin_src emacs-lisp
 (use-package mu4e
   :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :custom (mu4e-maildir "~/.cache/mail")
+          (mu4e-update-interval (* 5 60))
+          (mu4e-get-mail-command "mbsync -a")
+          (mu4e-compose-format-flowed t)
+          (mu4e-change-filenames-when-moving t)
+          (message-send-mail-function 'smtpmail-send-it)  
+          (mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
+          (mu4e-compose-signature (concat "Chris Hayward\n"
+                                          "https://chrishayward.xyz\n"))
   :config
-  (setq mu4e-change-filenames-when-moving t
-        mu4e-update-interval (* 5 60) ;; Every 5 minutes.
-        mu4e-get-mail-command "mbsync -a"
-        mu4e-maildir "~/.cache/mail"
-        mu4e-compose-signature 
-          (concat "Chris Hayward\n"
-                  "https://chrishayward.xyz\n"))
-
-  ;; Ensure plain text scales for all devices.
-  (setq mu4e-compose-format-flowed t)
-
-  ;; GPG signing key for outbound mail.
-  (setq mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
   (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
-
-  (setq message-send-mail-function 'smtpmail-send-it)  
-
-  ;; Configure mail account(s).
   (setq mu4e-contexts
     (list
       ;; Main
@@ -807,11 +794,9 @@ Use [[https://github.com/iqbalansari/mu4e-alert][mu4e-alert]] to give us desktop
 
 #+begin_src emacs-lisp
 (use-package mu4e-alert
-  :custom
-  (mu4e-alert-set-default-style 'libnotify)
-  :config
-  (mu4e-alert-enable-notifications)
-  (mu4e-alert-enable-mode-line-display))
+  :custom (mu4e-alert-set-default-style 'libnotify)
+  :config (mu4e-alert-enable-notifications)
+          (mu4e-alert-enable-mode-line-display))
 #+end_src
 
 Create a keybinding to open the mail dashboard with =SPC m=.
@@ -858,8 +843,7 @@ It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =Ima
   
 #+begin_src emacs-lisp
 (use-package gif-screencast
-  :custom
-  (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
+  :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 #+end_src
 
 Screencast controls behind =SPC s=.
@@ -905,9 +889,8 @@ Configure [[https://projectile.mx][projectile]], a project interaction library f
 
 #+begin_src emacs-lisp
 (use-package projectile
-  :config
-  (setq projectile-project-search-path '("~/.local/source"))
-  (projectile-mode))
+  :custom (projectile-project-search-path '("~/.local/source"))
+  :config (projectile-mode))
 #+end_src
 
 *** Passwords
@@ -960,14 +943,17 @@ Support for individual languages are implemented here.
 
 **** C/C++
 
-Install the [[https://github.com/MaskRay/ccls][ccls]] language server.
+Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow us to create a new structure template for C/C++ with ~<cc~.
 
 #+begin_src emacs-lisp
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp))))
+         (lambda ()
+           (require 'ccls)
+           (lsp)))
+  :config (add-to-list 'org-structure-template-alist '("cc" . "src cc")))
 #+end_src
-  
+
 **** Python
 
 Install the =pyls= language server.
@@ -976,15 +962,46 @@ Install the =pyls= language server.
 pip install --user "python-language-server[all]"
 #+end_src
 
-[[https://www.emacswiki.org/emacs/PythonProgrammingInEmacs][python-mode]] is an Emacs built in mode.
+[[https://www.emacswiki.org/emacs/PythonProgrammingInEmacs][Python-mode]] is an Emacs built in mode.
+
++ Load the babel language module for Python
++ Add a python source code block structure template with ~<py~
   
 #+begin_src emacs-lisp
 (use-package python-mode
   :hook (python-mode . lsp)
   :config (require 'dap-python)
+          (add-to-list 'org-src-lang-modes '("python" . python))
+          (add-to-list 'org-structure-template-alist '("py" . "src python"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
+#+end_src
+
+**** PlantUML
+
+Download and install [[https://plantuml.com][PlantUML]], a text-based markup language for creating UML diagrams.
+
++ Load the babel language module for PlantUML
++ Create a structure template with ~<pl~
+
+#+begin_src emacs-lisp
+(use-package plantuml-mode
+  :custom (plantuml-default-exec-mode 'jar)
+          (plantuml-jar-path "~/.local/bin/plantuml.jar")
+          (org-plantuml-jar-path (expand-file-name "~/.local/bin/plantuml.jar"))
+          (org-startup-with-inline-images t)
+  :config (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+          (add-to-list 'org-structure-template-alist '("pl" . "src plantuml"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
+#+end_src
+
+Toggle inline images with =SPC t i=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "ti" '(org-display-inline-images :which-key "Images"))
 #+end_src
 
 **** Go
@@ -1027,6 +1044,12 @@ Apply some custom behaviour before saving:
   
 #+begin_src emacs-lisp
 (add-hook 'go-mode-hook #'dotfiles/go-hook)
+#+end_src
+
+Add a golang source code block structure template with ~<go~:
+
+#+begin_src emacs-lisp
+(add-to-list 'org-structure-template-alist '("go" . "src go"))
 #+end_src
 
 ** Interface
@@ -1096,8 +1119,7 @@ https://github.com/emacsmirror/linum-relative
 
 #+begin_src emacs-lisp
 (use-package linum-relative
-  :init (setq linum-relative-backend
-              'display-line-numbers-mode)
+  :custom (linum-relative-backend 'display-line-numbers-mode)
   :config (linum-relative-global-mode))
 #+end_src
 
@@ -1129,8 +1151,8 @@ Cherry pick a few modules from =doom-emacs=. High quality and modern colour them
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 16)))
+  :custom (doom-modeline-height 16)
+  :config (doom-modeline-mode 1))
 #+end_src
 
 Load a theme with =SPC t t=.
@@ -1162,18 +1184,17 @@ Present a dashboard when first launching Emacs.
 
 #+begin_src emacs-lisp
 (use-package dashboard
-  :config
-  (setq dashboard-center-content t
-        dashboard-set-init-info t
-        dashboard-set-file-icons t
-        dashboard-set-heading-icons t
-        dashboard-set-navigator t
-        dashboard-startup-banner 'logo
-        dashboard-projects-backend 'projectile
-        dashboard-items '((projects . 5)
-                          (recents . 5)
-                          (agenda . 5 )))
-  (dashboard-setup-startup-hook))
+  :custom (dashboard-center-content t)
+          (dashboard-set-init-info t)
+          (dashboard-set-file-icons t)
+          (dashboard-set-heading-icons t)
+          (dashboard-set-navigator t)
+          (dashboard-startup-banner 'logo)
+          (dashboard-projects-backend 'projectile)
+          (dashboard-items '((projects . 5)
+                             (recents . 5)
+                             (agenda . 5 )))
+  :config (dashboard-setup-startup-hook))
 #+end_src
 
 Customize the buttons of the navigator:
@@ -1214,4 +1235,3 @@ When running in *daemon* mode, ensure that the dashboard is the initial buffer.
       (lambda ()
         (get-buffer "*dashboard*")))
 #+end_src
-
