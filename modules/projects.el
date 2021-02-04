@@ -27,14 +27,31 @@
 
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp))))
+         (lambda () (require 'ccls) (lsp)))
+  :config
+  (add-to-list 'org-structure-template-alist '("cc" . "src cc")))
 
 (use-package python-mode
   :hook (python-mode . lsp)
   :config (require 'dap-python)
+          (add-to-list 'org-src-lang-modes '("python" . python))
+          (add-to-list 'org-structure-template-alist '("py" . "src python"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
+
+(use-package plantuml-mode
+  :custom (plantuml-default-exec-mode 'jar)
+          (plantuml-jar-path "~/.local/bin/plantuml.jar")
+          (org-plantuml-jar-path (expand-file-name "~/.local/bin/plantuml.jar"))
+          (org-startup-with-inline-images t)
+  :config (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+          (add-to-list 'org-structure-template-alist '("pl" . "src plantuml"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
+
+(dotfiles/leader
+  "ti" '(org-display-inline-images :which-key "Images"))
 
 (setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
 
@@ -48,3 +65,5 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
 (add-hook 'go-mode-hook #'dotfiles/go-hook)
+
+(add-to-list 'org-structure-template-alist '("go" . "src go"))
