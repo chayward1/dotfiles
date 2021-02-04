@@ -159,6 +159,17 @@ The first configuration, which was built using the Ubuntu 20.04 LTS server editi
   - chromium
   - any other browser
 
+** Phone (Termux)
+:PROPERTIES:
+:header-args: :tangle hosts/localhost.el
+:END:
+
+Remove the ~desktop~ module, since we're running on android.
+
+#+begin_src emacs-lisp
+(delete 'desktop dotfiles/modules)
+#+end_src
+
 * Modules
 
 Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundemental requirement to achieve the goal of modularity. Incorporating just the =core= module on a build server to build literate programming projects is just one example of what can be achieved.

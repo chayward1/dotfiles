@@ -1,0 +1,1 @@
+(delete 'desktop dotfiles/modules)
