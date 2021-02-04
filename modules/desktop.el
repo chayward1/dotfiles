@@ -1,3 +1,5 @@
+(setenv "BROWSER" dotfiles/browser)
+
 (defun dotfiles/run (command)
   "Run an external process."
   (interactive (list (read-shell-command "λ ")))

@@ -20,10 +20,15 @@ Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Literate
 + 100% Immutable
 + 100% Reproducible
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/desktop.png]]
   
 * Init
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/init.el
+:header-args: :tangle init.el
 :END:
 
 Although later versions of Emacs introduce =early-init.el=, it's not used in this configuration for two reasons:
@@ -149,7 +154,7 @@ Each host system that runs Emacs has a file defined in the =hosts/= sub director
 
 ** Example (Ubuntu)
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/hosts/ubuntu.el
+:header-args: :tangle hosts/ubuntu.el
 :END:
 
 The first configuration, which was built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build, which required overriding the ~$BROWSER~ environment variable.
@@ -169,7 +174,7 @@ Breaking down the project into logical units or chapters to keep the code more m
 
 ** Core
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/modules/core.el :results silent
+:header-args: :tangle modules/core.el :results silent
 :END:
 
 Minimal configuration to make Emacs usable for my own personal workflow. This does very little in the ways of improving the visuals, only removing what is included by default and not required.
@@ -521,20 +526,26 @@ Open a dired buffer with =SPC d=.
 
 ** Desktop
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/modules/desktop.el :results silent
+:header-args: :tangle modules/desktop.el :results silent
 :END:
 
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=. My workflow includes launching the window manager with =xinitrc=, without the use of a display manager, controlling *everything* within Emacs.
 
+Make sure the browser is available by writing to the ~$BROWSER~ environment variable with our own.
+
+#+begin_src emacs-lisp
+(setenv "BROWSER" dotfiles/browser)
+#+end_src
+
 *** Startup
 
-#+begin_src conf :tangle ~/.local/source/dotfiles/config/xinitrc
+#+begin_src conf :tangle config/xinitrc
 exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
 
 When launching into a session, if the display server is not running then =startx= should be invoked, to run the window manager.
 
-#+begin_src sh :tangle ~/.local/source/dotfiles/config/profile
+#+begin_src sh :tangle config/profile
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
     exec startx
 fi
@@ -636,7 +647,7 @@ Connect our custom hooks and configure the input keys, a custom layer for defini
 
 ** Writing
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/modules/writing.el :results silent
+:header-args: :tangle modules/writing.el :results silent
 :END:
 
 I am using [[https://orgmode.org][Org-mode]] extensively for writing projects for different purposes. Most of the improvements are done in the *Core* module for the Literate programming configuration. [[https://github.com/integral-dw/org-superstar-mode][Org-superstar-mode]] for making headline stars more *super*.
@@ -775,7 +786,7 @@ By default I want my daily notes to live in ~daily/~ relative to my dotfiles.
 
 Plain text email delivered via mu, mu4e and mbsync. I run my own email server, so your configuration may differ from mine. This is the ~mbsyncrc~ file I use to synchronize my local mail with my server. This is required for mu4e in Emacs.
 
-#+begin_src conf :tangle ~/.local/source/dotfiles/config/mbsyncrc
+#+begin_src conf :tangle config/mbsyncrc
 IMAPStore xyz-remote
 Host mail.chrishayward.xyz
 User chris@chrishayward.xyz
@@ -911,7 +922,7 @@ Screencast controls behind =SPC s=.
 
 ** Projects
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/modules/projects.el :results silent
+:header-args: :tangle modules/projects.el :results silent
 :END:
 
 An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
@@ -1106,7 +1117,7 @@ Add a golang source code block structure template with ~<go~:
 
 ** Interface
 :PROPERTIES:
-:header-args: :tangle ~/.local/source/dotfiles/modules/interface.el :results silent
+:header-args: :tangle modules/interface.el :results silent
 :END:
 
 *Bring Emacs out of the eighties*
