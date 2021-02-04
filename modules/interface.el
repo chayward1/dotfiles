@@ -15,8 +15,7 @@
   "tf" '(hydra-text-scale/body :which-key "Font"))
 
 (use-package linum-relative
-  :init (setq linum-relative-backend
-              'display-line-numbers-mode)
+  :custom (linum-relative-backend 'display-line-numbers-mode)
   :config (linum-relative-global-mode))
 
 (dotfiles/leader
@@ -29,8 +28,8 @@
   :init (load-theme 'doom-moonlight t))
 
 (use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 16)))
+  :custom (doom-modeline-height 16)
+  :config (doom-modeline-mode 1))
 
 (dotfiles/leader
   "tt" '(load-theme t t :which-key "Theme"))
@@ -42,18 +41,17 @@
   "tg" '(global-fira-code-mode :which-key "Ligatures"))
 
 (use-package dashboard
-  :config
-  (setq dashboard-center-content t
-        dashboard-set-init-info t
-        dashboard-set-file-icons t
-        dashboard-set-heading-icons t
-        dashboard-set-navigator t
-        dashboard-startup-banner 'logo
-        dashboard-projects-backend 'projectile
-        dashboard-items '((projects . 5)
-                          (recents . 5)
-                          (agenda . 5 )))
-  (dashboard-setup-startup-hook))
+  :custom (dashboard-center-content t)
+          (dashboard-set-init-info t)
+          (dashboard-set-file-icons t)
+          (dashboard-set-heading-icons t)
+          (dashboard-set-navigator t)
+          (dashboard-startup-banner 'logo)
+          (dashboard-projects-backend 'projectile)
+          (dashboard-items '((projects . 5)
+                             (recents . 5)
+                             (agenda . 5 )))
+  :config (dashboard-setup-startup-hook))
 
 (setq dashboard-navigator-buttons
       `(;; First row.
