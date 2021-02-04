@@ -7,9 +7,8 @@
           (lsp-ui-doc-delay 0.500))
 
 (use-package projectile
-  :config
-  (setq projectile-project-search-path '("~/.local/source"))
-  (projectile-mode))
+  :custom (projectile-project-search-path '("~/.local/source"))
+  :config (projectile-mode))
 
 (use-package password-store
   :custom (password-store-dir dotfiles/passwords))
@@ -27,9 +26,10 @@
 
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp)))
-  :config
-  (add-to-list 'org-structure-template-alist '("cc" . "src cc")))
+         (lambda ()
+           (require 'ccls)
+           (lsp)))
+  :config (add-to-list 'org-structure-template-alist '("cc" . "src cc")))
 
 (use-package python-mode
   :hook (python-mode . lsp)
