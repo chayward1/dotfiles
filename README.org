@@ -1178,9 +1178,10 @@ Present a dashboard when first launching Emacs.
 
 Customize the buttons of the navigator:
 
-+  Brain @ http://localhost:8080
-+  Homepage @ https://chrishayward.xyz
-+  Athabasca @ https://login.athabascau.ca/cas/login
++ Brain @ http://localhost:8080
++ Homepage @ https://chrishayward.xyz
++ Athabasca @ https://login.athabascau.ca/cas/login
++ Bookshelf @ https://online.vitalsource.com
 
 #+begin_src emacs-lisp
 (setq dashboard-navigator-buttons
@@ -1198,7 +1199,12 @@ Customize the buttons of the navigator:
         ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
          "Athabasca"
          "Univeristy login"
-         (lambda (&rest _) (browse-url "https://login.athabascau.ca/cas/login"))))))
+         (lambda (&rest _) (browse-url "https://login.athabascau.ca/cas/login"))))
+        ;; Fourth row.
+        ((,(all-the-icons-faicon "book" :height 1.1 :v-adjust 0.0)
+         "Bookshelf"
+         "Vitalsource bookshelf"
+         (lambda (&rest _) (browse-url "https://online.vitalsource.com"))))))
 #+end_src
 
 When running in *daemon* mode, ensure that the dashboard is the initial buffer.

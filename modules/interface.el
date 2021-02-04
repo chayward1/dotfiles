@@ -70,7 +70,12 @@
         ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
          "Athabasca"
          "Univeristy login"
-         (lambda (&rest _) (browse-url "https://login.athabascau.ca/cas/login"))))))
+         (lambda (&rest _) (browse-url "https://login.athabascau.ca/cas/login"))))
+        ;; Fourth row.
+        ((,(all-the-icons-faicon "book" :height 1.1 :v-adjust 0.0)
+         "Bookshelf"
+         "Vitalsource bookshelf"
+         (lambda (&rest _) (browse-url "https://online.vitalsource.com"))))))
 
 (setq initial-buffer-choice
       (lambda ()
