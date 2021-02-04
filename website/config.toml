@@ -26,7 +26,7 @@ pygmentsUseClasses = true
   dateformNum = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04 -0700"
 
-  homeSubtitle = "IT, Logistics, Simulation"
+  homeSubtitle = "Airplanes, Linux, and Metalcore"
   footerCopyright = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
 
   [[params.social]]
