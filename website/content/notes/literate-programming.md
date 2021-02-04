@@ -1,7 +1,7 @@
 +++
 title = "Literate Programming"
 author = ["Christopher James Hayward"]
-lastmod = 2021-02-01T16:14:03-05:00
+lastmod = 2021-02-04T16:35:59-05:00
 draft = false
 +++
 
@@ -23,16 +23,9 @@ Knuth describes a **practitioner** in the introduction of his 1984 paper[^fn:1] 
 
 ## Concept {#concept}
 
-```text
-                     _____
-                    |     | -> Send to Boss
- _____              | doc | -> Copy to Team
-|     | -> Weave -> |_____| -> Copy to Support
-| org |               _____
-|_____| -> Tangle -> |     | -> Test on CI
-                     | src | -> Copy to CDN
-                     |_____| -> Send to Customer
-```
+The overal concept is not to difficult to imagine:
+
+{{< figure src="/ox-hugo/literate-programming-concept.png" >}}
 
 Illustrated above we see the process of **weaving** and **tangling** the literate source file, and how each of the produced components is handled respectively.
 
