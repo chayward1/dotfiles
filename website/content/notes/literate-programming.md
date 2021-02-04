@@ -1,7 +1,7 @@
 +++
 title = "Literate Programming"
 author = ["Christopher James Hayward"]
-lastmod = 2021-02-04T16:35:59-05:00
+lastmod = 2021-02-04T16:53:42-05:00
 draft = false
 +++
 
@@ -16,24 +16,13 @@ Described in its introduction[^fn:1] as a
 
 > Programming paradigm in which a computer program is given an explanation of its logic in a natural language, such as English, interspersed with snippets of macros and traditional source code, from which compilable source code can be generated.
 
-Knuth describes a **practitioner** in the introduction of his 1984 paper[^fn:1] as
-
-> An essayist concerned with exposition and excellence of style. Someone who carefully selects the name for each variable and describes their meaning. They will strive for a program that is comprehensible because concepts are introduced in a manner best for human understanding.
-
-
-## Concept {#concept}
-
 The overal concept is not to difficult to imagine:
 
 {{< figure src="/ox-hugo/literate-programming-concept.png" >}}
 
-Illustrated above we see the process of **weaving** and **tangling** the literate source file, and how each of the produced components is handled respectively.
+Knuth describes a **practitioner** in the introduction of his 1984 paper[^fn:1] as
 
-| File | Description                  |
-|------|------------------------------|
-| org  | Literate document / file     |
-| src  | Machine readable source code |
-| doc  | Human readable documentation |
+> An essayist concerned with exposition and excellence of style. Someone who carefully selects the name for each variable and describes their meaning. They will strive for a program that is comprehensible because concepts are introduced in a manner best for human understanding.
 
 
 ## Resources {#resources}
