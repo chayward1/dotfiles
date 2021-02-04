@@ -40,12 +40,102 @@ Assuming you have completed all of the following tasks prior to proceeding furth
 
 Launch emacs: ~emacs -mm --debug-init~
    
+** Options
+
+Here's a complete list of all of the options configurable for each host, and their default values. If a host configuration does not exist, these values will be used in place.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/browser
+  (getenv "BROWSER")
+  "The default browser used by the system.")
+#+end_src
+
+All of the available modules are defined in the ~dotfiles/modules-available~ constant.
+
+#+begin_src emacs-lisp
+(defconst dotfiles/modules-available
+  '(core desktop writing projects interface)
+  "All of the available modules for hosts to load.")
+#+end_src
+
+Add the modules you want to initialize to the ~dotfiles/modules~ variable.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/modules
+  dotfiles/modules-available
+  "Enabled modules, modify this in your host configuration.")
+#+end_src
+
+Specify the emacs home, and the cache directory.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/home
+  user-emacs-directory
+  "Original value of `user-emacs-directory'.")
+#+end_src
+
+Used to seperate the immutable configuration from the stateful package files.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/cache
+  (expand-file-name "~/.cache/emacs")
+  "Where `user-emacs-directory' will be redirected.")
+#+end_src
+
+Functionality like =completion= and =hints= can be delayed to avoid popups for common manuevers.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/idle
+  0.0
+  "Length of time to wait before offering completions.")
+#+end_src
+
+Required for the all powerful leader key.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/leader-key
+  "SPC"
+  "Custom leader key for custom actions.")
+#+end_src
+
+The desktop module requires the global leader key to be set.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/leader-key-global
+  (concat "C-" dotfiles/leader-key)
+  "Global leader key available everywhere.")
+#+end_src
+
+Define where the source repositories are stored, for integration with the *Projects* module.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/projects
+  (expand-file-name "~/.local/source/")
+  "Location where source code projects are stored.")
+#+end_src
+
+Where the password store is located.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/passwords
+  (expand-file-name "~/.password-store/")
+  "Directory containing the password store.")
+#+end_src
+
+** Startup
+
+The host configuration is loaded (if it exist) using the systems name.
+
 #+begin_src emacs-lisp
 ;; Load the host configuration.
 (let ((host-file (concat user-emacs-directory "/hosts/" system-name ".el")))
   (when (file-exists-p host-file)
     (load-file host-file)))
+#+end_src
 
+Load all of the enabled modules:
+
+#+begin_src emacs-lisp
 ;; Load the enabled modules.
 (dolist (m dotfiles/modules)
   (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".el")))
@@ -62,54 +152,16 @@ Each host system that runs Emacs has a file defined in the =hosts/= sub director
 :header-args: :tangle ~/.local/source/dotfiles/hosts/ubuntu.el
 :END:
 
-The first configuration, which was built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build. Setting the ~$BROWSER~ variable is required in the desktop module. Set the browser to the flatpak borwser currently installed, this could change to chromium, firefox, or any other browser by changing this environment variable.
+The first configuration, which was built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build, which required overriding the ~$BROWSER~ environment variable.
 
 #+begin_src emacs-lisp
-(setenv "BROWSER" "flatpak run org.mozilla.firefox")
+(setq dotfiles/browser "flatpak run org.mozilla.firefox")
 #+end_src
 
-Add the modules you want to initialize to the ~dotfiles/modules~ variable.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/modules '(core
-                           desktop
-                           writing
-                           projects
-                           interface))
-#+end_src
-
-Specify the ~home~ and ~cache~ directories.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/cache "~/.cache/emacs")
-(defvar dotfiles/home user-emacs-directory)
-#+end_src
-
-Functionality like =completion= and =hints= can be delayed to avoid popups for common manuevers. Adjust this value to your personal taste.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/idle 0.0)
-#+end_src
-
-Avoid the infamous *Emacs pinky* by binding =SPC= as a leader key, utilizing the thumb instead of the weaker pinky finger. You may change this value if you want to use something else.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/leader-key "SPC")
-(defvar dotfiles/leader-key-global "C-SPC")
-#+end_src
-
-Define where the source repositories are stored, for integration with the *Projects* module.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/src "~/.local/source/")
-#+end_src
-
-Secret keys and passwords are stored in a seperate repository.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/secrets (concat dotfiles/src "secrets/"))
-(defvar dotfiles/passwords (concat dotfiles/src "passwords/"))
-#+end_src
++ Set the browser to the flatpak browser currently installed
+  - firefox
+  - chromium
+  - any other browser
 
 * Modules
 
