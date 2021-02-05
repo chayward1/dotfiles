@@ -198,7 +198,7 @@ Because this project uses version-control, we can disable more unwanted features
       make-backup-files nil)
 #+end_src
 
-*** Package management
+*** Packages
 
 Download and install packages using [[https://github.com/raxod502/straight.el][straight.el]], a functional package manager that integrates with =use-package=, giving us more control over where packages are sourced from.
 
@@ -235,7 +235,7 @@ Complete the integration with ~use-package~ by installing it with =straight=.
 (straight-use-package 'use-package)
 #+end_src
 
-*** Hermetic evaluation
+*** Cleanup
 
 Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs.
 
@@ -259,7 +259,7 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
 (tooltip-mode -1)
 #+end_src
 
-*** Literate programming
+*** Babel
 
 *Organize your plain life in plain text*
 
@@ -301,8 +301,7 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
       (org-babel-tangle-file f))))
 #+end_src
 
-*** Custom keybindings
-
+*** Keys
 Make the =ESC= key quit (most) prompts, instead of the default =C-g=.
 
 #+begin_src emacs-lisp
@@ -340,7 +339,7 @@ Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharin
 (use-package hydra)
 #+end_src
 
-**** Evil mode
+**** Evil
 
 After a few hour with =vim= I knew it was game over, I cannot even think of another way I would feel comfortable editing text. Luckily, there exist packages to emulate this within Emacs. [[https://evil.readthedocs.io/en/latest/index.html][evil-mode]] is the extensible VI layer for Emacs.
 
@@ -442,7 +441,7 @@ Place runtime tweaks behind =SPC t=.
   "t" '(:ignore t :which-key "Tweaks"))
 #+end_src
 
-*** Version control
+*** Git
 
 Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complete git porcelain within Emacs.
 
@@ -466,7 +465,7 @@ Open the *status* page for the current repository with =SPC g=.
   "g" '(magit-status :which-key "Magit"))
 #+end_src
 
-*** Terminal emulation
+*** Shell
 
 While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
 
@@ -486,7 +485,7 @@ Open an =eshell= buffer with =SPC e=.
   "e" '(eshell :which-key "Shell"))
 #+end_src
 
-*** File management
+*** Files
 
 Emacs' can feel more modern when icon-fonts are installed and prioritized. I feel that this makes navigation of folders much faster, given that file types may be quickly identified by their corresponding icons.
 
