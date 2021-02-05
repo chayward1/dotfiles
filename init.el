@@ -1,3 +1,11 @@
+(defvar dotfiles/font
+  "Fira Code"
+  "Unified system font family, used on all font faces.")
+
+(defvar dotfiles/font-size
+  96
+  "Unified font size, of which all variations are relative to.")
+
 (defvar dotfiles/browser
   (getenv "BROWSER")
   "The default browser used by the system.")

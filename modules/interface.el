@@ -1,6 +1,3 @@
-(defvar dotfiles/font "Fira Code")
-(defvar dotfiles/font-size 96)
-
 (set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
 (set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
 (set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
