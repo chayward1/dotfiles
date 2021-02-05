@@ -645,6 +645,12 @@ Create a keybinding to open the mail dashboard with =SPC m=.
 
 *** Browser
 
+Write out the ~$BROWSER~ environment variable.
+
+#+begin_src emacs-lisp
+(setenv "BROWSER" dotfiles/browser)
+#+end_src
+
 Launch a browser with =SPC b=.
 
 #+begin_src emacs-lisp

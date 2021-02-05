@@ -36,6 +36,8 @@
 (dotfiles/leader
   "m" '(mu4e :which-key "Mail"))
 
+(setenv "BROWSER" dotfiles/browser)
+
 ;; (dotfiles/leader
 ;;   "b" '(dotfiles/run-in-background dotfiles/browser :which-key "Browser"))
 
