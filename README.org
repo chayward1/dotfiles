@@ -186,7 +186,7 @@ Remove the ~desktop~ module, since we're running on android.
 (delete 'desktop dotfiles/modules)
 #+end_src
 
-** Laptop (acernitro)
+** Laptop (Acernitro)
 :PROPERTIES:
 :header-args: :tangle hosts/acernitro.el
 :END:
@@ -200,7 +200,7 @@ Use ~firefox~ as a web browser.
 This machine has a screen with a very high =DPI=, requiring modification to ~dotfiles/font-size~.
 
 #+begin_src emacs-lisp
-(setq dotfiles/font-size 196)
+(setq dotfiles/font-size 144)
 #+end_src
 
 * Modules
