@@ -58,7 +58,8 @@
 (setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
 
 (use-package go-mode
-  :hook (go-mode . lsp))
+  :hook (go-mode . lsp)
+  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
 
 (defun dotfiles/go-hook ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)

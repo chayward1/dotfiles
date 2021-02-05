@@ -1132,7 +1132,8 @@ Finally we can include the =go-mode= package, integrating it with =lsp=.
 
 #+begin_src emacs-lisp
 (use-package go-mode
-  :hook (go-mode . lsp))
+  :hook (go-mode . lsp)
+  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
 #+end_src
 
 Apply some custom behaviour before saving:
