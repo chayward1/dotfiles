@@ -40,7 +40,6 @@ Launch emacs: ~emacs -mm --debug-init~
 
 Here's a complete list of all of the options configurable for each host, and their default values. If a host configuration does not exist, these values will be used in place.
 
-
 Configure the system font with a single ~font-family~ and define the size, of which variations to the font size are relative to this value.
 
 #+begin_src emacs-lisp
@@ -165,7 +164,7 @@ Each host system that runs Emacs has a file defined in the =hosts/= sub director
 :header-args: :tangle hosts/ubuntu.el
 :END:
 
-The first configuration, which was built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build, which required overriding the ~$BROWSER~ environment variable.
+The first configuration, which was built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build.
 
 #+begin_src emacs-lisp
 (setq dotfiles/browser "flatpak run org.mozilla.firefox")
@@ -307,6 +306,8 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
           (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)
                                                                    (emacs-lisp . t))))
 #+end_src
+
+Build all of the =org= files within a given directory.
 
 #+begin_src emacs-lisp
 (defun dotfiles/tangle (dir)
