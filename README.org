@@ -987,6 +987,21 @@ https://emacs-lsp.github.io/lsp-ui/
           (lsp-ui-doc-delay 0.500))
 #+end_src
 
+*** Containers
+
+Use ~docker~ for running containers. Download and install https://github.com/Silex/docker.el, allowing us to manage containers within Emacs.
+
+#+begin_src emacs-lisp
+(use-package docker)
+#+end_src
+
+Open the management screen with =SPC k=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "k" '(docker :which-key "Docker"))
+#+end_src
+
 *** Management
 
 Configure [[https://projectile.mx][projectile]], a project interaction library for Emacs. It provides a nice set of features for operating on a project level without introducing external dependencies.

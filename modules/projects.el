@@ -6,6 +6,11 @@
   :custom (lsp-ui-doc-position 'at-point)
           (lsp-ui-doc-delay 0.500))
 
+(use-package docker)
+
+(dotfiles/leader
+  "k" '(docker :which-key "Docker"))
+
 (use-package projectile
   :custom (projectile-project-search-path '("~/.local/source"))
   :config (projectile-mode))
