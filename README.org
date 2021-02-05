@@ -186,6 +186,23 @@ Remove the ~desktop~ module, since we're running on android.
 (delete 'desktop dotfiles/modules)
 #+end_src
 
+** Laptop (Acernitro)
+:PROPERTIES:
+:header-args: :tangle hosts/acernitro.el
+:END:
+
+Use ~firefox~ as a web browser.
+
+#+begin_src emacs-lisp
+(setq dotfiles/browser "firefox")
+#+end_src
+
+This machine has a screen with a very high =DPI=, requiring modification to ~dotfiles/font-size~.
+
+#+begin_src emacs-lisp
+(setq dotfiles/font-size 144)
+#+end_src
+
 * Modules
 
 Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundemental requirement to achieve the goal of modularity. Incorporating just the =core= module on a build server to build literate programming projects is just one example of what can be achieved.
