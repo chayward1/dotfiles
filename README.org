@@ -649,8 +649,8 @@ Create a keybinding to open the mail dashboard with =SPC m=.
 Launch a browser with =SPC b=.
 
 #+begin_src emacs-lisp
-(dotfiles/leader
-  "b" '(dotfiles/run-in-background dotfiles/browser :which-key "Browser"))
+;; (dotfiles/leader
+;;   "b" '(dotfiles/run-in-background dotfiles/browser :which-key "Browser"))
 #+end_src
 
 *** Startup

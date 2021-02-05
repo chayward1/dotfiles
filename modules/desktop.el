@@ -36,8 +36,8 @@
 (dotfiles/leader
   "m" '(mu4e :which-key "Mail"))
 
-(dotfiles/leader
-  "b" '(dotfiles/run-in-background dotfiles/browser :which-key "Browser"))
+;; (dotfiles/leader
+;;   "b" '(dotfiles/run-in-background dotfiles/browser :which-key "Browser"))
 
 (defun dotfiles/run (command)
   "Run an external process."
