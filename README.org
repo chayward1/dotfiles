@@ -335,6 +335,7 @@ Build all of the =org= files within a given directory.
 #+end_src
 
 *** Keys
+
 Make the =ESC= key quit (most) prompts, instead of the default =C-g=.
 
 #+begin_src emacs-lisp
@@ -412,12 +413,10 @@ Again cherry picked from =Doom=, I want to continue utilizing the muscle memory 
 
 + Close buffers with =SPC c=
 + Find files with =SPC . (period)=
-+ Switch buffers with =SPC , (comma)=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "." '(find-file :which-key "Files")
-  "," '(switch-to-buffer :which-key "Buffers")
   "c" '(kill-buffer-and-window :which-key "Close"))
 #+end_src
 
@@ -1179,6 +1178,38 @@ Add a golang source code block structure template with ~<go~:
 
 *Bring Emacs out of the eighties*
 
+*** Ivy
+
+Download and configure [[https://oremacs.com/swiper/][ivy]], a powerful selection menu for Emacs.
+
+#+begin_src emacs-lisp
+(use-package ivy
+  :diminish
+  :config (ivy-mode 1))
+#+end_src
+
+Counsel is a customized set of commands to replace built in completion buffers.
+
+#+begin_src emacs-lisp
+(use-package counsel
+  :custom (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+  :config (counsel-mode 1))
+#+end_src
+
+Switch buffers with =SPC , (comma)=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "," '(counsel-switch-buffer :which-key "Buffers"))
+#+end_src
+
+Provide more information about each item with [[https://github.com/Yevgnen/ivy-rich][ivy-rich]].
+
+#+begin_src emacs-lisp
+(use-package ivy-rich
+  :init (ivy-rich-mode 1))
+#+end_src
+
 *** Fonts
 
 Write out to all *3* of Emacs' default font faces.
@@ -1272,7 +1303,7 @@ Load a theme with =SPC t t=.
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "tt" '(load-theme t t :which-key "Theme"))
+  "tt" '(counsel-load-theme t t :which-key "Theme"))
 #+end_src
 
 *** Ligatures

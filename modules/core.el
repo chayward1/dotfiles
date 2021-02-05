@@ -94,7 +94,6 @@
 
 (dotfiles/leader
   "." '(find-file :which-key "Files")
-  "," '(switch-to-buffer :which-key "Buffers")
   "c" '(kill-buffer-and-window :which-key "Close"))
 
 (dotfiles/leader

@@ -1,3 +1,17 @@
+(use-package ivy
+  :diminish
+  :config (ivy-mode 1))
+
+(use-package counsel
+  :custom (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+  :config (counsel-mode 1))
+
+(dotfiles/leader
+  "," '(counsel-switch-buffer :which-key "Buffers"))
+
+(use-package ivy-rich
+  :init (ivy-rich-mode 1))
+
 (set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
 (set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
 (set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
@@ -29,7 +43,7 @@
   :config (doom-modeline-mode 1))
 
 (dotfiles/leader
-  "tt" '(load-theme t t :which-key "Theme"))
+  "tt" '(counsel-load-theme t t :which-key "Theme"))
 
 (when (display-graphic-p)
   (use-package fira-code-mode
