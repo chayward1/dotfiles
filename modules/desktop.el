@@ -51,8 +51,9 @@
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 
 (dotfiles/leader
-  "x" '(dotfiles/run :which-key "Run")
-  "z" '(async-shell-command :which-key "Async"))
+  "x" '(:ignore t :which-key "Run")
+  "xx" '(dotfiles/run :which-key "Run")
+  "xz" '(async-shell-command :which-key "Async"))
 
 (defun dotfiles/init-hook ()
   (exwm-workspace-switch-create 1)
