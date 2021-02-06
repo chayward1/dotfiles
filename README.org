@@ -66,7 +66,7 @@ All of the available modules are defined in the ~dotfiles/modules-available~ con
 
 #+begin_src emacs-lisp
 (defconst dotfiles/modules-available
-  '(core desktop writing projects interface)
+  '(core editor desktop writing projects interface)
   "All of the available modules for hosts to load.")
 #+end_src
 
@@ -214,7 +214,7 @@ Breaking down the project into logical units or chapters to keep the code more m
 
 Minimal configuration to make Emacs usable for my own personal workflow. This does very little in the ways of improving the visuals, only removing what is included by default and not required.
 
-*** Cleanup
+*** Startup
 
 Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. How can we solve this issue? Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post [[https://chrishayward.xyz/posts/immutable-emacs/][Immutable Emacs]].
 
@@ -334,6 +334,13 @@ Build all of the =org= files within a given directory.
       (org-babel-tangle-file f))))
 #+end_src
 
+** Editor
+:PROPERTIES:
+:header-args: :tangle modules/editor.el :results silent
+:END:
+
+This section contains configuration for improving the editor experience within Emacs.
+
 *** Keys
 
 Make the =ESC= key quit (most) prompts, instead of the default =C-g=.
@@ -341,8 +348,6 @@ Make the =ESC= key quit (most) prompts, instead of the default =C-g=.
 #+begin_src emacs-lisp
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
-
-**** Hints
 
 Download [[https://github.com/justbur/emacs-which-key][which-key]], a package that displays the current incomplete keybinding input in a mini-buffer, showing available completion options.
 
@@ -352,28 +357,6 @@ Download [[https://github.com/justbur/emacs-which-key][which-key]], a package th
   :custom (which-key-idle-delay dotfiles/idle)
   :config (which-key-mode))
 #+end_src
-
-**** Leader
-
-Implement the *leader* key using [[https://github.com/noctuid/general.el][general.el]], letting us easily configure prefixed keybindings in a much cleaner manner than the default methods.
-
-#+begin_src emacs-lisp
-(use-package general
-  :config
-  (general-create-definer dotfiles/leader
-    :states '(normal motion)
-    :keymaps 'override
-    :prefix dotfiles/leader-key
-    :global-prefix dotfiles/leader-key-global))
-#+end_src 
-
-Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharing a common prefix.
-
-#+begin_src emacs-lisp
-(use-package hydra)
-#+end_src
-
-**** Evil
 
 After a few hour with =vim= I knew it was game over, I cannot even think of another way I would feel comfortable editing text. Luckily, there exist packages to emulate this within Emacs. [[https://evil.readthedocs.io/en/latest/index.html][evil-mode]] is the extensible VI layer for Emacs.
 
@@ -407,18 +390,25 @@ https://github.com/redguardtoo/evil-nerd-commenter
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
 
-**** Shortcuts
-
-Again cherry picked from =Doom=, I want to continue utilizing the muscle memory I have developed from a year of mainlining the framework.
-
-+ Close buffers with =SPC c=
-+ Find files with =SPC . (period)=
+Implement the *leader* key using [[https://github.com/noctuid/general.el][general.el]], letting us easily configure prefixed keybindings in a much cleaner manner than the default methods.
 
 #+begin_src emacs-lisp
-(dotfiles/leader
-  "." '(find-file :which-key "Files")
-  "c" '(kill-buffer-and-window :which-key "Close"))
+(use-package general
+  :config
+  (general-create-definer dotfiles/leader
+    :states '(normal motion)
+    :keymaps 'override
+    :prefix dotfiles/leader-key
+    :global-prefix dotfiles/leader-key-global))
+#+end_src 
+
+Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharing a common prefix.
+
+#+begin_src emacs-lisp
+(use-package hydra)
 #+end_src
+
+*** Help
 
 Run helper functions with =SPC h=.
 + Packages =p=
@@ -431,90 +421,6 @@ Run helper functions with =SPC h=.
   "hp" '(describe-package :which-key "Package")
   "hv" '(describe-variable :which-key "Variable")
   "hf" '(describe-function :which-key "Function"))
-#+end_src
-
-Quit emacs with =SPC q=.
-+ Saving =q=
-+ Without =w=
-+ Frame (daemon) =f=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "q" '(:ignore t :which-key "Quit")
-  "qq" '(save-buffers-kill-emacs :which-key "Save")
-  "qw" '(kill-emacs :which-key "Now")
-  "qf" '(delete-frame :which-key "Frame"))
-#+end_src
-
-Window management with =SPC w=.
-+ Swap with =w=
-+ Close with =c=
-+ Motions with =h,j,k,l=
-+ Split with =s + <MOTION>=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "w" '(:ignore t :which-key "Window")
-  "ww" '(window-swap-states :which-key "Swap")
-  "wc" '(delete-window :which-key "Close")
-  "wh" '(windmove-left :which-key "Left")
-  "wj" '(windmove-down :which-key "Down")
-  "wk" '(windmove-up :which-key "Up")
-  "wl" '(windmove-right :which-key "Right")
-  "ws" '(:ignore t :which-key "Split")
-  "wsj" '(split-window-below :which-key "Down")
-  "wsl" '(split-window-right :which-key "Right"))
-#+end_src
-
-Place runtime tweaks behind =SPC t=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "t" '(:ignore t :which-key "Tweaks"))
-#+end_src
-
-*** Git
-
-Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complete git porcelain within Emacs.
-
-#+begin_src emacs-lisp
-(use-package magit
-  :custom (magit-display-buffer-function
-           #'magit-display-buffer-same-window-except-diff-v1))
-#+end_src
-
-Work directly with github issues / pull requests using [[https://github.com/magit/forge][Forge]].
-+ Requires a valid ~$GITHUB_TOKEN~
-
-#+begin_src emacs-lisp
-(use-package forge)
-#+end_src
-
-Open the *status* page for the current repository with =SPC g=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "g" '(magit-status :which-key "Magit"))
-#+end_src
-
-*** Shell
-
-While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
-
-https://github.com/zwild/eshell-prompt-extras
-+ Enable lambda shell prompt
-
-#+begin_src emacs-lisp
-(use-package eshell-prompt-extras
-  :custom (eshell-highlight-prompt nil)
-	        (eshell-prompt-function 'epe-theme-lambda))
-#+end_src
-
-Open an =eshell= buffer with =SPC e=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "e" '(eshell :which-key "Shell"))
 #+end_src
 
 *** Files
@@ -559,6 +465,105 @@ Open a dired buffer with =SPC d=.
 #+begin_src emacs-lisp
 (dotfiles/leader
   "d" '(dired-jump :which-key "Dired"))
+#+end_src
+
+*** Shell
+
+While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
+
+https://github.com/zwild/eshell-prompt-extras
++ Enable lambda shell prompt
+
+#+begin_src emacs-lisp
+(use-package eshell-prompt-extras
+  :custom (eshell-highlight-prompt nil)
+	        (eshell-prompt-function 'epe-theme-lambda))
+#+end_src
+
+Open an =eshell= buffer with =SPC e=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "e" '(eshell :which-key "Shell"))
+#+end_src
+
+*** Source
+
+Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complete git porcelain within Emacs.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :custom (magit-display-buffer-function
+           #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+Work directly with github issues / pull requests using [[https://github.com/magit/forge][Forge]].
++ Requires a valid ~$GITHUB_TOKEN~
+
+#+begin_src emacs-lisp
+(use-package forge)
+#+end_src
+
+Open the *status* page for the current repository with =SPC g=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "g" '(magit-status :which-key "Magit"))
+#+end_src
+
+*** Windows
+
+Window management with =SPC w=.
++ Swap with =w=
++ Close with =c=
++ Motions with =h,j,k,l=
++ Split with =s + <MOTION>=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "w" '(:ignore t :which-key "Window")
+  "ww" '(window-swap-states :which-key "Swap")
+  "wc" '(delete-window :which-key "Close")
+  "wh" '(windmove-left :which-key "Left")
+  "wj" '(windmove-down :which-key "Down")
+  "wk" '(windmove-up :which-key "Up")
+  "wl" '(windmove-right :which-key "Right")
+  "ws" '(:ignore t :which-key "Split")
+  "wsj" '(split-window-below :which-key "Down")
+  "wsl" '(split-window-right :which-key "Right"))
+#+end_src
+
+*** Shortcuts
+
+Implement a few shortcut bindings, cherry picked from Doom emacs.
+
++ Close buffers with =SPC c=
++ Find files with =SPC . (period)=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "." '(find-file :which-key "Files")
+  "c" '(kill-buffer-and-window :which-key "Close"))
+#+end_src
+
+Quit emacs with =SPC q=.
++ Saving =q=
++ Without =w=
++ Frame (daemon) =f=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "q" '(:ignore t :which-key "Quit")
+  "qq" '(save-buffers-kill-emacs :which-key "Save")
+  "qw" '(kill-emacs :which-key "Now")
+  "qf" '(delete-frame :which-key "Frame"))
+#+end_src
+
+Place runtime tweaks behind =SPC t=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "t" '(:ignore t :which-key "Tweaks"))
 #+end_src
 
 ** Desktop
@@ -1063,6 +1068,55 @@ http://company-mode.github.io/
 
 Support for individual languages are implemented here.
 
+**** Go
+  
+Install the =gopls= language server.
+
+#+begin_src sh :tangle no
+GO111MODULE=on go get golang.org/x/tools/gopls@latest
+#+end_src
+
+Set the ~GOPATH~ environment variable prior to loading, this allows us to change the default value of ~$HOME/go~ to ~$HOME/.go~.
+
+#+begin_src emacs-lisp
+(setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
+#+end_src
+
+Additionally, include the =bin= subdirectory of the ~$GOPATH~ in the ~$PATH~ variable, adding compiled golang programs.
+
+#+begin_src emacs-lisp
+(setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
+#+end_src
+
+Finally we can include the =go-mode= package, integrating it with =lsp=.
+
+#+begin_src emacs-lisp
+(use-package go-mode
+  :hook (go-mode . lsp)
+  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
+#+end_src
+
+Apply some custom behaviour before saving:
+
++ Format buffer
++ Organize imports
+
+#+begin_src emacs-lisp
+(defun dotfiles/go-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+#+end_src
+  
+#+begin_src emacs-lisp
+(add-hook 'go-mode-hook #'dotfiles/go-hook)
+#+end_src
+
+Add a golang source code block structure template with ~<go~:
+
+#+begin_src emacs-lisp
+(add-to-list 'org-structure-template-alist '("go" . "src go"))
+#+end_src
+
 **** C/C++
 
 Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow us to create a new structure template for C/C++ with ~<cc~.
@@ -1124,55 +1178,6 @@ Toggle inline images with =SPC t i=.
 #+begin_src emacs-lisp
 (dotfiles/leader
   "ti" '(org-display-inline-images :which-key "Images"))
-#+end_src
-
-**** Go
-  
-Install the =gopls= language server.
-
-#+begin_src sh :tangle no
-GO111MODULE=on go get golang.org/x/tools/gopls@latest
-#+end_src
-
-Set the ~GOPATH~ environment variable prior to loading, this allows us to change the default value of ~$HOME/go~ to ~$HOME/.go~.
-
-#+begin_src emacs-lisp
-(setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
-#+end_src
-
-Additionally, include the =bin= subdirectory of the ~$GOPATH~ in the ~$PATH~ variable, adding compiled golang programs.
-
-#+begin_src emacs-lisp
-(setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
-#+end_src
-
-Finally we can include the =go-mode= package, integrating it with =lsp=.
-
-#+begin_src emacs-lisp
-(use-package go-mode
-  :hook (go-mode . lsp)
-  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
-#+end_src
-
-Apply some custom behaviour before saving:
-
-+ Format buffer
-+ Organize imports
-
-#+begin_src emacs-lisp
-(defun dotfiles/go-hook ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-#+end_src
-  
-#+begin_src emacs-lisp
-(add-hook 'go-mode-hook #'dotfiles/go-hook)
-#+end_src
-
-Add a golang source code block structure template with ~<go~:
-
-#+begin_src emacs-lisp
-(add-to-list 'org-structure-template-alist '("go" . "src go"))
 #+end_src
 
 ** Interface

@@ -11,7 +11,7 @@
   "The default browser used by the system.")
 
 (defconst dotfiles/modules-available
-  '(core desktop writing projects interface)
+  '(core editor desktop writing projects interface)
   "All of the available modules for hosts to load.")
 
 (defvar dotfiles/modules

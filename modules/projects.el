@@ -30,6 +30,22 @@
 (use-package company-lsp
   :custom (company-backend 'company-lsp))
 
+(setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
+
+(setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
+
+(use-package go-mode
+  :hook (go-mode . lsp)
+  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
+
+(defun dotfiles/go-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(add-hook 'go-mode-hook #'dotfiles/go-hook)
+
+(add-to-list 'org-structure-template-alist '("go" . "src go"))
+
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda ()
@@ -58,19 +74,3 @@
 
 (dotfiles/leader
   "ti" '(org-display-inline-images :which-key "Images"))
-
-(setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
-
-(setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
-
-(use-package go-mode
-  :hook (go-mode . lsp)
-  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
-
-(defun dotfiles/go-hook ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-(add-hook 'go-mode-hook #'dotfiles/go-hook)
-
-(add-to-list 'org-structure-template-alist '("go" . "src go"))
