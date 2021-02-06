@@ -27,7 +27,8 @@
 (use-package dap-mode)
 
 (use-package company)
-(use-package company-lsp)
+(use-package company-lsp
+  :custom (company-backend 'company-lsp))
 
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
