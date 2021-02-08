@@ -408,7 +408,8 @@ Implement the *leader* key using [[https://github.com/noctuid/general.el][genera
 Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharing a common prefix.
 
 #+begin_src emacs-lisp
-(use-package hydra)
+(use-package hydra
+  :defer t)
 #+end_src
 
 *** Help
@@ -504,7 +505,8 @@ Work directly with github issues / pull requests using [[https://github.com/magi
 + Requires a valid ~$GITHUB_TOKEN~
 
 #+begin_src emacs-lisp
-(use-package forge)
+(use-package forge
+  :after magit)
 #+end_src
 
 Open the *status* page for the current repository with =SPC g=.
@@ -792,6 +794,7 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
 
 #+begin_src emacs-lisp
 (use-package org-superstar
+  :after org
   :hook (org-mode . org-superstar-mode))
 #+end_src
 

@@ -31,7 +31,8 @@
     :prefix dotfiles/leader-key
     :global-prefix dotfiles/leader-key-global))
 
-(use-package hydra)
+(use-package hydra
+  :defer t)
 
 (dotfiles/leader
   "h" '(:ignore t :which-key "Help")
@@ -65,7 +66,8 @@
   :custom (magit-display-buffer-function
            #'magit-display-buffer-same-window-except-diff-v1))
 
-(use-package forge)
+(use-package forge
+  :after magit)
 
 (dotfiles/leader
   "g" '(magit-status :which-key "Magit"))

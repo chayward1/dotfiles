@@ -1,4 +1,5 @@
 (use-package org-superstar
+  :after org
   :hook (org-mode . org-superstar-mode))
 
 (use-package ox-hugo 
