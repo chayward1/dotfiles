@@ -972,11 +972,7 @@ Screencast controls behind =SPC s=.
 :header-args: :tangle modules/projects.el :results silent
 :END:
 
-An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
-
-Turn Emacs into an *IDE* (or better) with the [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
-
-[[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]] brings support for language servers into Emacs.
+An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives. Turn Emacs into an *IDE* (or better) with the [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor. [[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]] brings support for language servers into Emacs.
   
 #+begin_src emacs-lisp
 (use-package lsp-mode
@@ -985,8 +981,7 @@ Turn Emacs into an *IDE* (or better) with the [[https://microsoft.github.io/lang
           (lsp-idle-delay 0.500))
 #+end_src
 
-https://emacs-lsp.github.io/lsp-ui/
-+ UI improvements for =lsp-mode=
+[[https://emacs-lsp.github.io/lsp-ui/][lsp-ui]] provides UI improvements for =lsp-mode=.
 
 #+begin_src emacs-lisp
 (use-package lsp-ui
