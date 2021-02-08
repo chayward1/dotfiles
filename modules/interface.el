@@ -3,6 +3,7 @@
   :config (ivy-mode 1))
 
 (use-package counsel
+  :after ivy
   :custom (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
   :config (counsel-mode 1))
 
@@ -10,6 +11,7 @@
   "," '(counsel-switch-buffer :which-key "Buffers"))
 
 (use-package ivy-rich
+  :after counsel
   :init (ivy-rich-mode 1))
 
 (set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
