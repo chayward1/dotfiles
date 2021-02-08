@@ -15,12 +15,15 @@
   :config (evil-collection-init))
 
 (use-package evil-surround
+  :after evil
   :config (global-evil-surround-mode 1))
 
 (use-package evil-nerd-commenter
+  :after evil
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 
 (use-package general
+  :after evil
   :config
   (general-create-definer dotfiles/leader
     :states '(normal motion)

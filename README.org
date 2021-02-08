@@ -379,6 +379,7 @@ Surround text with functions, quotations, and any other symbols using the [[http
 
 #+begin_src emacs-lisp
 (use-package evil-surround
+  :after evil
   :config (global-evil-surround-mode 1))
 #+end_src
 
@@ -387,6 +388,7 @@ https://github.com/redguardtoo/evil-nerd-commenter
 
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
+  :after evil
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
 
@@ -394,6 +396,7 @@ Implement the *leader* key using [[https://github.com/noctuid/general.el][genera
 
 #+begin_src emacs-lisp
 (use-package general
+  :after evil
   :config
   (general-create-definer dotfiles/leader
     :states '(normal motion)
