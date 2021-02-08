@@ -12,27 +12,13 @@
 (use-package org-roam
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory org-directory)
-          (org-roam-encrypt-files t))
-
-(use-package org-roam-server
-  :hook (org-roam-mode . org-roam-server-mode))
-
-(dotfiles/leader
-  "r" '(:ignore t :which-key "Roam")
-  "rf" '(org-roam-find-file :which-key "Find")
-  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
-  "rd" '(:ignore t :which-key "Dailies")
-  "rdd" '(org-roam-dailies-find-date :which-key "Date")
-  "rdt" '(org-roam-dailies-find-today :which-key "Today")
-  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
-
-(setq org-roam-capture-templates
-      '(("p" "Posts" plain (function org-roam-capture--get-point)
-          "%?"
-          :file-name "docs/posts/${slug}"
-          :unnarrowed t
-          :head
+          (org-roam-encrypt-files t)
+          (org-roam-capture-templates
+          '(("p" "Post" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "docs/posts/${slug}"
+             :unnarrowed t
+             :head
 "
 #+TITLE: ${title}
 #+AUTHOR: Christopher James Hayward
@@ -46,11 +32,11 @@
 #+HUGO_SECTION: posts
 #+HUGO_DRAFT: true
 ")
-        ("n" "Notes" plain (function org-roam-capture--get-point)
-          "%?"
-          :file-name "docs/notes/${slug}"
-          :unnarrowed t
-          :head
+            ("n" "Notes" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "docs/notes/${slug}"
+             :unnarrowed t
+             :head
 "
 #+TITLE: ${title}
 #+AUTHOR: Christopher James Hayward
@@ -63,27 +49,40 @@
 #+HUGO_SECTION: notes
 #+HUGO_DRAFT: true
 ")
-        ("s" "Slides" plain (function org-roam-capture--get-point)
-         "%?"
-         :file-name "docs/slides/${slug}"
-         :unnarrowed t
-         :head
+
+            ("s" "Slides" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "docs/slides/${slug}"
+             :unnarrowed t
+             :head
 "
 #+TITLE: ${title}
 #+AUTHOR: Christopher James Hayward
 
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-")))
-
-(setq org-roam-dailies-capture-templates
-      '(("d" "Default" entry (function org-roam-capture--get-point)
-         "* %?"
-         :file-name "docs/daily/%<%Y-%m-%d>"
-         :head
+"))
+          (org-roam-dailies-capture-templates
+          '(("d" "Default" entry (function org-roam-capture--get-point)
+             "* %?"
+             :file-name "docs/daily/%<%Y-%m-%d>"
+             :head
 "
 #+TITLE: %<%Y-%m-%d>
 #+AUTHOR: Christopher James Hayward
-")))
+")))))
+
+(dotfiles/leader
+  "r" '(:ignore t :which-key "Roam")
+  "rf" '(org-roam-find-file :which-key "Find")
+  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
+  "rd" '(:ignore t :which-key "Dailies")
+  "rdd" '(org-roam-dailies-find-date :which-key "Date")
+  "rdt" '(org-roam-dailies-find-today :which-key "Today")
+  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+
+(use-package org-roam-server
+  :hook (org-roam-mode . org-roam-server-mode))
 
 (unless (string-match-p "\\.gpg" org-agenda-file-regexp)
   (setq org-agenda-file-regexp
@@ -97,6 +96,7 @@
   "a" '(org-agenda :which-key "Agenda"))
 
 (use-package gif-screencast
+  :commands (gif-screencast-start-or-stop gif-screencast-toggle-pause)
   :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 
 (dotfiles/leader

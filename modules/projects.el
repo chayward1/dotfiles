@@ -1,12 +1,15 @@
 (use-package lsp-mode
+  :commands (lsp lsp-deferred)
   :custom (gc-cons-threshold 1000000000)
           (lsp-idle-delay 0.500))
 
 (use-package lsp-ui
+  :after lsp
   :custom (lsp-ui-doc-position 'at-point)
           (lsp-ui-doc-delay 0.500))
 
-(use-package docker)
+(use-package docker
+  :commands (docker))
 
 (dotfiles/leader
   "k" '(docker :which-key "Docker"))
@@ -24,10 +27,14 @@
   "pr" '(password-store-rename :which-key "Rename")
   "pg" '(password-store-generate :which-key "Generate"))
 
-(use-package dap-mode)
+(use-package dap-mode
+  :commands (dap-debug))
 
-(use-package company)
+(use-package company
+  :after lsp)
+
 (use-package company-lsp
+  :after (lsp company)
   :custom (company-backend 'company-lsp))
 
 (setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
@@ -50,11 +57,11 @@
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda ()
            (require 'ccls)
-           (lsp)))
+           (lsp-deferred)))
   :config (add-to-list 'org-structure-template-alist '("cc" . "src cc")))
 
 (use-package python-mode
-  :hook (python-mode . lsp)
+  :hook (python-mode . lsp-deferred)
   :config (require 'dap-python)
           (add-to-list 'org-src-lang-modes '("python" . python))
           (add-to-list 'org-structure-template-alist '("py" . "src python"))
@@ -64,6 +71,7 @@
           (dap-python-debugger 'debugpy))
 
 (use-package plantuml-mode
+  :after lsp
   :custom (plantuml-default-exec-mode 'jar)
           (plantuml-jar-path "~/.local/bin/plantuml.jar")
           (org-plantuml-jar-path (expand-file-name "~/.local/bin/plantuml.jar"))

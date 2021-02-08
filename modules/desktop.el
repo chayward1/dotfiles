@@ -29,6 +29,7 @@
             (smtpmail-stream-type . starttls))))))
 
 (use-package mu4e-alert
+  :after mu4e
   :custom (mu4e-alert-set-default-style 'libnotify)
   :config (mu4e-alert-enable-notifications)
           (mu4e-alert-enable-mode-line-display))

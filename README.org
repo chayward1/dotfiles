@@ -657,6 +657,7 @@ Use [[https://github.com/iqbalansari/mu4e-alert][mu4e-alert]] to give us desktop
 
 #+begin_src emacs-lisp
 (use-package mu4e-alert
+  :after mu4e
   :custom (mu4e-alert-set-default-style 'libnotify)
   :config (mu4e-alert-enable-notifications)
           (mu4e-alert-enable-mode-line-display))
@@ -815,20 +816,74 @@ Produce high quality presentations that work anywhere with =HTML/JS= and the [[h
 
 *** Roam
 
-Download and install [[https://orgroam.com][org-roam]], a plain text knowledge management system for Emacs.
+Download and install [[https://orgroam.com][org-roam]], a plain text knowledge management system for Emacs. Organize the capture templates, this allows me to quickly dictate where each new item should be placed.
+
++ ~posts/~ contains blog posts
++ ~notes/~ contains cited notes on others' work
++ ~slides/~ contains presentations / screencasts
 
 #+begin_src emacs-lisp
 (use-package org-roam
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory org-directory)
-          (org-roam-encrypt-files t))
-#+end_src
+          (org-roam-encrypt-files t)
+          (org-roam-capture-templates
+          '(("p" "Post" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "docs/posts/${slug}"
+             :unnarrowed t
+             :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+DATE: %<%Y-%m-%d>
 
-Visualize the org-roam database with the server, available when the editor is running at http://localhost:8080
+,#+EXPORT_FILE_NAME: ${slug}
+,#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
 
-#+begin_src emacs-lisp
-(use-package org-roam-server
-  :hook (org-roam-mode . org-roam-server-mode))
+,#+HUGO_BASE_DIR: ../../website/
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: posts
+,#+HUGO_DRAFT: true
+")
+            ("n" "Notes" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "docs/notes/${slug}"
+             :unnarrowed t
+             :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+
+,#+EXPORT_FILE_NAME: ${slug}
+,#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
+
+,#+HUGO_BASE_DIR: ../../website
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: notes
+,#+HUGO_DRAFT: true
+")
+
+            ("s" "Slides" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "docs/slides/${slug}"
+             :unnarrowed t
+             :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+
+,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+"))
+          (org-roam-dailies-capture-templates
+          '(("d" "Default" entry (function org-roam-capture--get-point)
+             "* %?"
+             :file-name "docs/daily/%<%Y-%m-%d>"
+             :head
+"
+,#+TITLE: %<%Y-%m-%d>
+,#+AUTHOR: Christopher James Hayward
+")))))
 #+end_src
 
 Place keybindings behind =SPC r=.
@@ -853,74 +908,11 @@ Place keybindings behind =SPC r=.
   "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 #+end_src
 
-Organize the capture templates, this allows me to quickly dictate where each new item should be placed.
-
-+ ~posts/~ contains blog posts
-+ ~notes/~ contains cited notes on others' work
-+ ~slides/~ contains presentations / screencasts
+Visualize the org-roam database with the server, available when the editor is running at http://localhost:8080
 
 #+begin_src emacs-lisp
-(setq org-roam-capture-templates
-      '(("p" "Posts" plain (function org-roam-capture--get-point)
-          "%?"
-          :file-name "docs/posts/${slug}"
-          :unnarrowed t
-          :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+DATE: %<%Y-%m-%d>
-
-,#+EXPORT_FILE_NAME: ${slug}
-,#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
-
-,#+HUGO_BASE_DIR: ../../website/
-,#+HUGO_AUTO_SET_LASTMOD: t
-,#+HUGO_SECTION: posts
-,#+HUGO_DRAFT: true
-")
-        ("n" "Notes" plain (function org-roam-capture--get-point)
-          "%?"
-          :file-name "docs/notes/${slug}"
-          :unnarrowed t
-          :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-
-,#+EXPORT_FILE_NAME: ${slug}
-,#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
-
-,#+HUGO_BASE_DIR: ../../website
-,#+HUGO_AUTO_SET_LASTMOD: t
-,#+HUGO_SECTION: notes
-,#+HUGO_DRAFT: true
-")
-        ("s" "Slides" plain (function org-roam-capture--get-point)
-         "%?"
-         :file-name "docs/slides/${slug}"
-         :unnarrowed t
-         :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-
-,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-")))
-#+end_src
-
-By default I want my daily notes to live in ~daily/~ relative to my dotfiles.
-
-#+begin_src emacs-lisp
-(setq org-roam-dailies-capture-templates
-      '(("d" "Default" entry (function org-roam-capture--get-point)
-         "* %?"
-         :file-name "docs/daily/%<%Y-%m-%d>"
-         :head
-"
-,#+TITLE: %<%Y-%m-%d>
-,#+AUTHOR: Christopher James Hayward
-")))
+(use-package org-roam-server
+  :hook (org-roam-mode . org-roam-server-mode))
 #+end_src
 
 *** Agenda
@@ -960,6 +952,7 @@ It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =Ima
   
 #+begin_src emacs-lisp
 (use-package gif-screencast
+  :commands (gif-screencast-start-or-stop gif-screencast-toggle-pause)
   :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 #+end_src
 
@@ -983,10 +976,11 @@ An IDE like experience (or better) can be achieved in Emacs using two *Microsoft
 
 Turn Emacs into an *IDE* (or better) with the [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
 
-[[https://emacs-lsp.github.io/lsp-mode/][Lsp-mode]] brings support for language servers into Emacs.
+[[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]] brings support for language servers into Emacs.
   
 #+begin_src emacs-lisp
 (use-package lsp-mode
+  :commands (lsp lsp-deferred)
   :custom (gc-cons-threshold 1000000000)
           (lsp-idle-delay 0.500))
 #+end_src
@@ -996,6 +990,7 @@ https://emacs-lsp.github.io/lsp-ui/
 
 #+begin_src emacs-lisp
 (use-package lsp-ui
+  :after lsp
   :custom (lsp-ui-doc-position 'at-point)
           (lsp-ui-doc-delay 0.500))
 #+end_src
@@ -1005,7 +1000,8 @@ https://emacs-lsp.github.io/lsp-ui/
 Use ~docker~ for running containers. Download and install https://github.com/Silex/docker.el, allowing us to manage containers within Emacs.
 
 #+begin_src emacs-lisp
-(use-package docker)
+(use-package docker
+  :commands (docker))
 #+end_src
 
 Open the management screen with =SPC k=.
@@ -1054,7 +1050,8 @@ Handled through the [[https://microsoft.github.io/debug-adapter-protocol/][Debug
 [[https://emacs-lsp.github.io/dap-mode/][Dap-mode]] adds support for the protocol to Emacs.
 
 #+begin_src emacs-lisp
-(use-package dap-mode)
+(use-package dap-mode
+  :commands (dap-debug))
 #+end_src
 
 *** Completion
@@ -1065,8 +1062,11 @@ http://company-mode.github.io/
 + Integrate with =lsp-mode=
   
 #+begin_src emacs-lisp
-(use-package company)
+(use-package company
+  :after lsp)
+
 (use-package company-lsp
+  :after (lsp company)
   :custom (company-backend 'company-lsp))
 #+end_src
 
@@ -1132,7 +1132,7 @@ Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda ()
            (require 'ccls)
-           (lsp)))
+           (lsp-deferred)))
   :config (add-to-list 'org-structure-template-alist '("cc" . "src cc")))
 #+end_src
 
@@ -1151,7 +1151,7 @@ pip install --user "python-language-server[all]"
   
 #+begin_src emacs-lisp
 (use-package python-mode
-  :hook (python-mode . lsp)
+  :hook (python-mode . lsp-deferred)
   :config (require 'dap-python)
           (add-to-list 'org-src-lang-modes '("python" . python))
           (add-to-list 'org-structure-template-alist '("py" . "src python"))
@@ -1170,6 +1170,7 @@ Download and install [[https://plantuml.com][PlantUML]], a text-based markup lan
 
 #+begin_src emacs-lisp
 (use-package plantuml-mode
+  :after lsp
   :custom (plantuml-default-exec-mode 'jar)
           (plantuml-jar-path "~/.local/bin/plantuml.jar")
           (org-plantuml-jar-path (expand-file-name "~/.local/bin/plantuml.jar"))
