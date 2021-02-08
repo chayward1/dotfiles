@@ -874,7 +874,7 @@ Download and install [[https://orgroam.com][org-roam]], a plain text knowledge m
 ,#+AUTHOR: Christopher James Hayward
 
 ,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-"))
+")))
           (org-roam-dailies-capture-templates
           '(("d" "Default" entry (function org-roam-capture--get-point)
              "* %?"
@@ -883,7 +883,7 @@ Download and install [[https://orgroam.com][org-roam]], a plain text knowledge m
 "
 ,#+TITLE: %<%Y-%m-%d>
 ,#+AUTHOR: Christopher James Hayward
-")))))
+"))))
 #+end_src
 
 Place keybindings behind =SPC r=.

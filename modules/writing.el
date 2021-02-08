@@ -60,7 +60,7 @@
 #+AUTHOR: Christopher James Hayward
 
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-"))
+")))
           (org-roam-dailies-capture-templates
           '(("d" "Default" entry (function org-roam-capture--get-point)
              "* %?"
@@ -69,7 +69,7 @@
 "
 #+TITLE: %<%Y-%m-%d>
 #+AUTHOR: Christopher James Hayward
-")))))
+"))))
 
 (dotfiles/leader
   "r" '(:ignore t :which-key "Roam")
