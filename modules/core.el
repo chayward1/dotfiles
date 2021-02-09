@@ -44,6 +44,7 @@
           (org-image-actual-width nil)
           (org-directory dotfiles/home)
           (org-src-preserve-indentation t)
+          (org-todo-keywords '((sequence "TODO" "WAIT" "DONE")))
   :config (require 'org-tempo)
           (add-to-list 'org-structure-template-alist '("s" . "src"))
           (add-to-list 'org-structure-template-alist '("q" . "quote"))
