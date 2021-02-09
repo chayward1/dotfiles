@@ -63,31 +63,21 @@
           (dashboard-startup-banner 'logo)
           (dashboard-projects-backend 'projectile)
           (dashboard-items '((projects . 5)
-                             (recents . 5)
-                             (agenda . 5 )))
+                             (recents  . 5)
+                             (agenda . 5)))
+          (dashboard-navigator-buttons `(((,(all-the-icons-fileicon "brain" :height 1.1 :v-adjust 0.0)
+                                          "Brain" "Knowledge base"
+                                          (lambda (&rest _) (browse-url "http://localhost:8080"))))
+                                         ((,(all-the-icons-material "public" :height 1.1 :v-adjust 0.0)
+                                          "Homepage" "Personal website"
+                                          (lambda (&rest _) (browse-url "https://chrishayward.xyz"))))
+                                         ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
+                                          "Athabasca" "Univeristy login"
+                                          (lambda (&rest _) (browse-url "https://login.athabascau.ca/cas/login"))))
+                                         ((,(all-the-icons-faicon "book" :height 1.1 :v-adjust 0.0)
+                                          "Bookshelf" "Vitalsource bookshelf"
+                                          (lambda (&rest _) (browse-url "https://online.vitalsource.com"))))))
   :config (dashboard-setup-startup-hook))
-
-(setq dashboard-navigator-buttons
-      `(;; First row.
-        ((,(all-the-icons-fileicon "brain" :height 1.1 :v-adjust 0.0)
-         "Brain"
-         "Knowledge base"
-         (lambda (&rest _) (browse-url "http://localhost:8080"))))
-        ;; Second row.
-        ((,(all-the-icons-material "public" :height 1.1 :v-adjust 0.0)
-         "Homepage"
-         "Personal website"
-         (lambda (&rest _) (browse-url "https://chrishayward.xyz"))))
-        ;; Third row.
-        ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
-         "Athabasca"
-         "Univeristy login"
-         (lambda (&rest _) (browse-url "https://login.athabascau.ca/cas/login"))))
-        ;; Fourth row.
-        ((,(all-the-icons-faicon "book" :height 1.1 :v-adjust 0.0)
-         "Bookshelf"
-         "Vitalsource bookshelf"
-         (lambda (&rest _) (browse-url "https://online.vitalsource.com"))))))
 
 (setq initial-buffer-choice
       (lambda ()
