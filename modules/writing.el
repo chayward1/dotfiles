@@ -99,6 +99,7 @@
                                   org-agenda-file-regexp)))
 
 (setq org-agenda-files '("~/.emacs.d/docs/"
+                         "~/.emacs.d/docs/courses/"
                          "~/.emacs.d/docs/daily/"))
 
 (dotfiles/leader
