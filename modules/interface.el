@@ -62,9 +62,7 @@
           (dashboard-set-navigator t)
           (dashboard-startup-banner 'logo)
           (dashboard-projects-backend 'projectile)
-          (dashboard-items '((projects . 5)
-                             (recents  . 5)
-                             (agenda . 5)))
+          (dashboard-items '((projects . 5) (recents  . 5) (agenda . 10)))
           (dashboard-navigator-buttons `(((,(all-the-icons-fileicon "brain" :height 1.1 :v-adjust 0.0)
                                           "Brain" "Knowledge base"
                                           (lambda (&rest _) (browse-url "http://localhost:8080"))))
