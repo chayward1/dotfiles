@@ -49,7 +49,16 @@
 #+HUGO_SECTION: notes
 #+HUGO_DRAFT: true
 ")
-
+            ("c" "Course" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "docs/courses/${slug}"
+             :unnarrowed t
+             :head
+"
+#+TITLE: ${title}
+#+SUBTITLE:
+#+AUTHOR: Christopher James Hayward
+")
             ("s" "Slides" plain (function org-roam-capture--get-point)
              "%?"
              :file-name "docs/slides/${slug}"
