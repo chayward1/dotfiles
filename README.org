@@ -159,9 +159,9 @@ Load all of the enabled modules:
 
 Each host system that runs Emacs has a file defined in the =hosts/= sub directory, following the pattern of ~$HOSTNAME.el~. All of the configurations are defined within this file, the values of which are read from by the other modules during startup and installation. This does *not* cover hosts that are controlled via =TRAMP=, as that will be covered in another section.
 
-** Example (Ubuntu)
+** Virtualbox
 :PROPERTIES:
-:header-args: :tangle hosts/ubuntu.el
+:header-args: :tangle hosts/virtualbox.el
 :END:
 
 The first configuration, which was built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build.
@@ -170,37 +170,19 @@ The first configuration, which was built using the Ubuntu 20.04 LTS server editi
 (setq dotfiles/browser "flatpak run org.mozilla.firefox")
 #+end_src
 
-+ Set the browser to the flatpak browser currently installed
-  - firefox
-  - chromium
-  - any other browser
-
-** Phone (Termux)
-:PROPERTIES:
-:header-args: :tangle hosts/localhost.el
-:END:
-
-Remove the ~desktop~ module, since we're running on android.
-
-#+begin_src emacs-lisp
-(delete 'desktop dotfiles/modules)
-#+end_src
-
-** Laptop (Acernitro)
+** Acernitro
 :PROPERTIES:
 :header-args: :tangle hosts/acernitro.el
 :END:
 
-Use ~firefox~ as a web browser.
-
 #+begin_src emacs-lisp
-(setq dotfiles/browser "firefox")
+(setq dotfiles/browser "flatpak run org.mozilla.firefox")
 #+end_src
 
 This machine has a screen with a very high =DPI=, requiring modification to ~dotfiles/font-size~.
 
 #+begin_src emacs-lisp
-(setq dotfiles/font-size 144)
+;; (setq dotfiles/font-size 144)
 #+end_src
 
 * Modules
@@ -284,9 +266,7 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
 (setq inhibit-startup-message t)
 (global-prettify-symbols-mode)
 
-(when (< emacs-major-version 27)
- (scroll-bar-mode -1))
-
+(scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
@@ -580,7 +560,7 @@ Place runtime tweaks behind =SPC t=.
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=. My workflow includes launching the window manager with =xinitrc=, without the use of a display manager, controlling *everything* within Emacs.
 
 #+begin_src conf :tangle config/xinitrc
-exec dbus-launch --exit-with-session emacs -mm --debug-init
+exec dbus-launch --exit-with-session flatpak run org.gnu.emacs -mm --debug-init
 #+end_src
 
 *** Email
@@ -600,8 +580,8 @@ Inbox ~/.cache/mail/inbox
 SubFolders Verbatim
 
 Channel xyz
-Master :xyz-remote:
-Slave :xyz-local:
+Far :xyz-remote:
+Near :xyz-local:
 Patterns * !Archives
 Create Both
 Expunge Both
@@ -767,6 +747,7 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
     
 #+begin_src emacs-lisp
 (use-package exwm
+  :demand t
   :custom (exwm-input-prefix-keys
             '(?\M-x
               ?\C-g
@@ -1176,7 +1157,7 @@ Download and install [[https://plantuml.com][PlantUML]], a text-based markup lan
 
 #+begin_src emacs-lisp
 (use-package plantuml-mode
-  :after lsp
+  :after org
   :custom (plantuml-default-exec-mode 'jar)
           (plantuml-jar-path "~/.local/bin/plantuml.jar")
           (org-plantuml-jar-path (expand-file-name "~/.local/bin/plantuml.jar"))

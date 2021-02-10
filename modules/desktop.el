@@ -66,6 +66,7 @@
   (dotfiles/run-in-background "autorandr --change --force"))
 
 (use-package exwm
+  :demand t
   :custom (exwm-input-prefix-keys
             '(?\M-x
               ?\C-g
