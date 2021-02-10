@@ -10,8 +10,8 @@ Inbox ~/.cache/mail/inbox
 SubFolders Verbatim
 
 Channel xyz
-Far :xyz-remote:
-Near :xyz-local:
+Master :xyz-remote:
+Slave :xyz-local:
 Patterns * !Archives
 Create Both
 Expunge Both
