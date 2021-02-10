@@ -27,7 +27,7 @@
 #+EXPORT_FILE_NAME: ${slug}
 #+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
 
-#+HUGO_BASE_DIR: ../../website/
+#+HUGO_BASE_DIR: ../
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: posts
 #+HUGO_DRAFT: true
@@ -44,7 +44,7 @@
 #+EXPORT_FILE_NAME: ${slug}
 #+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
 
-#+HUGO_BASE_DIR: ../../website
+#+HUGO_BASE_DIR: ../
 #+HUGO_AUTO_SET_LASTMOD: t
 #+HUGO_SECTION: notes
 #+HUGO_DRAFT: true

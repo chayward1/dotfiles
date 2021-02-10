@@ -1,4 +1,4 @@
-website/resources/_gen
-website/content
-website/static
-website/public
+docs/resources/_gen
+docs/content
+docs/static
+docs/public
