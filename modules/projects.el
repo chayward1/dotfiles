@@ -71,7 +71,7 @@
           (dap-python-debugger 'debugpy))
 
 (use-package plantuml-mode
-  :after lsp
+  :after org
   :custom (plantuml-default-exec-mode 'jar)
           (plantuml-jar-path "~/.local/bin/plantuml.jar")
           (org-plantuml-jar-path (expand-file-name "~/.local/bin/plantuml.jar"))
