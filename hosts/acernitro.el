@@ -1,3 +1,3 @@
 (setq dotfiles/browser "firefox")
 
-(setq dotfiles/font-size 144)
+;; (setq dotfiles/font-size 144)
