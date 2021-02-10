@@ -560,7 +560,7 @@ Place runtime tweaks behind =SPC t=.
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=. My workflow includes launching the window manager with =xinitrc=, without the use of a display manager, controlling *everything* within Emacs.
 
 #+begin_src conf :tangle config/xinitrc
-exec dbus-launch --exit-with-session flatpak run org.gnu.emacs -mm --debug-init
+exec dbus-launch --exit-with-session flatpak run emacs -mm --debug-init
 #+end_src
 
 *** Email
