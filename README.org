@@ -196,7 +196,7 @@ Breaking down the project into logical units or chapters to keep the code more m
 :header-args: :tangle modules/core.el :results silent
 :END:
 
-Minimal configuration to make Emacs usable for my own personal workflow. This does very little in the ways of improving the visuals, only removing what is included by default and not required.
+Minimal configuration to make Emacs usable for my own personal workflow. This does very little in the ways of improving the visuals, only removing what is included by default and not required. More information about my technique can be seen in my post [[file:docs/posts/immutable-emacs.org.gpg][Immutable Emacs]].
 
 *** Startup
 
