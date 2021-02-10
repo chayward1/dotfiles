@@ -159,6 +159,23 @@ Load all of the enabled modules:
 
 Each host system that runs Emacs has a file defined in the =hosts/= sub directory, following the pattern of ~$HOSTNAME.el~. All of the configurations are defined within this file, the values of which are read from by the other modules during startup and installation. This does *not* cover hosts that are controlled via =TRAMP=, as that will be covered in another section.
 
+** Acernitro
+:PROPERTIES:
+:header-args: :tangle hosts/acernitro.el
+:END:
+
+Configure the browser.
+
+#+begin_src emacs-lisp
+(setq dotfiles/browser "flatpak run org.mozilla.firefox")
+#+end_src
+
+This machine has a screen with a very high =DPI=, requiring modification to ~dotfiles/font-size~.
+
+#+begin_src emacs-lisp
+(setq dotfiles/font-size 132)
+#+end_src
+
 ** Virtualbox
 :PROPERTIES:
 :header-args: :tangle hosts/virtualbox.el
@@ -168,21 +185,6 @@ The first configuration, which was built using the Ubuntu 20.04 LTS server editi
 
 #+begin_src emacs-lisp
 (setq dotfiles/browser "flatpak run org.mozilla.firefox")
-#+end_src
-
-** Acernitro
-:PROPERTIES:
-:header-args: :tangle hosts/acernitro.el
-:END:
-
-#+begin_src emacs-lisp
-(setq dotfiles/browser "flatpak run org.mozilla.firefox")
-#+end_src
-
-This machine has a screen with a very high =DPI=, requiring modification to ~dotfiles/font-size~.
-
-#+begin_src emacs-lisp
-;; (setq dotfiles/font-size 144)
 #+end_src
 
 * Modules
@@ -293,7 +295,7 @@ Emacs' default user interface is horrendous, but with less than 10 lines of code
           (org-image-actual-width nil)
           (org-directory dotfiles/home)
           (org-src-preserve-indentation t)
-          (org-todo-keywords '((sequence "TODO" "WAIT" "DONE")))
+          (org-todo-keywords '((sequence "TODO" "START" "WAIT" "DONE")))
   :config (require 'org-tempo)
           (add-to-list 'org-structure-template-alist '("s" . "src"))
           (add-to-list 'org-structure-template-alist '("q" . "quote"))
@@ -560,7 +562,7 @@ Place runtime tweaks behind =SPC t=.
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=. My workflow includes launching the window manager with =xinitrc=, without the use of a display manager, controlling *everything* within Emacs.
 
 #+begin_src conf :tangle config/xinitrc
-exec dbus-launch --exit-with-session flatpak run emacs -mm --debug-init
+exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
 
 *** Email
@@ -969,8 +971,7 @@ An IDE like experience (or better) can be achieved in Emacs using two *Microsoft
 #+begin_src emacs-lisp
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :custom (gc-cons-threshold 1000000000)
-          (lsp-idle-delay 0.500))
+  :custom (lsp-idle-delay 0.500))
 #+end_src
 
 [[https://emacs-lsp.github.io/lsp-ui/][lsp-ui]] provides UI improvements for =lsp-mode=.

@@ -1,7 +1,6 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :custom (gc-cons-threshold 1000000000)
-          (lsp-idle-delay 0.500))
+  :custom (lsp-idle-delay 0.500))
 
 (use-package lsp-ui
   :after lsp
