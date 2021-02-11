@@ -62,6 +62,11 @@
 (dotfiles/leader
   "e" '(eshell :which-key "Shell"))
 
+(use-package vterm)
+
+(dotfiles/leader
+  "v" '(vterm :which-key "Terminal"))
+
 (use-package magit
   :custom (magit-display-buffer-function
            #'magit-display-buffer-same-window-except-diff-v1))
