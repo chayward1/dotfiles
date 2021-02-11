@@ -39,9 +39,6 @@
 
 (setenv "BROWSER" dotfiles/browser)
 
-;; (dotfiles/leader
-;;   "b" '(dotfiles/run-in-background dotfiles/browser :which-key "Browser"))
-
 (defun dotfiles/run (command)
   "Run an external process."
   (interactive (list (read-shell-command "λ ")))
@@ -67,8 +64,10 @@
 
 (use-package exwm
   :demand t
-  :custom (exwm-input-prefix-keys
+  :custom (exwm-workspace-show-all-buffers t)
+          (exwm-input-prefix-keys
             '(?\M-x
+              ?\C-c
               ?\C-g
               ?\C-\ ))
           (exwm-input-global-keys

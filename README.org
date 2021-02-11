@@ -661,13 +661,6 @@ Write out the ~$BROWSER~ environment variable.
 (setenv "BROWSER" dotfiles/browser)
 #+end_src
 
-Launch a browser with =SPC b=.
-
-#+begin_src emacs-lisp
-;; (dotfiles/leader
-;;   "b" '(dotfiles/run-in-background dotfiles/browser :which-key "Browser"))
-#+end_src
-
 *** Startup
 
 When launching into a session, if the display server is not running then =startx= should be invoked, to run the window manager.
@@ -750,8 +743,10 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
 #+begin_src emacs-lisp
 (use-package exwm
   :demand t
-  :custom (exwm-input-prefix-keys
+  :custom (exwm-workspace-show-all-buffers t)
+          (exwm-input-prefix-keys
             '(?\M-x
+              ?\C-c
               ?\C-g
               ?\C-\ ))
           (exwm-input-global-keys
