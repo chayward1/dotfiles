@@ -54,7 +54,6 @@
 
 (defun dotfiles/tangle (dir)
   "Recursively tangle the Org files within a directory."
-  (interactive)
   (let ((org-files (directory-files-recursively dir "org")))
     (dolist (f org-files)
       (org-babel-tangle-file f))))
