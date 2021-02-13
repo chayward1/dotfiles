@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Kanye as a Service</title>
+<meta name="author" content="(Christopher James Hayward)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Kanye as a Service</h1><h2 class="author">Christopher James Hayward</h2><p class="date">Created: 2021-02-13 Sat 19:06</p>
+</section>
+<section id="table-of-contents"><div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-orgf58f3b7">1. What is it?</a></li>
+<li><a href="#/slide-org05b53ed">2. How does it work?</a>
+<ul>
+<li><a href="#/slide-org54f5ad6">2.1. Formatting</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<p>
+Kanye as a Service
+</p>
+
+<ul>
+<li><a href="https://api.kanye.rest">https://api.kanye.rest</a></li>
+
+</ul>
+
+<section>
+<section id="slide-orgf58f3b7">
+<h2 id="orgf58f3b7"><span class="section-number-2">1</span> What is it?</h2>
+<ul>
+<li>REST API for random Kanye West quotes</li>
+<li>Available in <code>JSON</code> or <code>TEXT</code> format</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org05b53ed">
+<h2 id="org05b53ed"><span class="section-number-2">2</span> How does it work?</h2>
+<ul>
+<li>Make an <code>HTTP/GET</code> request in the browser to <a href="https://api.kanye.rest">https://api.kanye.rest</a></li>
+<li>Default formatting is <code>JSON</code> (JavaScript Object Notation)</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-http"><code trim>GET https://api.kanye.rest
+</code></pre>
+</div>
+
+<pre class="example">
+{
+  "quote": "One of my favorite of many things about what the Trump hat represents to me is that people can't tell me what to do because I'm black"
+}
+</pre>
+
+</section>
+<section id="slide-org54f5ad6">
+<h3 id="org54f5ad6"><span class="section-number-3">2.1</span> Formatting</h3>
+<ul>
+<li>Pass the query parameter <code>?format=TEXT</code> to get the <code>TEXT</code> formatting</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-http"><code trim>GET https://api.kanye.rest?format=TEXT
+</code></pre>
+</div>
+
+<pre class="example">
+I leave my emojis bart Simpson color
+</pre>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
