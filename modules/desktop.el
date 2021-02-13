@@ -63,7 +63,6 @@
   (dotfiles/run-in-background "autorandr --change --force"))
 
 (use-package exwm
-  :demand t
   :custom (exwm-workspace-show-all-buffers t)
           (exwm-input-prefix-keys
             '(?\M-x

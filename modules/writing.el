@@ -6,63 +6,7 @@
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory org-directory)
           (org-roam-encrypt-files t)
-          (org-roam-capture-templates
-          '(("p" "Post" plain (function org-roam-capture--get-point)
-             "%?"
-             :file-name "docs/posts/${slug}"
-             :unnarrowed t
-             :head
-"
-#+TITLE: ${title}
-#+AUTHOR: Christopher James Hayward
-#+DATE: %<%Y-%m-%d>
-
-#+EXPORT_FILE_NAME: ${slug}
-#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
-
-#+HUGO_BASE_DIR: ../
-#+HUGO_AUTO_SET_LASTMOD: t
-#+HUGO_SECTION: posts
-#+HUGO_DRAFT: true
-")
-            ("n" "Notes" plain (function org-roam-capture--get-point)
-             "%?"
-             :file-name "docs/notes/${slug}"
-             :unnarrowed t
-             :head
-"
-#+TITLE: ${title}
-#+AUTHOR: Christopher James Hayward
-
-#+EXPORT_FILE_NAME: ${slug}
-#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
-
-#+HUGO_BASE_DIR: ../
-#+HUGO_AUTO_SET_LASTMOD: t
-#+HUGO_SECTION: notes
-#+HUGO_DRAFT: true
-")
-            ("c" "Course" plain (function org-roam-capture--get-point)
-             "%?"
-             :file-name "docs/courses/${slug}"
-             :unnarrowed t
-             :head
-"
-#+TITLE: ${title}
-#+SUBTITLE:
-#+AUTHOR: Christopher James Hayward
-")
-            ("s" "Slides" plain (function org-roam-capture--get-point)
-             "%?"
-             :file-name "docs/slides/${slug}"
-             :unnarrowed t
-             :head
-"
-#+TITLE: ${title}
-#+AUTHOR: Christopher James Hayward
-
-#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-")))
+          (org-roam-capture-templates '())
           (org-roam-dailies-capture-templates
           '(("d" "Default" entry (function org-roam-capture--get-point)
              "* %?"
@@ -89,14 +33,82 @@
 (use-package ox-hugo 
   :after ox)
 
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+               '("p" "Post" plain (function org-roam-capture--get-point)
+                 "%?"
+                 :file-name "docs/posts/${slug}"
+                 :unnarrowed t
+                 :head
+"
+#+TITLE: ${title}
+#+AUTHOR: Christopher James Hayward
+#+DATE: %<%Y-%m-%d>
+
+#+EXPORT_FILE_NAME: ${slug}
+#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
+
+#+HUGO_BASE_DIR: ../
+#+HUGO_AUTO_SET_LASTMOD: t
+#+HUGO_SECTION: posts
+#+HUGO_DRAFT: true
+")))
+
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+               '("n" "Notes" plain (function org-roam-capture--get-point)
+                  "%?"
+                  :file-name "docs/notes/${slug}"
+                  :unnarrowed t
+                  :head
+"
+#+TITLE: ${title}
+#+AUTHOR: Christopher James Hayward
+
+#+EXPORT_FILE_NAME: ${slug}
+#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
+
+#+HUGO_BASE_DIR: ../
+#+HUGO_AUTO_SET_LASTMOD: t
+#+HUGO_SECTION: notes
+#+HUGO_DRAFT: true
+")))
+
 (use-package ox-reveal
-  :after ox
+  :after ox-roam
   :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+               '("s" "Slides" plain (function org-roam-capture--get-point)
+                 "%?"
+                 :file-name "docs/slides/${slug}"
+                 :unnarrowed t
+                 :head
+"
+#+TITLE: ${title}
+#+AUTHOR: Christopher James Hayward
+
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+")))
 
 (unless (string-match-p "\\.gpg" org-agenda-file-regexp)
   (setq org-agenda-file-regexp
         (replace-regexp-in-string "\\\\\\.org" "\\\\.org\\\\(\\\\.gpg\\\\)?"
                                   org-agenda-file-regexp)))
+
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+               '("c" "Course" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "docs/courses/${slug}"
+               :unnarrowed t
+               :head
+"
+#+TITLE: ${title}
+#+SUBTITLE:
+#+AUTHOR: Christopher James Hayward
+")))
 
 (setq org-agenda-files '("~/.emacs.d/docs/"
                          "~/.emacs.d/docs/courses/"
