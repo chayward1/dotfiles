@@ -802,7 +802,7 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
 :header-args: :tangle modules/writing.el :results silent
 :END:
 
-I am using [[https://orgmode.org][Org-mode]] extensively for writing projects for different purposes. Most of the improvements are done in the *Core* module for the Literate programming configuration. [[https://github.com/integral-dw/org-superstar-mode][Org-superstar-mode]] for making headline stars more *super*.
+I am using [[https://orgmode.org][org-mode]] extensively for writing projects for different purposes. Most of the improvements are done in the *Core* module for the Literate programming configuration. [[https://github.com/integral-dw/org-superstar-mode][org-superstar-mode]] for making headline stars more *super*.
 
 #+begin_src emacs-lisp
 (use-package org-superstar
