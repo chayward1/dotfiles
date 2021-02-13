@@ -585,11 +585,6 @@ Place runtime tweaks behind =SPC t=.
 :header-args: :tangle modules/desktop.el :results silent
 :END:
 
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[./docs/images/2021-02-13-example-mu4e.gif]]
-
 I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=. My workflow includes launching the window manager with =xinitrc=, without the use of a display manager, controlling *everything* within Emacs.
 
 #+begin_src conf :tangle config/xinitrc
@@ -598,6 +593,10 @@ exec dbus-launch --exit-with-session emacs -mm --debug-init
 
 *** Email
 
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/2021-02-13-example-mu4e.gif]]
 
 Plain text email delivered via mu, mu4e and mbsync. I run my own email server, so your configuration may differ from mine. This is the ~mbsyncrc~ file I use to synchronize my local mail with my server. This is required for mu4e in Emacs.
 
@@ -1034,12 +1033,12 @@ Use the built in =ispell= package to add spell checking features to buffers.
 :header-args: :tangle modules/projects.el :results silent
 :END:
 
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[./docs/images/2021-02-13-example-ccls.gif]]
+An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
 
-An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives. Turn Emacs into an *IDE* (or better) with the [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor. [[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]] brings support for language servers into Emacs.
++ [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]]
++ Debug adapter protocol
+
+Add support for language servers with [[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]].
   
 #+begin_src emacs-lisp
 (use-package lsp-mode
@@ -1197,6 +1196,11 @@ Instead of the popular =restclient= package, I use [[https://github.com/zweifisc
 #+end_src
 
 **** C/C++
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/2021-02-13-example-ccls.gif]]
 
 Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow us to create a new structure template for C/C++ with ~<cc~.
 

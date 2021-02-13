@@ -65,7 +65,7 @@
 (use-package vterm)
 
 (dotfiles/leader
-  "v" '(vterm :which-key "Terminal"))
+  "v" '(vterm-other-window :which-key "Terminal"))
 
 (use-package magit
   :custom (magit-display-buffer-function
