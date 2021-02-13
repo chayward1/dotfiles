@@ -812,6 +812,11 @@ I am using [[https://orgmode.org][org-mode]] extensively for writing projects fo
 
 *** Roam
 
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/2021-02-13-example-roam.png]]
+
 Download and install [[https://orgroam.com][org-roam]], a plain text knowledge management system for Emacs. Organize the capture templates, this allows me to quickly dictate where each new item should be placed.
 
 + ~posts/~ contains blog posts
@@ -940,6 +945,11 @@ Produce high quality presentations that work anywhere with =HTML/JS= and the [[h
 #+end_src
 
 *** Agenda
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/2021-02-13-example-agenda.gif]]
 
 Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
 
