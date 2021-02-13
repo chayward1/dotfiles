@@ -969,6 +969,17 @@ Screencast controls behind =SPC s=.
   "sp" '(gif-screencast-toggle-pause :which-key "Pause"))
 #+end_src
 
+*** Grammar
+
+I use [[https://github.com/bnbeckwith/writegood-mode][writegood-mode]] to find common writing problems such as cliches and poor wording. Grammarly for the peons!
+
+#+begin_src emacs-lisp
+(use-package writegood-mode
+  :after org
+  :config (writegood-mode))
+#+end_src
+
+*** Spelling
 ** Projects
 :PROPERTIES:
 :header-args: :tangle modules/projects.el :results silent

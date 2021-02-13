@@ -113,3 +113,7 @@
   "s" '(:ignore t :which-key "Screencast")
   "ss" '(gif-screencast-start-or-stop :which-key "Start / Stop")
   "sp" '(gif-screencast-toggle-pause :which-key "Pause"))
+
+(use-package writegood-mode
+  :after org
+  :config (writegood-mode))
