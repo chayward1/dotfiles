@@ -52,6 +52,12 @@
 
 (add-to-list 'org-structure-template-alist '("go" . "src go"))
 
+(use-package ob-http
+  :after org
+  :config (org-babel-do-load-languages
+            'org-babel-load-languages
+            '((http . t))))
+
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda ()

@@ -1119,6 +1119,18 @@ Add a golang source code block structure template with ~<go~:
 (add-to-list 'org-structure-template-alist '("go" . "src go"))
 #+end_src
 
+**** HTTP
+
+Instead of the popular =restclient= package, I use [[https://github.com/zweifisch/ob-http][ob-http]] as a lightweight alternative.
+
+#+begin_src emacs-lisp
+(use-package ob-http
+  :after org
+  :config (org-babel-do-load-languages
+            'org-babel-load-languages
+            '((http . t))))
+#+end_src
+
 **** C/C++
 
 Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow us to create a new structure template for C/C++ with ~<cc~.
