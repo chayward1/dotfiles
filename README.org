@@ -219,11 +219,11 @@ Breaking down the project into logical units or chapters to keep the code more m
 :header-args: :tangle modules/core.el :results silent
 :END:
 
-Minimal configuration to make Emacs usable for my own personal workflow. This does very little in the ways of improving the visuals, only removing what is included by default and not required. More information about my technique can be seen in my post [[file:docs/posts/immutable-emacs.org.gpg][Immutable Emacs]].
+Minimal configuration to make Emacs usable for my own personal workflow. This does little in the ways of improving the visuals, only removing what's included by default and not required. Read more about my technique in my post [[file:docs/posts/immutable-emacs.org.gpg][Immutable Emacs]].
 
 *** Startup
 
-Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. How can we solve this issue? Shortly after initialization, before most packages are loaded, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post [[https://chrishayward.xyz/posts/immutable-emacs/][Immutable Emacs]].
+Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. How can we solve this issue? Shortly after initialization, before most packages load, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post [[https://chrishayward.xyz/posts/immutable-emacs/][Immutable Emacs]].
 
 #+begin_src emacs-lisp
 (setq user-emacs-directory dotfiles/cache)
@@ -240,7 +240,7 @@ Because this project uses version-control, we can disable more unwanted features
 
 *** Packages
 
-Download and install packages using [[https://github.com/raxod502/straight.el][straight.el]], a functional package manager that integrates with =use-package=, giving us more control over where packages are sourced from.
+Download and install packages using [[https://github.com/raxod502/straight.el][straight.el]], a functional package manager that integrates with =use-package=, giving us more control over sourcing our packages.
 
 + Use the development branch
 + Integrate with ~use-package~
@@ -252,7 +252,7 @@ Apply the configurations prior to bootstrapping the package manager, by setting 
       straight-use-package-by-default t)
 #+end_src
 
-Bootstrap the package manager, downloading, installing, or configuring depending on the state of the configuration. All packages are downloaded and built from source, and can be pinned to specific git commit hashes.
+Bootstrap the package manager, downloading, installing, or configuring depending on the state of the configuration. All packages build from source, pinned to specific git commit hashes.
   
 #+begin_src emacs-lisp
 (defvar bootstrap-version)
@@ -277,9 +277,7 @@ Complete the integration with ~use-package~ by installing it with =straight=.
 
 *** Cleanup
 
-Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs.
-
-Install [[https://github.com/emacscollective/no-littering][no-littering]] to reduce the files created by Emacs.
+Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs. Install [[https://github.com/emacscollective/no-littering][no-littering]] to reduce the files created by Emacs.
 
 #+begin_src emacs-lisp
 (use-package no-littering)
@@ -334,7 +332,6 @@ Build all of the =org= files within a given directory.
 #+begin_src emacs-lisp
 (defun dotfiles/tangle (dir)
   "Recursively tangle the Org files within a directory."
-  (interactive)
   (let ((org-files (directory-files-recursively dir "org")))
     (dolist (f org-files)
       (org-babel-tangle-file f))))
@@ -364,7 +361,7 @@ Download [[https://github.com/justbur/emacs-which-key][which-key]], a package th
   :config (which-key-mode))
 #+end_src
 
-After a few hour with =vim= I knew it was game over, I cannot even think of another way I would feel comfortable editing text. Luckily, there exist packages to emulate this within Emacs. [[https://evil.readthedocs.io/en/latest/index.html][evil-mode]] is the extensible VI layer for Emacs.
+Turn Emacs into Vim with [[https://evil.readthedocs.io/en/latest/index.html][evil-mode]], the extensible VI layer for Emacs.
 
 #+begin_src emacs-lisp
 (use-package evil
@@ -389,8 +386,7 @@ Surround text with functions, quotations, and any other symbols using the [[http
   :config (global-evil-surround-mode 1))
 #+end_src
 
-https://github.com/redguardtoo/evil-nerd-commenter
-+ Toggle comments with =M-;=
+Toggle block comments using [[https://github.com/redguardtoo/evil-nerd-commenter][evil-nerd-commentor]] and =M-;=.
 
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
@@ -420,7 +416,8 @@ Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharin
 
 *** Help
 
-Run helper functions with =SPC h=.
+Use the built-in ~describe-*~ functionality of Emacs to quickly access documentation for packages, variables, and functions. Run helper functions with =SPC h=.
+
 + Packages =p=
 + Variables =v=
 + Functions =f=
@@ -435,30 +432,26 @@ Run helper functions with =SPC h=.
 
 *** Files
 
-Emacs' can feel more modern when icon-fonts are installed and prioritized. I feel that this makes navigation of folders much faster, given that file types may be quickly identified by their corresponding icons.
-
-https://github.com/domtronn/all-the-icons.el
-+ Collects various icon fonts
+For file navigation I use =dired=, included with Emacs by default. Dired feels more modern with prioritized icon fonts using [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]. This makes navigation and visually parsing directories much faster, given that file types are quickly identified by their corresponding icons.
 
 #+begin_src emacs-lisp
 (use-package all-the-icons)
 #+end_src
-  
-https://github.com/jtbm37/all-the-icons-dired
-+ Integration with dired
+
+Integration with =dired= comes from the [[https://github.com/jtbm37/all-the-icons-dired][all-the-icons-dired]] package.
 
 #+begin_src emacs-lisp
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode))
 #+end_src
 
-When opening =dired=, I don't want to have to press =RET= twice to navigate to the current directory. This can be avoided with ~dired-jump~, included in the =dired-x= package shipped with =dired=.
+When opening =dired=, I don't want to have to press =RET= twice to navigate to the current directory. Avoided this with ~dired-jump~, included in the =dired-x= package shipped with =dired= and Emacs.
 
 #+begin_src emacs-lisp
 (require 'dired-x)
 #+end_src
 
-By default =dired= will create a new buffer everytime you press =RET= over a directory. In my workflow this leads to many unwanted =dired= buffers that have to be cleaned up manually. [[https://github.com/crocket/dired-single][Dired-single]] lets us reuse the same dired buffer.
+By default =dired= will create a new buffer everytime you press =RET= over a directory. This leads to unwanted =dired= buffers needing closure. Avoid this behaviour with [[https://github.com/crocket/dired-single][dired-single]], reusing the same dired buffer.
 
 + Move up a directory with =h=
 + Open a single buffer with =l=
@@ -479,10 +472,7 @@ Open a dired buffer with =SPC d=.
 
 *** Shell
 
-While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be left wanting more, I would recommend they look into =vterm=.
-
-https://github.com/zwild/eshell-prompt-extras
-+ Enable lambda shell prompt
+While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be wanting more, I would recommend they look into =vterm= included in the destkop module. Configure the infamous lambda prompt using [[https://github.com/zwild/eshell-prompt-extras][eshell-prompt-extras]] package.
 
 #+begin_src emacs-lisp
 (use-package eshell-prompt-extras
@@ -503,11 +493,11 @@ Configure =vterm=, a complete POSIX compliant shell within Emacs, this is suitab
 (use-package vterm)
 #+end_src
 
-Open a =vterm= buffer with =SPC v=.
+Open a =vterm= buffer in a new window with =SPC v=.
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "v" '(vterm :which-key "Terminal"))
+  "v" '(vterm-other-window :which-key "Terminal"))
 #+end_src
 
 *** Source
@@ -559,7 +549,7 @@ Window management with =SPC w=.
 
 *** Shortcuts
 
-Implement a few shortcut bindings, cherry picked from Doom emacs.
+Implement shortcut bindings, cherry picked from Doom emacs.
 
 + Close buffers with =SPC c=
 + Find files with =SPC . (period)=
