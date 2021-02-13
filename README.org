@@ -168,7 +168,7 @@ Load all of the enabled modules:
 
 * Hosts
 
-Each host system that runs Emacs has a file defined in the =hosts/= sub directory, following the pattern of ~$HOSTNAME.el~. All of the configurations are defined within this file, the values of which are read from by the other modules during startup and installation. This does *not* cover hosts that are controlled via =TRAMP=, as that will be covered in another section.
+Each host system that runs Emacs has a file defined in the =hosts/= sub directory, following the pattern of ~$HOSTNAME.el~. All of the configurations definitions are in this file. Modules will read these values during initialization.
 
 ** Acernitro
 :PROPERTIES:
@@ -181,7 +181,7 @@ Configure the browser.
 (setq dotfiles/browser "flatpak run org.mozilla.firefox")
 #+end_src
 
-This machine has a screen with a very high =DPI=, requiring modification to ~dotfiles/font-size~.
+This machine has a screen with a high =DPI=, requiring modification to ~dotfiles/font-size~.
 
 #+begin_src emacs-lisp
 (setq dotfiles/font-size 132)
@@ -192,7 +192,7 @@ This machine has a screen with a very high =DPI=, requiring modification to ~dot
 :header-args: :tangle hosts/virtualbox.el
 :END:
 
-The first configuration, which was built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build.
+The first configuration, built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build.
 
 #+begin_src emacs-lisp
 (setq dotfiles/browser "flatpak run org.mozilla.firefox")
