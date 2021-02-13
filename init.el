@@ -28,7 +28,7 @@
 
 (defvar dotfiles/cache
   (expand-file-name "~/.cache/emacs")
-  "Where `user-emacs-directory' will be redirected.")
+  "Where `user-emacs-directory' redirects to.")
 
 (defvar dotfiles/idle
   0.0
@@ -44,7 +44,7 @@
 
 (defvar dotfiles/projects
   (expand-file-name "~/.local/source/")
-  "Location where source code projects are stored.")
+  "Location where source code projects exist on disk.")
 
 (defvar dotfiles/passwords
   (expand-file-name "~/.password-store/")
