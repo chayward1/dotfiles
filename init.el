@@ -10,6 +10,10 @@
   (getenv "BROWSER")
   "The default browser used by the system.")
 
+(defvar dotfiles/language
+  (getenv "LANG")
+  "The default system language.")
+
 (defconst dotfiles/modules-available
   '(core editor desktop writing projects interface)
   "All of the available modules for hosts to load.")

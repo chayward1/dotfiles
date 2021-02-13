@@ -62,6 +62,17 @@ Used by the desktop module to find the appropriate browser.
   "The default browser used by the system.")
 #+end_src
 
+Used by the writing module to determine the system language.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/language
+  (getenv "LANG")
+  "The default system language.")
+#+end_src
+
+#+RESULTS:
+: dotfiles/language
+
 All of the available modules are defined in the ~dotfiles/modules-available~ constant.
 
 #+begin_src emacs-lisp
@@ -791,21 +802,6 @@ I am using [[https://orgmode.org][Org-mode]] extensively for writing projects fo
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
-I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=. [[https://github.com/kaushalmodi/ox-hugo][Ox-hugo]], configured for =one-post-per-file= is my technique for managing my blog.
-
-#+begin_src emacs-lisp
-(use-package ox-hugo 
-  :after ox)
-#+end_src
-
-Produce high quality presentations that work anywhere with =HTML/JS= and the [[https://revealjs.com][Reveal.js]] package. [[https://github.com/hexmode/ox-reveal][Ox-reveal]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version of =Reveal.js=.
-
-#+begin_src emacs-lisp
-(use-package ox-reveal
-  :after ox
-  :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
-#+end_src
-
 *** Roam
 
 Download and install [[https://orgroam.com][org-roam]], a plain text knowledge management system for Emacs. Organize the capture templates, this allows me to quickly dictate where each new item should be placed.
@@ -916,6 +912,25 @@ Visualize the org-roam database with the server, available when the editor is ru
   :hook (org-roam-mode . org-roam-server-mode))
 #+end_src
 
+*** Hugo
+
+I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =Org-mode= before compiling to =hugo-markdown=. [[https://github.com/kaushalmodi/ox-hugo][Ox-hugo]], configured for =one-post-per-file= is my technique for managing my blog.
+
+#+begin_src emacs-lisp
+(use-package ox-hugo 
+  :after ox)
+#+end_src
+
+*** Slides
+
+Produce high quality presentations that work anywhere with =HTML/JS= and the [[https://revealjs.com][Reveal.js]] package. [[https://github.com/hexmode/ox-reveal][Ox-reveal]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version of =Reveal.js=.
+
+#+begin_src emacs-lisp
+(use-package ox-reveal
+  :after ox
+  :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+#+end_src
+
 *** Agenda
 
 Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
@@ -979,7 +994,23 @@ I use [[https://github.com/bnbeckwith/writegood-mode][writegood-mode]] to find c
   :config (writegood-mode))
 #+end_src
 
+Toggle ~writegood~ mode with =SPC t w=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tw" '(writegood-mode :which-key "Grammar"))
+#+end_src
+
 *** Spelling
+
+Use the built in =ispell= package to add spell checking features to buffers.
+
+#+begin_src emacs-lisp
+(use-package ispell
+  :after org
+  :custom (ispell-dictionary dotfiles/lang))
+#+end_src
+
 ** Projects
 :PROPERTIES:
 :header-args: :tangle modules/projects.el :results silent
