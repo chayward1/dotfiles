@@ -2,13 +2,6 @@
   :after org
   :hook (org-mode . org-superstar-mode))
 
-(use-package ox-hugo 
-  :after ox)
-
-(use-package ox-reveal
-  :after ox
-  :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
-
 (use-package org-roam
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory org-directory)
@@ -93,6 +86,13 @@
 (use-package org-roam-server
   :hook (org-roam-mode . org-roam-server-mode))
 
+(use-package ox-hugo 
+  :after ox)
+
+(use-package ox-reveal
+  :after ox
+  :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+
 (unless (string-match-p "\\.gpg" org-agenda-file-regexp)
   (setq org-agenda-file-regexp
         (replace-regexp-in-string "\\\\\\.org" "\\\\.org\\\\(\\\\.gpg\\\\)?"
@@ -117,3 +117,10 @@
 (use-package writegood-mode
   :after org
   :config (writegood-mode))
+
+(dotfiles/leader
+  "tw" '(writegood-mode :which-key "Grammar"))
+
+(use-package ispell
+  :after org
+  :custom (ispell-dictionary dotfiles/lang))
