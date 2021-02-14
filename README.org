@@ -1062,7 +1062,7 @@ Add support for language servers with [[https://emacs-lsp.github.io/lsp-mode/][l
 #+begin_src emacs-lisp
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :custom (lsp-idle-delay (* 5 dotfiles/idle))
+  :custom (lsp-idle-delay (* 5 dotfiles/idle)))
 #+end_src
 
 [[https://emacs-lsp.github.io/lsp-ui/][lsp-ui]] provides UI improvements for =lsp-mode=.

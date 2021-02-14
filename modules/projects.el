@@ -1,6 +1,6 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :custom (lsp-idle-delay (* 5 dotfiles/idle))
+  :custom (lsp-idle-delay (* 5 dotfiles/idle)))
 
 (use-package lsp-ui
   :after lsp
