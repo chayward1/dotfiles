@@ -489,6 +489,11 @@ Open an =eshell= buffer with =SPC e=.
 
 *** Source
 
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/2021-02-13-example-magit.gif]]
+
 Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complete git porcelain within Emacs.
 
 #+begin_src emacs-lisp
@@ -1057,7 +1062,7 @@ Add support for language servers with [[https://emacs-lsp.github.io/lsp-mode/][l
 #+begin_src emacs-lisp
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :custom (lsp-idle-delay 0.500))
+  :custom (lsp-idle-delay (* 5 dotfiles/idle))
 #+end_src
 
 [[https://emacs-lsp.github.io/lsp-ui/][lsp-ui]] provides UI improvements for =lsp-mode=.
