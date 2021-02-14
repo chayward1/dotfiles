@@ -445,7 +445,7 @@ Integration with =dired= comes from the [[https://github.com/jtbm37/all-the-icon
   :hook (dired-mode . all-the-icons-dired-mode))
 #+end_src
 
-When opening =dired=, I don't want to have to press =RET= twice to navigate to the current directory. Avoided this with ~dired-jump~, included in the =dired-x= package shipped with =dired= and Emacs.
+When opening =dired=, I don't want to have to press =RET= twice to navigate to the current directory. Avoid this with ~dired-jump~, included in the =dired-x= package shipped with =dired= and Emacs.
 
 #+begin_src emacs-lisp
 (require 'dired-x)
@@ -498,11 +498,13 @@ Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complet
 
 #+begin_src emacs-lisp
 (use-package magit
+  :commands magit-status
   :custom (magit-display-buffer-function
            #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 
 Work directly with github issues / pull requests using [[https://github.com/magit/forge][Forge]].
+
 + Requires a valid ~$GITHUB_TOKEN~
 
 #+begin_src emacs-lisp
@@ -1107,6 +1109,22 @@ Configure [[https://projectile.mx][projectile]], a project interaction library f
   :config (projectile-mode))
 #+end_src
 
+*** Completion
+
+Text completion framework via =company= aka *Complete Anything*.
+
+http://company-mode.github.io/
++ Integrate with =lsp-mode=
+  
+#+begin_src emacs-lisp
+(use-package company
+  :after lsp)
+
+(use-package company-lsp
+  :after (lsp company)
+  :custom (company-backend 'company-lsp))
+#+end_src
+
 *** Passwords
 
 Pass makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. =password-store.el= provides a wrapper for the functionality within Emacs.
@@ -1127,22 +1145,6 @@ Configure keybindings behind =SPC p=.
   "pp" '(password-store-copy :which-key "Copy")
   "pr" '(password-store-rename :which-key "Rename")
   "pg" '(password-store-generate :which-key "Generate"))
-#+end_src
-
-*** Completion
-
-Text completion framework via =company= aka *Complete Anything*.
-
-http://company-mode.github.io/
-+ Integrate with =lsp-mode=
-  
-#+begin_src emacs-lisp
-(use-package company
-  :after lsp)
-
-(use-package company-lsp
-  :after (lsp company)
-  :custom (company-backend 'company-lsp))
 #+end_src
 
 *** Languages

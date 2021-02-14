@@ -20,6 +20,13 @@
   :custom (projectile-project-search-path '("~/.local/source"))
   :config (projectile-mode))
 
+(use-package company
+  :after lsp)
+
+(use-package company-lsp
+  :after (lsp company)
+  :custom (company-backend 'company-lsp))
+
 (use-package password-store
   :custom (password-store-dir dotfiles/passwords))
 
@@ -28,13 +35,6 @@
   "pp" '(password-store-copy :which-key "Copy")
   "pr" '(password-store-rename :which-key "Rename")
   "pg" '(password-store-generate :which-key "Generate"))
-
-(use-package company
-  :after lsp)
-
-(use-package company-lsp
-  :after (lsp company)
-  :custom (company-backend 'company-lsp))
 
 (setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
 
