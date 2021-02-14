@@ -7,6 +7,9 @@
   :custom (lsp-ui-doc-position 'at-point)
           (lsp-ui-doc-delay 0.500))
 
+(use-package dap-mode
+  :commands (dap-debug))
+
 (use-package docker
   :commands (docker))
 
@@ -25,9 +28,6 @@
   "pp" '(password-store-copy :which-key "Copy")
   "pr" '(password-store-rename :which-key "Rename")
   "pg" '(password-store-generate :which-key "Generate"))
-
-(use-package dap-mode
-  :commands (dap-debug))
 
 (use-package company
   :after lsp)
