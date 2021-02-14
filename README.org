@@ -487,19 +487,6 @@ Open an =eshell= buffer with =SPC e=.
   "e" '(eshell :which-key "Shell"))
 #+end_src
 
-Configure =vterm=, a complete POSIX compliant shell within Emacs, this is suitable when =eshell= is not up to the task.
-
-#+begin_src emacs-lisp
-(use-package vterm)
-#+end_src
-
-Open a =vterm= buffer in a new window with =SPC v=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "v" '(vterm-other-window :which-key "Terminal"))
-#+end_src
-
 *** Source
 
 Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complete git porcelain within Emacs.
