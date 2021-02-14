@@ -1055,7 +1055,7 @@ Use the built in =ispell= package to add spell checking features to buffers.
 An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
 
 + [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]]
-+ Debug adapter protocol
++ [[https://microsoft.github.io/debug-adapter-protocol/][Debug Adapter Protocol]]
 
 Add support for language servers with [[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]].
   
@@ -1072,6 +1072,13 @@ Add support for language servers with [[https://emacs-lsp.github.io/lsp-mode/][l
   :after lsp
   :custom (lsp-ui-doc-position 'at-point)
           (lsp-ui-doc-delay 0.500))
+#+end_src
+
+[[https://emacs-lsp.github.io/dap-mode/][Dap-mode]] adds support for the debug adapter protocol to Emacs.
+
+#+begin_src emacs-lisp
+(use-package dap-mode
+  :commands (dap-debug))
 #+end_src
 
 *** Containers
@@ -1120,17 +1127,6 @@ Configure keybindings behind =SPC p=.
   "pp" '(password-store-copy :which-key "Copy")
   "pr" '(password-store-rename :which-key "Rename")
   "pg" '(password-store-generate :which-key "Generate"))
-#+end_src
-
-*** Debugging
-
-Handled through the [[https://microsoft.github.io/debug-adapter-protocol/][Debug Adapter Protocol]], an open source initiative from *Microsoft* for the *VSCode* editor.
-
-[[https://emacs-lsp.github.io/dap-mode/][Dap-mode]] adds support for the protocol to Emacs.
-
-#+begin_src emacs-lisp
-(use-package dap-mode
-  :commands (dap-debug))
 #+end_src
 
 *** Completion
