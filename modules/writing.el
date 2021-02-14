@@ -89,6 +89,7 @@
 #+TITLE: ${title}
 #+AUTHOR: Christopher James Hayward
 
+#+EXPORT_FILE_NAME: ${slug}
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 ")))
 
