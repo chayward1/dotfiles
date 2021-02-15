@@ -177,22 +177,16 @@ Each host system that runs Emacs has a file defined in the =hosts/= sub director
 
 The first machine with real hardware to deploy this configuration to. It's an Acer Nitro AN-515 with the NVIDIA / Intel hybrid graphics card. Due to the issues I encountered with this hardware setup, I again opted to install Ubuntu 20.04, and stripped away the components I don't need.
 
-+ Set the browser to use the flatpak of firefox
++ Set the browser manually
 + Set the language to Canadian english
 + Increase font size for high DPI screen
 
 Configure the browser.
 
 #+begin_src emacs-lisp
-(setq dotfiles/browser "flatpak run org.mozilla.firefox"
+(setq dotfiles/browser "qutebrowser"
       dotfiles/language "en_CA"
       dotfiles/font-size 132)
-#+end_src
-
-This machine has a screen with a high =DPI=, requiring modification to ~dotfiles/font-size~.
-
-#+begin_src emacs-lisp
-(setq dotfiles/font-size 132)
 #+end_src
 
 ** Virtualbox
@@ -200,13 +194,13 @@ This machine has a screen with a high =DPI=, requiring modification to ~dotfiles
 :header-args: :tangle hosts/virtualbox.el
 :END:
 
-The first configuration, built using the Ubuntu 20.04 LTS server edition. I decided to incorporate =flatpaks= into this build.
+The first configuration, built using the Ubuntu 20.04 LTS server edition.
 
-+ Set the browser to use the flatpak of firefox
++ Set the browser manually
 + Set the language to Canadian english
 
 #+begin_src emacs-lisp
-(setq dotfiles/browser "flatpak run org.mozilla.firefox"
+(setq dotfiles/browser "qutebrowser"
       dotfiles/language "en_CA")
 #+end_src
 

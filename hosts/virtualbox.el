@@ -1,2 +1,2 @@
-(setq dotfiles/browser "flatpak run org.mozilla.firefox"
+(setq dotfiles/browser "qutebrowser"
       dotfiles/language "en_CA")
