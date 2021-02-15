@@ -184,7 +184,7 @@ The first machine with real hardware to deploy this configuration to. It's an Ac
 Configure the browser.
 
 #+begin_src emacs-lisp
-(setq dotfiles/browser "qutebrowser"
+(setq dotfiles/browser "firefox"
       dotfiles/language "en_CA"
       dotfiles/font-size 132)
 #+end_src
@@ -200,7 +200,7 @@ The first configuration, built using the Ubuntu 20.04 LTS server edition.
 + Set the language to Canadian english
 
 #+begin_src emacs-lisp
-(setq dotfiles/browser "qutebrowser"
+(setq dotfiles/browser "firefox"
       dotfiles/language "en_CA")
 #+end_src
 
