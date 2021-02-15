@@ -919,7 +919,7 @@ Produce high quality presentations that work anywhere with =HTML/JS= and the [[h
 
 #+begin_src emacs-lisp
 (use-package ox-reveal
-  :after ox-roam
+  :after ox
   :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
 #+end_src
 
@@ -938,7 +938,10 @@ Create a capture template for creating slides quickly, with our desired configur
 ,#+AUTHOR: Christopher James Hayward
 
 ,#+EXPORT_FILE_NAME: ${slug}
+,#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+
 ,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+,#+REVEAL_THEME: serif
 ")))
 #+end_src
 

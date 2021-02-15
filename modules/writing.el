@@ -75,7 +75,7 @@
 ")))
 
 (use-package ox-reveal
-  :after ox-roam
+  :after ox
   :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
 
 (with-eval-after-load 'org-roam
@@ -90,7 +90,10 @@
 #+AUTHOR: Christopher James Hayward
 
 #+EXPORT_FILE_NAME: ${slug}
+#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+#+REVEAL_THEME: serif
 ")))
 
 (unless (string-match-p "\\.gpg" org-agenda-file-regexp)
