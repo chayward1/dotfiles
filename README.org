@@ -189,6 +189,22 @@ Configure the browser.
       dotfiles/font-size 132)
 #+end_src
 
+** Raspberry
+:header-args: :tangle hosts/raspberry.el
+
+Raspberry Pi 400 personal computer.
+
+
++ Set the browser manually
++ Set the language to Canadian english
++ Increase font size for small screens
+
+#+begin_src emacs-lisp
+(setq dotfiles/browser "chromium-browser"
+      dotfiles/language "en_CA"
+      dotfiles/font-size 132)
+#+end_src
+
 ** Virtualbox
 :PROPERTIES:
 :header-args: :tangle hosts/virtualbox.el
