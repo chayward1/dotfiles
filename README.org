@@ -697,10 +697,20 @@ Write out the ~$BROWSER~ environment variable.
 #+end_src
 
 *** Startup
+:PROPERTIES:
+:header-args: :tangle config/profile
+:END:
 
-When launching into a session, if the display server is not running then =startx= executes to run the window manager.
+Ensure that ~/.local/bin~ is added to the path.
 
-#+begin_src sh :tangle config/profile
+#+begin_src sh
+PATH=$PATH:~/.local/bin
+export PATH
+#+end_src
+
+When launching into a session, if the display server is not running then =startx= executes to run the window manager. 
+
+#+begin_src sh
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
     exec startx
 fi
@@ -758,6 +768,7 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
 
 #+begin_src emacs-lisp
 (defun dotfiles/update-display ()
+  "Update the displays by forcing a change through autorandr."
   (dotfiles/run-in-background "autorandr --change --force"))
 #+end_src
 
@@ -1249,7 +1260,7 @@ Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow
 Install the =pyls= language server.
 
 #+begin_src shell :tangle no
-pip install --user "python-language-server[all]"
+pip3 install --user "python-language-server[all]"
 #+end_src
 
 [[https://www.emacswiki.org/emacs/PythonProgrammingInEmacs][Python-mode]] is an Emacs built in mode.
@@ -1267,6 +1278,36 @@ pip install --user "python-language-server[all]"
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
+#+end_src
+
+Prettify python buffers y pushing symbols to ~prettify-symbols-mode~.
+
+#+begin_src emacs-lisp
+(add-hook 'python-mode-hook
+          (lambda ()
+            (mapc (lambda (pair) (push pair prettify-symbols-alist))
+                  '(;; Syntax
+                    ("def" .      #x2131)
+                    ("not" .      #x2757)
+                    ("in" .       #x2208)
+                    ("not in" .   #x2209)
+                    ("return" .   #x27fc)
+                    ("yield" .    #x27fb)
+                    ("for" .      #x2200)
+                    ;; Base Types
+                    ("int" .      #x2124)
+                    ("float" .    #x211d)
+                    ("str" .      #x1d54a)
+                    ("True" .     #x1d54b)
+                    ("False" .    #x1d53d)
+                    ;; Mypy
+                    ("Dict" .     #x1d507)
+                    ("List" .     #x2112)
+                    ("Tuple" .    #x2a02)
+                    ("Set" .      #x2126)
+                    ("Iterable" . #x1d50a)
+                    ("Any" .      #x2754)
+                    ("Union" .    #x22c3)))))
 #+end_src
 
 **** PlantUML
@@ -1432,9 +1473,18 @@ Load a theme with =SPC t t=.
   "tt" '(counsel-load-theme t t :which-key "Theme"))
 #+end_src
 
+*** Pretty
+
+Make programming buffers prettier with [[https://github.com/pretty-mode/pretty-mode][pretty-mode]], complimentary to the built in ~prettify-symbols-mode~. 
+
+#+begin_src emacs-lisp
+(use-package pretty-mode
+  :hook (prog-mode . turn-on-pretty-mode))
+#+end_src
+
 *** Ligatures
 
-Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-code-mode]], perform this action *only* when ~Fira Code~ is set as the current font.
+Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-code-mode]], perform this action *only* when ~Fira Code~ is the current font.
 
 #+begin_src emacs-lisp
 (when (display-graphic-p)
