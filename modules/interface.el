@@ -47,6 +47,9 @@
 (dotfiles/leader
   "tt" '(counsel-load-theme t t :which-key "Theme"))
 
+(use-package pretty-mode
+  :hook (prog-mode . turn-on-pretty-mode))
+
 (when (display-graphic-p)
   (use-package fira-code-mode
     :hook (prog-mode org-mode)))
