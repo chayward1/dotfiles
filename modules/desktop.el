@@ -60,6 +60,7 @@
   (display-time-mode 1))
 
 (defun dotfiles/update-display ()
+  "Update the displays by forcing a change through autorandr."
   (dotfiles/run-in-background "autorandr --change --force"))
 
 (use-package exwm
