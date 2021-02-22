@@ -63,7 +63,8 @@
          (lambda ()
            (require 'ccls)
            (lsp-deferred)))
-  :config (add-to-list 'org-structure-template-alist '("cc" . "src cc")))
+  :config (add-to-list 'org-structure-template-alist '("cc" . "src cc"))
+          (add-to-list 'org-structure-template-alist '("cpp" . "src cpp")))
 
 (use-package python-mode
   :hook (python-mode . lsp-deferred)

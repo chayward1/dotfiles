@@ -194,7 +194,6 @@ Configure the browser.
 
 Raspberry Pi 400 personal computer.
 
-
 + Set the browser manually
 + Set the language to Canadian english
 + Increase font size for small screens
@@ -1244,7 +1243,10 @@ Instead of the popular =restclient= package, I use [[https://github.com/zweifisc
 #+ATTR_LATEX: :width 420px
 [[./docs/images/2021-02-13-example-ccls.gif]]
 
-Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow us to create a new structure template for C/C++ with ~<cc~.
+Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow us to create a new structure template for C/C++:
+
++ ~<s cc~ for C
++ ~<s cpp~ for C++
 
 #+begin_src emacs-lisp
 (use-package ccls
@@ -1252,7 +1254,8 @@ Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow
          (lambda ()
            (require 'ccls)
            (lsp-deferred)))
-  :config (add-to-list 'org-structure-template-alist '("cc" . "src cc")))
+  :config (add-to-list 'org-structure-template-alist '("cc" . "src cc"))
+          (add-to-list 'org-structure-template-alist '("cpp" . "src cpp")))
 #+end_src
 
 **** Python
