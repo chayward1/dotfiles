@@ -1469,7 +1469,7 @@ Make programming buffers prettier with [[https://github.com/pretty-mode/pretty-m
 
 #+begin_src emacs-lisp
 (use-package pretty-mode
-  :hook (prog-mode . turn-on-pretty-mode))
+  :hook (python-mode . turn-on-pretty-mode))
 #+end_src
 
 *** Ligatures
