@@ -1306,7 +1306,7 @@ Toggle inline images with =SPC t i=.
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "ti" '(org-display-inline-images :which-key "Images"))
+  "ti" '(org-toggle-inline-images :which-key "Images"))
 #+end_src
 
 ** Interface

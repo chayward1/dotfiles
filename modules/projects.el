@@ -87,4 +87,4 @@
           (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
 
 (dotfiles/leader
-  "ti" '(org-display-inline-images :which-key "Images"))
+  "ti" '(org-toggle-inline-images :which-key "Images"))
