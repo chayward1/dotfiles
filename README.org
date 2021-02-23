@@ -1243,10 +1243,10 @@ Instead of the popular =restclient= package, I use [[https://github.com/zweifisc
 #+ATTR_LATEX: :width 420px
 [[./docs/images/2021-02-13-example-ccls.gif]]
 
-Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and allow us to create a new structure template for C/C++:
+Install the [[https://github.com/MaskRay/ccls][ccls]] language server, and create a new structure templates for C/C++:
 
-+ ~<s cc~ for C
-+ ~<s cpp~ for C++
++ ~<cc~ for C
++ ~<cpp~ for C++
 
 #+begin_src emacs-lisp
 (use-package ccls
