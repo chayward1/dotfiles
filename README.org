@@ -1314,7 +1314,14 @@ Toggle inline images with =SPC t i=.
 :header-args: :tangle modules/interface.el :results silent
 :END:
 
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/what-is-emacs-teaser.png]] =>  [[./docs/images/desktop.png]]
+
 *Bring Emacs out of the eighties*
+
+
 
 *** Ivy
 
