@@ -1429,6 +1429,11 @@ https://github.com/Fanael/rainbow-delimiters
 
 *** Themes
 
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/what-is-emacs-customizable.gif]]
+
 Cherry pick a few modules from =doom-emacs=. High quality and modern colour themes are provided in the [[https://github.com/hlissner/emacs-doom-themes][doom-themes]] package.
 
 #+begin_src emacs-lisp
