@@ -121,14 +121,17 @@
 (dotfiles/leader
   "a" '(org-agenda :which-key "Agenda"))
 
+(use-package screenshot
+  :commands (screenshot))
+
 (use-package gif-screencast
   :commands (gif-screencast-start-or-stop gif-screencast-toggle-pause)
   :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 
 (dotfiles/leader
-  "s" '(:ignore t :which-key "Screencast")
-  "ss" '(gif-screencast-start-or-stop :which-key "Start / Stop")
-  "sp" '(gif-screencast-toggle-pause :which-key "Pause"))
+  "s" '(:ignore t :which-key "Screen")
+  "ss" '(screenshot :which-key "Screenshot")
+  "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
 
 (use-package writegood-mode
   :after org

@@ -1021,6 +1021,13 @@ Open an agenda buffer with =SPC a=.
 
 *** Images
 
+Capture screenshots with [[https://github.com/tecosaur/screenshot][screenshot.el]].
+
+#+begin_src emacs-lisp
+(use-package screenshot
+  :commands (screenshot))
+#+end_src
+
 Create screencasts with =one-frame-per-action= GIF recording via [[https://github.com/takaxp/emacs-gif-screencast][emacs-gif-screencast]].
 
 + Pause / Resume
@@ -1035,15 +1042,15 @@ It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =Ima
   :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 #+end_src
 
-Screencast controls behind =SPC s=.
-+ Start / stop with =s=
-+ Pause with =t=
+Place keybindings behind =SPC s=.
++ Screenshot with =s=
++ Screencast with =c=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "s" '(:ignore t :which-key "Screencast")
-  "ss" '(gif-screencast-start-or-stop :which-key "Start / Stop")
-  "sp" '(gif-screencast-toggle-pause :which-key "Pause"))
+  "s" '(:ignore t :which-key "Screen")
+  "ss" '(screenshot :which-key "Screenshot")
+  "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
 #+end_src
 
 *** Grammar
