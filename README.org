@@ -70,9 +70,6 @@ Used by the writing module to determine the system language.
   "The default system language.")
 #+end_src
 
-#+RESULTS:
-: dotfiles/language
-
 All of the available modules defined in the ~dotfiles/modules-available~ constant.
 
 #+begin_src emacs-lisp
@@ -852,7 +849,8 @@ Encrypt files using symmetric key encryption via PGP. This enables my workflow o
 
 #+begin_src emacs-lisp
 (setq epa-file-select-keys 2
-      epa-file-cache-passphrase-for-symmetric-encryption t)
+      epa-file-cache-passphrase-for-symmetric-encryption t
+      epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
 #+end_src
 
 *** Roam
