@@ -170,6 +170,21 @@ Load all of the enabled modules:
 
 Each host system that runs Emacs has a file defined in the =hosts/= sub directory, following the pattern of ~$HOSTNAME.el~. All of the configurations definitions are in this file. Modules will read these values during initialization.
 
+** Virtualbox
+:PROPERTIES:
+:header-args: :tangle hosts/virtualbox.el
+:END:
+
+The first configuration, built using the Ubuntu 20.04 LTS server edition.
+
++ Set the browser manually
++ Set the language to Canadian english
+
+#+begin_src emacs-lisp
+(setq dotfiles/browser "firefox"
+      dotfiles/language "en_CA")
+#+end_src
+
 ** Acernitro
 :PROPERTIES:
 :header-args: :tangle hosts/acernitro.el
@@ -190,9 +205,11 @@ Configure the browser.
 #+end_src
 
 ** Raspberry
+:PROPERTIES:
 :header-args: :tangle hosts/raspberry.el
+:END:
 
-Raspberry Pi 400 personal computer.
+Raspberry Pi 400 personal computer, and a small fleet of Zero, Zero WH, 4, and 4Bs.
 
 + Set the browser manually
 + Set the language to Canadian english
@@ -204,19 +221,17 @@ Raspberry Pi 400 personal computer.
       dotfiles/font-size 132)
 #+end_src
 
-** Virtualbox
+** Termux
 :PROPERTIES:
-:header-args: :tangle hosts/virtualbox.el
+:header-args: :tangle hosts/localhost.el
 :END:
 
-The first configuration, built using the Ubuntu 20.04 LTS server edition.
+Android devices do not use the Linux host names, so setting a custom hostname is pointless as it just changes the value of ~kernel.hostname~ and have no impact on the running system. It's recommended to leave the hostname as =localhost= in Termux. While this raises an issue with my host definition system, it's no more of an issue than the =rasberry= namespace.
 
-+ Set the browser manually
-+ Set the language to Canadian english
++ Increase font size for small screen
 
 #+begin_src emacs-lisp
-(setq dotfiles/browser "firefox"
-      dotfiles/language "en_CA")
+(setq dotfiles/font-size 132)
 #+end_src
 
 * Modules
