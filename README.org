@@ -301,10 +301,11 @@ Emacs' default user interface is *horrendous*, let's do something about that.
 (global-prettify-symbols-mode)
 
 (when (window-system)
+  (tooltip-mode -1)
   (tool-bar-mode -1)
-  (scroll-bar-mode -1)
   (menu-bar-mode -1)
-  (tooltip-mode -1))
+  (when (fboundp 'scroll-bar-mode)
+    (scroll-bar-mode -1)))
 #+end_src
 
 Emacs has a long history of running on machines without gigabytes of available memory, let it realize its full potential! Just kidding, it just smashes *CPU0*.
