@@ -63,8 +63,9 @@
          (lambda ()
            (require 'ccls)
            (lsp-deferred)))
-  :config (add-to-list 'org-structure-template-alist '("cc" . "src cc"))
-          (add-to-list 'org-structure-template-alist '("cpp" . "src cpp")))
+  :config (add-to-list 'org-structure-template-alist '("cc" . "src C"))
+          (add-to-list 'org-structure-template-alist '("cpp" . "src C++"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((C . t))))
 
 (use-package python-mode
   :hook (python-mode . lsp-deferred)
