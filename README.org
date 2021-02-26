@@ -292,16 +292,26 @@ Despite having our *stateful* and *immutable* configurations seperate, it's good
 (use-package no-littering)
 #+end_src
 
-Emacs' default user interface is horrendous, but with less than 10 lines of code we can change that.
+Emacs' default user interface is *horrendous*, let's do something about that.
 
 #+begin_src emacs-lisp
-(setq inhibit-startup-message t)
+(setq inhibit-startup-message t
+      initial-scratch-message "")
+
 (global-prettify-symbols-mode)
 
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
+(when (window-system)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1)
+  (tooltip-mode -1))
+#+end_src
+
+Emacs has a long history of running on machines without gigabytes of available memory, let it realize its full potential! Just kidding, it just smashes *CPU0*.
+
+#+begin_src emacs-lisp
+(setq gc-cons-treshold most-positive-fixnum
+      gnutls-min-prime-bits 4096)
 #+end_src
 
 *** Babel
@@ -820,6 +830,13 @@ I am using [[https://orgmode.org][org-mode]] extensively for writing projects fo
 (use-package org-superstar
   :after org
   :hook (org-mode . org-superstar-mode))
+#+end_src
+
+Encrypt files using symmetric key encryption via PGP. This enables my workflow of storing my personal notes anywhere. Emacs can cache the gpg password if you trust your session.
+
+#+begin_src emacs-lisp
+(setq epa-file-select-keys 2
+      epa-file-cache-passphrase-for-symmetric-encryption t)
 #+end_src
 
 *** Roam

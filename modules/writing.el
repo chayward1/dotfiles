@@ -2,6 +2,9 @@
   :after org
   :hook (org-mode . org-superstar-mode))
 
+(setq epa-file-select-keys 2
+      epa-file-cache-passphrase-for-symmetric-encryption t)
+
 (use-package org-roam
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory org-directory)

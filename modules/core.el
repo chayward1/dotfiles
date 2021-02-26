@@ -23,13 +23,19 @@
 
 (use-package no-littering)
 
-(setq inhibit-startup-message t)
+(setq inhibit-startup-message t
+      initial-scratch-message "")
+
 (global-prettify-symbols-mode)
 
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
+(when (window-system)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1)
+  (tooltip-mode -1))
+
+(setq gc-cons-treshold most-positive-fixnum
+      gnutls-min-prime-bits 4096)
 
 (use-package org
   :hook (org-mode . (lambda ()
