@@ -1,10 +1,10 @@
+(setq epa-file-select-keys 2
+      epa-file-cache-passphrase-for-symmetric-encryption t
+      epa-file-encrypt-to dotfiles/public-key)
+
 (use-package org-superstar
   :after org
   :hook (org-mode . org-superstar-mode))
-
-(setq epa-file-select-keys 2
-      epa-file-cache-passphrase-for-symmetric-encryption t
-      epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
 
 (use-package org-roam
   :hook (after-init . org-roam-mode)

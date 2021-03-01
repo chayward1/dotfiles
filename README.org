@@ -142,6 +142,14 @@ Where the password store exists on disk.
   "Directory containing the password store.")
 #+end_src
 
+Configure the public GPG key that Emacs will encrypt files to.
+
+#+begin_src emacs-lisp
+(defvar dotfiles/public-key
+  "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+  "Public PGP key that Emacs will encrypt files to.")
+#+end_src
+
 ** Startup
 
 The host configuration loads (if it exist) using the systems name.
@@ -837,20 +845,20 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
 :header-args: :tangle modules/writing.el :results silent
 :END:
 
-I am using [[https://orgmode.org][org-mode]] extensively for writing projects for different purposes. Most of the improvements are done in the *Core* module for the Literate programming configuration. [[https://github.com/integral-dw/org-superstar-mode][org-superstar-mode]] for making headline stars more *super*.
+I am using [[https://orgmode.org][org-mode]] extensively for writing projects for different purposes. Most of the improvements are done in the *Core* module for the Literate programming configuration. Encrypt files using symmetric key encryption via PGP. This enables my workflow of storing my personal notes anywhere. Emacs can cache the gpg password if you trust your session.
+
+#+begin_src emacs-lisp
+(setq epa-file-select-keys 2
+      epa-file-cache-passphrase-for-symmetric-encryption t
+      epa-file-encrypt-to dotfiles/public-key)
+#+end_src
+
+Download and install [[https://github.com/integral-dw/org-superstar-mode][org-superstar-mode]] for making headline stars more *super*.
 
 #+begin_src emacs-lisp
 (use-package org-superstar
   :after org
   :hook (org-mode . org-superstar-mode))
-#+end_src
-
-Encrypt files using symmetric key encryption via PGP. This enables my workflow of storing my personal notes anywhere. Emacs can cache the gpg password if you trust your session.
-
-#+begin_src emacs-lisp
-(setq epa-file-select-keys 2
-      epa-file-cache-passphrase-for-symmetric-encryption t
-      epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
 #+end_src
 
 *** Roam
@@ -919,7 +927,7 @@ I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][we
 
 *** Posts
 
-Add a capture template for creatinhg new blog posts.
+Add a capture template for creating new blog posts.
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-roam

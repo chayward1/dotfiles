@@ -50,6 +50,10 @@
   (expand-file-name "~/.password-store/")
   "Directory containing the password store.")
 
+(defvar dotfiles/public-key
+  "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+  "Public PGP key that Emacs will encrypt files to.")
+
 ;; Load the host configuration.
 (let ((host-file (concat dotfiles/home "/hosts/" system-name ".el")))
   (when (file-exists-p host-file)
