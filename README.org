@@ -5,10 +5,10 @@
 
 # #+PROPERTY: header-args:emacs-lisp :tangle no
 # #+PROPERTY: header-args:shell      :tangle no
-# #+PROPERTY: header-args            :results silent :eval no-export :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
 
-# #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-# #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
 #+ATTR_ORG:   :width 420px
 #+ATTR_HTML:  :width 420px
@@ -355,9 +355,13 @@ Emacs has a long history of running on machines without gigabytes of available m
   :custom (org-ellipsis " ▾")
           (org-log-done 'time)
           (org-log-into-drawer t)
+          (org-return-follows-link t)
           (org-image-actual-width nil)
           (org-directory dotfiles/home)
+          (org-src-fontify-natively t)
+          (org-src-tab-acts-natively t)
           (org-src-preserve-indentation t)
+          (org-confirm-babel-evaluate nil)
           (org-todo-keywords '((sequence "TODO" "START" "WAIT" "DONE")))
   :config (require 'org-tempo)
           (add-to-list 'org-structure-template-alist '("s" . "src"))
