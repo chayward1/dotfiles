@@ -3,8 +3,8 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-# #+PROPERTY: header-args:emacs-lisp :tangle no
-# #+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args:emacs-lisp :comments org
+#+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
@@ -23,6 +23,9 @@ Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 Heavily inspired by [[https://github.com/hlissner/doom-emacs][Doom Emacs]] and [[https://youtube.com/c/SystemCrafters][System Crafters]].
 
 * Init
+:PROPERTIES:
+:header-args: :tangle init.el
+:END:
 
 Although later versions of Emacs introduce =early-init.el=, it's not used in this configuration for two reasons:
 
@@ -48,9 +51,7 @@ Configure the system font with a single ~font-family~ and define the size, of wh
 (defvar dotfiles/font
   "Fira Code"
   "Unified system font family, used on all font faces.")
-#+end_src
 
-#+begin_src emacs-lisp
 (defvar dotfiles/font-size
   96
   "Unified font size, of which all variations are relative to.")
@@ -157,7 +158,6 @@ Configure the public GPG key that Emacs will encrypt files to.
 The host configuration loads (if it exist) using the systems name.
 
 #+begin_src emacs-lisp
-;; Load the host configuration.
 (let ((host-file (concat dotfiles/home "/hosts/" system-name ".el")))
   (when (file-exists-p host-file)
     (load-file host-file)))
@@ -166,7 +166,6 @@ The host configuration loads (if it exist) using the systems name.
 Load all of the enabled modules:
 
 #+begin_src emacs-lisp
-;; Load the enabled modules.
 (dolist (m dotfiles/modules)
   (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".el")))
     (when (file-exists-p mod-file)
@@ -247,7 +246,7 @@ Breaking down the project into logical units or chapters to keep the code more m
 
 ** Core
 :PROPERTIES:
-:header-args: :tangle modules/core.el :results silent
+:header-args: :tangle modules/core.el
 :END:
 
 Minimal configuration to make Emacs usable for my own personal workflow. This does little in the ways of improving the visuals, only removing what's included by default and not required. Read more about my technique in my post [[file:docs/posts/immutable-emacs.org.gpg][Immutable Emacs]].
@@ -385,7 +384,7 @@ Build all of the =org= files within a given directory.
 
 ** Editor
 :PROPERTIES:
-:header-args: :tangle modules/editor.el :results silent
+:header-args: :tangle modules/editor.el
 :END:
 
 This section contains configuration for improving the editor experience within Emacs.
@@ -848,7 +847,7 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
 
 ** Writing
 :PROPERTIES:
-:header-args: :tangle modules/writing.el :results silent
+:header-args: :tangle modules/writing.el
 :END:
 
 I am using [[https://orgmode.org][org-mode]] extensively for writing projects for different purposes. Most of the improvements are done in the *Core* module for the Literate programming configuration. Encrypt files using symmetric key encryption via PGP. This enables my workflow of storing my personal notes anywhere. Emacs can cache the gpg password if you trust your session.
@@ -1127,7 +1126,7 @@ Use the built in =ispell= package to add spell checking features to buffers.
 
 ** Projects
 :PROPERTIES:
-:header-args: :tangle modules/projects.el :results silent
+:header-args: :tangle modules/projects.el
 :END:
 
 An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
@@ -1367,7 +1366,7 @@ Toggle inline images with =SPC t i=.
 
 ** Interface
 :PROPERTIES:
-:header-args: :tangle modules/interface.el :results silent
+:header-args: :tangle modules/interface.el
 :END:
 
 #+ATTR_ORG: :width 420px
