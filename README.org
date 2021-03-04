@@ -232,7 +232,7 @@ Raspberry Pi 400 personal computer, and a small fleet of Zero, Zero WH, 4, and 4
 :header-args: :tangle hosts/localhost.el
 :END:
 
-Android devices do not use the Linux host names, so setting a custom hostname is pointless as it just changes the value of ~kernel.hostname~ and have no impact on the running system. It's recommended to leave the hostname as =localhost= in Termux. While this raises an issue with my host definition system, it's no more of an issue than the =rasberry= namespace.
+Android devices do not use the Linux host names, so setting a custom hostname is pointless as it just changes the value of ~kernel.hostname~ and have no impact on the running system. It's recommended to leave the hostname as =localhost= in Termux. While this raises an issue with my host definition system, it's no more of an issue than the =raspberry= namespace.
 
 + Increase font size for small screen
 
@@ -242,7 +242,7 @@ Android devices do not use the Linux host names, so setting a custom hostname is
 
 * Modules
 
-Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundemental requirement to achieve the goal of modularity. Incorporating just the =core= module on a build server to build literate programming projects is just one example.
+Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Incorporating just the =core= module on a build server to build literate programming projects is just one example.
 
 ** Core
 :PROPERTIES:
@@ -322,9 +322,12 @@ Emacs' default user interface is *horrendous*, let's do something about that.
 (global-prettify-symbols-mode)
 
 (when (window-system)
-  (tooltip-mode -1)
-  (tool-bar-mode -1)
-  (menu-bar-mode -1)
+  (when (fboundp 'tooltip-mode)
+    (tooltip-mode -1))
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
+  (when (fboundp 'menu-bar-mode)
+    (menu-bar-mode -1))
   (when (fboundp 'scroll-bar-mode)
     (scroll-bar-mode -1)))
 #+end_src
@@ -1122,6 +1125,13 @@ Use the built in =ispell= package to add spell checking features to buffers.
 (use-package ispell
   :after org
   :custom (ispell-dictionary dotfiles/lang))
+#+end_src
+
+Toggle highlighting within buffers with =SPC t s=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "ts" '(flyspell-buffer :which-key "Spelling"))
 #+end_src
 
 ** Projects

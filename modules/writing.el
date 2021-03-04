@@ -276,3 +276,11 @@
 (use-package ispell
   :after org
   :custom (ispell-dictionary dotfiles/lang))
+
+
+
+;; Toggle highlighting within buffers with =SPC t s=.
+
+
+(dotfiles/leader
+  "ts" '(flyspell-buffer :which-key "Spelling"))
