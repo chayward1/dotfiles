@@ -3,10 +3,15 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+ROAM_KEY: https://github.com/chayward1/dotfiles/
+# #+PROPERTY: header-args:emacs-lisp :tangle no
+# #+PROPERTY: header-args:shell      :tangle no
+# #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
+# #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+# #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+#+ATTR_ORG:   :width 420px
+#+ATTR_HTML:  :width 420px
 #+ATTR_LATEX: :width 420px
 [[./docs/images/desktop-alt.png]]
 
@@ -18,9 +23,6 @@ Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 Heavily inspired by [[https://github.com/hlissner/doom-emacs][Doom Emacs]] and [[https://youtube.com/c/SystemCrafters][System Crafters]].
 
 * Init
-:PROPERTIES:
-:header-args: :tangle init.el
-:END:
 
 Although later versions of Emacs introduce =early-init.el=, it's not used in this configuration for two reasons:
 
