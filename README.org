@@ -1,5 +1,4 @@
 #+TITLE: Dotfiles
-#+SUBTITLE: I showed you my source code, pls respond
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
@@ -19,8 +18,6 @@ Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Literate
 + 100% Immutable
 + 100% Reproducible
-
-Heavily inspired by [[https://github.com/hlissner/doom-emacs][Doom Emacs]] and [[https://youtube.com/c/SystemCrafters][System Crafters]].
 
 * Init
 :PROPERTIES:
