@@ -1,2 +1,6 @@
+*.org linguist-detectable
+*.org.gpg linguist-detectable
+
+*.el linguist-language=Org
 *.org linguist-language=Org
 *.org.gpg linguist-language=Org
