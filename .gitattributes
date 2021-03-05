@@ -1,6 +1,4 @@
 *.org linguist-detectable
-*.org.gpg linguist-detectable
-
-*.el linguist-language=Emacs
 *.org linguist-language=Emacs
+*.org.gpg linguist-detectable
 *.org.gpg linguist-language=Emacs
