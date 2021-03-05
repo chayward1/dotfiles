@@ -139,7 +139,16 @@
 
 (use-package eshell-prompt-extras
   :custom (eshell-highlight-prompt nil)
+          (eshell-prefer-lisp-functions nil)
 	        (eshell-prompt-function 'epe-theme-lambda))
+
+
+
+;; Make ~pfetch~ output as a visual command.
+
+
+(with-eval-after-load 'eshell
+  (add-to-list 'eshell-visual-commands "pfetch"))
 
 
 
