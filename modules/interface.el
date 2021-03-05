@@ -88,8 +88,8 @@
 
 
 (use-package linum-relative
-  :custom (linum-relative-backend 'display-line-numbers-mode)
-  :config (linum-relative-global-mode))
+  :commands (linum-relative-global-mode)
+  :custom (linum-relative-backend 'display-line-numbers-mode))
 
 
 
