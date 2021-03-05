@@ -144,14 +144,6 @@
 
 
 
-;; Make ~pfetch~ output as a visual command.
-
-
-(with-eval-after-load 'eshell
-  (add-to-list 'eshell-visual-commands "pfetch"))
-
-
-
 ;; Open an =eshell= buffer with =SPC e=.
 
 
