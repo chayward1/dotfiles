@@ -123,19 +123,19 @@
 
 ;; Startup
 
-;; The host configuration loads (if it exist) using the systems name.
+;; The host configuration tangles, and loads (if it exist) using the systems name.
 
 
-(let ((host-file (concat dotfiles/home "/hosts/" system-name ".el")))
+(let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
   (when (file-exists-p host-file)
-    (load-file host-file)))
+    (org-babel-load-file host-file)))
 
 
 
-;; Load all of the enabled modules:
+;; Build and load all of the enabled modules.
 
 
 (dolist (m dotfiles/modules)
-  (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".el")))
+  (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
     (when (file-exists-p mod-file)
-      (load-file mod-file))))
+      (org-babel-load-file mod-file))))

@@ -18,7 +18,7 @@ Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Literate
 + 100% Immutable
 + 100% Reproducible
-
+  
 * Init
 :PROPERTIES:
 :header-args: :tangle init.el
@@ -152,21 +152,21 @@ Configure the public GPG key that Emacs will encrypt files to.
 
 ** Startup
 
-The host configuration loads (if it exist) using the systems name.
+The host configuration tangles, and loads (if it exist) using the systems name.
 
 #+begin_src emacs-lisp
-(let ((host-file (concat dotfiles/home "/hosts/" system-name ".el")))
+(let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
   (when (file-exists-p host-file)
-    (load-file host-file)))
+    (org-babel-load-file host-file)))
 #+end_src
 
-Load all of the enabled modules:
+Build and load all of the enabled modules.
 
 #+begin_src emacs-lisp
 (dolist (m dotfiles/modules)
-  (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".el")))
+  (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
     (when (file-exists-p mod-file)
-      (load-file mod-file))))
+      (org-babel-load-file mod-file))))
 #+end_src
 
 * Hosts
