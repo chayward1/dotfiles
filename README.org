@@ -521,7 +521,15 @@ While not a traditional terminal emulator, =eshell= provides me with all of the 
 #+begin_src emacs-lisp
 (use-package eshell-prompt-extras
   :custom (eshell-highlight-prompt nil)
+          (eshell-prefer-lisp-functions nil)
 	        (eshell-prompt-function 'epe-theme-lambda))
+#+end_src
+
+Make ~pfetch~ output as a visual command.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'eshell
+  (add-to-list 'eshell-visual-commands "pfetch"))
 #+end_src
 
 Open an =eshell= buffer with =SPC e=.
@@ -1469,8 +1477,8 @@ https://github.com/emacsmirror/linum-relative
 
 #+begin_src emacs-lisp
 (use-package linum-relative
-  :custom (linum-relative-backend 'display-line-numbers-mode)
-  :config (linum-relative-global-mode))
+  :commands (linum-relative-global-mode)
+  :custom (linum-relative-backend 'display-line-numbers-mode))
 #+end_src
 
 Add line numbers to the toggles behind =SPC t l=.
