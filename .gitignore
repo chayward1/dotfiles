@@ -1,4 +1,5 @@
-docs/resources/_gen
-docs/content
+*.el
 docs/static
 docs/public
+docs/content
+docs/resources/_gen
