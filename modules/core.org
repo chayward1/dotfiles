@@ -1,0 +1,153 @@
+#+TITLE: Core
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle core.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Minimal configuration to make Emacs usable for my own personal workflow. This does little in the ways of improving the visuals, only removing what's included by default and not required. Read more about my technique in my post *Immutable Emacs*[fn:1].
+
+* Startup
+
+Emacs creates a lot of files relative to ~user-emacs-directory~, these files are not part of this immutable configuration and do not belong in the emacs directory. How can we solve this issue? Shortly after initialization, before most packages load, we change the value to ~dotfiles/cache~. I elaborate more on the technique in my post *Immutable Emacs*[fn:1]
+
+#+begin_src emacs-lisp
+(setq user-emacs-directory dotfiles/cache)
+#+end_src
+
+Because this project uses version-control, we can disable more unwanted features:
+
++ Lock files
++ Backup files
+
+#+begin_src emacs-lisp
+(setq create-lockfiles nil
+      make-backup-files nil)
+#+end_src
+
+* Packages
+
+Download and install packages using *straight.el*[fn:2], a functional package manager that integrates with *use-package*[fn:3], giving more control over sourcing packages.
+
++ Use the development branch
++ Integrate with *use-package*[fn:3]
+
+** Options  
+
+Apply the configurations prior to bootstrapping the package manager, by setting (writing) to the variables that =straight= will ultimately read from.
+  
+#+begin_src emacs-lisp
+(setq straight-repository-branch "develop"
+      straight-use-package-by-default t)
+#+end_src
+
+** Setup
+
+Bootstrap the package manager, downloading, installing, or configuring depending on the state of the configuration. All packages build from source, pinned to specific git commit hashes.
+  
+#+begin_src emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+#+end_src
+
+** Integration
+
+Complete the integration with *use-package*[fn:3] by installing it with *straight.el*[fn:2].
+  
+#+begin_src emacs-lisp
+(straight-use-package 'use-package)
+#+end_src
+
+* Cleanup
+
+Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs. Install *no-littering*[fn:3] to reduce the files created by Emacs.
+
+#+begin_src emacs-lisp
+(use-package no-littering)
+#+end_src
+
+Now that we've taken care of how it acts, we can work on how it looks. Emacs' default user interface is *horrendous*, let's do something about that.
+
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t
+      initial-scratch-message "")
+
+(global-prettify-symbols-mode)
+
+(when (fboundp 'tooltip-mode)
+  (tooltip-mode -1))
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
+(when (fboundp 'menu-bar-mode)
+  (menu-bar-mode -1))
+(when (fboundp 'scroll-bar-mode)
+  (scroll-bar-mode -1))
+#+end_src
+
+* Performance
+
+Emacs has a long history of running on machines without gigabytes of available memory, let it realize its full potential by increasing the garbage collection threshold and the minimum prime bit size.
+
+#+begin_src emacs-lisp
+(setq gc-cons-threshold most-positive-fixnum
+      gnutls-min-prime-bits 4096)
+#+end_src
+
+* Babel
+
+*Organize your plain life in plain text*
+
+*Org mode*[fn:4] is one of the hallmark features of Emacs, and provides the basis for my *Literate Programming*[fn:5] platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
+
++ Setup ~shell~ and ~emacs-lisp~ as *Babel Languages*[fn:6]
++ Configure *Structure Templates*[fn:7] for both languages
+
+#+begin_src emacs-lisp
+(use-package org
+  :hook (org-mode . (lambda ()
+          (org-indent-mode)
+          (visual-line-mode 1)
+          (variable-pitch-mode 1)))
+  :custom (org-ellipsis " ▾")
+          (org-log-done 'time)
+          (org-log-into-drawer t)
+          (org-return-follows-link t)
+          (org-image-actual-width nil)
+          (org-directory dotfiles/home)
+          (org-src-fontify-natively t)
+          (org-src-tab-acts-natively t)
+          (org-src-preserve-indentation t)
+          (org-confirm-babel-evaluate nil)
+          (org-todo-keywords '((sequence "TODO" "START" "WAIT" "DONE")))
+  :config (require 'org-tempo)
+          (add-to-list 'org-structure-template-alist '("s" . "src"))
+          (add-to-list 'org-structure-template-alist '("q" . "quote"))
+          (add-to-list 'org-structure-template-alist '("e" . "example"))
+          (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+          (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)
+                                                                   (emacs-lisp . t))))
+#+end_src
+
+* Resources
+
+[fn:1] https://chrishayward.xyz/posts/immutable-emacs/
+[fn:2] https://github.com/raxod502/straight.el
+[fn:3] https://github.com/jwiegley/use-package
+[fn:4] https://orgmode.org
+[fn:5] https://chrishayward.xyz/notes/literate-programming/
+[fn:6] https://orgmode.org/worg/org-contrib/babel/languages/index.html
+[fn:7] https://orgmode.org/manual/Structure-Templates.html
