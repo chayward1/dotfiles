@@ -158,12 +158,16 @@
 "
 #+TITLE: ${title}
 #+AUTHOR: Christopher James Hayward
-
-#+EXPORT_FILE_NAME: ${slug}
-#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+#+EMAIL: chris@chrishayward.xyz
 
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+REVEAL_THEME: serif
+
+#+EXPORT_FILE_NAME: ${slug}
+
+#+OPTIONS: reveal_title_slide:nil
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 ")))
 
 ;; Agenda
@@ -197,6 +201,10 @@
 #+TITLE: ${title}
 #+SUBTITLE:
 #+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 ")))
 
 
