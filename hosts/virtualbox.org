@@ -1,0 +1,29 @@
+#+TITLE: Virtualbox
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle virtualbox.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+The first configuration, built in the pit of evil on a Windows 10 host **gasps**. I opted for *easy mode* when creating this host and based it on the *Ubuntu 20.04 LTS Server Edition*[fn:1]. Future versions may see this abandoned for *Alpine Linux*[fn:2]
+
+* Options
+
++ Set the browser manually
++ Set the language to Canadian english
+
+#+begin_src emacs-lisp
+(setq dotfiles/browser "firefox"
+      dotfiles/language "en_CA")
+#+end_src
+
+#+RESULTS:
+: en_CA
+
+* Resouces
+
+[fn:1] Ubuntu 20.04 LTS Server
+[fn:2] Alpine Linux

@@ -4,7 +4,7 @@
 
 #+PROPERTY: header-args:emacs-lisp :comments org
 #+PROPERTY: header-args:shell      :tangle no
-#+PROPERTY: header-args            :results silent :eval no-export :comments org
+#+PROPERTY: header-args            :results silent :eval no-export
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
@@ -167,74 +167,6 @@ Build and load all of the enabled modules.
   (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
     (when (file-exists-p mod-file)
       (org-babel-load-file mod-file))))
-#+end_src
-
-* Hosts
-
-Each host system that runs Emacs has a file defined in the =hosts/= sub directory, following the pattern of ~$HOSTNAME.el~. All of the configurations definitions are in this file. Modules will read these values during initialization.
-
-** Virtualbox
-:PROPERTIES:
-:header-args: :tangle hosts/virtualbox.el
-:END:
-
-The first configuration, built using the Ubuntu 20.04 LTS server edition.
-
-+ Set the browser manually
-+ Set the language to Canadian english
-
-#+begin_src emacs-lisp
-(setq dotfiles/browser "firefox"
-      dotfiles/language "en_CA")
-#+end_src
-
-** Acernitro
-:PROPERTIES:
-:header-args: :tangle hosts/acernitro.el
-:END:
-
-The first machine with real hardware to deploy this configuration to. It's an Acer Nitro AN-515 with the NVIDIA / Intel hybrid graphics card. Due to the issues I encountered with this hardware setup, I again opted to install Ubuntu 20.04, and stripped away the components I don't need.
-
-+ Set the browser manually
-+ Set the language to Canadian english
-+ Increase font size for high DPI screen
-
-Configure the browser.
-
-#+begin_src emacs-lisp
-(setq dotfiles/browser "firefox"
-      dotfiles/language "en_CA"
-      dotfiles/font-size 132)
-#+end_src
-
-** Raspberry
-:PROPERTIES:
-:header-args: :tangle hosts/raspberry.el
-:END:
-
-Raspberry Pi 400 personal computer, and a small fleet of Zero, Zero WH, 4, and 4Bs.
-
-+ Set the browser manually
-+ Set the language to Canadian english
-+ Increase font size for small screens
-
-#+begin_src emacs-lisp
-(setq dotfiles/browser "chromium-browser"
-      dotfiles/language "en_CA"
-      dotfiles/font-size 132)
-#+end_src
-
-** Termux
-:PROPERTIES:
-:header-args: :tangle hosts/localhost.el
-:END:
-
-Android devices do not use the Linux host names, so setting a custom hostname is pointless as it just changes the value of ~kernel.hostname~ and have no impact on the running system. It's recommended to leave the hostname as =localhost= in Termux. While this raises an issue with my host definition system, it's no more of an issue than the =raspberry= namespace.
-
-+ Increase font size for small screen
-
-#+begin_src emacs-lisp
-(setq dotfiles/font-size 132)
 #+end_src
 
 * Modules

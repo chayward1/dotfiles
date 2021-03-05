@@ -1,0 +1,28 @@
+#+TITLE: Termux
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle localhost.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+My phone! This is running on a *TTY* or through *VNC* on *Termux*[fn:1]. It's pretty bare-bones but it's Org-mode in your pocket!
+
+* Issues
+
++ Android devices do not use the Linux hostname
++ Setting a custom hostname is impossible
+
+* Options
+
++ Increase font size for small phone screen
+
+#+begin_src emacs-lisp
+(setq dotfiles/font-size 132)
+#+end_src
+
+* Resources
+
+[fn:1] Termux
