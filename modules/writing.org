@@ -98,8 +98,6 @@ Download and install *Org roam*[fn:4], a plain text knowledge management system 
           (org-roam-encrypt-files t)
           (org-roam-capture-templates '())
           (org-roam-dailies-capture-templates '()))
-
-
 #+end_src
 
 Configure custom keybindings behind =SPC r=.
