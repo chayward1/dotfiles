@@ -23,6 +23,7 @@
   '(core 
     editor
     email
+    encryption
     desktop
     writing
     website
@@ -77,14 +78,14 @@
 
 ;; Hosts machines
 
-;;  Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
+;; Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
-;;  + [[file:hosts/localhost.org][Termux]]
-;;  + [[file:hosts/raspberry.org][Raspberry]]
-;;  + [[file:hosts/acernitro.org][Acernitro]]
-;;  + [[file:hosts/virtualbox.org][Virtualbox]]
+;; + [[file:hosts/localhost.org][Termux]]
+;; + [[file:hosts/raspberry.org][Raspberry]]
+;; + [[file:hosts/acernitro.org][Acernitro]]
+;; + [[file:hosts/virtualbox.org][Virtualbox]]
 
-;;  Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
+;; Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
 
 (let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
@@ -93,19 +94,19 @@
 
 ;; Module directory
 
-;;  Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
+;; Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
 
-;;  + [[file:modules/core.org][Core]]
-;;  + [[file:modules/editor.org][Editor]]
-;;  + [[file:modules/email.org][Email]]
-;;  + [[file:modules/desktop.org][Desktop]]
-;;  + [[file:modules/writing.org][Writing]]
-;;  + [[file:modules/website.org][Website]]
-;;  + [[file:modules/capture.org][Capture]]
-;;  + [[file:modules/projects.org][Projects]]
-;;  + [[file:modules/interface.org][Interface]]
+;; + [[file:modules/core.org][Core]]
+;; + [[file:modules/editor.org][Editor]]
+;; + [[file:modules/email.org][Email]]
+;; + [[file:modules/desktop.org][Desktop]]
+;; + [[file:modules/writing.org][Writing]]
+;; + [[file:modules/website.org][Website]]
+;; + [[file:modules/capture.org][Capture]]
+;; + [[file:modules/projects.org][Projects]]
+;; + [[file:modules/interface.org][Interface]]
 
-;;  By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
+;; By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
 
 
 (dolist (m dotfiles/modules)
