@@ -1,5 +1,18 @@
+# Profile
+# :PROPERTIES:
+# :header-args: :tangle ../config/profile :comments org
+# :END:
+
+# Ensure that ~~/.local/bin~ added to the =$PATH= variable.
+
+
 PATH=$PATH:~/.local/bin
 export PATH
+
+
+
+# When launching into a new session on ~TTY1~, if the display server is not running, run *StartX*[fn:3]. This will launch the window manager.
+
 
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
     exec startx

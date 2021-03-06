@@ -1,1 +1,9 @@
+# Startup
+# :PROPERTIES:
+# :header-args: :tangle ../config/xinitrc :comments org
+# :END:
+
+# My workflow includes launching the window manager with *Xinit*[fn:3], without the use of a display manager, controlling *everything* within Emacs.
+
+
 exec dbus-launch --exit-with-session emacs -mm --debug-init
