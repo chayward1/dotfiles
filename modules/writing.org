@@ -113,7 +113,7 @@ Configure custom keybindings behind =SPC r=.
   "r" '(:ignore t :which-key "Roam")
   "rf" '(org-roam-find-file :which-key "Find")
   "rc" '(org-roam-capture :which-key "Capture")
-  "rb" '(org-roam-buffer-toggle-display "Buffer"))
+  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer"))
 #+end_src
 
 ** Web visualizer
