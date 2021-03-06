@@ -13,7 +13,7 @@
 #+ATTR_LATEX: :width 420px
 [[./docs/images/desktop-alt.png]]
 
-Immutable *GNU Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
+Portable *GNU Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
 + 100% Literate
 + 100% Immutable
@@ -45,6 +45,15 @@ To highlight some of the features available out of the box:
    2. Runs some required startup code
 3. Loads the host definition file at ~$HOME/.emacs.d/host/$HOSTNAME~
 4. Lodas the enabled modules in ~dotfiles/modules~
+
+** Startup
+
+This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
+
+#+begin_src emacs-lisp
+(load-file "~/.emacs.d/bin/cleanup.el")
+(load-file "~/.emacs.d/bin/packages.el")
+#+end_src
 
 ** Options
 
@@ -116,16 +125,7 @@ Here's a complete list of all of the options configurable for each host, and the
   "GPG key to encrypt org files for.")
 #+end_src
 
-** Startup
-
-This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
-
-#+begin_src emacs-lisp
-(load-file "~/.emacs.d/bin/startup.el")
-(load-file "~/.emacs.d/bin/packages.el")
-#+end_src
-
-** Hosts machines
+* Hosts machines
 
  Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
@@ -142,7 +142,7 @@ This project makes heavy use of modern features and libraries. Since *Babel's* u
      (org-babel-load-file host-file)))
  #+end_src
 
-** Module directory
+* Module directory
 
  Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
 

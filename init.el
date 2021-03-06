@@ -1,3 +1,11 @@
+;; Startup
+
+;; This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
+
+
+(load-file "~/.emacs.d/bin/cleanup.el")
+(load-file "~/.emacs.d/bin/packages.el")
+
 ;; Options
 
 ;; Here's a complete list of all of the options configurable for each host, and their default values. All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. 
@@ -66,14 +74,6 @@
 (defvar dotfiles/public-key 
   "37AB1CB72B741E478CA026D43025DCBD46F81C0F" 
   "GPG key to encrypt org files for.")
-
-;; Startup
-
-;; This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
-
-
-(load-file "~/.emacs.d/bin/startup.el")
-(load-file "~/.emacs.d/bin/packages.el")
 
 ;; Hosts machines
 
