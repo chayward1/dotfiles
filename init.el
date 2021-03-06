@@ -1,48 +1,36 @@
 ;; Hosts
 
-;; Here's a complete list of all of the options configurable for each host, and their default values.  All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option.
+;; Here's a complete list of all of the options configurable for each host, and their default values.  All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. 
 
-;; | Name                       | Description                                       |
-;; |----------------------------+---------------------------------------------------|
-;; | dotfiles/font              | Unified system font family                        |
-;; | dotfiles/font-size         | System wide base font size                        |
-;; | dotfiles/browser           | Browser to open URL links                         |
-;; | dotfiles/language          | Dictionary language to load                       |
-;; | dotfiles/modules-p         | Immutable list of all available modules           |
-;; | dotfiles/modules           | Enabled custom modules                            |
-;; | dotfiles/home              | Original value of `user-emacs-directory'          |
-;; | dotfiles/cache             | Redirection target of `user-emacs-directory       |
-;; | dotfiles/idle              | Delay time before offering completions            |
-;; | dotfiles/leader-key        | All powerful keybinding prefix for custom actions |
-;; | dotfiles/leader-key-global | Like the leader-key, but EVERYWHERE!              |
-;; | dotfiles/projects          | Location of source code projects                  |
-;; | dotfiles/passwords         | Location of the system password store             |
-;; | dotfiles/public-key        | Public GPG key to encrypt files for               |
 
-;; Override any of these configurations in a host file. Here's some examples to get started:
+(defvar dotfiles/font "Fira Code" "Unified system font family.")
+(defvar dotfiles/font-size 96 "Unified system font size.")
+
+(defvar dotfiles/browser (getenv "BROWSER") "Default system web browser.")
+(defvar dotfiles/language (getenv "LANG") "Default system dictionary language.")
+
+(defconst dotfiles/modules-p '(core editor email desktop writing projects interface) "All of the available modules.")
+(defvar dotfiles/modules dotfiles/modules-p "All of the enabled modules.")
+
+(defvar dotfiles/home user-emacs-directory "Original value of `user-emacs-directory'.")
+(defvar dotfiles/cache (expand-file-name "~/.cache/emacs") "Redirection target of `user-emacs-directory'.")
+
+(defvar dotfiles/idle 0.0 "Delay time before offering suggestions and completions.")
+(defvar dotfiles/leader-key "SPC" "All powerful leader key.")
+(defvar dotfiles/leader-key-global (concat "C-" dotfiles/leader-key) "Global prefix for the leader key.")
+
+(defvar dotfiles/projects (expand-file-name "~/.local/source/") "Location of source code projects.")
+(defvar dotfiles/passwords (expand-file-name "~/.password-store/") "Location of local password store.")
+(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F" "GPG key to encrypt org files for.")
+
+
+
+;; Override any of the available options configurations in a host file. Here's some examples to get started:
 
 ;; + [[file:hosts/localhost.org][Termux]]
 ;; + [[file:hosts/raspberry.org][Raspberry]]
 ;; + [[file:hosts/acernitro.org][Acernitro]]
 ;; + [[file:hosts/virtualbox.org][Virtualbox]]
-
-
-(defvar dotfiles/font "Fira Code")
-(defvar dotfiles/font-size 96)
-(defvar dotfiles/browser (getenv "BROWSER"))
-(defvar dotfiles/language (getenv "LANG"))
-(defconst dotfiles/modules-p '(core editor desktop writing projects interface))
-(defvar dotfiles/modules dotfiles/modules-p)
-(defvar dotfiles/home user-emacs-directory)
-(defvar dotfiles/cache (expand-file-name "~/.cache/emacs"))
-(defvar dotfiles/idle 0.0)
-(defvar dotfiles/leader-key "SPC")
-(defvar dotfiles/leader-key-global (concat "C-" dotfiles/leader-key))
-(defvar dotfiles/projects (expand-file-name "~/.local/source/"))
-(defvar dotfiles/passwords (expand-file-name "~/.password-store/"))
-(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
-
-
 
 ;; Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
@@ -57,6 +45,8 @@
 
 ;; + [[file:modules/core.org][Core]]
 ;; + [[file:modules/editor.org][Editor]]
+;; + [[file:modules/email.org][Email]]
+;; + [[file:modules/desktop.org][Desktop]]
 
 ;; By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
 
