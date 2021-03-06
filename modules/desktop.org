@@ -8,7 +8,7 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-I use Emacs as a Desktop Environment with the *EXWM*[fn:1] https://github.com/ch11ng/exwm package. It allows Emacs to function as a complete tiling window manager for *X11*[fn:2]. 
+I use Emacs as a Desktop Environment with the *EXWM*[fn:1] package. It allows Emacs to function as a complete tiling window manager for *X11*[fn:2]. 
 
 * Startup
 :PROPERTIES:
