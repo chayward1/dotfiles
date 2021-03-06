@@ -101,8 +101,6 @@ By default all of the modules will load, override the variable ~dotfiles/modules
 :header-args: :tangle modules/desktop.el :results silent
 :END:
 
-I use Emacs as a Desktop Environment with the [[https://github.com/ch11ng/exwm][exwm]] package. It allows Emacs to function as a complete tiling window manager for =X11=. My workflow includes launching the window manager with =xinitrc=, without the use of a display manager, controlling *everything* within Emacs.
-
 #+begin_src conf :tangle config/xinitrc
 exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
@@ -200,127 +198,12 @@ Create a keybinding to open the mail dashboard with =SPC m=.
   "m" '(mu4e :which-key "Mail"))
 #+end_src
 
-*** Browser
-
-Write out the ~$BROWSER~ environment variable.
-
-#+begin_src emacs-lisp
-(setenv "BROWSER" dotfiles/browser)
-#+end_src
-
-*** Startup
-:PROPERTIES:
-:header-args: :tangle config/profile
-:END:
-
-Ensure that ~/.local/bin~ is added to the path.
-
-#+begin_src sh
-PATH=$PATH:~/.local/bin
-export PATH
-#+end_src
-
-When launching into a session, if the display server is not running then =startx= executes to run the window manager. 
-
-#+begin_src sh
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-    exec startx
-fi
-#+end_src
-
-*** Methods
-
-Define a method to run an external process, allowing us to launch any application on a new process without interferring with Emacs.
-
-#+begin_src emacs-lisp
-(defun dotfiles/run (command)
-  "Run an external process."
-  (interactive (list (read-shell-command "λ ")))
-  (start-process-shell-command command nil command))
-#+end_src
-
-Apply methods to the current call process to avoid issues with hooks.
-
-#+begin_src emacs-lisp
-(defun dotfiles/run-in-background (command)
-  (let ((command-parts (split-string command "[ ]+")))
-    (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
-#+end_src
-
-Place keybindings for executing shell commands behind =SPC x=.
-
-+ Run shell commands with =x=
-+ Run async shell commands with =z=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "x" '(:ignore t :which-key "Run")
-  "xx" '(dotfiles/run :which-key "Run")
-  "xz" '(async-shell-command :which-key "Async"))
-#+end_src
 
 *** Displays
 
-When the window manager first launches the ~init-hook~ executes, allowing us to define some custom logic.
-
-+ Display time and date
-+ Display battery info (if available)
-
-In my personal configuration, I do not want the battery or time displayed within Emacs when it's not running as desktop environment because that information is typically already available.
-
-#+begin_src emacs-lisp
-(defun dotfiles/init-hook ()
-  (exwm-workspace-switch-create 1)
-  (setq display-time-and-date t)
-  (display-battery-mode 1)
-  (display-time-mode 1))
-#+end_src
-
-Using =autorandr= with pre configured profiles, switching screens (AKA hot plugging) is also handled through a hook.
-
-#+begin_src emacs-lisp
-(defun dotfiles/update-display ()
-  "Update the displays by forcing a change through autorandr."
-  (dotfiles/run-in-background "autorandr --change --force"))
-#+end_src
 
 *** Configuration
 
- Connect our custom hooks and configure the input keys, a custom layer for key capture layers.
-
-+ Enable =randr= support
-+ Pass through to Emacs
-  + =M-x= to Emacs
-  + =C-g= to Emacs
-  + =C-SPC= to Emacs
-+ Bindings with =S= (Super / Win)
-  + Reset =S-r=
-  + Launch =S-&=
-  + Workspace =S-[1..9]=
-    
-#+begin_src emacs-lisp
-(use-package exwm
-  :custom (exwm-workspace-show-all-buffers t)
-          (exwm-input-prefix-keys
-            '(?\M-x
-              ?\C-c
-              ?\C-g
-              ?\C-\ ))
-          (exwm-input-global-keys
-            `(([?\s-r] . exwm-reset)
-              ,@(mapcar (lambda (i)
-                          `(,(kbd (format "s-%d" i)) .
-                          (lambda ()
-                          (interactive)
-                          (exwm-workspace-switch-create ,i))))
-                          (number-sequence 1 9))))
-  :config (require 'exwm-randr)
-          (exwm-randr-enable)
-          (add-hook 'exwm-init-hook #'dotfiles/init-hook)
-          (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
-          (dotfiles/update-display)
-          (exwm-enable))
-#+end_src
 
 ** Writing
 :PROPERTIES:
