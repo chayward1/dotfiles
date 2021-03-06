@@ -46,15 +46,6 @@ To highlight some of the features available out of the box:
 3. Loads the host definition file at ~$HOME/.emacs.d/host/$HOSTNAME~
 4. Lodas the enabled modules in ~dotfiles/modules~
 
-** Startup
-
-This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
-
-#+begin_src emacs-lisp
-(load-file "~/.emacs.d/bin/cleanup.el")
-(load-file "~/.emacs.d/bin/packages.el")
-#+end_src
-
 ** Options
 
 Here's a complete list of all of the options configurable for each host, and their default values. All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. 
@@ -123,6 +114,15 @@ Here's a complete list of all of the options configurable for each host, and the
 (defvar dotfiles/public-key 
   "37AB1CB72B741E478CA026D43025DCBD46F81C0F" 
   "GPG key to encrypt org files for.")
+#+end_src
+
+** Startup
+
+This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
+
+#+begin_src emacs-lisp
+(load-file "~/.emacs.d/bin/cleanup.el")
+(load-file "~/.emacs.d/bin/packages.el")
 #+end_src
 
 * Hosts machines

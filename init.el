@@ -1,11 +1,3 @@
-;; Startup
-
-;; This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
-
-
-(load-file "~/.emacs.d/bin/cleanup.el")
-(load-file "~/.emacs.d/bin/packages.el")
-
 ;; Options
 
 ;; Here's a complete list of all of the options configurable for each host, and their default values. All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. 
@@ -75,6 +67,14 @@
   "37AB1CB72B741E478CA026D43025DCBD46F81C0F" 
   "GPG key to encrypt org files for.")
 
+;; Startup
+
+;; This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
+
+
+(load-file "~/.emacs.d/bin/cleanup.el")
+(load-file "~/.emacs.d/bin/packages.el")
+
 ;; Hosts machines
 
 ;;  Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
@@ -87,9 +87,9 @@
 ;;  Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
 
- (let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
-   (when (file-exists-p host-file)
-     (org-babel-load-file host-file)))
+(let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
+  (when (file-exists-p host-file)
+    (org-babel-load-file host-file)))
 
 ;; Module directory
 
@@ -108,7 +108,7 @@
 ;;  By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
 
 
- (dolist (m dotfiles/modules)
-   (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
-     (when (file-exists-p mod-file)
-       (org-babel-load-file mod-file))))
+(dolist (m dotfiles/modules)
+  (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
+    (when (file-exists-p mod-file)
+      (org-babel-load-file mod-file))))

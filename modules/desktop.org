@@ -105,7 +105,7 @@ Place keybindings for executing shell commands behind =SPC x=.
   "xz" '(async-shell-command :which-key "Async"))
 #+end_src
 
-* Initialization
+* Configuration
 
  Connect our custom hooks and configure the input keys, a custom layer for key capture layers.
 
@@ -124,7 +124,6 @@ Place keybindings for executing shell commands behind =SPC x=.
   :custom (exwm-workspace-show-all-buffers t)
           (exwm-input-prefix-keys
             '(?\M-x
-              ?\C-c
               ?\C-g
               ?\C-\ ))
           (exwm-input-global-keys
@@ -139,6 +138,7 @@ Place keybindings for executing shell commands behind =SPC x=.
           (exwm-randr-enable)
           (add-hook 'exwm-init-hook #'dotfiles/init-hook)
           (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
+          (add-hook 'exwm-update-class-hook (lambda () (exwm-workspace-rename-buffer exwm-class-name)))
           (dotfiles/update-display)
           (exwm-enable))
 #+end_src
