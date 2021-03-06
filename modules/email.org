@@ -11,7 +11,7 @@
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
 #+ATTR_LATEX: :width 420px
-[[./docs/images/2021-02-13-example-mu4e.gif]]
+[[../docs/images/2021-02-13-example-mu4e.gif]]
 
 Plain text email delivered via *mu*[fn:1], *mu4e*[fn:2] and *mbsync*[fn:3]. I run my *own email server*[fn:4], so your configuration may differ from mine. 
 
