@@ -81,6 +81,37 @@ Now that we've taken care of how it acts, we can work on how it looks. Emacs' de
   (scroll-bar-mode -1))
 #+end_src
 
+* Methods
+
+Define some helper methods to use throughout the configuration.
+
+** Tangle directory
+
+Build all of the *Org*[fn:4] files within a given directory, recursively.
+
+#+begin_src emacs-lisp
+(defun dotfiles/tangle (dir)
+  "Recursively tangle the Org files within a directory."
+  (let ((org-files (directory-files-recursively dir "org")))
+    (dolist (f org-files)
+      (org-babel-tangle-file f))))
+#+end_src
+
+** Force symbolic links
+
+Function that takes in a system and configuration file path, checks to see if the system file doesn't exist, or doesn't point to the configuration file, deleting it for the latter, then creating a symbolic link to the configuration file in place.
+
+#+begin_src emacs-lisp
+(defun dotfiles/symlink (src tgt)
+  "Forces a symlink from `src' to `tgt'."
+  (let ((sys-file (expand-file-name tgt))
+        (dot-file (expand-file-name src)))
+    (when (or (not (file-exists-p sys-file))
+              (not (equal (file-symlink-p sys-file) dot-file)))
+      (delete-file sys-file)
+      (make-symbolic-link dot-file sys-file))))
+#+end_src
+
 * Performance
 
 Emacs has a long history of running on machines without gigabytes of available memory, let it realize its full potential by increasing the garbage collection threshold and the minimum prime bit size.
