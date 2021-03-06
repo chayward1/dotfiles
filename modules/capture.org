@@ -46,7 +46,17 @@ Create a capture template for creating slides quickly, with our desired configur
 ")))
 #+end_src
 
-* Screencasts
+* Screens
+
+Download *screenshot.el*[fn:4] for taking screenshots of highlighted regions or entire buffers.
+
+#+begin_src emacs-lisp
+(straight-use-package 
+  '(screenshot 
+    :type git 
+    :host github 
+    :repo "tecosaur/screenshot"))
+#+end_src
 
 Create screencasts with =one-frame-per-action= GIF recording via *Emacs gif screencast*[fn:3].
 
@@ -62,15 +72,14 @@ It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =Ima
   :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 #+end_src
 
-Place keybindings behind =SPC s=.
-
-+ Screenshot with =s=
-+ Screencast with =c=
++ Place keybindings for capturing the screen behind =SPC s=.
+  * Screenshot with =s=
+  * Screencast with =c=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "s" '(:ignore t :which-key "Screen")
-  "ss" '(:ignore t :which-key "TODO Screenshot")
+  "ss" '(screenshot :which-key "Screenshot")
   "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
 #+end_src
 
@@ -79,3 +88,4 @@ Place keybindings behind =SPC s=.
 [fn:1] https://revealjs.com
 [fn:2] https://github.com/hexmode/ox-reveal
 [fn:3] https://github.com/takaxp/emacs-gif-screencast
+[fn:4] https://github.com/tecosaur/screenshot
