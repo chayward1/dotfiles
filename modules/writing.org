@@ -25,27 +25,6 @@ Make headline stars *super* with *Org superstar mode*[fn:3].
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
-* Encryption
-
-My source files are encrypted with symmetric key encryption via *GPG*[fn:2]. This enables my workflow of storing my personal notes anywhere, including checked in to a public source repository. Emacs can cache the *GPG*[fn:2] password if you trust your session.
-
-#+begin_src emacs-lisp
-(setq epa-file-select-keys 2
-      epa-file-cache-passphrase-for-symmetric-encryption t
-      epa-file-encrypt-to dotfiles/public-key)
-#+end_src
-
-** Include *.gpg files
-
-Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
-
-#+begin_src emacs-lisp
-(unless (string-match-p "\\.gpg" org-agenda-file-regexp)
-  (setq org-agenda-file-regexp
-        (replace-regexp-in-string "\\\\\\.org" "\\\\.org\\\\(\\\\.gpg\\\\)?"
-                                  org-agenda-file-regexp)))
-#+end_src
-
 * Improvements
 
 Real time checking and one-shot methods to check and correct common spelling and grammatical errors.
@@ -84,7 +63,7 @@ Toggle *Writegood* mode with =SPC t w=.
   "tw" '(writegood-mode :which-key "Grammar"))
 #+end_src
 
-* Management
+* Knowledge base
 
 Download and install *Org roam*[fn:4], a plain text knowledge management system for Emacs built on top of *Org mode*[fn:1].
 
@@ -95,7 +74,6 @@ Download and install *Org roam*[fn:4], a plain text knowledge management system 
 (use-package org-roam
   :hook (after-init . org-roam-mode)
   :custom (org-roam-directory org-directory)
-          (org-roam-encrypt-files t)
           (org-roam-capture-templates '())
           (org-roam-dailies-capture-templates '()))
 #+end_src
@@ -160,32 +138,7 @@ Place keybindings behind =SPC r d=.
   "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 #+end_src
 
-* Organization
-
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[../docs/images/2021-02-13-example-agenda.gif]]
-
-More capture templates for *Org roam*[fn:4] are defined here in the context of specific domains and topics.
-
-#+begin_src emacs-lisp
-(setq org-src-preserve-indentation t)
-#+end_src
-
-+ Configure agenda sources
-
-#+begin_src emacs-lisp
-(setq org-agenda-files '("~/.emacs.d/" 
-                         "~/.emacs.d/docs/"
-                         "~/.emacs.d/docs/courses/"
-                         "~/.emacs.d/docs/daily/"
-                         "~/.emacs.d/docs/notes/"
-                         "~/.emacs.d/docs/posts/"
-                         "~/.emacs.d/docs/slides/"
-                         "~/.emacs.d/hosts/"
-                         "~/.emacs.d/modules/"))
-#+end_src
+** Capture templates
 
 + Capture template for generic documents
 
@@ -203,15 +156,6 @@ More capture templates for *Org roam*[fn:4] are defined here in the context of s
 ,#+EMAIL: chris@chrishayward.xyz
 ")))
 #+end_src
-
-+ Open an agenda buffer with =SPC a=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "a" '(org-agenda :which-key "Agenda"))
-#+end_src
-
-** Courses
 
 Custom capture template for courses. 
 
@@ -236,66 +180,39 @@ Custom capture template for courses.
 ")))
 #+end_src
 
-** Modules
+** Agenda integration
 
-Capture template for new modules for this project.
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[../docs/images/2021-02-13-example-agenda.gif]]
 
-+ Capture a new buffer with =SPC  r c m=
-+ Add buffers to agenda files
+More capture templates for *Org roam*[fn:4] are defined here in the context of specific domains and topics.
+
++ Configure agenda sources
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'org-roam
-  (add-to-list 'org-agenda-files "~/.emacs.d/modules/")
-  (add-to-list 'org-roam-capture-templates
-    '("m" "Module" plain (function org-roam-capture--get-point)
-          "%?"
-          :file-name "modules/${slug}"
-          :unnarrowed t
-          :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+EMAIL: chris@chrishayward.xyz
-
-,#+PROPERTY: header-args:emacs-lisp :tangle core.el :comments org
-,#+PROPERTY: header-args            :results silent :eval no-export :comments org
-
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-")))
+(setq org-agenda-files '("~/.emacs.d/" 
+                         "~/.emacs.d/docs/"
+                         "~/.emacs.d/docs/courses/"
+                         "~/.emacs.d/docs/daily/"
+                         "~/.emacs.d/docs/notes/"
+                         "~/.emacs.d/docs/posts/"
+                         "~/.emacs.d/docs/slides/"
+                         "~/.emacs.d/hosts/"
+                         "~/.emacs.d/modules/"))
 #+end_src
 
-** Hosts
-
-Capture template for new host machines for this project. This does not cover machines that are controlled via TRAMP / SSH.
-
-+ Capture a new buffer with =SPC  r c h=
++ Open an agenda buffer with =SPC a=
 
 #+begin_src emacs-lisp
-(with-eval-after-load 'org-roam
-  (add-to-list 'org-roam-capture-templates
-    '("m" "Module" plain (function org-roam-capture--get-point)
-          "%?"
-          :file-name "modules/${slug}"
-          :unnarrowed t
-          :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+EMAIL: chris@chrishayward.xyz
-
-,#+PROPERTY: header-args:emacs-lisp :tangle core.el :comments org
-,#+PROPERTY: header-args            :results silent :eval no-export :comments org
-
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-")))
+(dotfiles/leader
+  "a" '(org-agenda :which-key "Agenda"))
 #+end_src
 
 * Resources
 
 [fn:1] https://orgmode.org
-[fn:2] https://gnupg.org
 [fn:3] https://github.com/integral-dw/org-superstar-mode
 [fn:4] https://github.com/org-roam/org-roam
 [fn:5] https://github.com/org-roam/org-roam-server

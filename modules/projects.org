@@ -82,29 +82,6 @@ Open the container management screen with =SPC k=.
   "k" '(docker :which-key "Docker"))
 #+end_src
 
-* Passwords
-
-*Pass*[fn:12] makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. *Password-store.el*[fn:13] provides a wrapper for the functionality within Emacs.
-
-#+begin_src emacs-lisp
-(use-package password-store
-  :custom (password-store-dir dotfiles/passwords))
-#+end_src
-
-Configure keybindings behind =SPC p=.
-
-+ Copy with =p=
-+ Rename with =r=
-+ Generate with =g=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "p" '(:ignore t :which-key "Passwords")
-  "pp" '(password-store-copy :which-key "Copy")
-  "pr" '(password-store-rename :which-key "Rename")
-  "pg" '(password-store-generate :which-key "Generate"))
-#+end_src
-
 * Management
 
 Configure *Projectile*[fn:11], a project interaction library for Emacs. It provides a nice set of features for operating on a project level without introducing external dependencies.
