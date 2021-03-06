@@ -23,7 +23,14 @@
   "Default system dictionary language.")
 
 (defconst dotfiles/modules-p 
-  '(core editor email desktop writing projects interface) 
+  '(core 
+    editor
+    ;; email
+    desktop
+    writing
+    website
+    projects
+    interface) 
   "All of the available modules.")
 
 (defvar dotfiles/modules 
@@ -61,3 +68,40 @@
 (defvar dotfiles/public-key 
   "37AB1CB72B741E478CA026D43025DCBD46F81C0F" 
   "GPG key to encrypt org files for.")
+
+;; Hosts
+
+;;  Each host machines configuration is loaded immediately after the options are declared, before any configuration is applied. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
+
+;;  + [[file:hosts/localhost.org][Termux]]
+;;  + [[file:hosts/raspberry.org][Raspberry]]
+;;  + [[file:hosts/acernitro.org][Acernitro]]
+;;  + [[file:hosts/virtualbox.org][Virtualbox]]
+
+;;  Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
+
+
+ (let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
+   (when (file-exists-p host-file)
+     (org-babel-load-file host-file)))
+
+;; Modules
+
+;;  Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
+
+;;  + [[file:modules/core.org][Core]]
+;;  + [[file:modules/editor.org][Editor]]
+;;  + [[file:modules/email.org][Email]]
+;;  + [[file:modules/desktop.org][Desktop]]
+;;  + [[file:modules/writing.org][Writing]]
+;;  + [[file:modules/website.org][Website]]
+;;  + [[file:modules/projects.org][Projects]]
+;;  + [[file:modules/interface.org][Interface]]
+
+;;  By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
+
+
+ (dolist (m dotfiles/modules)
+   (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
+     (when (file-exists-p mod-file)
+       (org-babel-load-file mod-file))))

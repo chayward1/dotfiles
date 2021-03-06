@@ -1,0 +1,83 @@
+#+TITLE: Website
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle website.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+I use *Hugo*[fn:1] for my *website*[fn:2] which I write in *Org*[fn:3] before compiling to *Hugo markdown*[fn:4].
+
+* Setup
+
+Download *Ox-hugo*[fn:5] and configure it for =one-post-for-file= to add support for exporting to *Hugo markdown*[fn:4].
+
+#+begin_src emacs-lisp
+(use-package ox-hugo
+  :after ox)
+#+end_src
+
+* Posts
+
+Add a capture template for creating new blog posts.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+               '("p" "Post" plain (function org-roam-capture--get-point)
+                 "%?"
+                 :file-name "docs/posts/${slug}"
+                 :unnarrowed t
+                 :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+DATE: %<%Y-%m-%d>
+
+,#+OPTIONS: num:nil todo:nil tasks:nil
+
+,#+EXPORT_FILE_NAME: ${slug}
+,#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
+
+,#+HUGO_BASE_DIR: ../
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: posts
+,#+HUGO_DRAFT: true
+")))
+#+end_src
+
+* Notes
+
+Add a capture template for creating blog posts and notes on other peoples content / published works.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+               '("n" "Notes" plain (function org-roam-capture--get-point)
+                  "%?"
+                  :file-name "docs/notes/${slug}"
+                  :unnarrowed t
+                  :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+
+,#+OPTIONS: num:nil todo:nil tasks:nil
+,#+EXPORT_FILE_NAME: ${slug}
+,#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
+
+,#+HUGO_BASE_DIR: ../
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: notes
+,#+HUGO_DRAFT: true
+")))
+#+end_src
+
+* Resources
+
+[fn:1] https://gohugo.io
+[fn:2] https://chrishayward.xyz
+[fn:3] https://markdownguide.org/tools/hugo
+[fn:4] https://github.com/kaushalmodi/ox-hugo

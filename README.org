@@ -3,7 +3,6 @@
 #+EMAIL: chris@chrishayward.xyz
 
 #+PROPERTY: header-args:emacs-lisp :comments org
-#+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
@@ -45,7 +44,15 @@ Here's a complete list of all of the options configurable for each host, and the
   "Default system dictionary language.")
 
 (defconst dotfiles/modules-p 
-  '(core editor email desktop writing website projects interface) 
+  '(core 
+    editor
+    ;; email
+    desktop
+    writing
+    website
+    capture
+    projects
+    interface) 
   "All of the available modules.")
 
 (defvar dotfiles/modules 
@@ -85,182 +92,49 @@ Here's a complete list of all of the options configurable for each host, and the
   "GPG key to encrypt org files for.")
 #+end_src
 
-* Hosts
+** Hosts
 
-Each host machines configuration is loaded immediately after the options are declared, before any configuration is applied. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
+ Each host machines configuration is loaded immediately after the options are declared, before any configuration is applied. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
-+ [[file:hosts/localhost.org][Termux]]
-+ [[file:hosts/raspberry.org][Raspberry]]
-+ [[file:hosts/acernitro.org][Acernitro]]
-+ [[file:hosts/virtualbox.org][Virtualbox]]
+ + [[file:hosts/localhost.org][Termux]]
+ + [[file:hosts/raspberry.org][Raspberry]]
+ + [[file:hosts/acernitro.org][Acernitro]]
+ + [[file:hosts/virtualbox.org][Virtualbox]]
 
-Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
+ Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
-#+begin_src emacs-lisp
-(let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
-  (when (file-exists-p host-file)
-    (org-babel-load-file host-file)))
-#+end_src
+ #+begin_src emacs-lisp
+ (let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
+   (when (file-exists-p host-file)
+     (org-babel-load-file host-file)))
+ #+end_src
 
-* Modules
+** Modules
 
-Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
+ Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
 
-+ [[file:modules/core.org][Core]]
-+ [[file:modules/editor.org][Editor]]
-+ [[file:modules/email.org][Email]]
-+ [[file:modules/desktop.org][Desktop]]
-+ [[file:modules/writing.org][Writing]]
-+ [[file:modules/website.org][Website]]
-+ [[file:modules/projects.org][Projects]]
-+ [[file:modules/interface.org][Interface]]
+ + [[file:modules/core.org][Core]]
+ + [[file:modules/editor.org][Editor]]
+ + [[file:modules/email.org][Email]]
+ + [[file:modules/desktop.org][Desktop]]
+ + [[file:modules/writing.org][Writing]]
+ + [[file:modules/website.org][Website]]
+ + [[file:modules/projects.org][Projects]]
+ + [[file:modules/interface.org][Interface]]
 
-By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
+ By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
 
-#+begin_src emacs-lisp
-(dolist (m dotfiles/modules)
-  (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
-    (when (file-exists-p mod-file)
-      (org-babel-load-file mod-file))))
-#+end_src
+ #+begin_src emacs-lisp
+ (dolist (m dotfiles/modules)
+   (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
+     (when (file-exists-p mod-file)
+       (org-babel-load-file mod-file))))
+ #+end_src
 
-** Website
-
-I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =org-mode= before compiling to =hugo-markdown=. [[https://github.com/kaushalmodi/ox-hugo][ox-hugo]], configured for =one-post-per-file= is my technique for managing my content. 
-
-#+begin_src emacs-lisp
-(use-package ox-hugo 
-  :after ox)
-#+end_src
-
-*** Posts
-
-Add a capture template for creating new blog posts.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org-roam
-  (add-to-list 'org-roam-capture-templates
-               '("p" "Post" plain (function org-roam-capture--get-point)
-                 "%?"
-                 :file-name "docs/posts/${slug}"
-                 :unnarrowed t
-                 :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+DATE: %<%Y-%m-%d>
-
-,#+EXPORT_FILE_NAME: ${slug}
-,#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
-
-,#+HUGO_BASE_DIR: ../
-,#+HUGO_AUTO_SET_LASTMOD: t
-,#+HUGO_SECTION: posts
-,#+HUGO_DRAFT: true
-")))
-#+end_src
-
-*** Notes
-
-Add a capture template for creating blog posts and notes on other peoples content / published works.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org-roam
-  (add-to-list 'org-roam-capture-templates
-               '("n" "Notes" plain (function org-roam-capture--get-point)
-                  "%?"
-                  :file-name "docs/notes/${slug}"
-                  :unnarrowed t
-                  :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-
-,#+EXPORT_FILE_NAME: ${slug}
-,#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
-
-,#+HUGO_BASE_DIR: ../
-,#+HUGO_AUTO_SET_LASTMOD: t
-,#+HUGO_SECTION: notes
-,#+HUGO_DRAFT: true
-")))
-#+end_src
-
-*** Slides
-
-Produce high quality presentations that work anywhere with =HTML/JS= and the [[https://revealjs.com][reveal.js]] package. [[https://github.com/hexmode/ox-reveal][ox-reveal]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version of =reveal.js=.
-
-#+begin_src emacs-lisp
-(use-package ox-reveal
-  :after ox
-  :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
-#+end_src
-
-Create a capture template for creating slides quickly, with our desired configuration.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org-roam
-  (add-to-list 'org-roam-capture-templates
-               '("s" "Slides" plain (function org-roam-capture--get-point)
-                 "%?"
-                 :file-name "docs/slides/${slug}"
-                 :unnarrowed t
-                 :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+EMAIL: chris@chrishayward.xyz
-
-,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-,#+REVEAL_THEME: serif
-
-,#+EXPORT_FILE_NAME: ${slug}
-
-,#+OPTIONS: reveal_title_slide:nil
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-")))
-#+end_src
-
-*** Images
-
-Capture screenshots with [[https://github.com/tecosaur/screenshot][screenshot.el]].
-
-#+begin_src emacs-lisp
-(use-package screenshot
-  :commands (screenshot))
-#+end_src
-
-Create screencasts with =one-frame-per-action= GIF recording via [[https://github.com/takaxp/emacs-gif-screencast][emacs-gif-screencast]].
-
-+ Pause / Resume
-+ High Quality
-+ Optimized
-
-It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =ImageMagick= library.
-  
-#+begin_src emacs-lisp
-(use-package gif-screencast
-  :commands (gif-screencast-start-or-stop gif-screencast-toggle-pause)
-  :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
-#+end_src
-
-Place keybindings behind =SPC s=.
-+ Screenshot with =s=
-+ Screencast with =c=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "s" '(:ignore t :which-key "Screen")
-  "ss" '(screenshot :which-key "Screenshot")
-  "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
-#+end_src
-
-
-** Projects
-:PROPERTIES:
-:header-args: :tangle modules/projects.el
-:END:
+* Projects
+  :PROPERTIES:
+  :header-args: :tangle modules/projects.el
+  :END:
 
 An IDE like experience (or better) can be achieved in Emacs using two *Microsoft* open source initiatives.
 
@@ -291,7 +165,7 @@ Add support for language servers with [[https://emacs-lsp.github.io/lsp-mode/][l
   :commands (dap-debug))
 #+end_src
 
-*** Containers
+** Containers
 
 Use ~docker~ for running containers. Download and install https://github.com/Silex/docker.el, allowing us to manage containers within Emacs.
 
@@ -307,7 +181,7 @@ Open the management screen with =SPC k=.
   "k" '(docker :which-key "Docker"))
 #+end_src
 
-*** Management
+** Management
 
 Configure [[https://projectile.mx][projectile]], a project interaction library for Emacs. It provides a nice set of features for operating on a project level without introducing external dependencies.
 
@@ -317,7 +191,7 @@ Configure [[https://projectile.mx][projectile]], a project interaction library f
   :config (projectile-mode))
 #+end_src
 
-*** Completion
+** Completion
 
 Text completion framework via =company= aka *Complete Anything*.
 
@@ -333,7 +207,7 @@ http://company-mode.github.io/
   :custom (company-backend 'company-lsp))
 #+end_src
 
-*** Passwords
+** Passwords
 
 Pass makes managing passwords extremely easy, encrypring them in a file structure and providing easy commands for generating, modify, and copying passwords. =password-store.el= provides a wrapper for the functionality within Emacs.
 
@@ -355,11 +229,11 @@ Configure keybindings behind =SPC p=.
   "pg" '(password-store-generate :which-key "Generate"))
 #+end_src
 
-*** Languages
+** Languages
 
 Support for individual languages are implemented here.
 
-**** Go
+*** Go
   
 Install the =gopls= language server.
 
@@ -408,7 +282,7 @@ Add a golang source code block structure template with ~<go~:
 (add-to-list 'org-structure-template-alist '("go" . "src go"))
 #+end_src
 
-**** HTTP
+*** HTTP
 
 Instead of the popular =restclient= package, I use [[https://github.com/zweifisch/ob-http][ob-http]] as a lightweight alternative.
 
@@ -420,7 +294,7 @@ Instead of the popular =restclient= package, I use [[https://github.com/zweifisc
             '((http . t))))
 #+end_src
 
-**** C/C++
+*** C/C++
 
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
@@ -446,7 +320,7 @@ Add support for C/C++ languages.
           (org-babel-do-load-languages 'org-babel-load-languages '((C . t))))
 #+end_src
 
-**** Python
+*** Python
 
 Install the =pyls= language server.
 
@@ -471,7 +345,7 @@ pip3 install --user "python-language-server[all]"
           (dap-python-debugger 'debugpy))
 #+end_src
 
-**** PlantUML
+*** PlantUML
 
 Download and install [[https://plantuml.com][PlantUML]], a text-based markup language for creating UML diagrams.
 
@@ -497,10 +371,10 @@ Toggle inline images with =SPC t i=.
   "ti" '(org-toggle-inline-images :which-key "Images"))
 #+end_src
 
-** Interface
-:PROPERTIES:
-:header-args: :tangle modules/interface.el
-:END:
+* Interface
+  :PROPERTIES:
+  :header-args: :tangle modules/interface.el
+  :END:
 
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
@@ -509,7 +383,7 @@ Toggle inline images with =SPC t i=.
 
 *Bring Emacs out of the eighties*
 
-*** Ivy
+** Ivy
 
 Download and configure [[https://oremacs.com/swiper/][ivy]], a powerful selection menu for Emacs.
 
@@ -543,7 +417,7 @@ Provide more information about each item with [[https://github.com/Yevgnen/ivy-r
   :init (ivy-rich-mode 1))
 #+end_src
 
-*** Fonts
+** Fonts
 
 Write out to all *3* of Emacs' default font faces.
 
@@ -573,7 +447,7 @@ Increase the font size in buffers with =SPC t f=.
   "tf" '(hydra-text-scale/body :which-key "Font"))
 #+end_src
 
-*** Lines
+** Lines
 
 Relative line numbers are important when using =VI= emulation keys. You can prefix most commands with a *number*, allowing you to jump up / down by a line count.
 
@@ -615,7 +489,7 @@ https://github.com/Fanael/rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-*** Themes
+** Themes
 
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
@@ -644,7 +518,7 @@ Load a theme with =SPC t t=.
   "tt" '(counsel-load-theme t t :which-key "Theme"))
 #+end_src
 
-*** Pretty
+** Pretty
 
 Make programming buffers prettier with [[https://github.com/pretty-mode/pretty-mode][pretty-mode]], complimentary to the built in ~prettify-symbols-mode~. 
 
@@ -653,7 +527,7 @@ Make programming buffers prettier with [[https://github.com/pretty-mode/pretty-m
   :hook (python-mode . turn-on-pretty-mode))
 #+end_src
 
-*** Ligatures
+** Ligatures
 
 Enable font ligatures via [[https://github.com/jming422/fira-code-mode][fira-code-mode]], perform this action *only* when ~Fira Code~ is the current font.
 
@@ -670,7 +544,7 @@ Toggle global ligature mode with =SPC t g=.
   "tg" '(global-fira-code-mode :which-key "Ligatures"))
 #+end_src
 
-*** Dashboard
+** Dashboard
 
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
