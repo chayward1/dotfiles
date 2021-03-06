@@ -2,7 +2,7 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle capture.el :comments org
 #+PROPERTY: header-args            :results silent :eval no-export
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
@@ -63,13 +63,14 @@ It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =Ima
 #+end_src
 
 Place keybindings behind =SPC s=.
+
 + Screenshot with =s=
 + Screencast with =c=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "s" '(:ignore t :which-key "Screen")
-  "ss" '(screenshot :which-key "Screenshot")
+  "ss" '(:ignore t :which-key "TODO Screenshot")
   "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
 #+end_src
 
