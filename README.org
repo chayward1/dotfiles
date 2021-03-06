@@ -19,9 +19,32 @@ Immutable *GNU Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road
 + 100% Immutable
 + 100% Reproducible
 
-* Init
+* What is it?
 
-Contains all of the options and runs some required pre-configuration code.
+From the documentation[fn:1]:
+
+#+begin_quote
+*An extensible, customizable, free/libre text editor -- and more*
+
+At its core is an interpreter for *Emacs Lisp*[fn:2], a dialect of the Lisp programming language with extensions to support text editing.
+#+end_quote
+
+To highlight some of the features available out of the box:
+
++ Content aware editing modes
++ Complete built-in documentation
++ Full unicode support for all human languages
++ Packaging sysystem for third party extensions
++ Wide range of functionality beyond text editing
+
+* How does it work?
+
+1. *Emacs* reads the configuration at ~$HOME/.emacs.d/init.el~ at startup
+2. *This file* outputs some startup code to that location
+   1. Defines all of the options for hosts
+   2. Runs some required startup code
+   3. Loads the host definition file at ~$HOME/.emacs.d/host/$HOSTNAME~
+   4. Reads the enabled modules in ~dotfiles/modules~ and loads them
 
 ** Options
 
@@ -102,7 +125,7 @@ This project makes heavy use of modern features and libraries. Since *Babel's* u
 (load-file "~/.emacs.d/bin/packages.el")
 #+end_src
 
-* Hosts
+** Hosts machines
 
  Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
@@ -119,7 +142,7 @@ This project makes heavy use of modern features and libraries. Since *Babel's* u
      (org-babel-load-file host-file)))
  #+end_src
 
-* Modules
+** Module directory
 
  Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
 
@@ -140,6 +163,8 @@ This project makes heavy use of modern features and libraries. Since *Babel's* u
      (when (file-exists-p mod-file)
        (org-babel-load-file mod-file))))
  #+end_src
+
 * Resources
 
-[fn:1] http://gnu.org/software/emacs
+[fn:1] https://gnu.org/software/emacs
+[fn:2] https://gnu.org/software/emacs/manual/html_node/elisp/index.html
