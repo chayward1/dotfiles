@@ -67,35 +67,35 @@ After syncing and indexing the mail is ready to be used inside of Emacs. Downloa
 + Configure mail account(s)
 
 #+begin_src emacs-lisp
-;; (use-package mu4e
-;;   :load-path "/usr/share/emacs/site-lisp/mu4e")
-;;   :custom (mu4e-maildir "~/.cache/mail")
-;;           (mu4e-update-interval (* 5 60))
-;;           (mu4e-get-mail-command "mbsync -a")
-;;           (mu4e-compose-format-flowed t)
-;;           (mu4e-change-filenames-when-moving t)
-;;           (message-send-mail-function 'smtpmail-send-it)  
-;;           (mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
-;;           (mu4e-compose-signature (concat "Chris Hayward\n"
-;;                                           "https://chrishayward.xyz\n"))
-;;   :config
-;;   (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
-;;   (setq mu4e-contexts
-;;     (list
-;;       ;; Main
-;;       ;; chris@chrishayward.xyz
-;;       (make-mu4e-context
-;;         :name "Main"
-;;         :match-func
-;;           (lambda (msg)
-;;             (when msg 
-;;               (string-prefix-p "/Main" (mu4e-message-field msg :maildir))))
-;;         :vars
-;;           '((user-full-name . "Christopher James Hayward")
-;;             (user-mail-address . "chris@chrishayward.xyz")
-;;             (smtpmail-smtp-server . "mail.chrishayward.xyz")
-;;             (smtpmail-smtp-service . 587)
-;;             (smtpmail-stream-type . starttls)))))
+(use-package mu4e
+  :load-path "/usr/share/emacs/site-lisp/mu4e")
+  :custom (mu4e-maildir "~/.cache/mail")
+          (mu4e-update-interval (* 5 60))
+          (mu4e-get-mail-command "mbsync -a")
+          (mu4e-compose-format-flowed t)
+          (mu4e-change-filenames-when-moving t)
+          (message-send-mail-function 'smtpmail-send-it)  
+          (mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
+          (mu4e-compose-signature (concat "Chris Hayward\n"
+                                          "https://chrishayward.xyz\n"))
+  :config
+  (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
+  (setq mu4e-contexts
+    (list
+      ;; Main
+      ;; chris@chrishayward.xyz
+      (make-mu4e-context
+        :name "Main"
+        :match-func
+          (lambda (msg)
+            (when msg 
+              (string-prefix-p "/Main" (mu4e-message-field msg :maildir))))
+        :vars
+          '((user-full-name . "Christopher James Hayward")
+            (user-mail-address . "chris@chrishayward.xyz")
+            (smtpmail-smtp-server . "mail.chrishayward.xyz")
+            (smtpmail-smtp-service . 587)
+            (smtpmail-stream-type . starttls)))))
 #+end_src
 
 ** Keybinding
@@ -103,8 +103,8 @@ After syncing and indexing the mail is ready to be used inside of Emacs. Downloa
 Create a keybinding to open the mail dashboard with =SPC m=.
 
 #+begin_src emacs-lisp
-;; (dotfiles/leader
-;;  "m" '(mu4e :which-key "Mail"))
+(dotfiles/leader
+ "m" '(mu4e :which-key "Mail"))
 #+end_src
 
 ** Desktop notifications
@@ -112,11 +112,11 @@ Create a keybinding to open the mail dashboard with =SPC m=.
 Receive notifications for incoming mail via the *mu4e-alert*[fn:5] package.
 
 #+begin_src emacs-lisp
-;; (use-package mu4e-alert
-;;  :after mu4e
-;;  :custom (mu4e-alert-set-default-style 'libnotify)
-;;  :config (mu4e-alert-enable-notifications)
-;;          (mu4e-alert-enable-mode-line-display))
+(use-package mu4e-alert
+ :after mu4e
+ :custom (mu4e-alert-set-default-style 'libnotify)
+ :config (mu4e-alert-enable-notifications)
+         (mu4e-alert-enable-mode-line-display))
 #+end_src
 
 * Resources
