@@ -1,0 +1,300 @@
+#+TITLE: Writing
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle writing.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[../docs/images/2021-02-13-example-roam.png]]
+
+I am using *Org mode*[fn:1] extensively throughout my writing. Most of the improvements are done in the [[file:core.org][Core]] module, but all of the management, encryption, synchronization, and organization of all of my writing happens here.
+
+* Superstar
+
+Make headline stars *super* with *Org superstar mode*[fn:3].
+
+#+begin_src emacs-lisp
+(use-package org-superstar
+  :after org
+  :hook (org-mode . org-superstar-mode))
+#+end_src
+
+* Encryption
+
+My source files are encrypted with symmetric key encryption via *GPG*[fn:2]. This enables my workflow of storing my personal notes anywhere, including checked in to a public source repository. Emacs can cache the *GPG*[fn:2] password if you trust your session.
+
+#+begin_src emacs-lisp
+(setq epa-file-select-keys 2
+      epa-file-cache-passphrase-for-symmetric-encryption t
+      epa-file-encrypt-to dotfiles/public-key)
+#+end_src
+
+** Include *.gpg files
+
+Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
+
+#+begin_src emacs-lisp
+(unless (string-match-p "\\.gpg" org-agenda-file-regexp)
+  (setq org-agenda-file-regexp
+        (replace-regexp-in-string "\\\\\\.org" "\\\\.org\\\\(\\\\.gpg\\\\)?"
+                                  org-agenda-file-regexp)))
+#+end_src
+
+* Improvements
+
+Real time checking and one-shot methods to check and correct common spelling and grammatical errors.
+
+** Spelling
+
+Configure *InteractiveSpell*[fn:6] as a backend with *FlySpell*[fn:7] for real time checking and highlighting.
+
+#+begin_src emacs-lisp
+(use-package ispell
+  :after org
+  :custom (ispell-dictionary dotfiles/lang))
+#+end_src
+
+Toggle highlighting within buffers with =SPC t s=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "ts" '(flyspell-buffer :which-key "Spelling"))
+#+end_src
+
+** Grammar
+
+I use *Writegood*[fn:8] to find common writing problems such as cliches and poor wording. Grammarly for the peons!
+
+#+begin_src emacs-lisp
+(use-package writegood-mode
+  :after org
+  :config (writegood-mode))
+#+end_src
+
+Toggle *Writegood* mode with =SPC t w=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tw" '(writegood-mode :which-key "Grammar"))
+#+end_src
+
+* Management
+
+Download and install *Org roam*[fn:4], a plain text knowledge management system for Emacs built on top of *Org mode*[fn:1].
+
++ Notes can be arbitrarily referenced
++ Contexts created by linking topics and notes
+
+#+begin_src emacs-lisp
+(use-package org-roam
+  :hook (after-init . org-roam-mode)
+  :custom (org-roam-directory org-directory)
+          (org-roam-encrypt-files t)
+          (org-roam-capture-templates '())
+          (org-roam-dailies-capture-templates '()))
+
+
+#+end_src
+
+Configure custom keybindings behind =SPC r=.
+
++ Find with =f=
++ Buffer with =b=
++ Capture with =c=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "r" '(:ignore t :which-key "Roam")
+  "rf" '(org-roam-find-file :which-key "Find")
+  "rc" '(org-roam-capture :which-key "Capture")
+  "rb" '(org-roam-buffer-toggle-display "Buffer"))
+#+end_src
+
+** Web visualizer
+
+Including the extension *Org roam server*[fn:5] will run a web application that visualizes the *Org roam*[fn:4] database. Available whenever the editor is running at https://localhost:8080. The image at the top of this page is an example of the application running.
+
+#+begin_src emacs-lisp
+(use-package org-roam-server
+  :hook (org-roam-mode . org-roam-server-mode))
+#+end_src
+
+** Daily note taking
+
+Use the =daily= note feature of *Org roam*[fn:4] to capture daily notes. Create the default capture template with some preconfigured headers.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-dailies-capture-templates
+    '("d" "Default" entry (function org-roam-capture--get-point)
+             "* %?"
+             :file-name "docs/daily/%<%Y-%m-%d>"
+             :head
+"
+,#+TITLE: %<%Y-%m-%d>
+,#+AUTHOR: Christopher James Hayward
+
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+")))
+    
+#+end_src
+
+Place keybindings behind =SPC r d=.
+
++ Date with =d=
++ Today with =t=
++ Tomorrow with =m=
++ Yesterday with =y=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "rd" '(:ignore t :which-key "Dailies")
+  "rdd" '(org-roam-dailies-find-date :which-key "Date")
+  "rdt" '(org-roam-dailies-find-today :which-key "Today")
+  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+#+end_src
+
+* Organization
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/2021-02-13-example-agenda.gif]]
+
+More capture templates for *Org roam*[fn:4] are defined here in the context of specific domains and topics.
+
++ Configure agenda sources
+
+#+begin_src emacs-lisp
+(setq org-agenda-files '("~/.emacs.d/" 
+                                    "~/.emacs.d/docs/"
+                                    "~/.emacs.d/docs/daily/"))
+#+end_src
+
++ Capture template for generic documents
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+    '("d" "Default" entry (function org-roam-capture--get-point)
+            "%?"
+            :file-name "docs/${slug}"
+            :unnarrowed t
+            :head 
+"
+,#+TITLE: Holidays
+,#+AUTHOR: Christopher James Hayward
+,#+EMAIL: chris@chrishayward.xyz
+")))
+#+end_src
+
++ Open an agenda buffer with =SPC a=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "a" '(org-agenda :which-key "Agenda"))
+#+end_src
+
+** Courses
+
+Custom capture template for courses. 
+
++ Capture a new buffer with =SPC r c c=
++ Add buffers to agenda files
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-agenda-files "~/.emacs.d/docs/courses/")
+  (add-to-list 'org-roam-capture-templates
+    '("c" "Course" plain (function org-roam-capture--get-point)
+    "%?"
+    :file-name "docs/courses/${slug}"
+    :unnarrowed t
+    :head
+"
+,#+TITLE: ${title}
+,#+SUBTITLE:
+,#+AUTHOR: Christopher James Hayward
+,#+EMAIL: chris@chrishayward.xyz
+
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+")))
+#+end_src
+
+** Modules
+
+Capture template for new modules for this project.
+
++ Capture a new buffer with =SPC  r c m=
++ Add buffers to agenda files
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-agenda-files "~/.emacs.d/modules/")
+  (add-to-list 'org-roam-capture-templates
+    '("m" "Module" plain (function org-roam-capture--get-point)
+    "%?"
+    :file-name "modules/${slug}"
+    :unnarrowed t
+    :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+EMAIL: chris@chrishayward.xyz
+
+,#+PROPERTY: header-args:emacs-lisp :tangle core.el :comments org
+,#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+")))
+#+end_src
+
+** Hosts
+
+Capture template for new host machines for this project. This does not cover machines that are controlled via TRAMP / SSH.
+
++ Capture a new buffer with =SPC  r c h=
++ Add buffers to agenda files
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-agenda-files "~/.emacs.d/hosts/")
+  (add-to-list 'org-roam-capture-templates
+    '("m" "Module" plain (function org-roam-capture--get-point)
+    "%?"
+    :file-name "modules/${slug}"
+    :unnarrowed t
+    :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+EMAIL: chris@chrishayward.xyz
+
+,#+PROPERTY: header-args:emacs-lisp :tangle core.el :comments org
+,#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+")))
+#+end_src
+
+* Resources
+
+[fn:1] https://orgmode.org
+[fn:2] https://gnupg.org
+[fn:3] https://github.com/integral-dw/org-superstar-mode
+[fn:4] https://github.com/org-roam/org-roam
+[fn:5] https://github.com/org-roam/org-roam-server
+[fn:6] https://emacswiki.org/emacs/InteractiveSpell
+[fn:7] https://emacswiki.org/emacs/FlySpell
+[fn:8] https://github.com/bnbeckwith/writegood-mode

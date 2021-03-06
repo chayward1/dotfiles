@@ -45,7 +45,7 @@ Here's a complete list of all of the options configurable for each host, and the
   "Default system dictionary language.")
 
 (defconst dotfiles/modules-p 
-  '(core editor email desktop writing projects interface) 
+  '(core editor email desktop writing website projects interface) 
   "All of the available modules.")
 
 (defvar dotfiles/modules 
@@ -87,7 +87,7 @@ Here's a complete list of all of the options configurable for each host, and the
 
 * Hosts
 
-Override any of the available options configurations in a host file. Here's some examples to get started:
+Each host machines configuration is loaded immediately after the options are declared, before any configuration is applied. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
 + [[file:hosts/localhost.org][Termux]]
 + [[file:hosts/raspberry.org][Raspberry]]
@@ -110,6 +110,10 @@ Breaking down the project into logical units or chapters to keep the code more m
 + [[file:modules/editor.org][Editor]]
 + [[file:modules/email.org][Email]]
 + [[file:modules/desktop.org][Desktop]]
++ [[file:modules/writing.org][Writing]]
++ [[file:modules/website.org][Website]]
++ [[file:modules/projects.org][Projects]]
++ [[file:modules/interface.org][Interface]]
 
 By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
 
@@ -120,83 +124,7 @@ By default all of the modules will load, override the variable ~dotfiles/modules
       (org-babel-load-file mod-file))))
 #+end_src
 
-** Writing
-:PROPERTIES:
-:header-args: :tangle modules/writing.el
-:END:
-
-I am using [[https://orgmode.org][org-mode]] extensively for writing projects for different purposes. Most of the improvements are done in the *Core* module for the Literate programming configuration. Encrypt files using symmetric key encryption via PGP. This enables my workflow of storing my personal notes anywhere. Emacs can cache the gpg password if you trust your session.
-
-#+begin_src emacs-lisp
-(setq epa-file-select-keys 2
-      epa-file-cache-passphrase-for-symmetric-encryption t
-      epa-file-encrypt-to dotfiles/public-key)
-#+end_src
-
-Download and install [[https://github.com/integral-dw/org-superstar-mode][org-superstar-mode]] for making headline stars more *super*.
-
-#+begin_src emacs-lisp
-(use-package org-superstar
-  :after org
-  :hook (org-mode . org-superstar-mode))
-#+end_src
-
-*** Roam
-
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[./docs/images/2021-02-13-example-roam.png]]
-
-Download and install [[https://orgroam.com][org-roam]], a plain text knowledge management system for Emacs.
-
-#+begin_src emacs-lisp
-(use-package org-roam
-  :hook (after-init . org-roam-mode)
-  :custom (org-roam-directory org-directory)
-          (org-roam-encrypt-files t)
-          (org-roam-capture-templates '())
-          (org-roam-dailies-capture-templates
-          '(("d" "Default" entry (function org-roam-capture--get-point)
-             "* %?"
-             :file-name "docs/daily/%<%Y-%m-%d>"
-             :head
-"
-,#+TITLE: %<%Y-%m-%d>
-,#+AUTHOR: Christopher James Hayward
-"))))
-#+end_src
-
-Place keybindings behind =SPC r=.
-
-+ Find with =f=
-+ Toggle buffer with =b=
-+ Dailies with =d=
-  + Arbitrary date with =d=
-  + Today with =t=
-  + Tomorrow with =m=
-  + Yesterday with =y=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "r" '(:ignore t :which-key "Roam")
-  "rf" '(org-roam-find-file :which-key "Find")
-  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")
-  "rd" '(:ignore t :which-key "Dailies")
-  "rdd" '(org-roam-dailies-find-date :which-key "Date")
-  "rdt" '(org-roam-dailies-find-today :which-key "Today")
-  "rdm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "rdy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
-#+end_src
-
-Visualize the org-roam database with the server, available when the editor is running at http://localhost:8080
-
-#+begin_src emacs-lisp
-(use-package org-roam-server
-  :hook (org-roam-mode . org-roam-server-mode))
-#+end_src
-
-*** Hugo
+** Website
 
 I use [[https://gohugo.io][Hugo]] for my personal [[https://chrishayward.xyz][website]], which I write in =org-mode= before compiling to =hugo-markdown=. [[https://github.com/kaushalmodi/ox-hugo][ox-hugo]], configured for =one-post-per-file= is my technique for managing my content. 
 
@@ -294,58 +222,6 @@ Create a capture template for creating slides quickly, with our desired configur
 ")))
 #+end_src
 
-*** Agenda
-
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[./docs/images/2021-02-13-example-agenda.gif]]
-
-Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
-
-#+begin_src emacs-lisp
-(unless (string-match-p "\\.gpg" org-agenda-file-regexp)
-  (setq org-agenda-file-regexp
-        (replace-regexp-in-string "\\\\\\.org" "\\\\.org\\\\(\\\\.gpg\\\\)?"
-                                  org-agenda-file-regexp)))
-#+end_src
-
-Create a capture template for courses.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org-roam
-  (add-to-list 'org-roam-capture-templates
-               '("c" "Course" plain (function org-roam-capture--get-point)
-               "%?"
-               :file-name "docs/courses/${slug}"
-               :unnarrowed t
-               :head
-"
-,#+TITLE: ${title}
-,#+SUBTITLE:
-,#+AUTHOR: Christopher James Hayward
-,#+EMAIL: chris@chrishayward.xyz
-
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-")))
-#+end_src
-
-Configure agenda sources.
-  
-#+begin_src emacs-lisp
-(setq org-agenda-files '("~/.emacs.d/docs/"
-                         "~/.emacs.d/docs/courses/"
-                         "~/.emacs.d/docs/daily/"))
-#+end_src
-
-Open an agenda buffer with =SPC a=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "a" '(org-agenda :which-key "Agenda"))
-#+end_src
-
 *** Images
 
 Capture screenshots with [[https://github.com/tecosaur/screenshot][screenshot.el]].
@@ -380,39 +256,6 @@ Place keybindings behind =SPC s=.
   "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
 #+end_src
 
-*** Grammar
-
-I use [[https://github.com/bnbeckwith/writegood-mode][writegood-mode]] to find common writing problems such as cliches and poor wording. Grammarly for the peons!
-
-#+begin_src emacs-lisp
-(use-package writegood-mode
-  :after org
-  :config (writegood-mode))
-#+end_src
-
-Toggle ~writegood~ mode with =SPC t w=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "tw" '(writegood-mode :which-key "Grammar"))
-#+end_src
-
-*** Spelling
-
-Use the built in =ispell= package to add spell checking features to buffers.
-
-#+begin_src emacs-lisp
-(use-package ispell
-  :after org
-  :custom (ispell-dictionary dotfiles/lang))
-#+end_src
-
-Toggle highlighting within buffers with =SPC t s=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "ts" '(flyspell-buffer :which-key "Spelling"))
-#+end_src
 
 ** Projects
 :PROPERTIES:
