@@ -10,17 +10,6 @@
 
 I use Emacs as a Desktop Environment with the *EXWM*[fn:1] package. It allows Emacs to function as a complete tiling window manager for *X11*[fn:2]. 
 
-* Startup
-:PROPERTIES:
-:header-args: :tangle ../config/xinitrc :comments org
-:END:
-
-My workflow includes launching the window manager with *Xinit*[fn:3], without the use of a display manager, controlling *everything* within Emacs.
-
-#+begin_src conf
-exec dbus-launch --exit-with-session emacs -mm --debug-init
-#+end_src
-
 * Profile
 :PROPERTIES:
 :header-args: :tangle ../config/profile :comments org
@@ -39,6 +28,17 @@ When launching into a new session on ~TTY1~, if the display server is not runnin
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
     exec startx
 fi
+#+end_src
+
+* Startup
+:PROPERTIES:
+:header-args: :tangle ../config/xinitrc :comments org
+:END:
+
+My workflow includes launching the window manager with *Xinit*[fn:3], without the use of a display manager, controlling *everything* within Emacs.
+
+#+begin_src conf
+exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
 
 * Browser
