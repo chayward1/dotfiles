@@ -251,6 +251,13 @@ When running in *daemon* mode, ensure that the dashboard is the initial buffer.
         (get-buffer "*dashboard*")))
 #+end_src
 
+Quickly navigate to the dashboard with =SPC SPC=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "SPC" '((lambda () (interactive) (switch-to-buffer "*dashboard*")) :which-key "Dashboard"))
+#+end_src
+
 * Resources
 
 [fn:1] https://github.com/abo-abo/swiper
