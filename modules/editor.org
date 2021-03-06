@@ -1,0 +1,294 @@
+#+TITLE: Editor
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle editor.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Configuration and imrpovements to the editor experience within Emacs. *Vim*[fn:1] user? This module extends the keybindings by implementing *Evil*[fn:2]. *Doom*[fn:3], *Spacemacs*[fn:4]? The all powerful leader key is also implemented right here!
+
+* Keys
+
+Offer =ESC= as an alternative to quit (most) prompts, instead of the default =C-g=.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src
+
+** Completions
+
+Emacs has *a lot of keybindings*, sometimes it's useful to just start mashing keys and see what happens. This behaviour exists in a third-party package called *which-key*[fn:5]. It displays the current incomplete keybinding input in a mini-buffer, showing available completion options with their corresponding keybindings.
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :diminish which-key-mode
+  :custom (which-key-idle-delay dotfiles/idle)
+  :config (which-key-mode))
+#+end_src
+
+** Turn Emacs into Vim
+
+Emacs has *some strange default keybindings*, they're not like any other editor you've likely ever used. To overcome this nearly show-stopping hurdle, we turn Emacs into Vim[fn:1] with *Evil Mode - The Extensible VI Layer for Emacs*[fn:2].
+
+#+begin_src emacs-lisp
+(use-package evil
+  :custom (evil-want-integration t)  ;; Required for `evil-collection'.
+          (evil-want-keybinding nil) ;; Same as above
+  :config (evil-mode +1))
+#+end_src
+
+While covering substantial ground towards our goal, the default keybindings implemented in *Evil*[fn:2] alone are *lacking* compared to what you would expect from *Vim*[fn:1]. There's, of course, a communicated curated package *evil-collection*[fn:6] that does a much better job implementing the proper keybindings.
+
+#+begin_src emacs-lisp
+(use-package evil-collection
+  :after evil
+  :config (evil-collection-init))
+#+end_src
+
+*** Surround text
+
+Whether it's on purpose, or more likely, you forgot an opening brace; *evil-surround*[fn:7] surrounds highlighted blocks of text with functions, quotations, and any symbol you can input.
+
+#+begin_src emacs-lisp
+(use-package evil-surround
+  :after evil
+  :config (global-evil-surround-mode 1))
+#+end_src
+
+*** Toggle comments
+
+When you're in deep with errors, or just trying some new code, it's useful to be able to toggle large comment sections in a language agnostic manner. In comes *evil-nerd-commentor*[fn:8], with a custom binding to =M-;=. What is =M-= ? Typically that refers to the =Alt= key, called the =Meta= key in Emacs. 
+
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :after evil
+  :bind ("M-;" . evilnc-comment-or-uncomment-lines))
+#+end_src
+
+** Implementing the leader key
+
+If you're like me and started with Emacs using a framework like *Doom*[fn:3] or *Spacemacs*[fn:4], you probably have a lot of muscle memory for using =SPC= as a leader key. This behaviour is actually not difficult to implement, especially when using *general.el*[fn:9].
+
++ =SPC= in most situations as a prefix key
++ =C-SPC= when using the [[file:desktop.org][Desktop]] module within an =X= buffer
+
+#+begin_src emacs-lisp
+(use-package general
+  :after evil
+  :config
+  (general-create-definer dotfiles/leader
+    :states '(normal motion)
+    :keymaps 'override
+    :prefix dotfiles/leader-key
+    :global-prefix dotfiles/leader-key-global))
+#+end_src
+
+** Transient bindings
+
+Create transient keybindings with a shared prefix through *Hydra*[fn:10]. This is also used by a number of third-party packages as a completion system. An implementation example is available in the *Font* section of the [[file:interface.org][Interface]] module.
+
++ Defer loading for performance
+
+#+begin_src emacs-lisp
+(use-package hydra
+  :defer t)
+#+end_src
+
+Place runtime tweaks behind =SPC t=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "t" '(:ignore t :which-key "Tweaks"))
+#+end_src
+
+** Cherry picked shortcuts
+
+Implement shortcut bindings, cherry picked from *Doom*[fn:3].
+
++ Close buffers with =SPC c=
++ Find files with =SPC , (comma)=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "." '(find-file :which-key "Files")
+  "c" '(kill-buffer-and-window "Close"))
+#+end_src
+
+*** Managing windows
+
+Window management with =SPC w=
+
++ Swap with =w=
++ Close with =c=
++ Move with =h,j,k,l=
++ Split with =s - <motion>=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "w" '(:ignore t :which-key "Window")
+  "ww" '(window-swap-states :which-key "Swap")
+  "wc" '(delete-window :which-key "Close")
+  "wh" '(windmove-left :which-key "Left")
+  "wj" '(windmove-down :which-key "Down")
+  "wk" '(windmove-up :which-key "Up")
+  "wl" '(windmove-right :which-key "Right")
+  "ws" '(:ignore t :which-key "Split")
+  "wsj" '(split-window-below :which-key "Down")
+  "wsl" '(split-window-right :which-key "Right"))
+#+end_src
+
+*** Quitting Emacs
+
+Quit Emacs with =SPC q=
+
+  + Save and quit =q=
+  + Quit without saving =w=
+  + Exit the Frame (daemon) =f=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "q" '(:ignore t :which-key "Quit")
+  "qq" '(save-buffers-kill-emacs :which-key "Save")
+  "qw" '(kill-emacs :which-key "Now")
+  "qf" '(delete-frame :which-key "Frame"))
+#+end_src
+
+* Help
+
+Use the built-in ~describe-*~ functionality of Emacs to quickly access documentation for packages, variables, and functions. 
+
++ Run helper functions with =SPC h=
+  * Packages =p=
+  * Variables =v=
+  * Functions =f=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "h" '(:ignore t :which-key "Help")
+  "hp" '(describe-package :which-key "Package")
+  "hv" '(describe-variable :which-key "Variable")
+  "hf" '(describe-function :which-key "Function"))
+#+end_src
+
+* Files
+
+Emacs has some really cool built-in packages, *Dired*[fn:11] is one of them. It's not perfect out of the box though, there's work to do.
+
+** Navigating to the current directory
+
+I don't want to have to press =RET= twice to navigate to the current directory. Avoid this behaviour with ~jump~, included in the =dired-x= package that ships with *Dired*[fn:11].
+
++ Open a new dired buffer with =SPC d=.
+
+#+begin_src emacs-lisp
+(require 'dired-x)
+(dotfiles/leader
+  "d" '(dired-jump :which-key "Dired"))
+#+end_src
+
+** Reusing the same buffer
+
+By default *Dired*[fn:11] will create a new buffer every time you press =RET= over a directory. This leads to unwanted buffers all over the place. Avoid this behaviour with *Dired Single*[fn:12], reusing the same dired buffer.
+
++ Move up a directory with =h=
++ Open a single buffer with =l=
+
+#+begin_src emacs-lisp
+(use-package dired-single
+  :config (evil-collection-define-key 'normal 'dired-mode-map
+            "h" 'dired-single-up-directory
+            "l" 'dired-single-buffer))
+#+end_src
+
+** Interface tweaks
+
+Dired feels more modern with prioritized icon fonts using *All the Icons*[fn:13]. This makes navigation and visually parsing directories much faster, given that file types are quickly identified by their corresponding icons.
+
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+#+end_src
+
+Integration with *Dired*[fn:11] comes from the *All the Icons Dired*[fn:14]package.
+
+#+begin_src emacs-lisp
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
+
+* Shell
+
+Another really incredible piece of kit, shipped with Emacs. *Eshell*[fn:15] is a fully POSIX compliant shell written entirely in Emacs Lisp. While not a traditional terminal emulator, it provides me with all of the functionality I expect and require from one. The infamous lambda prompt implemented with the *Eshell Prompt Extras*[fn:16] package.
+
+#+begin_src emacs-lisp
+(use-package eshell-prompt-extras
+  :custom (eshell-highlight-prompt nil)
+          (eshell-prefer-lisp-functions nil)
+	        (eshell-prompt-function 'epe-theme-lambda))
+#+end_src
+
+Open an =eshell= buffer with =SPC e=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "e" '(eshell :which-key "Shell"))
+#+end_src
+
+* Git
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[../docs/images/2021-02-13-example-magit.gif]]
+
+Yet another hallmark feature of Emacs: *Magit*[fn:17] with the *darling* name, the developer stresses it's supposed to be *Magic* but with *Git*[fn:19]. It's a complete *Git*[fn:19] porcelain within Emacs.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :commands magit-status
+  :custom (magit-display-buffer-function
+           #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+Open the *status* page for the current repository with =SPC g=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "g" '(magit-status :which-key "Magit"))
+#+end_src
+
+** GitHub integration
+
+Interact with *Git*[fn:19] forges from *Magit*[fn:17] and Emacs using *Forge*[fn:18], requiring only a *GitHub*[fn:20] token to get started. If you're not sure what *GitHub*[fn:20] is, it's to *Git*[fn:19] what *Porn* is to *PornHub*. No citations!
+
++ Requires a valid ~$GITHUB_TOKEN~
+
+#+begin_src emacs-lisp
+(use-package forge
+  :after magit)
+#+end_src
+
+* Resources
+
+[fn:1] https://vim.org
+[fn:2] https://evil.readthedocs.io/en/latest/index.html
+[fn:3] https://github.com/hlissner/doom-emacs/
+[fn:4] https://spacemacs.org
+[fn:5] https://github.com/justbur/emacs-which-key/
+[fn:6] https://github.com/emacs-evil/evil-collection
+[fn:7] https://github.com/emacs-evil/evil-surround
+[fn:8] https://github.com/redguardtoo/evil-nerd-commenter
+[fn:9] https://github.com/noctuid/general.el
+[fn:10] https://github.com/abo-abo/hydra
+[fn:11] https://en.wikipedia.org/wiki/Dired
+[fn:12] https://github.com/crocket/dired-single
+[fn:13] [[https://github.com/domtronn/all-the-icons.el]]
+[fn:14] https://github.com/jtbm37/all-the-icons-dired
+[fn:15] https://gnu.org/software/emacs/manual/html_node/eshell/index.html
+[fn:16] https://github.com/zwild/eshell-prompt-extras
+[fn:17] https://github.com/magit/magit
+[fn:18] https://github.com/magit/forge
+[fn:19] https://git-scm.com
+[fn:20] https://github.com
