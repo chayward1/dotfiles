@@ -194,7 +194,7 @@ More capture templates for *Org roam*[fn:4] are defined here in the context of s
             :unnarrowed t
             :head 
 "
-,#+TITLE: Holidays
+,#+TITLE: ${title}
 ,#+AUTHOR: Christopher James Hayward
 ,#+EMAIL: chris@chrishayward.xyz
 ")))
