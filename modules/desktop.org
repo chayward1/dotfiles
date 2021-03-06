@@ -15,12 +15,18 @@ I use Emacs as a Desktop Environment with the *EXWM*[fn:1] package. It allows Em
 :header-args: :tangle ../config/profile :comments org
 :END:
 
-Ensure that ~~/.local/bin~ is added to the =$PATH= variable.
+Setup the default shell profile to run Emacs as a desktop environment.
+
+** Append to the $PATH
+
+Ensure that ~~/.local/bin~ added to the =$PATH= variable.
 
 #+begin_src shell
 PATH=$PATH:~/.local/bin
 export PATH
 #+end_src
+
+** Launch on TTY1
 
 When launching into a new session on ~TTY1~, if the display server is not running, run *StartX*[fn:3]. This will launch the window manager.
 
@@ -30,7 +36,16 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
 fi
 #+end_src
 
-* Startup
+** Create symbolic link
+
+The system will look for the default shell profile at ~~/.profile~. Create a symbolic link from this location to the configuration file defined.
+
+#+begin_src emacs-lisp
+(dotfiles/symlink "~/.emacs.d/config/profile"
+                  "~/.profile")
+#+end_src
+
+* Window manager
 :PROPERTIES:
 :header-args: :tangle ../config/xinitrc :comments org
 :END:
@@ -41,7 +56,16 @@ My workflow includes launching the window manager with *Xinit*[fn:3], without th
 exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
 
-* Browser
+** Create a symbolic link
+
+*Xinit*[fn:3] reads its configuration from ~~/.xinitrc~. Override this location with a link to the custom configuration.
+
+#+begin_src emacs-lisp
+(dotfiles/symlink "~/.emacs.d/config/xinitrc"
+                  "~/.xinitrc")
+#+end_src
+
+* Browser integration
 
 Write out the ~$BROWSER~ variable so other applications can pick up the custom browser.
 
@@ -49,7 +73,7 @@ Write out the ~$BROWSER~ variable so other applications can pick up the custom b
 (setenv "BROWSER" dotfiles/browser)
 #+end_src
 
-* Displays
+* Displays detection
 
 When the window manager first launches the ~init-hook~ executes, allowing us to define some custom logic.
 
@@ -74,22 +98,22 @@ Using =autorandr= with pre configured profiles, switching screens (AKA hot plugg
   (dotfiles/run-in-background "autorandr --change --force"))
 #+end_src
 
-* Methods
+* Shell interaction
 
 Define a method to run an external process, allowing us to launch any application on a new process without interferring with Emacs.
 
 #+begin_src emacs-lisp
-(defun dotfiles/run (command)
+(defun dotfiles/run (cmd)
   "Run an external process."
   (interactive (list (read-shell-command "λ ")))
-  (start-process-shell-command command nil command))
+  (start-process-shell-command cmd nil cmd))
 #+end_src
 
 Apply methods to the current call process to avoid issues with hooks.
 
 #+begin_src emacs-lisp
-(defun dotfiles/run-in-background (command)
-  (let ((command-parts (split-string command "[ ]+")))
+(defun dotfiles/run-in-background (cmd)
+  (let ((command-parts (split-string cmd "[ ]+")))
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 #+end_src
 
