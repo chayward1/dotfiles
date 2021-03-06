@@ -1,0 +1,129 @@
+#+TITLE: Email
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle email.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/2021-02-13-example-mu4e.gif]]
+
+Plain text email delivered via *mu*[fn:1], *mu4e*[fn:2] and *mbsync*[fn:3]. I run my *own email server*[fn:4], so your configuration may differ from mine. 
+
+* Sync
+:PROPERTIES:
+:header-args: :tangle ../config/mbsyncrc :comments org
+:END:
+
+This is the *mbsyncrc*[fn:3] file I use to synchronize my local mail with my server.
+
+#+begin_src conf
+IMAPStore xyz-remote
+Host mail.chrishayward.xyz
+User chris@chrishayward.xyz
+PassCmd "pass chrishayward.xyz/chris"
+SSLType IMAPS
+
+MaildirStore xyz-local
+Path ~/.cache/mail/
+Inbox ~/.cache/mail/inbox
+SubFolders Verbatim
+
+Channel xyz
+Master :xyz-remote:
+Slave :xyz-local:
+Patterns * !Archives
+Create Both
+Expunge Both
+SyncState *
+#+end_src
+
+The system typically expects to find this file at ~$HOME/.mbsyncrc~, but you may also specify a custom path if launching the command using arguments. I chose to symlink the default location to my repository.
+
+* Indexing
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+
+Once mail has been synchronized you need to index it using *mu*[fn:1].
+
+#+begin_src shell
+mbsync -a
+mu index --maildir="~/.cache/mail"
+#+end_src
+
+* Integration
+
+After syncing and indexing the mail is ready to be used inside of Emacs. Download and install *mu4e*[fn:2] and configure the *mail account*[fn:3].
+
++ Update every 5 minutes
++ Scale text for all devices
++ Sign outbound mail with GPG key
++ Configure mail account(s)
+
+#+begin_src emacs-lisp
+(use-package mu4e
+  :load-path "/usr/share/emacs/site-lisp/mu4e"
+  :custom (mu4e-maildir "~/.cache/mail")
+          (mu4e-update-interval (* 5 60))
+          (mu4e-get-mail-command "mbsync -a")
+          (mu4e-compose-format-flowed t)
+          (mu4e-change-filenames-when-moving t)
+          (message-send-mail-function 'smtpmail-send-it)  
+          (mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
+          (mu4e-compose-signature (concat "Chris Hayward\n"
+                                          "https://chrishayward.xyz\n"))
+  :config
+  (add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
+  (setq mu4e-contexts
+    (list
+      ;; Main
+      ;; chris@chrishayward.xyz
+      (make-mu4e-context
+        :name "Main"
+        :match-func
+          (lambda (msg)
+            (when msg 
+              (string-prefix-p "/Main" (mu4e-message-field msg :maildir))))
+        :vars
+          '((user-full-name . "Christopher James Hayward")
+            (user-mail-address . "chris@chrishayward.xyz")
+            (smtpmail-smtp-server . "mail.chrishayward.xyz")
+            (smtpmail-smtp-service . 587)
+            (smtpmail-stream-type . starttls))))))
+
+#+end_src
+
+** Keybinding
+
+Create a keybinding to open the mail dashboard with =SPC m=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "m" '(mu4e :which-key "Mail"))
+#+end_src
+
+** Desktop notifications
+
+Receive notifications for incoming mail via the *mu4e-alert*[fn:5] package.
+
+#+begin_src emacs-lisp
+(use-package mu4e-alert
+  :after mu4e
+  :custom (mu4e-alert-set-default-style 'libnotify)
+  :config (mu4e-alert-enable-notifications)
+          (mu4e-alert-enable-mode-line-display))
+#+end_src
+
+* Resources
+
+[fn:1] https://codewith.mu/en/download
+[fn:2] https://emacswiki.org/emacs/mu4e
+[fn:3] https://isync.sourceforge.io
+[fn:4] mailto:chris@chrishayward.xyz
+[fn:5] https://github.com/iqbalansari/mu4e-alert
