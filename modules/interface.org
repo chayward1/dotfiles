@@ -1,0 +1,104 @@
+#+TITLE: Interface
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle interface.el :comments org
+#+PROPERTY: header-args:shell          :tangle no
+#+PROPERTY: header-args                  :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[../docs/images/what-is-emacs-teaser.png]]
+
+*Bring Emacs out of the eighties*
+
+* Completion
+
+There's a lot of occasions Emacs asks to input text to match a file name in a directory, just one example of an oppertunity for a completion system. *Swiper*[fn:1] is a family of packages that work towards this common goal in Emacs.
+
+** Selection menu
+
+*Ivy*[fn:1] is a powerful selection menu for Emacs.
+
+#+begin_src emacs-lisp
+(use-package ivy
+  :diminish
+  :config (ivy-mode 1))
+#+end_src
+
+** Replace built in commands
+
+*Counsel*[fn:1] is a customized set of commands to replace built in completion buffers.
+
+#+begin_src emacs-lisp
+(use-package counsel
+  :after ivy
+  :custom (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+  :config (counsel-mode 1))
+#+end_src 
+
+** Additional details
+
+Provide more information about each item in the completion menu with *Ivy rich*[fn:2].
+
+#+begin_src emacs-lisp
+(use-package ivy-rich
+  :after counsel
+  :init (ivy-rich-mode 1))
+#+end_src
+
+* Fonts
+
+Write out to all of Emacs' available font faces with the unified font defined in the options.
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
+#+end_src
+
+** Text scaling
+
+Define a transient keybinding for Scaling the text.
+
+#+begin_src emacs-lisp
+(defhydra hydra-text-scale (:timeout 4)
+  "Scale"
+  ("j" text-scale-increase "Increase")
+  ("k" text-scale-decrease "Decrease")
+  ("f" nil "Finished" :exit t))
+#+end_src
+
++ Scale the text inside of buffers with =SPC t f=
+  * Increase =j=
+  * Decrease =k=
+  * Finished =f=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tf" '(hydra-text-scale/body :which-key "Font"))
+#+end_src
+
+* Icons
+
+- [ ] All the icons
+- [ ] All the icons dired
+
+* Themes
+
+* Line numbering
+
+* Pretty symbols
+
+* Ligatures
+
+* Dashboard
+
+* Resources
+
+[fn:1] https://github.com/abo-abo/swiper
+[fn:2] https://github.com/Yevgnen/ivy-rich
