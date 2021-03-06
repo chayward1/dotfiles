@@ -1,6 +1,6 @@
 ;; Options
 
-;; Here's a complete list of all of the options configurable for each host, and their default values.  All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. 
+;; Here's a complete list of all of the options configurable for each host, and their default values. All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. 
 
 
 (defvar dotfiles/font 
@@ -67,9 +67,17 @@
   "37AB1CB72B741E478CA026D43025DCBD46F81C0F" 
   "GPG key to encrypt org files for.")
 
+;; Startup
+
+;; This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
+
+
+(load-file "~/.emacs.d/bin/startup.el")
+(load-file "~/.emacs.d/bin/packages.el")
+
 ;; Hosts
 
-;;  Each host machines configuration is loaded immediately after the options are declared, before any configuration is applied. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
+;;  Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
 ;;  + [[file:hosts/localhost.org][Termux]]
 ;;  + [[file:hosts/raspberry.org][Raspberry]]
