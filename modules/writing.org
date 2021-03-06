@@ -167,7 +167,7 @@ Place keybindings behind =SPC r d=.
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
 #+ATTR_LATEX: :width 420px
-[[./docs/images/2021-02-13-example-agenda.gif]]
+[[../docs/images/2021-02-13-example-agenda.gif]]
 
 More capture templates for *Org roam*[fn:4] are defined here in the context of specific domains and topics.
 
@@ -176,7 +176,12 @@ More capture templates for *Org roam*[fn:4] are defined here in the context of s
 #+begin_src emacs-lisp
 (setq org-agenda-files '("~/.emacs.d/" 
                                     "~/.emacs.d/docs/"
-                                    "~/.emacs.d/docs/daily/"))
+                                    "~/.emacs.d/docs/daily/"
+                                    "~/.emacs.d/docs/notes/"
+                                    "~/.emacs.d/docs/posts/"
+                                    "~/.emacs.d/docs/slides/"
+                                    "~/.emacs.d/hosts/"
+                                    "~/.emacs.d/modules/"))
 #+end_src
 
 + Capture template for generic documents
@@ -208,11 +213,9 @@ More capture templates for *Org roam*[fn:4] are defined here in the context of s
 Custom capture template for courses. 
 
 + Capture a new buffer with =SPC r c c=
-+ Add buffers to agenda files
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-roam
-  (add-to-list 'org-agenda-files "~/.emacs.d/docs/courses/")
   (add-to-list 'org-roam-capture-templates
     '("c" "Course" plain (function org-roam-capture--get-point)
     "%?"
@@ -264,11 +267,9 @@ Capture template for new modules for this project.
 Capture template for new host machines for this project. This does not cover machines that are controlled via TRAMP / SSH.
 
 + Capture a new buffer with =SPC  r c h=
-+ Add buffers to agenda files
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-roam
-  (add-to-list 'org-agenda-files "~/.emacs.d/hosts/")
   (add-to-list 'org-roam-capture-templates
     '("m" "Module" plain (function org-roam-capture--get-point)
     "%?"
