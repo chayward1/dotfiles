@@ -22,7 +22,7 @@
 (defconst dotfiles/modules-p 
   '(core 
     editor
-    ;; email FIXME
+    email
     desktop
     writing
     website
