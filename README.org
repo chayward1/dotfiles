@@ -13,7 +13,7 @@
 #+ATTR_LATEX: :width 420px
 [[./docs/images/desktop-alt.png]]
 
-Immutable *GNU Emacs* dotfiles. Built for Life, Liberty, and the Open Road.
+Immutable *GNU Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
 + 100% Literate
 + 100% Immutable
@@ -140,3 +140,6 @@ This project makes heavy use of modern features and libraries. Since *Babel's* u
      (when (file-exists-p mod-file)
        (org-babel-load-file mod-file))))
  #+end_src
+* Resources
+
+[fn:1] http://gnu.org/software/emacs

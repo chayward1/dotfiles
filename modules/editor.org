@@ -203,7 +203,6 @@ By default *Dired*[fn:11] will create a new buffer every time you press =RET= ov
             "l" 'dired-single-buffer))
 #+end_src
 
-** Interface tweaks
 
 * Shell
 
