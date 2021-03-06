@@ -15,6 +15,7 @@
 [[./docs/images/desktop-alt.png]]
 
 Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
+
 + 100% Literate
 + 100% Immutable
 + 100% Reproducible
@@ -24,28 +25,11 @@ Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 :header-args: :tangle init.el
 :END:
 
-Although later versions of Emacs introduce =early-init.el=, it's not used in this configuration for two reasons:
+This section controls initialization of the system, everything is available from a top-down perspective at this stage in the configuration.
 
-+ It's not required due to the modularity
-+ Maintaining support for older versions
+** Hosts
 
-Assuming you have completed all of the following tasks prior to proceeding further:
-
-1. Imported the =secrets=
-2. Initialized the =passwords=
-3. Defined the =host= file
-4. Created all required symbolic links
-
-Launch emacs: ~emacs -mm --debug-init~
-   
-** Options
-
-Here's a complete list of all of the options configurable for each host, and their default values. Override any of these configurations in a host file. All of the values are prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. Here are a few examples to get started:
-
-+ [[file:hosts/localhost.org][Termux]]
-+ [[file:hosts/raspberry.org][Raspberry]]
-+ [[file:hosts/acernitro.org][Acernitro]]
-+ [[file:hosts/virtualbox.org][Virtualbox]]
+Here's a complete list of all of the options configurable for each host, and their default values.  All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option.
 
 | Name                       | Description                                       |
 |----------------------------+---------------------------------------------------|
@@ -64,6 +48,13 @@ Here's a complete list of all of the options configurable for each host, and the
 | dotfiles/passwords         | Location of the system password store             |
 | dotfiles/public-key        | Public GPG key to encrypt files for               |
 
+Override any of these configurations in a host file. Here's some examples to get started:
+
++ [[file:hosts/localhost.org][Termux]]
++ [[file:hosts/raspberry.org][Raspberry]]
++ [[file:hosts/acernitro.org][Acernitro]]
++ [[file:hosts/virtualbox.org][Virtualbox]]
+
 #+begin_src emacs-lisp
 (defvar dotfiles/font "Fira Code")
 (defvar dotfiles/font-size 96)
@@ -81,9 +72,7 @@ Here's a complete list of all of the options configurable for each host, and the
 (defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
 #+end_src
 
-** Startup
-
-The host configuration tangles, and loads (if it exist) using the systems name.
+Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
 #+begin_src emacs-lisp
 (let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
@@ -91,253 +80,20 @@ The host configuration tangles, and loads (if it exist) using the systems name.
     (org-babel-load-file host-file)))
 #+end_src
 
-Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. 
+** Modules
+
+Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
+
++ [[file:modules/core.org][Core]]
++ [[file:modules/editor.org][Editor]]
+
+By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
 
 #+begin_src emacs-lisp
 (dolist (m dotfiles/modules)
   (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
     (when (file-exists-p mod-file)
       (org-babel-load-file mod-file))))
-#+end_src
-
-* Modules
-
-** Editor
-:PROPERTIES:
-:header-args: :tangle modules/editor.el
-:END:
-
-This section contains configuration for improving the editor experience within Emacs.
-
-*** Keys
-
-Make the =ESC= key quit (most) prompts, instead of the default =C-g=.
-
-#+begin_src emacs-lisp
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-#+end_src
-
-Download [[https://github.com/justbur/emacs-which-key][which-key]], a package that displays the current incomplete keybinding input in a mini-buffer, showing available completion options.
-
-#+begin_src emacs-lisp
-(use-package which-key
-  :diminish which-key-mode
-  :custom (which-key-idle-delay dotfiles/idle)
-  :config (which-key-mode))
-#+end_src
-
-Turn Emacs into Vim with [[https://evil.readthedocs.io/en/latest/index.html][evil-mode]], the extensible VI layer for Emacs.
-
-#+begin_src emacs-lisp
-(use-package evil
-  :custom (evil-want-integration t)  ;; Required for `evil-collection'.
-          (evil-want-keybinding nil) ;; Same as above
-  :config (evil-mode 1))
-#+end_src
-
-Unfortunately the default keybindings are *lacking*, but there is a community curated package [[https://github.com/emacs-evil/evil-collection][evil-collection]], which does a much better job implementing keybindings you would expect to find.
-
-#+begin_src emacs-lisp
-(use-package evil-collection
-  :after evil
-  :config (evil-collection-init))
-#+end_src
-
-Surround text with functions, quotations, and any other symbols using the [[https://github.com/emacs-evil/evil-surround][evil-surround]] package.
-
-#+begin_src emacs-lisp
-(use-package evil-surround
-  :after evil
-  :config (global-evil-surround-mode 1))
-#+end_src
-
-Toggle block comments using [[https://github.com/redguardtoo/evil-nerd-commenter][evil-nerd-commentor]] and =M-;=.
-
-#+begin_src emacs-lisp
-(use-package evil-nerd-commenter
-  :after evil
-  :bind ("M-;" . evilnc-comment-or-uncomment-lines))
-#+end_src
-
-Implement the *leader* key using [[https://github.com/noctuid/general.el][general.el]], letting us easily configure prefixed keybindings in a much cleaner manner than the default methods.
-
-#+begin_src emacs-lisp
-(use-package general
-  :after evil
-  :config
-  (general-create-definer dotfiles/leader
-    :states '(normal motion)
-    :keymaps 'override
-    :prefix dotfiles/leader-key
-    :global-prefix dotfiles/leader-key-global))
-#+end_src 
-
-Use [[https://github.com/abo-abo/hydra][hydra]] for transient keybindings sharing a common prefix.
-
-#+begin_src emacs-lisp
-(use-package hydra
-  :defer t)
-#+end_src
-
-*** Help
-
-Use the built-in ~describe-*~ functionality of Emacs to quickly access documentation for packages, variables, and functions. Run helper functions with =SPC h=.
-
-+ Packages =p=
-+ Variables =v=
-+ Functions =f=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "h" '(:ignore t :which-key "Help")
-  "hp" '(describe-package :which-key "Package")
-  "hv" '(describe-variable :which-key "Variable")
-  "hf" '(describe-function :which-key "Function"))
-#+end_src
-
-*** Files
-
-For file navigation I use =dired=, included with Emacs by default. Dired feels more modern with prioritized icon fonts using [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]. This makes navigation and visually parsing directories much faster, given that file types are quickly identified by their corresponding icons.
-
-#+begin_src emacs-lisp
-(use-package all-the-icons)
-#+end_src
-
-Integration with =dired= comes from the [[https://github.com/jtbm37/all-the-icons-dired][all-the-icons-dired]] package.
-
-#+begin_src emacs-lisp
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
-#+end_src
-
-When opening =dired=, I don't want to have to press =RET= twice to navigate to the current directory. Avoid this with ~dired-jump~, included in the =dired-x= package shipped with =dired= and Emacs.
-
-#+begin_src emacs-lisp
-(require 'dired-x)
-#+end_src
-
-By default =dired= will create a new buffer everytime you press =RET= over a directory. This leads to unwanted =dired= buffers needing closure. Avoid this behaviour with [[https://github.com/crocket/dired-single][dired-single]], reusing the same dired buffer.
-
-+ Move up a directory with =h=
-+ Open a single buffer with =l=
-
-#+begin_src emacs-lisp
-(use-package dired-single
-  :config (evil-collection-define-key 'normal 'dired-mode-map
-            "h" 'dired-single-up-directory
-            "l" 'dired-single-buffer))
-#+end_src
-
-Open a dired buffer with =SPC d=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "d" '(dired-jump :which-key "Dired"))
-#+end_src
-
-*** Shell
-
-While not a traditional terminal emulator, =eshell= provides me with all of the functionality I expect and require from one. Some users may be wanting more, I would recommend they look into =vterm= included in the destkop module. Configure the infamous lambda prompt using [[https://github.com/zwild/eshell-prompt-extras][eshell-prompt-extras]] package.
-
-#+begin_src emacs-lisp
-(use-package eshell-prompt-extras
-  :custom (eshell-highlight-prompt nil)
-          (eshell-prefer-lisp-functions nil)
-	        (eshell-prompt-function 'epe-theme-lambda))
-#+end_src
-
-Open an =eshell= buffer with =SPC e=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "e" '(eshell :which-key "Shell"))
-#+end_src
-
-*** Source
-
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[./docs/images/2021-02-13-example-magit.gif]]
-
-Another hallmark feature is [[https://github.com/magit/magit][Magit]], a complete git porcelain within Emacs.
-
-#+begin_src emacs-lisp
-(use-package magit
-  :commands magit-status
-  :custom (magit-display-buffer-function
-           #'magit-display-buffer-same-window-except-diff-v1))
-#+end_src
-
-Work directly with github issues / pull requests using [[https://github.com/magit/forge][Forge]].
-
-+ Requires a valid ~$GITHUB_TOKEN~
-
-#+begin_src emacs-lisp
-(use-package forge
-  :after magit)
-#+end_src
-
-Open the *status* page for the current repository with =SPC g=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "g" '(magit-status :which-key "Magit"))
-#+end_src
-
-*** Windows
-
-Window management with =SPC w=.
-+ Swap with =w=
-+ Close with =c=
-+ Motions with =h,j,k,l=
-+ Split with =s + <MOTION>=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "w" '(:ignore t :which-key "Window")
-  "ww" '(window-swap-states :which-key "Swap")
-  "wc" '(delete-window :which-key "Close")
-  "wh" '(windmove-left :which-key "Left")
-  "wj" '(windmove-down :which-key "Down")
-  "wk" '(windmove-up :which-key "Up")
-  "wl" '(windmove-right :which-key "Right")
-  "ws" '(:ignore t :which-key "Split")
-  "wsj" '(split-window-below :which-key "Down")
-  "wsl" '(split-window-right :which-key "Right"))
-#+end_src
-
-*** Shortcuts
-
-Implement shortcut bindings, cherry picked from Doom emacs.
-
-+ Close buffers with =SPC c=
-+ Find files with =SPC . (period)=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "." '(find-file :which-key "Files")
-  "c" '(kill-buffer-and-window :which-key "Close"))
-#+end_src
-
-Quit emacs with =SPC q=.
-+ Saving =q=
-+ Without =w=
-+ Frame (daemon) =f=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "q" '(:ignore t :which-key "Quit")
-  "qq" '(save-buffers-kill-emacs :which-key "Save")
-  "qw" '(kill-emacs :which-key "Now")
-  "qf" '(delete-frame :which-key "Frame"))
-#+end_src
-
-Place runtime tweaks behind =SPC t=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "t" '(:ignore t :which-key "Tweaks"))
 #+end_src
 
 ** Desktop

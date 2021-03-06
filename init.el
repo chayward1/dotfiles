@@ -1,11 +1,6 @@
-;; Options
+;; Hosts
 
-;; Here's a complete list of all of the options configurable for each host, and their default values. Override any of these configurations in a host file. All of the values are prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. Here are a few examples to get started:
-
-;; + [[file:hosts/localhost.org][Termux]]
-;; + [[file:hosts/raspberry.org][Raspberry]]
-;; + [[file:hosts/acernitro.org][Acernitro]]
-;; + [[file:hosts/virtualbox.org][Virtualbox]]
+;; Here's a complete list of all of the options configurable for each host, and their default values.  All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option.
 
 ;; | Name                       | Description                                       |
 ;; |----------------------------+---------------------------------------------------|
@@ -24,6 +19,13 @@
 ;; | dotfiles/passwords         | Location of the system password store             |
 ;; | dotfiles/public-key        | Public GPG key to encrypt files for               |
 
+;; Override any of these configurations in a host file. Here's some examples to get started:
+
+;; + [[file:hosts/localhost.org][Termux]]
+;; + [[file:hosts/raspberry.org][Raspberry]]
+;; + [[file:hosts/acernitro.org][Acernitro]]
+;; + [[file:hosts/virtualbox.org][Virtualbox]]
+
 
 (defvar dotfiles/font "Fira Code")
 (defvar dotfiles/font-size 96)
@@ -40,18 +42,23 @@
 (defvar dotfiles/passwords (expand-file-name "~/.password-store/"))
 (defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
 
-;; Startup
 
-;; The host configuration tangles, and loads (if it exist) using the systems name.
+
+;; Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
 
 (let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
   (when (file-exists-p host-file)
     (org-babel-load-file host-file)))
 
+;; Modules
 
+;; Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
 
-;; Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. 
+;; + [[file:modules/core.org][Core]]
+;; + [[file:modules/editor.org][Editor]]
+
+;; By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
 
 
 (dolist (m dotfiles/modules)
