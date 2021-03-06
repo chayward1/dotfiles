@@ -70,7 +70,7 @@ Here's a complete list of all of the options configurable for each host, and the
 (defconst dotfiles/modules-p 
   '(core 
     editor
-    email
+    ;; email FIXME
     desktop
     writing
     website

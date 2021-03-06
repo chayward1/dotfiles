@@ -22,7 +22,7 @@
 (defconst dotfiles/modules-p 
   '(core 
     editor
-    email
+    ;; email FIXME
     desktop
     writing
     website
@@ -101,6 +101,7 @@
 ;;  + [[file:modules/desktop.org][Desktop]]
 ;;  + [[file:modules/writing.org][Writing]]
 ;;  + [[file:modules/website.org][Website]]
+;;  + [[file:modules/capture.org][Capture]]
 ;;  + [[file:modules/projects.org][Projects]]
 ;;  + [[file:modules/interface.org][Interface]]
 
