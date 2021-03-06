@@ -73,8 +73,6 @@ Place keybindings behind =SPC s=.
   "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
 #+end_src
 
-* TODO Screenshots
-
 * Resources
 
 [fn:1] https://revealjs.com
