@@ -150,6 +150,7 @@ Breaking down the project into logical units or chapters to keep the code more m
 + [[file:modules/core.org][Core]]
 + [[file:modules/editor.org][Editor]]
 + [[file:modules/email.org][Email]]
++ [[file:modules/encryption.org][Encryption]]
 + [[file:modules/desktop.org][Desktop]]
 + [[file:modules/writing.org][Writing]]
 + [[file:modules/website.org][Website]]
