@@ -43,7 +43,21 @@ Expunge Both
 SyncState *
 #+end_src
 
+** Create symbolic link
+
 The system typically expects to find this file at ~$HOME/.mbsyncrc~, but you may also specify a custom path if launching the command using arguments. I chose to symlink the default location to my repository.
+
+#+begin_src emacs-lisp
+(dotfiles/symlink "~/.emacs.d/config/mbsyncrc"
+                  "~/.mbsyncrc")
+#+end_src
+
+This repository also contains my personal encrypted auth info.
+
+#+begin_src emacs-lisp
+(dotfiles/symlink "~/.emacs.d/config/authinfo.gpg"
+                  "~/.authinfo.gpg")
+#+end_src
 
 * Indexing
 :PROPERTIES:
@@ -59,7 +73,7 @@ mu index --maildir="~/.cache/mail"
 
 * Integration
 
-After syncing and indexing the mail is ready to be used inside of Emacs. Download and install *mu4e*[fn:2] and configure the *mail account*[fn:3].
+After syncing and indexing the mail is ready for Emacs. Download and install *mu4e*[fn:2] and configure the *mail account*[fn:3].
 
 + Update every 5 minutes
 + Scale text for all devices
