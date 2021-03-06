@@ -157,7 +157,7 @@ Finally we can include the *Go-mode*[fn:15] package, adding integration with *Ls
 
 #+begin_src emacs-lisp
 (use-package go-mode
-  :hook (go-mode . lsp-deferred)
+  :hook (go-mode . lsp)
   :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
 #+end_src
 
