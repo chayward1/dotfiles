@@ -169,18 +169,22 @@ Place keybindings behind =SPC r d=.
 
 More capture templates for *Org roam*[fn:4] are defined here in the context of specific domains and topics.
 
+#+begin_src emacs-lisp
+(setq org-src-preserve-indentation t)
+#+end_src
+
 + Configure agenda sources
 
 #+begin_src emacs-lisp
 (setq org-agenda-files '("~/.emacs.d/" 
-                                    "~/.emacs.d/docs/"
-                                    "~/.emacs.d/docs/courses/"
-                                    "~/.emacs.d/docs/daily/"
-                                    "~/.emacs.d/docs/notes/"
-                                    "~/.emacs.d/docs/posts/"
-                                    "~/.emacs.d/docs/slides/"
-                                    "~/.emacs.d/hosts/"
-                                    "~/.emacs.d/modules/"))
+                         "~/.emacs.d/docs/"
+                         "~/.emacs.d/docs/courses/"
+                         "~/.emacs.d/docs/daily/"
+                         "~/.emacs.d/docs/notes/"
+                         "~/.emacs.d/docs/posts/"
+                         "~/.emacs.d/docs/slides/"
+                         "~/.emacs.d/hosts/"
+                         "~/.emacs.d/modules/"))
 #+end_src
 
 + Capture template for generic documents
@@ -189,10 +193,10 @@ More capture templates for *Org roam*[fn:4] are defined here in the context of s
 (with-eval-after-load 'org-roam
   (add-to-list 'org-roam-capture-templates
     '("d" "Default" entry (function org-roam-capture--get-point)
-            "%?"
-            :file-name "docs/${slug}"
-            :unnarrowed t
-            :head 
+          "%?"
+          :file-name "docs/${slug}"
+          :unnarrowed t
+          :head 
 "
 ,#+TITLE: ${title}
 ,#+AUTHOR: Christopher James Hayward
@@ -217,10 +221,10 @@ Custom capture template for courses.
 (with-eval-after-load 'org-roam
   (add-to-list 'org-roam-capture-templates
     '("c" "Course" plain (function org-roam-capture--get-point)
-    "%?"
-    :file-name "docs/courses/${slug}"
-    :unnarrowed t
-    :head
+          "%?"
+          :file-name "docs/courses/${slug}"
+          :unnarrowed t
+          :head
 "
 ,#+TITLE: ${title}
 ,#+SUBTITLE:
@@ -244,10 +248,10 @@ Capture template for new modules for this project.
   (add-to-list 'org-agenda-files "~/.emacs.d/modules/")
   (add-to-list 'org-roam-capture-templates
     '("m" "Module" plain (function org-roam-capture--get-point)
-    "%?"
-    :file-name "modules/${slug}"
-    :unnarrowed t
-    :head
+          "%?"
+          :file-name "modules/${slug}"
+          :unnarrowed t
+          :head
 "
 ,#+TITLE: ${title}
 ,#+AUTHOR: Christopher James Hayward
@@ -271,10 +275,10 @@ Capture template for new host machines for this project. This does not cover mac
 (with-eval-after-load 'org-roam
   (add-to-list 'org-roam-capture-templates
     '("m" "Module" plain (function org-roam-capture--get-point)
-    "%?"
-    :file-name "modules/${slug}"
-    :unnarrowed t
-    :head
+          "%?"
+          :file-name "modules/${slug}"
+          :unnarrowed t
+          :head
 "
 ,#+TITLE: ${title}
 ,#+AUTHOR: Christopher James Hayward
