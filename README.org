@@ -152,6 +152,7 @@ This project makes heavy use of modern features and libraries. Since *Babel's* u
  + [[file:modules/desktop.org][Desktop]]
  + [[file:modules/writing.org][Writing]]
  + [[file:modules/website.org][Website]]
+ + [[file:modules/capture.org][Capture]]
  + [[file:modules/projects.org][Projects]]
  + [[file:modules/interface.org][Interface]]
 
