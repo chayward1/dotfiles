@@ -2,7 +2,7 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle init.el :comments org
 #+PROPERTY: header-args            :results silent :eval no-export
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
@@ -19,10 +19,7 @@ Immutable GNU Emacs dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Immutable
 + 100% Reproducible
   
-* Init
-:PROPERTIES:
-:header-args: :tangle init.el
-:END:
+* Options
 
 Here's a complete list of all of the options configurable for each host, and their default values.  All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. 
 
@@ -92,7 +89,7 @@ Here's a complete list of all of the options configurable for each host, and the
   "GPG key to encrypt org files for.")
 #+end_src
 
-** Hosts
+* Hosts
 
  Each host machines configuration is loaded immediately after the options are declared, before any configuration is applied. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
@@ -109,7 +106,7 @@ Here's a complete list of all of the options configurable for each host, and the
      (org-babel-load-file host-file)))
  #+end_src
 
-** Modules
+* Modules
 
  Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
 

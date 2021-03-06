@@ -1,7 +1,4 @@
-;; Init
-;; :PROPERTIES:
-;; :header-args: :tangle init.el
-;; :END:
+;; Options
 
 ;; Here's a complete list of all of the options configurable for each host, and their default values.  All variables prefixed with ~dotfiles/~. If you need to make configurations to another variable, consider creating a new option. 
 
