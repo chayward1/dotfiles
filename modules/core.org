@@ -19,6 +19,12 @@ Minimal configuration to make Emacs usable for my own personal workflow. This do
 
 *Org mode*[fn:4] is one of the hallmark features of Emacs, and provides the basis for my *Literate Programming*[fn:5] platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
 
++ Force *straight.el*[fn:2] to ignore the local version of *Org*[fn:4]
+
+#+begin_src emacs-lisp
+(straight-use-package '(org :local-repo nil))
+#+end_src
+
 + Setup ~shell~ and ~emacs-lisp~ as *Babel Languages*[fn:6]
 + Configure *Structure Templates*[fn:7] for both languages
 
