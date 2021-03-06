@@ -203,7 +203,6 @@ By default *Dired*[fn:11] will create a new buffer every time you press =RET= ov
             "l" 'dired-single-buffer))
 #+end_src
 
-
 * Shell
 
 Another really incredible piece of kit, shipped with Emacs. *Eshell*[fn:15] is a fully POSIX compliant shell written entirely in Emacs Lisp. While not a traditional terminal emulator, it provides me with all of the functionality I expect and require from one. The infamous lambda prompt implemented with the *Eshell Prompt Extras*[fn:16] package.
