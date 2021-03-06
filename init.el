@@ -29,6 +29,7 @@
     desktop
     writing
     website
+    capture
     projects
     interface) 
   "All of the available modules.")
