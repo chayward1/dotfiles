@@ -1,3 +1,11 @@
+# Sync
+# :PROPERTIES:
+# :header-args: :tangle ../config/mbsyncrc :comments org
+# :END:
+
+# This is the *mbsyncrc*[fn:3] file I use to synchronize my local mail with my server.
+
+
 IMAPStore xyz-remote
 Host mail.chrishayward.xyz
 User chris@chrishayward.xyz
