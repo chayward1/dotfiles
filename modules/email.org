@@ -96,7 +96,6 @@ After syncing and indexing the mail is ready to be used inside of Emacs. Downloa
             (smtpmail-smtp-server . "mail.chrishayward.xyz")
             (smtpmail-smtp-service . 587)
             (smtpmail-stream-type . starttls))))))
-
 #+end_src
 
 ** Keybinding
