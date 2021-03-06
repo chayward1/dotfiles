@@ -1,4 +1,5 @@
 *.el
+*.elc
 docs/static
 docs/public
 docs/content
