@@ -15,16 +15,6 @@
 
 I am using *Org mode*[fn:1] extensively throughout my writing. Most of the improvements are done in the [[file:core.org][Core]] module, but all of the management, encryption, synchronization, and organization of all of my writing happens here.
 
-* Superstar
-
-Make headline stars *super* with *Org superstar mode*[fn:3].
-
-#+begin_src emacs-lisp
-(use-package org-superstar
-  :after org
-  :hook (org-mode . org-superstar-mode))
-#+end_src
-
 * Improvements
 
 Real time checking and one-shot methods to check and correct common spelling and grammatical errors.
@@ -213,7 +203,6 @@ More capture templates for *Org roam*[fn:4] are defined here in the context of s
 * Resources
 
 [fn:1] https://orgmode.org
-[fn:3] https://github.com/integral-dw/org-superstar-mode
 [fn:4] https://github.com/org-roam/org-roam
 [fn:5] https://github.com/org-roam/org-roam-server
 [fn:6] https://emacswiki.org/emacs/InteractiveSpell
