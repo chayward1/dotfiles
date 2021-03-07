@@ -3,6 +3,7 @@
 #+EMAIL: chris@chrishayward.xyz
 
 #+PROPERTY: header-args:emacs-lisp :tangle email.el :comments org
+#+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
@@ -57,6 +58,20 @@ This repository also contains my personal encrypted auth info.
 #+begin_src emacs-lisp
 (dotfiles/symlink "~/.emacs.d/config/authinfo.gpg"
                   "~/.authinfo.gpg")
+#+end_src
+
+** Installing the software
+
+Download *mbsync*[fn:3] as part of the ~isync~ package on Ubuntu/Debian.
+
+#+begin_src shell
+sudo apt install -y isync
+#+end_src
+
+*Mu4e*[fn:2] is packaged for Ubuntu/Debian, but has a few dependencies to build for Emacs.
+
+#+begin_src shell
+sudo apt install -y mu4e libgmime-3.0-dev libxapian-dev
 #+end_src
 
 * Indexing
