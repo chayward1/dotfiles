@@ -118,7 +118,7 @@ High quality and modern colour themes are provided in the *Doom Themes*[fn:5] pa
 
 #+begin_src emacs-lisp
 (use-package doom-themes
-  :init (load-theme 'doom-moonlight t))
+  :init (load-theme 'doom-dracula t))
 #+end_src
 
 Load a theme with =SPC t t=.
@@ -184,6 +184,7 @@ Make headline stars *super* with *Org superstar mode*[fn:14].
 
 #+begin_src emacs-lisp
 (use-package org-superstar
+  :when (window-system)
   :after org
   :hook (org-mode . org-superstar-mode))
 #+end_src
@@ -195,6 +196,7 @@ Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[f
 
 #+begin_src emacs-lisp
 (use-package emojify
+  :when (window-system)
   :hook (after-init . global-emojify-mode))
 #+end_src
 
@@ -224,12 +226,16 @@ Programming buffers made prettier with *Pretty mode*[fn:9], complimentary to the
 
 * Ligatures
 
-Enable font ligatures via *Fira Code mode*[fn:11], perform this action *only* when *Fira Code* is the current font.
+Enable font ligatures via *Fira Code mode*[fn:11].
+
++ Perform when *Fira Code* is the current font
++ Don't enable on TTY
 
 #+begin_src emacs-lisp
-(when (display-graphic-p)
-  (use-package fira-code-mode
-    :hook (prog-mode org-mode)))
+(use-package fira-code-mode
+  :when (and (window-system)
+             (equal dotfiles/font "Fira Code"))
+  :hook (prog-mode org-mode))
 #+end_src
 
 Toggle global ligature mode with =SPC t g=.
