@@ -1,4 +1,4 @@
-#+TITLE: VirtualBox
+#+TITLE: Virtualbox
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 

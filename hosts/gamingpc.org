@@ -1,4 +1,4 @@
-#+TITLE: GamingPC
+#+TITLE: Gamingpc
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
