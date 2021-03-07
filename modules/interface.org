@@ -178,7 +178,42 @@ Colourize nested parenthesis with *Rainbow delimeters*[fn:8].
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-* Pretty symbols
+* Superstar
+
+Make headline stars *super* with *Org superstar mode*[fn:14].
+
+#+begin_src emacs-lisp
+(use-package org-superstar
+  :after org
+  :hook (org-mode . org-superstar-mode))
+#+end_src
+
+
+* Emojis
+
+Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[fn:13] package.
+
+#+begin_src emacs-lisp
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
+#+end_src
+
++ Place *Emojify*[fn:13] bindings behind =SPC f=
+  * List with =l=
+  * Search with =s=
+  * Insert with =i=
+  * Describe with =d=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "f" '(:ignore t :which-key "Emojify")
+  "fl" '(emojify-list-emojis :which-key "List")
+  "fs" '(emojify-apropos-emoji :which-key "Search")
+  "fi" '(emojify-insert-emoji :which-key "Insert")
+  "fd" '(emojify-describe-emoji :which-key "Describe"))
+#+end_src
+
+* Symbols
 
 Programming buffers made prettier with *Pretty mode*[fn:9], complimentary to the built-in *Prettify symbols mode*[fn:10].
 
@@ -272,3 +307,5 @@ Quickly navigate to the dashboard with =SPC SPC=.
 [fn:10] https://emacswiki.org/emacs/PrettySymbol
 [fn:11] https://github.com/jming422/fira-code-mode
 [fn:12] https://github.com/emacs-dashboard/emacs-dashboard
+[fn:13] https://github.com/iqbalansari/emacs-emojify
+[fn:14] https://github.com/integral-dw/org-superstar-mode
