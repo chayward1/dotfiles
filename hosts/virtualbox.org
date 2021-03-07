@@ -14,15 +14,18 @@ The first configuration, built in the pit of evil on a Windows 10 host **gasps**
 
 + Set the browser manually
 + Set the language to Canadian english
-
++ Disable the [[file:~/.emacs.d/modules/email.org][Email]] module on ~native-comp~
++ Silce warnings on ~native-comp~
+  
 #+begin_src emacs-lisp
 (setq dotfiles/browser "firefox"
       dotfiles/language "en_CA")
+
+(delete 'email dotfiles/modules)
+
+(setq comp-async-report-warnings-errors nil)
 #+end_src
-
-#+RESULTS:
-: en_CA
-
+ 
 * Resouces
 
 [fn:1] Ubuntu 20.04 LTS Server

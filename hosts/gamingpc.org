@@ -12,10 +12,13 @@
 
 * Options
 
-+ Disable the [[file:~/.emacs.d/modules/email.org][Email]] module
++ Disable the [[file:~/.emacs.d/modules/email.org][Email]] module on ~native-comp~
++ Silce warnings on ~native-comp~
 
 #+begin_src emacs-lisp
 (delete 'email dotfiles/modules)
+
+(setq comp-async-report-warnings-errors nil)
 #+end_src
 
 * Resources
