@@ -140,7 +140,7 @@ Each host machines configuration loaded immediately after declaring the options,
 + [[file:hosts/localhost.org][Termux]]
 + [[file:hosts/raspberry.org][Raspberry]]
 + [[file:hosts/acernitro.org][Acernitro]]
-+ [[file:hosts/virtualbox.org][Virtualbox]]
++ [[file:hosts/virtualbox.org][VirtualBox]]
 
 Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
