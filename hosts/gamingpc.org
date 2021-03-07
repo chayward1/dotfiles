@@ -12,14 +12,11 @@
 
 * Options
 
-+ Load the ~wombat~ theme
++ Disable the [[file:~/.emacs.d/modules/email.org][Email]] module
 
 #+begin_src emacs-lisp
-(load-theme 'wombat t t)
+(delete 'email dotfiles/modules)
 #+end_src
-
-#+RESULTS:
-: t
 
 * Resources
 

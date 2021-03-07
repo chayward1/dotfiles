@@ -291,9 +291,10 @@ Present a *Dashboard* when first launching Emacs. Customize the buttons of the n
 When running in *daemon* mode, ensure that the dashboard is the initial buffer.
 
 #+begin_src emacs-lisp
-(setq initial-buffer-choice
-      (lambda ()
-        (get-buffer "*dashboard*")))
+(with-eval-after-load 'dashboard
+  (setq initial-buffer-choice
+        (lambda ()
+          (get-buffer "*dashboard*"))))
 #+end_src
 
 Quickly navigate to the dashboard with =SPC SPC=.
