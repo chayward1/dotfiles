@@ -76,7 +76,7 @@
 (load-file "~/.emacs.d/bin/cleanup.el")
 (load-file "~/.emacs.d/bin/packages.el")
 
-;; Hosts machines
+;; Hosts
 
 ;; Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
@@ -92,13 +92,14 @@
   (when (file-exists-p host-file)
     (org-babel-load-file host-file)))
 
-;; Module directory
+;; Module
 
 ;; Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
 
 ;; + [[file:modules/core.org][Core]]
 ;; + [[file:modules/editor.org][Editor]]
 ;; + [[file:modules/email.org][Email]]
+;; + [[file:modules/encryption.org][Encryption]]
 ;; + [[file:modules/desktop.org][Desktop]]
 ;; + [[file:modules/writing.org][Writing]]
 ;; + [[file:modules/website.org][Website]]
