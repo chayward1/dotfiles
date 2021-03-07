@@ -145,6 +145,7 @@ Place keybindings for executing shell commands behind =SPC x=.
     
 #+begin_src emacs-lisp
 (use-package exwm
+  :when (window-system)
   :custom (exwm-workspace-show-all-buffers t)
           (exwm-input-prefix-keys
             '(?\M-x
