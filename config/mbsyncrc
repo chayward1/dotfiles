@@ -24,3 +24,17 @@ Patterns * !Archives
 Create Both
 Expunge Both
 SyncState *
+
+# Installing the software
+
+# Download *mbsync*[fn:3] as part of the ~isync~ package on Ubuntu/Debian.
+
+
+sudo apt install -y isync
+
+
+
+# *Mu4e*[fn:2] is packaged for Ubuntu/Debian, but has a few dependencies to build for Emacs.
+
+
+sudo apt install -y mu4e libgmime-3.0-dev libxapian-dev
