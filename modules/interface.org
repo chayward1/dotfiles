@@ -296,7 +296,10 @@ Quickly navigate to the dashboard with =SPC SPC=.
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "SPC" '((lambda () (interactive) (switch-to-buffer "*dashboard*")) :which-key "Dashboard"))
+  "SPC" '((lambda ()
+            (interactive)
+            (switch-to-buffer "*dashboard*"))
+            :which-key "Dashboard"))
 #+end_src
 
 * Resources
