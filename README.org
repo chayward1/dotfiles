@@ -118,7 +118,7 @@ This project makes heavy use of modern features and libraries. Since *Babel's* [
 *How to install*
 
 1. Clone ~git clone git@github.com:chayward1/dotfiles.git ~/.emacs.d~
-2. Run ~~emacs --mm --debug-init~
+2. Run ~emacs --mm --debug-init~
 
 ** Hosts
 
