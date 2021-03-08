@@ -13,7 +13,7 @@
 #+ATTR_LATEX: :width 420px
 [[./docs/images/desktop-alt.png]]
 
-Portable *GNU Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
+Portable *GNU Emacs* [fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
 + 100% Literate
 + 100% Immutable
@@ -21,12 +21,12 @@ Portable *GNU Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
 * What is it?
 
-From the documentation[fn:1]:
+From the documentation [fn:1]:
 
 #+begin_quote
 *An extensible, customizable, free/libre text editor -- and more*
 
-At its core is an interpreter for *Emacs Lisp*[fn:2], a dialect of the Lisp programming language with extensions to support text editing.
+At its core is an interpreter for *Emacs Lisp* [fn:2], a dialect of the Lisp programming language with extensions to support text editing.
 #+end_quote
 
 To highlight some of the features available out of the box:
@@ -119,7 +119,7 @@ Here's a complete list of all of the options configurable for each host, and the
 
 ** Startup
 
-This project makes heavy use of modern features and libraries. Since *Babel's* used in initialization, *Org* must load prior to importing any of custom modules. This introduces a unique *chicken before the egg* problem. My solution included some initialization code in *Emacs Lisp* called before using any *Babel* APIs.
+This project makes heavy use of modern features and libraries. Since *Babel's* [fn:3] used in initialization, *Org* [fn:4] must load prior to importing any of custom modules. This introduces a unique *chicken or the egg* [fn:5] problem. My solution included some initialization code in *Emacs Lisp* [fn:2] called before using any *Babel* [fn:3] APIs.
 
 #+begin_src emacs-lisp
 (load-file "~/.emacs.d/bin/cleanup.el")
@@ -179,3 +179,6 @@ By default all of the modules will load, override the variable ~dotfiles/modules
 
 [fn:1] https://gnu.org/software/emacs
 [fn:2] https://gnu.org/software/emacs/manual/html_node/elisp/index.html
+[fn:3] https://orgmode.org/worg/org-contrib/babel/intro.html
+[fn:4] https://orgmode.org
+[fn:5] https://en.wikipedia.org/wiki/Chicken_or_the_egg
