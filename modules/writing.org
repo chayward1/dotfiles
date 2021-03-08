@@ -71,12 +71,14 @@ Download and install *Org roam*[fn:4], a plain text knowledge management system 
 Configure custom keybindings behind =SPC r=.
 
 + Find with =f=
++ Insert with =i=
 + Buffer with =b=
 + Capture with =c=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "r" '(:ignore t :which-key "Roam")
+  "ri" '(org-roam-insert :which-key "Insert")
   "rf" '(org-roam-find-file :which-key "Find")
   "rc" '(org-roam-capture :which-key "Capture")
   "rb" '(org-roam-buffer-toggle-display :which-key "Buffer"))
