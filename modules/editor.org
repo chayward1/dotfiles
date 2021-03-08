@@ -10,7 +10,7 @@
 
 Configuration and imrpovements to the editor experience within Emacs. *Vim*[fn:1] user? This module extends the keybindings by implementing *Evil*[fn:2]. *Doom*[fn:3], *Spacemacs*[fn:4]? The all powerful leader key is also implemented right here!
 
-* Keysbindings
+* Keybindings
 
 Offer =ESC= as an alternative to quit (most) prompts, instead of the default =C-g=.
 
@@ -207,7 +207,11 @@ By default *Dired*[fn:11] will create a new buffer every time you press =RET= ov
             "l" 'dired-single-buffer))
 #+end_src
 
-* Terminal
+* Terminal emulation
+
+Performing terminal interaction within an editor is a must have, the choices are *Eshell*[fn:15] and *Vterm*[fn:21].
+
+** Emacs lisp shell
 
 Another really incredible piece of kit, shipped with Emacs. *Eshell*[fn:15] is a fully POSIX compliant shell written entirely in Emacs Lisp. While not a traditional terminal emulator, it provides me with all of the functionality I expect and require from one. The infamous lambda prompt implemented with the *Eshell Prompt Extras*[fn:16] package.
 
@@ -218,15 +222,16 @@ Another really incredible piece of kit, shipped with Emacs. *Eshell*[fn:15] is a
 	        (eshell-prompt-function 'epe-theme-lambda))
 #+end_src
 
-Sometimes *Eshell*[fn:15] just isn't enough. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]] for one of my courses requires lots of terminal input which *Eshell*[fn:15] just doesn't handle. Prior to this I was dropping to another *TTY* interface, but that was cumbersome. *Vterm*[fn:21] is bases on an external C library which is blazing fast.
++ Open an =eshell= buffer with =SPC e=
 
-Install dependencies on Debian/Ubuntu:
-
-#+begin_src shell
-sudo apt install -y cmake \
-  libtool \ 
-  libtool-bin
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "e" '(eshell :which-key "Shell"))
 #+end_src
+
+** Interactive terminal
+
+Sometimes *Eshell*[fn:15] just isn't enough. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]] for one of my courses requires lots of terminal input which *Eshell*[fn:15] just doesn't handle. Prior to this I was dropping to another *TTY* interface, but that was cumbersome. *Vterm's*[fn:21] based on an external C library which is blazing fast.
 
 + Always compile the module
 
@@ -236,16 +241,24 @@ sudo apt install -y cmake \
   :custom (vterm-always-compile-module t))
 #+end_src
 
-+ Open an =eshell= buffer with =SPC e=
 + Open =vterm= buffer with =SPC v=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "e" '(eshell :which-key "Shell")
   "v" '(vterm-other-window :which-key "Terminal"))
 #+end_src
 
-* Magit
+*** Installing dependencies
+
+Install dependencies on Debian/Ubuntu:
+
+#+begin_src shell
+sudo apt install -y cmake \
+  libtool \ 
+  libtool-bin
+#+end_src
+
+* Version control
 
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
