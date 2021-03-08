@@ -128,7 +128,7 @@ Each host machines configuration loaded immediately after declaring the options,
 + [[file:hosts/gamingpc.org][Gamingpc]]
 + [[file:hosts/raspberry.org][Raspberry]]
 + [[file:hosts/acernitro.org][Acernitro]]
-+ [[file:hosts/virtualbox.org][VirtualBox]]
++ [[file:hosts/virtualbox.org][Virtualbox]] 
 
 Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
