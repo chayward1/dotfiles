@@ -44,7 +44,7 @@ To highlight some of the features available out of the box:
    1. Defines all of the options for hosts
    2. Runs some required startup code
 3. Loads the host definition file at ~$HOME/.emacs.d/host/$HOSTNAME~
-4. Lodas the enabled modules in ~dotfiles/modules~
+4. Loads the enabled modules in ~dotfiles/modules~
 
 ** Options
 
