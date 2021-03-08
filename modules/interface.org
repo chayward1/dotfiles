@@ -262,9 +262,6 @@ Make headline stars *super* with *Org superstar mode*[fn:14].
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
-* Dashboard
-
-
 * Resources
 
 [fn:1] https://github.com/abo-abo/swiper
