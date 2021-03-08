@@ -219,11 +219,22 @@ Another really incredible piece of kit, shipped with Emacs. *Eshell*[fn:15] is a
 	        (eshell-prompt-function 'epe-theme-lambda))
 #+end_src
 
-Sometimes *Eshell* just isn't enough. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]] for one of my courses requires lots of terminal input which *Eshell* just doesn't handle. Prior to this I was dropping to another *TTY* interface, but that was cumbersome.
+Sometimes *Eshell*[fn:15] just isn't enough. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]] for one of my courses requires lots of terminal input which *Eshell*[fn:15] just doesn't handle. Prior to this I was dropping to another *TTY* interface, but that was cumbersome. *Vterm*[fn:21] is bases on an external C library which is blazing fast.
+
+Install dependencies on Debian/Ubuntu:
+
+#+begin_src shell
+sudo apt install -y cmake \
+  libtool \ 
+  libtool-bin
+#+end_src
+
++ Always compile the module
 
 #+begin_src emacs-lisp
 (use-package vterm
-  :commands (vterm-other-window))
+  :commands (vterm-other-window)
+  :custom (vterm-always-compile-module t))
 #+end_src
 
 + Open an =eshell= buffer with =SPC e=
@@ -298,3 +309,4 @@ Interact with *Git*[fn:19] forges from *Magit*[fn:17] and Emacs using *Forge*[fn
 [fn:18] https://github.com/magit/forge
 [fn:19] https://git-scm.com
 [fn:20] https://github.com
+[fn:21] https://github.com/akermu/emacs-libvterm
