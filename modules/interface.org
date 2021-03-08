@@ -33,12 +33,14 @@ There's a lot of occasions Emacs asks to input text to match a file name in a di
 ** Popup selection frame
 
 + Display =ivy= completions in a popup buffer
++ Set ~parent-frame~ to =nil= for [[file:desktop.org][Desktop]] support
 
 #+begin_src emacs-lisp
 (use-package ivy-posframe
   :after ivy
   :when (window-system)
   :custom (ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+          (ivy-posframe-parameters '((parent-frame nil)))
   :config (ivy-posframe-mode 1))
 #+end_src
 
