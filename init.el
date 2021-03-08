@@ -21,7 +21,7 @@
 (defconst dotfiles/modules-p 
   '(core editor email encryption desktop
     writing website capture projects 
-    interface dashboard) 
+    development interface dashboard) 
   "All of the available modules.")
 
 (defvar dotfiles/modules dotfiles/modules-p 
@@ -71,7 +71,7 @@
 ;; + [[file:hosts/gamingpc.org][Gamingpc]]
 ;; + [[file:hosts/raspberry.org][Raspberry]]
 ;; + [[file:hosts/acernitro.org][Acernitro]]
-;; + [[file:hosts/virtualbox.org][VirtualBox]]
+;; + [[file:hosts/virtualbox.org][Virtualbox]] 
 
 ;; Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
 
@@ -93,6 +93,7 @@
 ;; + [[file:modules/website.org][Website]]
 ;; + [[file:modules/capture.org][Capture]]
 ;; + [[file:modules/projects.org][Projects]]
+;; + [[file:modules/development.org][Development]] 
 ;; + [[file:modules/interface.org][Interface]] 
 ;; + [[file:modules/dashboard.org][Dashboard]] 
 
