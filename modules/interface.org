@@ -16,7 +16,7 @@
 
 *Bring Emacs out of the eighties*
 
-* Completion
+* Menu completion
 
 There's a lot of occasions Emacs asks to input text to match a file name in a directory, just one example of an oppertunity for a completion system. *Swiper*[fn:1] is a family of packages that work towards this common goal in Emacs.
 
@@ -74,7 +74,7 @@ Provide more information about each item in the completion menu with *Ivy rich*[
   :init (ivy-rich-mode 1))
 #+end_src
 
-* Fonts
+* Unified font
 
 Write out to all of Emacs' available font faces with the unified font defined in the options.
 
@@ -106,7 +106,7 @@ Define a transient keybinding for Scaling the text.
   "tf" '(hydra-text-scale/body :which-key "Font"))
 #+end_src
 
-* Icons
+* Icon fonts
 
 Dired feels more modern with prioritized icon fonts using *All the Icons*[fn:3]. This makes navigation and visually parsing directories much faster, given that file types are quickly identified by their corresponding icons.
 
@@ -123,7 +123,7 @@ Integration with the *All the Icons Dired*[fn:4]package.
   :hook (dired-mode . all-the-icons-dired-mode))
 #+end_src
 
-* Themes
+* Modern themes
 
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
@@ -145,7 +145,7 @@ Load a theme with =SPC t t=.
   "tt" '(counsel-load-theme t t :which-key "Theme"))
 #+end_src
 
-* Modeline
+* Status bar
 
 *Doom modeline*[fn:6] provides an elegant and modern status bar / modeline.
 

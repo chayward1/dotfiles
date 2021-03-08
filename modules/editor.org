@@ -10,7 +10,7 @@
 
 Configuration and imrpovements to the editor experience within Emacs. *Vim*[fn:1] user? This module extends the keybindings by implementing *Evil*[fn:2]. *Doom*[fn:3], *Spacemacs*[fn:4]? The all powerful leader key is also implemented right here!
 
-* Keys
+* Keysbindings
 
 Offer =ESC= as an alternative to quit (most) prompts, instead of the default =C-g=.
 
@@ -90,7 +90,6 @@ If you're like me and started with Emacs using a framework like *Doom*[fn:3] or 
     :global-prefix dotfiles/leader-key-global))
 #+end_src
 
-
 ** Transient bindings
 
 Create transient keybindings with a shared prefix through *Hydra*[fn:10]. This is also used by a number of third-party packages as a completion system. An implementation example is available in the *Font* section of the [[file:interface.org][Interface]] module.
@@ -161,7 +160,7 @@ Quit Emacs with =SPC q=
   "qf" '(delete-frame :which-key "Frame"))
 #+end_src
 
-* Help
+* Helper functions
 
 Use the built-in ~describe-*~ functionality of Emacs to quickly access documentation for packages, variables, and functions. 
 
@@ -178,7 +177,7 @@ Use the built-in ~describe-*~ functionality of Emacs to quickly access documenta
   "hf" '(describe-function :which-key "Function"))
 #+end_src
 
-* Files
+* File navigation
 
 Emacs has some really cool built-in packages, *Dired*[fn:11] is one of them. It's not perfect out of the box though, there's work to do.
 
@@ -208,7 +207,7 @@ By default *Dired*[fn:11] will create a new buffer every time you press =RET= ov
             "l" 'dired-single-buffer))
 #+end_src
 
-* Shell
+* Terminal
 
 Another really incredible piece of kit, shipped with Emacs. *Eshell*[fn:15] is a fully POSIX compliant shell written entirely in Emacs Lisp. While not a traditional terminal emulator, it provides me with all of the functionality I expect and require from one. The infamous lambda prompt implemented with the *Eshell Prompt Extras*[fn:16] package.
 
