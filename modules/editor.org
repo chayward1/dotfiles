@@ -33,15 +33,11 @@ Emacs has *a lot of keybindings*, sometimes it's useful to just start mashing ke
 
 Emacs has *some strange default keybindings*, they're not like any other editor you've likely ever used. To overcome this nearly show-stopping hurdle, we turn Emacs into Vim[fn:1] with *Evil Mode - The Extensible VI Layer for Emacs*[fn:2].
 
-+ Enable visual line motions outside of ~visual-line-mode~ buffers
-
 #+begin_src emacs-lisp
 (use-package evil
   :custom (evil-want-integration t)  ;; Required for `evil-collection'.
           (evil-want-keybinding nil) ;; Same as above
-  :config (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-          (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-          (evil-mode +1))
+  :config (evil-mode +1))
 #+end_src
 
 While covering substantial ground towards our goal, the default keybindings implemented in *Evil*[fn:2] alone are *lacking* compared to what you would expect from *Vim*[fn:1]. There's, of course, a communicated curated package *evil-collection*[fn:6] that does a much better job implementing the proper keybindings.
