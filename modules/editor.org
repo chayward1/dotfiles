@@ -219,11 +219,20 @@ Another really incredible piece of kit, shipped with Emacs. *Eshell*[fn:15] is a
 	        (eshell-prompt-function 'epe-theme-lambda))
 #+end_src
 
-Open an =eshell= buffer with =SPC e=.
+Sometimes *Eshell* just isn't enough. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]] for one of my courses requires lots of terminal input which *Eshell* just doesn't handle. Prior to this I was dropping to another *TTY* interface, but that was cumbersome.
+
+#+begin_src emacs-lisp
+(use-package vterm
+  :commands (vterm-other-window))
+#+end_src
+
++ Open an =eshell= buffer with =SPC e=
++ Open =vterm= buffer with =SPC v=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "e" '(eshell :which-key "Shell"))
+  "e" '(eshell :which-key "Shell")
+  "v" '(vterm-other-window :which-key "Terminal"))
 #+end_src
 
 * Magit
