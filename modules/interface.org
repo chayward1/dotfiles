@@ -30,6 +30,18 @@ There's a lot of occasions Emacs asks to input text to match a file name in a di
   :config (ivy-mode 1))
 #+end_src
 
+** Popup selection frame
+
++ Display =ivy= completions in a popup buffer
+
+#+begin_src emacs-lisp
+(use-package ivy-posframe
+  :after ivy
+  :when (window-system)
+  :custom (ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+  :config (ivy-posframe-mode 1))
+#+end_src
+
 ** Replace built in commands
 
 *Counsel*[fn:1] is a customized set of commands to replace built in completion buffers.
