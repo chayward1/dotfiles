@@ -138,7 +138,7 @@ This project makes heavy use of modern features and libraries. Since *Babel's* [
 Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
 
 + [[file:hosts/localhost.org][Termux]]
-+ [[link:hosts/gamingpc.org][GamingPC]]
++ [[file:hosts/gamingpc.org][Gamingpc]]
 + [[file:hosts/raspberry.org][Raspberry]]
 + [[file:hosts/acernitro.org][Acernitro]]
 + [[file:hosts/virtualbox.org][VirtualBox]]
