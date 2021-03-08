@@ -3,8 +3,8 @@
 #+EMAIL: chris@chrishayward.xyz
 
 #+PROPERTY: header-args:emacs-lisp :tangle interface.el :comments org
-#+PROPERTY: header-args:shell          :tangle no
-#+PROPERTY: header-args                  :results silent :eval no-export :comments org
+#+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
@@ -74,7 +74,7 @@ Provide more information about each item in the completion menu with *Ivy rich*[
   :init (ivy-rich-mode 1))
 #+end_src
 
-* Unified font
+* Unified fonts
 
 Write out to all of Emacs' available font faces with the unified font defined in the options.
 
@@ -106,7 +106,7 @@ Define a transient keybinding for Scaling the text.
   "tf" '(hydra-text-scale/body :which-key "Font"))
 #+end_src
 
-* Icon fonts
+** Icon fonts
 
 Dired feels more modern with prioritized icon fonts using *All the Icons*[fn:3]. This makes navigation and visually parsing directories much faster, given that file types are quickly identified by their corresponding icons.
 
@@ -121,6 +121,61 @@ Integration with the *All the Icons Dired*[fn:4]package.
 (use-package all-the-icons-dired
   :when (window-system)
   :hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
+
+** Symbols
+
+Programming buffers made prettier with *Pretty mode*[fn:9], complimentary to the built-in *Prettify symbols mode*[fn:10].
+
+#+begin_src emacs-lisp
+(use-package pretty-mode
+  :hook (python-mode . turn-on-pretty-mode))
+#+end_src
+
+** Ligatures
+
+Enable font ligatures via *Fira Code mode*[fn:11].
+
++ Perform when *Fira Code* is the current font
++ Don't enable on TTY
+
+#+begin_src emacs-lisp
+(use-package fira-code-mode
+  :when (and (window-system)
+             (equal dotfiles/font "Fira Code"))
+  :hook (prog-mode org-mode))
+#+end_src
+
+Toggle global ligature mode with =SPC t g=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tg" '(global-fira-code-mode :which-key "Ligatures"))
+#+end_src
+
+** Emojification
+
+Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[fn:13] package.
+
+#+begin_src emacs-lisp
+(use-package emojify
+  :when (window-system)
+  :hook (after-init . global-emojify-mode))
+#+end_src
+
++ Place *Emojify*[fn:13] bindings behind =SPC f=
+  * List with =l=
+  * Search with =s=
+  * Insert with =i=
+  * Describe with =d=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "f" '(:ignore t :which-key "Emojify")
+  "fl" '(emojify-list-emojis :which-key "List")
+  "fs" '(emojify-apropos-emoji :which-key "Search")
+  "fi" '(emojify-insert-emoji :which-key "Insert")
+  "fd" '(emojify-describe-emoji :which-key "Describe"))
 #+end_src
 
 * Modern themes
@@ -145,7 +200,7 @@ Load a theme with =SPC t t=.
   "tt" '(counsel-load-theme t t :which-key "Theme"))
 #+end_src
 
-* Status bar
+** Status bar
 
 *Doom modeline*[fn:6] provides an elegant and modern status bar / modeline.
 
@@ -156,7 +211,7 @@ Load a theme with =SPC t t=.
   :config (doom-modeline-mode 1))
 #+end_src
 
-* Line numbering
+** Line numbering
 
 Relative line numbers are important when using VI emulation keys. You can prefix commands with a number, allowing you to perform that action that number of times. Useful when navigating around pages that are hundreds, or even thousands of lines long.
 
@@ -187,7 +242,7 @@ Toggle line numbers with =SPC t l=.
   "tl" '(linum-relative-global-mode :which-key "Lines"))
 #+end_src
 
-* Parenthesis
+** Parenthesis
 
 Colourize nested parenthesis with *Rainbow delimeters*[fn:8].
 
@@ -196,7 +251,7 @@ Colourize nested parenthesis with *Rainbow delimeters*[fn:8].
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-* Superstar
+** Superstar
 
 Make headline stars *super* with *Org superstar mode*[fn:14].
 
@@ -207,119 +262,8 @@ Make headline stars *super* with *Org superstar mode*[fn:14].
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
-* Emojis
-
-Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[fn:13] package.
-
-#+begin_src emacs-lisp
-(use-package emojify
-  :when (window-system)
-  :hook (after-init . global-emojify-mode))
-#+end_src
-
-+ Place *Emojify*[fn:13] bindings behind =SPC f=
-  * List with =l=
-  * Search with =s=
-  * Insert with =i=
-  * Describe with =d=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "f" '(:ignore t :which-key "Emojify")
-  "fl" '(emojify-list-emojis :which-key "List")
-  "fs" '(emojify-apropos-emoji :which-key "Search")
-  "fi" '(emojify-insert-emoji :which-key "Insert")
-  "fd" '(emojify-describe-emoji :which-key "Describe"))
-#+end_src
-
-* Symbols
-
-Programming buffers made prettier with *Pretty mode*[fn:9], complimentary to the built-in *Prettify symbols mode*[fn:10].
-
-#+begin_src emacs-lisp
-(use-package pretty-mode
-  :hook (python-mode . turn-on-pretty-mode))
-#+end_src
-
-* Ligatures
-
-Enable font ligatures via *Fira Code mode*[fn:11].
-
-+ Perform when *Fira Code* is the current font
-+ Don't enable on TTY
-
-#+begin_src emacs-lisp
-(use-package fira-code-mode
-  :when (and (window-system)
-             (equal dotfiles/font "Fira Code"))
-  :hook (prog-mode org-mode))
-#+end_src
-
-Toggle global ligature mode with =SPC t g=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "tg" '(global-fira-code-mode :which-key "Ligatures"))
-#+end_src
-
 * Dashboard
 
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[../docs/images/desktop.png]]
-
-Present a *Dashboard* when first launching Emacs. Customize the buttons of the navigator.
-
-+ Brain @ http://localhost:8080
-+ Homepage @ https://chrishayward.xyz
-+ Athabasca @ https://login.athabascau.ca/cas/login
-+ Bookshelf @ https://online.vitalsource.com
-
-#+begin_src emacs-lisp
-(use-package dashboard
-  :when (window-system)
-  :custom (dashboard-center-content t)
-          (dashboard-set-init-info t)
-          (dashboard-set-file-icons t)
-          (dashboard-set-heading-icons t)
-          (dashboard-set-navigator t)
-          (dashboard-startup-banner 'logo)
-          (dashboard-projects-backend 'projectile)
-          (dashboard-items '((projects . 10) (recents  . 10) (agenda . 10)))
-          (dashboard-navigator-buttons `(((,(all-the-icons-fileicon "brain" :height 1.1 :v-adjust 0.0)
-                                          "Brain" "Knowledge base"
-                                          (lambda (&rest _) (browse-url "http://localhost:8080"))))
-                                         ((,(all-the-icons-material "public" :height 1.1 :v-adjust 0.0)
-                                          "Homepage" "Personal website"
-                                          (lambda (&rest _) (browse-url "https://chrishayward.xyz"))))
-                                         ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
-                                          "Athabasca" "Univeristy login"
-                                          (lambda (&rest _) (browse-url "https://login.athabascau.ca/cas/login"))))
-                                         ((,(all-the-icons-faicon "book" :height 1.1 :v-adjust 0.0)
-                                          "Bookshelf" "Vitalsource bookshelf"
-                                          (lambda (&rest _) (browse-url "https://online.vitalsource.com"))))))
-  :config (dashboard-setup-startup-hook))
-#+end_src
-
-When running in *daemon* mode, ensure that the dashboard is the initial buffer.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'dashboard
-  (setq initial-buffer-choice
-        (lambda ()
-          (get-buffer "*dashboard*"))))
-#+end_src
-
-Quickly navigate to the dashboard with =SPC SPC=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "SPC" '((lambda ()
-            (interactive)
-            (switch-to-buffer "*dashboard*"))
-            :which-key "Dashboard"))
-#+end_src
 
 * Resources
 

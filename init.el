@@ -21,7 +21,7 @@
 (defconst dotfiles/modules-p 
   '(core editor email encryption desktop
     writing website capture projects 
-    interface) 
+    interface dashboard) 
   "All of the available modules.")
 
 (defvar dotfiles/modules dotfiles/modules-p 
@@ -93,9 +93,10 @@
 ;; + [[file:modules/website.org][Website]]
 ;; + [[file:modules/capture.org][Capture]]
 ;; + [[file:modules/projects.org][Projects]]
-;; + [[file:modules/interface.org][Interface]]
+;; + [[file:modules/interface.org][Interface]] 
+;; + [[file:modules/dashboard.org][Dashboard]] 
 
-;; By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration to override this.
+;; By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration.
 
 
 (dolist (m dotfiles/modules)

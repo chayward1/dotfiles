@@ -1,0 +1,76 @@
+#+TITLE: Dashboard
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle dashboard.el :comments org
+#+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[../docs/images/desktop.png]]
+
+Present a *Dashboard* when first launching Emacs. Customize the buttons of the navigator.
+
+* Configuration
+
+Goal of this module is to provide an easily customizable dashboard buffer to display when launching Emacs. I also want it to include some custom links. These are hard coded right now but I want to move them to [[file:../README.org][Options]]. 
+
++ Brain @ http://localhost:8080
++ Homepage @ https://chrishayward.xyz
++ Athabasca @ https://login.athabascau.ca/cas/login
++ Bookshelf @ https://online.vitalsource.com
+
+#+begin_src emacs-lisp
+(use-package dashboard
+  :when (window-system)
+  :custom (dashboard-center-content t)
+          (dashboard-set-init-info t)
+          (dashboard-set-file-icons t)
+          (dashboard-set-heading-icons t)
+          (dashboard-set-navigator t)
+          (dashboard-startup-banner 'logo)
+          (dashboard-projects-backend 'projectile)
+          (dashboard-items '((projects . 10) (recents  . 10) (agenda . 10)))
+          (dashboard-navigator-buttons 
+            `(((,(all-the-icons-fileicon "brain" :height 1.1 :v-adjust 0.0)
+                   "Brain" "Knowledge base" 
+                   (lambda (&rest _) (browse-url "http://localhost:8080"))))
+              ((,(all-the-icons-material "public" :height 1.1 :v-adjust 0.0)
+                   "Homepage" "Personal website"
+                   (lambda (&rest _) (browse-url "https://chrishayward.xyz"))))
+              ((,(all-the-icons-faicon "university" :height 1.1 :v-adjust 0.0)
+                   "Athabasca" "Univeristy login" 
+                   (lambda (&rest _) (browse-url "https://login.athabascau.ca/cas/login"))))
+              ((,(all-the-icons-faicon "book" :height 1.1 :v-adjust 0.0)
+                   "Bookshelf" "Vitalsource bookshelf" 
+                   (lambda (&rest _) (browse-url "https://online.vitalsource.com"))))))
+  :config (dashboard-setup-startup-hook))
+#+end_src
+
+** Default buffer
+
+Ensure that the dashboard is the initial buffer.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'dashboard
+  (setq initial-buffer-choice
+        (lambda ()
+          (get-buffer "*dashboard*"))))
+#+end_src
+
+** Keybinding
+
+Quickly navigate to the dashboard with =SPC SPC=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "SPC" '((lambda ()
+            (interactive)
+            (switch-to-buffer "*dashboard*"))
+            :which-key "Dashboard"))
+#+end_src
