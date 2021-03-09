@@ -53,8 +53,7 @@ Include the *go-mode*[fn:5] package for integration with *lsp-mode* from the [[f
 #+begin_src emacs-lisp
 (use-package go-mode
   :hook (go-mode . lsp)
-  :custom (lsp-go-gopls-server-path 
-            (expand-file-name "~/.go/bin/gopls")))
+  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
 #+end_src
 
 *** Before save hooks
