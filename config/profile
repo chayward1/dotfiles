@@ -1,7 +1,4 @@
-# Profile
-# :PROPERTIES:
-# :header-args: :tangle ../config/profile :comments org
-# :END:
+# Append to the $PATH
 
 # Ensure that ~~/.local/bin~ added to the =$PATH= variable.
 
@@ -9,7 +6,7 @@
 PATH=$PATH:~/.local/bin
 export PATH
 
-
+# Launch on TTY1
 
 # When launching into a new session on ~TTY1~, if the display server is not running, run *StartX*[fn:3]. This will launch the window manager.
 
