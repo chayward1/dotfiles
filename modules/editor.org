@@ -273,13 +273,13 @@ Yet another hallmark feature of Emacs: *Magit*[fn:17] with the *darling* name, t
 Place keybindings for *magit*[fn:17] behind =SPC g=.
 
 + Clone with =c=
-+ Status with =g=
++ Status with =s=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "g" '(:ignore t :which-key "Magit")
   "gc" '(magit-clone :which-key "Clone")
-  "gg" '(magit-status :which-key "Magit"))
+  "gs" '(magit-status :which-key "Status"))
 #+end_src
 
 ** GitHub integration
