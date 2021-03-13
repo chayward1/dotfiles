@@ -19,6 +19,15 @@ An *IDE*[fn:1] like experience or better can be achieved within Emacs using two 
 + *Debug Adapter Protocol*[fn:3]
 + *Language Server Protocol*[fn:4]
 
+* Debug adapters
+
+*Dap mode*[fn:7] provides support for the *Debug Adapter Protocol*[fn:3] inside of Emacs.
+
+#+begin_src emacs-lisp
+(use-package dap-mode
+  :commands (dap-debug))
+#+end_src
+
 * Language servers
 
 Support for the *Language Server Protocol*[fn:4] is added to Emacs through the *Lsp mode*[fn:5] package.
@@ -51,19 +60,15 @@ Text completion via *Company*[fn:10] =AKA= *Complete Anything*.
 
 Integrate with *Lsp mode*[fn:5] to provide completion candidates through the *Language Server Protocol*[fn:4].
 
++ Specify the repository
+
 #+begin_src emacs-lisp
 (use-package company-lsp
   :after (lsp company)
-  :custom (company-backend 'company-lsp))
-#+end_src
-
-* Debug adapters
-
-*Dap mode*[fn:7] provides support for the *Debug Adapter Protocol*[fn:3] inside of Emacs.
-
-#+begin_src emacs-lisp
-(use-package dap-mode
-  :commands (dap-debug))
+  :custom (company-backend 'company-lsp)
+  :straight (company-lsp :type git
+                         :host github
+                         :repo "tigersoldier/company-lsp"))
 #+end_src
 
 * Docker containers
