@@ -67,9 +67,18 @@ Here's a complete list of all of the options configurable for each host, and the
   "Default system dictionary language.")
 
 (defconst dotfiles/modules-p 
-  '(core editor email encryption desktop
-    writing website capture projects 
-    development interface dashboard) 
+  '(core 
+    editor 
+    email 
+    encryption 
+    desktop
+    writing 
+    website 
+    capture
+    projects 
+    development 
+    interface 
+    dashboard) 
   "All of the available modules.")
 
 (defvar dotfiles/modules dotfiles/modules-p 
