@@ -18,11 +18,13 @@ My phone! This is running on a *TTY* or through *VNC* on *Termux*[fn:1]. It's pr
 * Options
 
 + Increase font size for small phone screen
++ Clear ~dotfiles/modules~ and add one by one
 
 #+begin_src emacs-lisp
-(setq dotfiles/font-size 132)
+(setq dotfiles/font-size 132
+      dotfiles/modules '())
 #+end_src
 
 * Resources
 
-[fn:1] Termux
+[fn:1] https://wiki.termux.com
