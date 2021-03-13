@@ -61,11 +61,13 @@ Text completion via *Company*[fn:10] =AKA= *Complete Anything*.
 Integrate with *Lsp mode*[fn:5] to provide completion candidates through the *Language Server Protocol*[fn:4].
 
 + Specify the repository
++ Use asynchronous completion
 
 #+begin_src emacs-lisp
 (use-package company-lsp
   :after (lsp company)
-  :custom (company-backend 'company-lsp)
+  :custom (company-lsp-async t)
+          (company-backend 'company-lsp)
   :straight (company-lsp :type git
                          :host github
                          :repo "tigersoldier/company-lsp"))
