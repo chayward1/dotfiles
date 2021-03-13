@@ -1,0 +1,85 @@
+#+TITLE: Shell
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle shell.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Override the default behaviour of the Shell environment to integrate with Emacs.
+
+* Profile
+:PROPERTIES:
+:header-args: :tangle ../config/profile :comments org
+:END:
+
+Override the default shell profile under *Bash*.
+
+** Setting up the $PATH
+
+ Ensure ~~/.local/bin~ added to the =$PATH= environment variable.
+
+#+begin_src shell
+PATH=$PATH:~/.local/bin
+export PATH
+#+end_src
+
+** Starting Emacs by default on TTY1
+
+When launching into a new session on ~TTY1~, if the display server is not running, run *StartX*[fn:3]. This will launch the window manager.
+
+#+begin_src shell
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+    exec startx
+fi
+#+end_src
+
+** Creating symbolic links
+
+The system looks for the default shell profile under *Bash* at ~~/.profile~. Creating a symbolic link from this location to our configuration will override the startup behaviour.
+
+#+begin_src emacs-lisp
+(dotfiles/symlink "~/.emacs.d/config/profile"
+                  "~/.profile")
+#+end_src
+
+* Methods
+
+Define methods for interaction between Emacs and the underlying shell environment.
+
+** Run an external process
+
+Define a method to run an external process, launching any application on a new process without interferring with Emacs.
+
+#+begin_src emacs-lisp
+(defun dotfiles/run (cmd)
+  "Run an external process."
+  (interactive (list (read-shell-command "λ ")))
+  (start-process-shell-command cmd nil cmd))
+#+end_src
+
+** Apply command to call process
+
+Define a method to apply commands to the current call process, this is to avoid issues with hooks but can impact the performance of Emacs.
+
+#+begin_src emacs-lisp
+(defun dotfiles/run-in-background (cmd)
+  (let ((command-parts (split-string cmd "[ ]+")))
+    (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+#+end_src
+
+** Keybindings
+
+Place keybindings for executing shell commands behind =SPC x=:
+
++ Run shell commands with =x=
++ Run async shell commands with =z=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "x" '(:ignore t :which-key "Run")
+  "xx" '(dotfiles/run :which-key "Run")
+  "xz" '(async-shell-command :which-key "Async"))
+#+end_src
