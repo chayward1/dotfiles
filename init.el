@@ -19,9 +19,19 @@
   "Default system dictionary language.")
 
 (defconst dotfiles/modules-p 
-  '(core editor email encryption desktop
-    writing website capture projects 
-    development interface dashboard) 
+  '(core 
+    editor
+    shell
+    email 
+    encryption 
+    desktop
+    writing 
+    website 
+    capture
+    projects 
+    development 
+    interface 
+    dashboard) 
   "All of the available modules.")
 
 (defvar dotfiles/modules dotfiles/modules-p 
@@ -88,6 +98,7 @@
 ;; + [[file:modules/editor.org][Editor]]
 ;; + [[file:modules/email.org][Email]]
 ;; + [[file:modules/encryption.org][Encryption]]
+;; + [[file:modules/shell.org][Shell]] 
 ;; + [[file:modules/desktop.org][Desktop]]
 ;; + [[file:modules/writing.org][Writing]]
 ;; + [[file:modules/website.org][Website]]

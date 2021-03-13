@@ -68,7 +68,8 @@ Here's a complete list of all of the options configurable for each host, and the
 
 (defconst dotfiles/modules-p 
   '(core 
-    editor 
+    editor
+    shell
     email 
     encryption 
     desktop
@@ -155,6 +156,7 @@ Breaking down the project into logical units or chapters to keep the code more m
 + [[file:modules/editor.org][Editor]]
 + [[file:modules/email.org][Email]]
 + [[file:modules/encryption.org][Encryption]]
++ [[file:modules/shell.org][Shell]] 
 + [[file:modules/desktop.org][Desktop]]
 + [[file:modules/writing.org][Writing]]
 + [[file:modules/website.org][Website]]
