@@ -270,11 +270,16 @@ Yet another hallmark feature of Emacs: *Magit*[fn:17] with the *darling* name, t
            #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 
-Open the *status* page for the current repository with =SPC g=.
+Place keybindings for *magit*[fn:17] behind =SPC g=.
+
++ Clone with =c=
++ Status with =g=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "g" '(magit-status :which-key "Magit"))
+  "g" '(:ignore t :which-key "Magit")
+  "gc" '(magit-clone :which-key "Clone")
+  "gg" '(magit-status :which-key "Magit"))
 #+end_src
 
 ** GitHub integration
