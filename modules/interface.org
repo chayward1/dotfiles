@@ -160,9 +160,7 @@ Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[f
 #+begin_src emacs-lisp
 (use-package emojify
   :when (window-system)
-  :hook (after-init . global-emojify-mode)
-  :custom (emojify-emoji-styles '(github))
-          (emojify-display-style 'github))
+  :hook (after-init . global-emojify-mode))
 #+end_src
 
 + Place *Emojify*[fn:13] bindings behind =SPC f=
