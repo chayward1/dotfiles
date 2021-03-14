@@ -90,6 +90,14 @@ Interactive with *HTTP* endpoints using the *ob-http*[fn:6] package. You can see
             'org-babel-load-languages '((http . t))))
 #+end_src
 
+* YAML
+
+Support for YAML files.
+
+#+begin_src emacs-lisp
+(use-package yaml-mode)
+#+end_src
+
 * C/C++
 
 Add support for the *C/C++* family of languages via the *CCLS*[fn:7] language server.
