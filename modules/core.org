@@ -57,28 +57,22 @@ Minimal configuration to make Emacs usable for my own personal workflow. This do
 
 * Cleanup
 
-Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs. Install *no-littering*[fn:3] to reduce the files created by Emacs.
+Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs. Install *no-littering*[fn:3] to reduce the files created by Emacs. Now that we've taken care of how it acts, we can work on how it looks. Emacs' default user interface is *horrendous*, let's do something about that. Emacs has a long history of running on machines without gigabytes of available memory, let it realize its full potential by increasing the garbage collection threshold.
 
 #+begin_src emacs-lisp
-(use-package no-littering)
-#+end_src
-
-Now that we've taken care of how it acts, we can work on how it looks. Emacs' default user interface is *horrendous*, let's do something about that.
-
-#+begin_src emacs-lisp
-(setq inhibit-startup-message t
-      initial-scratch-message "")
-
-(global-prettify-symbols-mode)
-
-(when (fboundp 'tooltip-mode)
-  (tooltip-mode -1))
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-(when (fboundp 'menu-bar-mode)
-  (menu-bar-mode -1))
-(when (fboundp 'scroll-bar-mode)
-  (scroll-bar-mode -1))
+(use-package no-littering
+  :custom (inhibit-startup-message t)
+          (initial-scratch-message "")
+          (custom gc-cons-threshold most-positive-fixnum)
+  :config (global-prettify-symbols-mode)
+           (when (fboundp 'tooltip-mode)
+             (tooltip-mode -1))
+           (when (fboundp 'tool-bar-mode)
+             (tool-bar-mode -1))
+           (when (fboundp 'menu-bar-mode)
+             (menu-bar-mode -1))
+           (when (fboundp 'scroll-bar-mode)
+             (scroll-bar-mode -1)))
 #+end_src
 
 * Methods
@@ -110,15 +104,6 @@ Function that takes in a system and configuration file path, checks to see if th
               (not (equal (file-symlink-p sys-file) dot-file)))
       (delete-file sys-file)
       (make-symbolic-link dot-file sys-file))))
-#+end_src
-
-* Performance
-
-Emacs has a long history of running on machines without gigabytes of available memory, let it realize its full potential by increasing the garbage collection threshold and the minimum prime bit size.
-
-#+begin_src emacs-lisp
-(setq gc-cons-threshold most-positive-fixnum
-      gnutls-min-prime-bits 4096)
 #+end_src
 
 * Resources

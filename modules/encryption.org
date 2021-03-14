@@ -42,11 +42,12 @@ Create the symbolic link to the configuration file
 
 * Setting up pinentry in Emacs
 
-With the *Pinentry*[fn:2] package for Emacs prompts will now appear in the minibuffer.
+With the *Pinentry*[fn:2] package for Emacs prompts will now appear in the minibuffer. Increase the minimum prime bit size to increase performance during symmetric encryption.
 
 #+begin_src emacs-lisp
 (use-package pinentry
   :custom (epa-file-select-keys 2)
+          (gnutls-min-prime-bits 4096)
           (epa-pinentry-mode 'loopback)
           (epa-file-encrypt-to dotfiles/public-key)
           (epa-file-cache-passphrase-for-symmetric-encryption t)
