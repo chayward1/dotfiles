@@ -19,6 +19,7 @@ My source files encrypted with symmetric key encryption via *GPG*[fn:1]. This en
 When the *gpg-agent*[fn:1] loads it will read the configuration at ~~/.gnupg/gpg-agent.conf~. Override the default settings to allow Emacs to function as the *Pinentry*[fn:2] application.
 
 #+begin_src conf
+pinentry-emacs ~/.local/source/pinentry-emacs/pinentry-emacs
 allow-emacs-pinentry
 allow-loopback-pinentry
 #+end_src
