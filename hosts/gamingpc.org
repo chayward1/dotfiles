@@ -15,8 +15,6 @@
 + Silence warnings on ~native-comp~
 
 #+begin_src emacs-lisp
-(delete 'email dotfiles/modules)
-
 (setq comp-async-report-warnings-errors nil)
 #+end_src
 
