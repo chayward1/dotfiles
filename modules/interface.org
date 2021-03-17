@@ -232,7 +232,8 @@ Relative line numbers are important when using VI emulation keys. You can prefix
 #+begin_src emacs-lisp
 (use-package linum-relative
   :commands (linum-relative-global-mode)
-  :custom (linum-relative-backend 'display-line-numbers-mode))
+  :custom (linum-delay t)
+          (linum-relative-backend 'display-line-numbers-mode))
 #+end_src
 
 Toggle line numbers with =SPC t l=.

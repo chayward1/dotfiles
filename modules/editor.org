@@ -10,6 +10,19 @@
 
 Configuration and imrpovements to the editor experience within Emacs. *Vim*[fn:1] user? This module extends the keybindings by implementing *Evil*[fn:2]. *Doom*[fn:3], *Spacemacs*[fn:4]? The all powerful leader key is also implemented right here!
 
+* Scrolling
+
+The default scrolling behaviour, especially on the *TTY* is far too jumpy for my tastes.
+
++ Scroll conservatively
++ Jump one line at a time
+
+#+begin_src emacs-lisp
+(setq scroll-step 1
+      scroll-conservatively 10000
+      auto-window-vscroll nil)
+#+end_src
+
 * Keybindings
 
 Offer =ESC= as an alternative to quit (most) prompts, instead of the default =C-g=.
