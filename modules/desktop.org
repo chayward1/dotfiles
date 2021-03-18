@@ -30,13 +30,6 @@ exec dbus-launch --exit-with-session emacs -mm --debug-init
                   "~/.xinitrc")
 #+end_src
 
-*VNCServer*[fn:4] reads the configuration from ~~/.vnc/xstartup~. Override this location with a link to the custom configuration.
-
-#+begin_src emacs-lisp
-(dotfiles/symlink "~/.emacs.d/config/xinitrc"
-                  "~/.vnc/xstartup")
-#+end_src
-
 * Browser integration
 
 Write out the ~$BROWSER~ variable so other applications can pick up the custom browser.
