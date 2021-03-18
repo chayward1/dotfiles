@@ -27,7 +27,6 @@ Goal of this module is to provide an easily customizable dashboard buffer to dis
 
 #+begin_src emacs-lisp
 (use-package dashboard
-  :when (window-system)
   :custom (dashboard-center-content t)
           (dashboard-set-init-info t)
           (dashboard-set-file-icons t)
