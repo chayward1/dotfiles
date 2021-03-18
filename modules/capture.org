@@ -46,7 +46,7 @@ Create a capture template for creating slides quickly, with our desired configur
 ")))
 #+end_src
 
-* Screens
+* Screenshots
 
 Download *screenshot.el*[fn:4] for taking screenshots of highlighted regions or entire buffers.
 
@@ -57,6 +57,8 @@ Download *screenshot.el*[fn:4] for taking screenshots of highlighted regions or 
     :host github 
     :repo "tecosaur/screenshot"))
 #+end_src
+
+* Screencasts
 
 Create screencasts with =one-frame-per-action= GIF recording via *Emacs gif screencast*[fn:3].
 
@@ -71,6 +73,8 @@ It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =Ima
   :commands (gif-screencast-start-or-stop gif-screencast-toggle-pause)
   :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 #+end_src
+
+* Keybindings
 
 + Place keybindings for capturing the screen behind =SPC s=.
   * Screenshot with =s=
