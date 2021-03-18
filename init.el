@@ -23,6 +23,7 @@
     editor
     shell
     email 
+    terminal
     encryption 
     desktop
     writing 

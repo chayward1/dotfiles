@@ -71,6 +71,7 @@ Here's a complete list of all of the options configurable for each host, and the
     editor
     shell
     email 
+    terminal
     encryption 
     desktop
     writing 

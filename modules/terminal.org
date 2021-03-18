@@ -1,0 +1,72 @@
+#+TITLE: Terminal
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle terminal.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Performing terminal interactions is a must-have for any modern editor. This module introduces *two* means of doing so with [[https://gnu.org/software/emacs/manual/html_node/eshell/index.html][EShell]][fn:1] and [[https://github.com/akermu/emacs-libvterm][VTerm]][fn:2].
+
+* Emacs Lisp Shell
+
+*EShell*[fn:1] is a fully *POSIX* compliant shell written entirely in Emacs Lisp. While not a traditional terminal emulator, it provides a native REPL for Emacs Lisp code with everything available in the environment.
+
++ Don't highlight the prompt
++ Favour use of system utilities
++ Open in the current buffer with =SPC e=
+
+#+begin_src emacs-lisp
+(setq eshell-highlight-prompt nil
+      eshell-prefer-lisp-functions nil)
+
+(dotfiles/leader
+  "e" '(eshell :which-key "Shell"))
+#+end_src
+
+** Prompt extras
+
+Implement the lambda prompt for aesthetic purposes with the [[https://github.com/zwild/eshell-prompt-extras][EShell Prompt Extras]][fn:3] package.
+
+#+begin_src emacs-lisp
+(use-package eshell-prompt-extras
+  :custom (eshell-prompt-function 'epe-theme-lambda))
+#+end_src
+
+Here's an example of what that looks like:
+
+#+begin_example
+~/.emacs.d/modules:main*? λ 
+#+end_example
+
+* Interactive Terminal
+
+*EShell*[fn:1] isn't enough when needing interactivity from the terminal. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]] for one of my courses required lots of terminal interaction which *Eshell*[fn:1] was unable to handle. *VTerm's*[fn:2] based on an external C library which is blazing fast, and fully interactive.
+
++ Always compile the module
++ Open in the current buffer with =SPC v=
+
+#+begin_src emacs-lisp
+(use-package vterm
+  :commands (vterm)
+  :custom (vterm-always-compile-module t)
+  :config (dotfiles/leader "v" '(vterm :which-key "Terminal")))
+#+end_src
+
+** Requirements
+
+Install the required packages on *Debian/Ubuntu* based systems.
+
+#+begin_src shell
+sudo apt install -y cmake \
+  libtool \
+  libtool-bin
+#+end_src
+
+* Resources
+
+[fn:1] https://gnu.org/software/emacs/manual/html_node/eshell/index.html
+[fn:2] https://github.com/akermu/emacs-libvterm
+[fn:3] https://github.com/zwild/eshell-prompt-extras
