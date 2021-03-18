@@ -80,6 +80,16 @@ Despite having our *stateful* and *immutable* configurations seperate, it's good
 
 Define some helper methods to use throughout the configuration.
 
+** Packages
+
+Define a method to install system packages on *Debian/Ubuntu* derived systems.
+
+#+begin_src emacs-lisp
+(defun dotfiles/install (pkgs)
+  "Install system packages on Debian/Ubuntu systems."
+  (async-shell-command (concat "sudo apt install -y " pkgs)))
+#+end_src
+
 ** Tangle directory
 
 Build all of the *Org*[fn:4] files within a given directory, recursively.
