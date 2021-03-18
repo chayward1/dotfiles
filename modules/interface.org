@@ -111,15 +111,13 @@ Define a transient keybinding for Scaling the text.
 Dired feels more modern with prioritized icon fonts using *All the Icons*[fn:3]. This makes navigation and visually parsing directories much faster, given that file types are quickly identified by their corresponding icons.
 
 #+begin_src emacs-lisp
-(use-package all-the-icons
-  :when (window-system))
+(use-package all-the-icons)
 #+end_src
 
 Integration with the *All the Icons Dired*[fn:4]package.
 
 #+begin_src emacs-lisp
 (use-package all-the-icons-dired
-  :when (window-system)
   :hook (dired-mode . all-the-icons-dired-mode))
 #+end_src
 
@@ -189,8 +187,7 @@ High quality and modern colour themes are provided in the *Doom Themes*[fn:5] pa
 
 #+begin_src emacs-lisp
 (use-package doom-themes
-  :when (window-system)
-  :init (load-theme 'doom-moonlight t))
+  :init (load-theme 'doom-dracula t))
 #+end_src
 
 Load a theme with =SPC t t=.
@@ -206,7 +203,6 @@ Load a theme with =SPC t t=.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :when (window-system)
   :custom (doom-modeline-height 16)
   :config (doom-modeline-mode 1))
 #+end_src
