@@ -59,29 +59,25 @@ Download and install *Org roam*[fn:4], a plain text knowledge management system 
 
 + Notes can be arbitrarily referenced
 + Contexts created by linking topics and notes
++ Install dependencies on *Debian/Ubuntu* systems
++ Configure custom keybindings for roam behind =SPC r=
+  + Find with =f=
+  + Insert with =i=
+  + Buffer with =b=
+  + Capture with =c=
 
 #+begin_src emacs-lisp
 (use-package org-roam
   :hook (after-init . org-roam-mode)
+  :init (dotfiles/install "sqlite")
   :custom (org-roam-directory org-directory)
           (org-roam-capture-templates '())
-          (org-roam-dailies-capture-templates '()))
-#+end_src
-
-Configure custom keybindings behind =SPC r=.
-
-+ Find with =f=
-+ Insert with =i=
-+ Buffer with =b=
-+ Capture with =c=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "r" '(:ignore t :which-key "Roam")
-  "ri" '(org-roam-insert :which-key "Insert")
-  "rf" '(org-roam-find-file :which-key "Find")
-  "rc" '(org-roam-capture :which-key "Capture")
-  "rb" '(org-roam-buffer-toggle-display :which-key "Buffer"))
+          (org-roam-dailies-capture-templates '())
+  :config (dotfiles/leader "r"  '(:ignore t :which-key "Roam")
+                           "ri" '(org-roam-insert :which-key "Insert")
+                           "rf" '(org-roam-find-file :which-key "Find")
+                           "rc" '(org-roam-capture :which-key "Capture")
+                           "rb" '(org-roam-buffer-toggle-display :which-key "Buffer")))
 #+end_src
 
 ** File slugs
