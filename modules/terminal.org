@@ -10,7 +10,7 @@
 
 Performing terminal interactions is a must-have for any modern editor. This module introduces *two* means of doing so with [[https://gnu.org/software/emacs/manual/html_node/eshell/index.html][EShell]][fn:1] and [[https://github.com/akermu/emacs-libvterm][VTerm]][fn:2].
 
-* Emacs Lisp Shell
+* Emacs Lisp shell
 
 *EShell*[fn:1] is a fully *POSIX* compliant shell written entirely in Emacs Lisp. While not a traditional terminal emulator, it provides a native REPL for Emacs Lisp code with everything available in the environment.
 
