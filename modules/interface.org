@@ -187,7 +187,7 @@ High quality and modern colour themes are provided in the *Doom Themes*[fn:5] pa
 
 #+begin_src emacs-lisp
 (use-package doom-themes
-  :init (load-theme 'doom-dracula t))
+  :init (load-theme 'doom-moonlight t))
 #+end_src
 
 Load a theme with =SPC t t=.
