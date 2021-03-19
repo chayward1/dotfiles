@@ -19,7 +19,7 @@ The first real hardware to deploy this configuration on. It's an [[https://www.a
 #+begin_src emacs-lisp
 (setq dotfiles/browser "firefox"
       dotfiles/language "en_CA"
-      dotfiles/font-size 144)
+      dotfiles/font-size 132)
 #+end_src
 
 * Resources
