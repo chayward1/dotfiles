@@ -50,6 +50,8 @@ Include the ~bin~ subdirectory of the =$GOPATH= in the =$PATH= variable, adding 
 
 Include the *go-mode*[fn:5] package for integration with *lsp-mode* from the [[file:projects.org][Projects]] module.
 
++ Manually set the ~gopls~ application path
+
 #+begin_src emacs-lisp
 (use-package go-mode
   :hook (go-mode . lsp)
@@ -102,6 +104,7 @@ Support for YAML files.
 
 Add support for the *C/C++* family of languages via the *CCLS*[fn:7] language server.
 
++ Install requirements
 + Integrate with *LSP*[fn:2]
 + Integrate with *DAP*[fn:1]
 + Load babel language modules
@@ -111,6 +114,7 @@ Add support for the *C/C++* family of languages via the *CCLS*[fn:7] language se
 
 #+begin_src emacs-lisp
 (use-package ccls
+  :init (dotfiles/install "ccls")
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda ()
            (require 'ccls)
@@ -118,14 +122,6 @@ Add support for the *C/C++* family of languages via the *CCLS*[fn:7] language se
   :config (add-to-list 'org-structure-template-alist '("cc" . "src C"))
           (add-to-list 'org-structure-template-alist '("cpp" . "src C++"))
           (org-babel-do-load-languages 'org-babel-load-languages '((C . t))))
-#+end_src
-
-** Installing requirements
-
-Some required packages, here's how to install on *Debian/Ubuntu*:
-
-#+begin_src shell
-sudo apt install ccls
 #+end_src
 
 * Python
@@ -159,28 +155,23 @@ pip3 install --user "python-language-server[all]"
 
 Download and install *PlantUML*[fn:11], a text-based markup language for creating UML diagrams. You can read my notes about the tool [[file:../docs/notes/plantuml.org.gpg][PlantUML]] here. Support added through the *plantuml-mode*[fn:12] package.
 
++ Install requirements
 + Load the babel module for *PlantUML*[fn:11]
 + Create a structure template with ~<pl~
++ Toggle inline imagines with =SPC t i=
 
 #+begin_src emacs-lisp
 (use-package plantuml-mode
   :after org
+  :init (dotfiles/install "default-jre")
   :custom (plantuml-default-exec-mode 'jar)
           (plantuml-jar-path "~/.local/bin/plantuml.jar")
           (org-plantuml-jar-path (expand-file-name "~/.local/bin/plantuml.jar"))
           (org-startup-with-inline-images t)
   :config (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
           (add-to-list 'org-structure-template-alist '("pl" . "src plantuml"))
-          (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
-#+end_src
-
-** View inside of buffers
-
-Toggle inline images with =SPC t i=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "ti" '(org-toggle-inline-images :which-key "Images"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+          (dotfiles/leader "ti" '(org-toggle-inline-images :which-key "Images")))
 #+end_src
 
 * Resources

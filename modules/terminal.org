@@ -53,7 +53,7 @@ Here's an example of what that looks like:
   :commands (vterm)
   :custom (vterm-always-compile-module t)
   :init (dotfiles/install "cmake libtool libtool-bin")
-  :config (dotfiles/leader "v" '(vterm :which-key "Terminal")))
+  :config (dotfiles/leader "v" '(vterm-other-window :which-key "Terminal")))
 #+end_src
 
 * Resources
