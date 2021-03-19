@@ -96,6 +96,8 @@ package Terminal
 package Encryption
 package Desktop
 package Writing
+package Presentations
+package Website
 package Capture
 package Projects
 package Development
@@ -103,16 +105,24 @@ package Interface
 package Dashboard
 
 Editor --> Core
+
 Shell --> Editor
 Email --> Editor
-Terminal --> Editor
-Encryption --> Editor
-Desktop --> Shell
-Writing --> Encryption
-Capture --> Writing
 Projects --> Editor
-Development --> Projects
+Terminal --> Editor
 Interface --> Editor
+Encryption --> Editor
+
+Desktop --> Shell
+
+Writing --> Encryption
+
+Capture --> Writing
+Website --> Writing
+Presentations --> Writing
+
+Development --> Projects
+
 Dashboard --> Interface
 #+end_src
 
