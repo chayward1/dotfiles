@@ -80,8 +80,6 @@ Breaking down the project into logical units or chapters to keep the code more m
 + [[file:modules/website.org][Website]] 
 + [[file:modules/writing.org][Writing]] 
 
-** Dependency graph
-
 Here's a visualization of the modules and their respective dependencies.
 
 #+begin_src plantuml :file docs/images/modules.png :exports none
