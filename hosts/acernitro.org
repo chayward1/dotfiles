@@ -8,7 +8,7 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-The first real hardware to deploy this configuration on. It's an *Acer Nitro AN-515*[fn:1] with the *NVIDIA / Intel Hybrid Graphics Card*[fn:2], which is honestly a pain in the ass to deal with. Due to the issues I encountered with this hardware setup, I opted for *easy mode* and installed *Ubuntu 20.04 LTS*[fn:3], setting up the drivers, and then ripping away everything I didn't need.
+The first real hardware to deploy this configuration on. It's an [[https://www.amazon.com/Acer-Nitro-AN515-Laptop-i5-8300H/dp/B07C715KNT][Acer Nitro AN-515]][fn:1] with the [[https://7thzero.com/blog/switch-hybrid-graphics-mode-nvidia-and-intel][NVIDIA / Intel Hybrid GPU]] [fn:2], which is honestly a pain in the ass to deal with. Due to the issues I encountered with this hardware setup, I opted for *easy mode* and installed [[https://ubuntu.com][Ubuntu]][fn:3], setting up the drivers, and then ripping away everything I didn't need.
 
 * Options
 
@@ -19,11 +19,11 @@ The first real hardware to deploy this configuration on. It's an *Acer Nitro AN-
 #+begin_src emacs-lisp
 (setq dotfiles/browser "firefox"
       dotfiles/language "en_CA"
-      dotfiles/font-size 132)
+      dotfiles/font-size 148)
 #+end_src
 
 * Resources
 
-[fn:1] Acer Nitro AN-515
-[fn:2] NVIDIA / Intel iGPU
-[fn:3] Ubuntu 20.04 LTS
+[fn:1] https://www.amazon.com/Acer-Nitro-AN515-Laptop-i5-8300H/dp/B07C715KNT
+[fn:2] https://7thzero.com/blog/switch-hybrid-graphics-mode-nvidia-and-intel
+[fn:3] https://ubuntu.com
