@@ -22,8 +22,7 @@ Performing terminal interactions is a must-have for any modern editor. This modu
 (setq eshell-highlight-prompt nil
       eshell-prefer-lisp-functions nil)
 
-(dotfiles/leader
-  "e" '(eshell :which-key "Shell"))
+(dotfiles/leader "e" '(eshell :which-key "Shell"))
 #+end_src
 
 ** Prompt extras
@@ -43,26 +42,18 @@ Here's an example of what that looks like:
 
 * Interactive Terminal
 
-*EShell*[fn:1] isn't enough when needing interactivity from the terminal. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]] for one of my courses required lots of terminal interaction which *Eshell*[fn:1] was unable to handle. *VTerm's*[fn:2] based on an external C library which is blazing fast, and fully interactive.
+*EShell*[fn:1] isn't enough when needing interactivity from the terminal. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]][fn:4] for one of my courses required lots of terminal interaction which *Eshell*[fn:1] was unable to handle. *VTerm's*[fn:2] based on an external C library which is blazing fast, and fully interactive.
 
 + Always compile the module
 + Open in the current buffer with =SPC v=
++ Install the required packages on *Debian/Ubuntu*
 
 #+begin_src emacs-lisp
 (use-package vterm
   :commands (vterm)
   :custom (vterm-always-compile-module t)
+  :init (dotfiles/install "cmake libtool libtool-bin")
   :config (dotfiles/leader "v" '(vterm :which-key "Terminal")))
-#+end_src
-
-** Requirements
-
-Install the required packages on *Debian/Ubuntu* based systems.
-
-#+begin_src shell
-sudo apt install -y cmake \
-  libtool \
-  libtool-bin
 #+end_src
 
 * Resources
@@ -70,3 +61,4 @@ sudo apt install -y cmake \
 [fn:1] https://gnu.org/software/emacs/manual/html_node/eshell/index.html
 [fn:2] https://github.com/akermu/emacs-libvterm
 [fn:3] https://github.com/zwild/eshell-prompt-extras
+[fn:4] https://chrishayward.xyz/posts/immutable-emacs/
