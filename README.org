@@ -143,7 +143,7 @@ Here's a complete list of all of the options configurable for each host, and the
 | dotfiles/browser           | $BROWSER            | Default system web browser.                             |
 | dotfiles/language          | $LANG               | Default system dictionary language.                     |
 |----------------------------+---------------------+---------------------------------------------------------|
-| dotfiles/modules-p         | (...)               | All of the available modules.                           |
+| dotfiles/modules-p         | [[file:modules/][Modules]]             | All of the available modules.                           |
 | dotfiles/modules           | dotfiles/modules-p  | ALl of the enabled modules.                             |
 |----------------------------+---------------------+---------------------------------------------------------|
 | dotfiles/font              | Fira Code           | Unified system font family.                             |
@@ -157,7 +157,7 @@ Here's a complete list of all of the options configurable for each host, and the
 | dotfiles/projects          | ~/.local/source     | Location of source code projects.                       |
 | dotfiles/passwords         | ~/.password-store   | Location of local password store.                       |
 |----------------------------+---------------------+---------------------------------------------------------|
-| dotfiles/public-key        | (...)               | GPG key to encrypt org files for.                       |
+| dotfiles/public-key        | [[https://chrishayward.xyz][My public key]]       | GPG key to encrypt org files for.                       |
 
 * Resources
 
