@@ -1,115 +1,24 @@
-;; Options
+;; Init
 
-;; Here's a complete list of all of the options configurable for each host, and their default values. 
-
-;; + All variables prefixed with ~dotfiles/~
-;; + Initialized prior to loading of packages or hosts
+;; This project makes heavy use of modern features and libraries. Since [[https://orgmode.org/worg/org-contrib/babel/intro.html][Org-babel]][fn:2]'s used during the initialization, [[https://orgmode.org][Org-mode]][fn:3] must load prior to importing any custom modules. My solution includes the introduction of some early intitialization code written in [[https://gnu.org/software/emacs/manual/html_node/elisp/index.html][Emacs Lisp]][fn:4].
 
 
-(defvar dotfiles/home user-emacs-directory 
-  "Original value of `user-emacs-directory'.")
-
-(defvar dotfiles/cache (expand-file-name "~/.cache/emacs") 
-  "Redirection target of `user-emacs-directory'.")
-
-(defvar dotfiles/browser (getenv "BROWSER") 
-  "Default system web browser.")
-
-(defvar dotfiles/language (getenv "LANG") 
-  "Default system dictionary language.")
-
-(defconst dotfiles/modules-p 
-  '(core 
-    editor
-    shell
-    email 
-    terminal
-    encryption 
-    desktop
-    writing 
-    website 
-    capture
-    projects 
-    development 
-    interface 
-    dashboard) 
-  "All of the available modules.")
-
-(defvar dotfiles/modules dotfiles/modules-p 
-  "All of the enabled modules.")
-
-(defvar dotfiles/font "Fira Code" 
-  "Unified system font family.")
-
-(defvar dotfiles/font-size 96 
-  "Unified system font size.")
-
-(defvar dotfiles/idle 0.0 
-  "Delay time before offering suggestions and completions.")
-
-(defvar dotfiles/leader-key "SPC" 
-  "All powerful leader key.")
-
-(defvar dotfiles/leader-key-global 
-  (concat "C-" dotfiles/leader-key) 
-  "Global prefix for the leader key.")
-
-(defvar dotfiles/projects 
-  (expand-file-name "~/.local/source/") 
-  "Location of source code projects.")
-
-(defvar dotfiles/passwords 
-  (expand-file-name "~/.password-store/") 
-  "Location of local password store.")
-
-(defvar dotfiles/public-key 
-  "37AB1CB72B741E478CA026D43025DCBD46F81C0F" 
-  "GPG key to encrypt org files for.")
-
-;; Startup
-
-;; This project makes heavy use of modern features and libraries. Since *Babel's* [fn:3] used in initialization, *Org* [fn:4] must load prior to importing any of custom modules. This introduces a unique *chicken or the egg* [fn:5] problem. My solution included some initialization code in *Emacs Lisp* [fn:2] called before using any *Babel* [fn:3] APIs.
-
-
+(load-file "~/.emacs.d/bin/options.el")
 (load-file "~/.emacs.d/bin/cleanup.el")
 (load-file "~/.emacs.d/bin/packages.el")
 
-;; Hosts
+;; Load host definition
 
-;; Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
-
-;; + [[file:hosts/localhost.org][Termux]]
-;; + [[file:hosts/gamingpc.org][Gamingpc]]
-;; + [[file:hosts/raspberry.org][Raspberry]]
-;; + [[file:hosts/acernitro.org][Acernitro]]
-;; + [[file:hosts/virtualbox.org][Virtualbox]] 
-
-;; Begin the process by loading any host specific overrides. The host configuration tangles, and loads (if it exist) using the systems name.
+;; Begin the process by loading any host specific option overrides. The host configuration tangles, and loads (if it exist) using the systems name. If a host definition doesn't exist the default values remain. 
 
 
 (let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
   (when (file-exists-p host-file)
     (org-babel-load-file host-file)))
 
-;; Modules
+;; Load enabled modules
 
-;; Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
-
-;; + [[file:modules/core.org][Core]]
-;; + [[file:modules/editor.org][Editor]]
-;; + [[file:modules/email.org][Email]]
-;; + [[file:modules/encryption.org][Encryption]]
-;; + [[file:modules/shell.org][Shell]] 
-;; + [[file:modules/desktop.org][Desktop]]
-;; + [[file:modules/writing.org][Writing]]
-;; + [[file:modules/website.org][Website]]
-;; + [[file:modules/capture.org][Capture]]
-;; + [[file:modules/projects.org][Projects]]
-;; + [[file:modules/development.org][Development]] 
-;; + [[file:modules/interface.org][Interface]] 
-;; + [[file:modules/dashboard.org][Dashboard]] 
-
-;; By default all of the modules will load, override the variable ~dotfiles/modules~ in a host configuration.
+;; All of the modules in ~dotfiles/modules~ load after the host overrides. By default, all of the packages defined in ~dotfiles/modules-p~ load. Override this behaviour in a host configuration file.
 
 
 (dolist (m dotfiles/modules)
