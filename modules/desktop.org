@@ -34,19 +34,14 @@ exec dbus-launch --exit-with-session emacs -mm --debug-init
 
 Write out the ~$BROWSER~ variable so other applications can pick up the custom browser.
 
++ Place custom keybindings for browsing behind =SPC b=
+  + URL with =u=
+  + URL at point with =p=
+  + URL at cursor with =c=
+
 #+begin_src emacs-lisp
 (setenv "BROWSER" dotfiles/browser)
-#+end_src
 
-** Browse URL keybindings
-
-Create a custom keybinding for browsing the urls behind =SPC u=:
-
-+ URL with =u=
-+ Point with =p=
-+ Cursor with =c=
-
-#+begin_src emacs-lisp
 (dotfiles/leader
   "u" '(:ignore t :which-key "Browse")
   "uu" '(browse-url :which-key "URL")
