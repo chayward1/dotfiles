@@ -10,45 +10,9 @@
 
 Capturing images, screencasts, screenshots or live-streaming. It's defined in this file.
 
-* Slides
-
-Produce high quality presentations that work anywhere with =HTML/JS= and the *Reveal.js*[fn:1] package. Achieve this behaviour in Emacs with *Ox-reveal*[fn:2]], configured to use a =cdn= allows us to produce ones that are not dependent on a local version. An important caveat here is that paths to images must be absolute URLs.
-
-#+begin_src emacs-lisp
-(use-package ox-reveal
-  :after ox
-  :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
-#+end_src
-
-Create a capture template for creating slides quickly, with our desired configuration.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org-roam
-  (add-to-list 'org-roam-capture-templates
-               '("s" "Slides" plain (function org-roam-capture--get-point)
-                 "%?"
-                 :file-name "docs/slides/${slug}"
-                 :unnarrowed t
-                 :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+EMAIL: chris@chrishayward.xyz
-
-,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-,#+REVEAL_THEME: serif
-
-,#+EXPORT_FILE_NAME: ${slug}
-
-,#+OPTIONS: reveal_title_slide:nil
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-")))
-#+end_src
-
 * Screenshots
 
-Download *screenshot.el*[fn:4] for taking screenshots of highlighted regions or entire buffers.
+Download *screenshot.el*[fn:1] for taking screenshots of highlighted regions or entire buffers.
 
 #+begin_src emacs-lisp
 (straight-use-package 
@@ -60,16 +24,15 @@ Download *screenshot.el*[fn:4] for taking screenshots of highlighted regions or 
 
 * Screencasts
 
-Create screencasts with =one-frame-per-action= GIF recording via *Emacs gif screencast*[fn:3].
+Create screencasts with =one-frame-per-action= GIF recording via *Emacs gif screencast*[fn:2].
 
 + Pause / Resume
 + High Quality
 + Optimized
 
-It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =ImageMagick= library.
-  
 #+begin_src emacs-lisp
 (use-package gif-screencast
+  :init (dotfiles/install "scrot imagemagick")
   :commands (gif-screencast-start-or-stop gif-screencast-toggle-pause)
   :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 #+end_src
@@ -89,7 +52,5 @@ It requires the installation of ~scrot~, ~gifsicle~, and ~convert~ from the =Ima
 
 * Resources
 
-[fn:1] https://revealjs.com
-[fn:2] https://github.com/hexmode/ox-reveal
-[fn:3] https://github.com/takaxp/emacs-gif-screencast
-[fn:4] https://github.com/tecosaur/screenshot
+[fn:1] https://github.com/tecosaur/screenshot
+[fn:2] https://github.com/takaxp/emacs-gif-screencast

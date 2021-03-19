@@ -1,0 +1,54 @@
+#+TITLE: Presentations
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle presentations.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Create slideshows and give high quality presentations.
+
+* Portable slides
+
+Produce high quality presentations that work anywhere with =HTML/JS= using [[https://revealjs.com][Reveal.js]][fn:1]. Achieve integration inside of Emacs with [[https://github.com/hexmode/ox-reveal][ox-reveal]][fn:2]. Configure it to use a =CDN= producing presentations that are not dependent on locally installed software. An important caveat here is that paths to images must be absolute URLs.
+
+#+begin_src emacs-lisp
+(use-package ox-reveal
+  :after ox
+  :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
+#+end_src
+
+** Capture template
+
+When using the [[file:writing.org][Writing]] module, add a capture template for quickly creating slide presentations with the desired markup and configuration already applied.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+               '("s" "Slides" plain (function org-roam-capture--get-point)
+                 "%?"
+                 :file-name "docs/slides/${slug}"
+                 :unnarrowed t
+                 :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+EMAIL: chris@chrishayward.xyz
+
+,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+,#+REVEAL_THEME: serif
+
+,#+EXPORT_FILE_NAME: ${slug}
+
+,#+OPTIONS: reveal_title_slide:nil
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+")))
+#+end_src
+
+* Resources
+
+[fn:1] https://revealjs.com
+[fn:2] https://github.com/hexmode/ox-reveal
