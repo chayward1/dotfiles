@@ -80,23 +80,6 @@ Despite having our *stateful* and *immutable* configurations seperate, it's good
 
 Define some helper methods to use throughout the configuration.
 
-** Packages
-
-Define a method to install system packages on *Debian/Ubuntu* derived systems.
-
-+ Use temporary buffer
-+ Use ~-y~ option to silence unwanted prompts
-+ Use ~--no-install-recommends~ option to minimize dependencies
-
-#+begin_src emacs-lisp
-(defun dotfiles/install (pkgs)
-  "Install system packages on Debian/Ubuntu systems."
-  ;; (with-temp-buffer
-  ;;   (async-shell-command 
-  ;;     (concat "sudo apt install -y --no-install-recommends " pkgs)))
-)
-#+end_src
-
 ** Tangle directory
 
 Build all of the *Org*[fn:4] files within a given directory, recursively.
@@ -122,6 +105,23 @@ Function that takes in a system and configuration file path, checks to see if th
               (not (equal (file-symlink-p sys-file) dot-file)))
       (delete-file sys-file)
       (make-symbolic-link dot-file sys-file))))
+#+end_src
+
+** Install system packages
+
+Define a method to install system packages on *Debian/Ubuntu* derived systems.
+
++ Use temporary buffer
++ Use ~-y~ option to silence unwanted prompts
++ Use ~--no-install-recommends~ option to minimize dependencies
+
+#+begin_src emacs-lisp
+(defun dotfiles/install (pkgs)
+  "Install system packages on Debian/Ubuntu systems."
+  ;; (with-temp-buffer
+  ;;   (async-shell-command 
+  ;;     (concat "sudo apt install -y --no-install-recommends " pkgs)))
+)
 #+end_src
 
 * Resources
