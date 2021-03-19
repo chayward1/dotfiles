@@ -91,9 +91,10 @@ Define a method to install system packages on *Debian/Ubuntu* derived systems.
 #+begin_src emacs-lisp
 (defun dotfiles/install (pkgs)
   "Install system packages on Debian/Ubuntu systems."
-  (with-temp-buffer
-    (async-shell-command 
-      (concat "sudo apt install -y --no-install-recommends " pkgs))))
+  ;; (with-temp-buffer
+  ;;   (async-shell-command 
+  ;;     (concat "sudo apt install -y --no-install-recommends " pkgs)))
+)
 #+end_src
 
 ** Tangle directory
