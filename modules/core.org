@@ -8,25 +8,25 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-Minimal configuration to make Emacs usable for my own personal workflow. This does little in the ways of improving the visuals, only removing what's included by default and not required. Read more about my technique in my post *Immutable Emacs*[fn:1].
+Minimal configuration to make Emacs usable for my own personal workflow. This does little in the ways of improving the visuals, only removing what's included by default and not required. Read more about my technique in my post [[https://chrishayward.xyz/posts/immutabe-emacs/][Immutable Emacs]][fn:1]
 
-+ Packages are managed with *straight.el*[fn:2]
-+ Packages are installed with *use-package*[fn:3] 
++ Packages are managed with [[https://github.com/raxod502/straight.el][straight.el]][fn:2]
++ Packages are installed with [[https://github.com/jwiegley/use-package][use-package]][fn:3] 
 
 * Babel
 
 *Organize your plain life in plain text*
 
-*Org mode*[fn:4] is one of the hallmark features of Emacs, and provides the basis for my *Literate Programming*[fn:5] platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
+[[https://orgmode.org][Org-mode]][fn:4] is one of the hallmark features of Emacs, and provides the basis for my [[https://chrishayward.xyz/notes/literate-programming/][Literate Programming]][fn:5] platform. It's essentially a markdown language with rich features for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
 
-+ Force *straight.el*[fn:2] to ignore the local version of *Org*[fn:4]
++ Force *straight.el*[fn:2] to ignore the local version of *Org-mode*[fn:4]
 
 #+begin_src emacs-lisp
 (straight-use-package '(org :local-repo nil))
 #+end_src
 
-+ Setup ~shell~ and ~emacs-lisp~ as *Babel Languages*[fn:6]
-+ Configure *Structure Templates*[fn:7] for both languages
++ Setup ~shell~ and ~emacs-lisp~ as *Babel Languages*[fn:4]
++ Configure *Structure Templates*[fn:4] for both languages
 
 #+begin_src emacs-lisp
 (use-package org
@@ -57,7 +57,7 @@ Minimal configuration to make Emacs usable for my own personal workflow. This do
 
 * Cleanup
 
-Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs. Install *no-littering*[fn:3] to reduce the files created by Emacs. Now that we've taken care of how it acts, we can work on how it looks. Emacs' default user interface is *horrendous*, let's do something about that. Emacs has a long history of running on machines without gigabytes of available memory, let it realize its full potential by increasing the garbage collection threshold.
+Despite having our *stateful* and *immutable* configurations seperate, it's good practice to make efforts to reduce the trash created by Emacs. Install [[https://github.com/emacs-collective/no-littering][no-littering]][fn:6] to reduce the files created by Emacs. Now that we've taken care of how it acts, we can work on how it looks. Emacs' default user interface is *horrendous*, let's do something about that. Emacs has a long history of running on machines without gigabytes of available memory, let it realize its full potential by increasing the garbage collection threshold.
 
 #+begin_src emacs-lisp
 (use-package no-littering
@@ -131,5 +131,4 @@ Define a method to install system packages on *Debian/Ubuntu* derived systems.
 [fn:3] https://github.com/jwiegley/use-package
 [fn:4] https://orgmode.org
 [fn:5] https://chrishayward.xyz/notes/literate-programming/
-[fn:6] https://orgmode.org/worg/org-contrib/babel/languages/index.html
-[fn:7] https://orgmode.org/manual/Structure-Templates.html
+[fn:6] https://github.com/emacs-collective/no-littering
