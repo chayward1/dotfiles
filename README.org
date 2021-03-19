@@ -84,7 +84,7 @@ Breaking down the project into logical units or chapters to keep the code more m
 
 Here's a visualization of the modules and their respective dependencies.
 
-#+begin_src plantuml :file docs/images/modules.png
+#+begin_src plantuml :file docs/images/modules.png :exports none
 left to right direction
 allowmixing
 
