@@ -22,9 +22,10 @@
     encryption 
     desktop
     writing 
+    presentations
     website 
     capture
-    projects 
+    projects
     development 
     interface 
     dashboard) 
