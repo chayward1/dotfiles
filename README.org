@@ -80,6 +80,44 @@ Breaking down the project into logical units or chapters to keep the code more m
 + [[file:modules/website.org][Website]] 
 + [[file:modules/writing.org][Writing]] 
 
+** Dependency graph
+
+Here's a visualization of the modules and their respective dependencies.
+
+#+begin_src plantuml :file docs/images/modules.png
+left to right direction
+allowmixing
+
+package Core
+package Editor
+package Shell
+package Email
+package Terminal
+package Encryption
+package Desktop
+package Writing
+package Capture
+package Projects
+package Development
+package Interface
+package Dashboard
+
+Editor --> Core
+Shell --> Editor
+Email --> Editor
+Terminal --> Editor
+Encryption --> Editor
+Desktop --> Shell
+Writing --> Encryption
+Capture --> Writing
+Projects --> Editor
+Development --> Projects
+Interface --> Editor
+Dashboard --> Interface
+#+end_src
+
+[[./docs/images/modules.png]]
+
 * Options
 
 Here's a complete list of all of the options configurable for each host, and their default values. 
