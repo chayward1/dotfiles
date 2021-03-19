@@ -62,25 +62,7 @@ Each host machines configuration loaded immediately after declaring the options,
 
 * Modules
 
-Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Here are all of the available modules, also listed in the variable ~dotfiles/modules-p~. 
-
-+ [[file:modules/capture.org][Capture]]
-+ [[file:modules/core.org][Core]] 
-+ [[file:modules/dashboard.org][Dashboard]] 
-+ [[file:modules/desktop.org][Desktop]] 
-+ [[file:modules/development.org][Development]] 
-+ [[file:modules/editor.org][Editor]] 
-+ [[file:modules/email.org][Email]] 
-+ [[file:modules/encryption.org][Encryption]] 
-+ [[file:modules/interface.org][Interface]] 
-+ [[file:modules/presentations.org][Presentations]] 
-+ [[file:modules/projects.org][Projects]] 
-+ [[file:modules/shell.org][Shell]] 
-+ [[file:modules/terminal.org][Terminal]]
-+ [[file:modules/website.org][Website]] 
-+ [[file:modules/writing.org][Writing]] 
-
-Here's a visualization of the modules and their respective dependencies.
+Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Below are details of the modules, and their respective dependencies.
 
 #+begin_src plantuml :file docs/images/modules.png :exports none
 left to right direction
@@ -124,7 +106,27 @@ Development --> Projects
 Dashboard --> Interface
 #+end_src
 
+#+ATTR_ORG:   :width 420px
+#+ATTR_HTML:  :width 420px
+#+ATTR_LATEX: :width 420px
 [[./docs/images/modules.png]]
+
++ [[file:modules/capture.org][Capture]]
++ [[file:modules/core.org][Core]] 
++ [[file:modules/dashboard.org][Dashboard]] 
++ [[file:modules/desktop.org][Desktop]] 
++ [[file:modules/development.org][Development]] 
++ [[file:modules/editor.org][Editor]] 
++ [[file:modules/email.org][Email]] 
++ [[file:modules/encryption.org][Encryption]] 
++ [[file:modules/interface.org][Interface]] 
++ [[file:modules/presentations.org][Presentations]] 
++ [[file:modules/projects.org][Projects]] 
++ [[file:modules/shell.org][Shell]] 
++ [[file:modules/terminal.org][Terminal]]
++ [[file:modules/website.org][Website]] 
++ [[file:modules/writing.org][Writing]] 
+
 
 * Options
 
