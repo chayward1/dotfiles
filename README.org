@@ -134,29 +134,35 @@ Here's a complete list of all of the options configurable for each host, and the
 + All variables prefixed with ~dotfiles/~
 + Initialized prior to loading of packages or hosts
 
-| Name                       | Default                 | Description                                             |
-|----------------------------+-------------------------+---------------------------------------------------------|
-| dotfiles/home              | ~/.emacs.d              | Original value of `user-emacs-directory'.               |
-| dotfiles/cache             | ~/.cache/emacs          | Redirection target of `user-emacs-directory'.           |
-|----------------------------+-------------------------+---------------------------------------------------------|
-| dotfiles/browser           | $BROWSER                | Default system web browser.                             |
-| dotfiles/language          | $LANG                   | Default system dictionary language.                     |
-|----------------------------+-------------------------+---------------------------------------------------------|
-| dotfiles/modules-p         | [[file:modules/][Modules]]                 | All of the available modules.                           |
-| dotfiles/modules           | dotfiles/modules-p      | ALl of the enabled modules.                             |
-|----------------------------+-------------------------+---------------------------------------------------------|
-| dotfiles/font              | Fira Code               | Unified system font family.                             |
-| dotfiles/font-size         | 96                      | Unified system font size.                               |
-|----------------------------+-------------------------+---------------------------------------------------------|
-| dotfiles/idle              | 0.0                     | Delay time before offering suggestions and completions. |
-|----------------------------+-------------------------+---------------------------------------------------------|
-| dotfiles/leader-key        | SPC                     | All powerful leader key.                                |
-| dotfiles/leader-key-global | C-(dotfiles/leader-key) | Global prefix for the leader key.                       |
-|----------------------------+-------------------------+---------------------------------------------------------|
-| dotfiles/projects          | ~/.local/source         | Location of source code projects.                       |
-| dotfiles/passwords         | ~/.password-store       | Location of local password store.                       |
-|----------------------------+-------------------------+---------------------------------------------------------|
-| dotfiles/public-key        | [[https://chrishayward.xyz][My public key]]           | GPG key to encrypt org files for.                       |
+** Constants
+
+| Symbol               | Default          | Description                                 |
+|----------------------+------------------+---------------------------------------------|
+| ~dotfiles/home~      | =~/.emacs.d=     | Origininal value of ~user-emacs-directory~. |
+| ~dotfiles/cache~     | =~/.cache/emacs= | Redirection target of ~user-emacs-dictory~. |
+| ~dotfiles/modules-p~ | [[file:modules/][Modules]]          | All of the available system modules.        |
+
+** Variables
+  
+| Symbol                       | Default                 | Description                       |
+|------------------------------+-------------------------+-----------------------------------|
+| ~dotfiles/browser~           | =$BROWSER=              | Default system web browser.       |
+| ~dotfiles/language~          | =$LANG=                 | Default system language.          |
+|------------------------------+-------------------------+-----------------------------------|
+| ~dotfiles/modules~           | ~dotfiles/modules-p~    | All of the enabled modules.       |
+|------------------------------+-------------------------+-----------------------------------|
+| ~dotfiles/font~              | Fira Code               | Unified system font family.       |
+| ~dotfiles/font-size~         | 96                      | Unified system font size.         |
+|------------------------------+-------------------------+-----------------------------------|
+| ~dotfiles/idle~              | 0.0                     | Completion delay time.            |
+|------------------------------+-------------------------+-----------------------------------|
+| ~dotfiles/leader-key~        | SPC                     | All powerful leader key.          |
+| ~dotfiles/leader-key-global~ | C-(dotfiles/leader-key) | Global prefix for the leader key. |
+|------------------------------+-------------------------+-----------------------------------|
+| ~dotfiles/projects~          | =~/.local/source=       | Location of source code projects. |
+| ~dotfiles/passwords~         | =~/.password-store=     | Location of local password store. |
+|------------------------------+-------------------------+-----------------------------------|
+| ~dotfiles/public-key~        | =5EAG356GFAE...=        | GPG key to encrypt org files for. |
 
 * Resources
 
