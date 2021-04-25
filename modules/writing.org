@@ -69,7 +69,6 @@ Download and install *Org roam*[fn:4], a plain text knowledge management system 
 #+begin_src emacs-lisp
 (use-package org-roam
   :hook (after-init . org-roam-mode)
-  :init (dotfiles/install "sqlite")
   :custom (org-roam-directory org-directory)
           (org-roam-capture-templates '())
           (org-roam-dailies-capture-templates '())

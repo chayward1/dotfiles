@@ -32,7 +32,6 @@ Create screencasts with =one-frame-per-action= GIF recording via *Emacs gif scre
 
 #+begin_src emacs-lisp
 (use-package gif-screencast
-  :init (dotfiles/install "scrot imagemagick")
   :commands (gif-screencast-start-or-stop gif-screencast-toggle-pause)
   :custom (gif-screencast-output-directory (concat dotfiles/home "docs/images/")))
 #+end_src

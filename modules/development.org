@@ -114,7 +114,6 @@ Add support for the *C/C++* family of languages via the *CCLS*[fn:7] language se
 
 #+begin_src emacs-lisp
 (use-package ccls
-  :init (dotfiles/install "ccls")
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda ()
            (require 'ccls)
@@ -163,7 +162,6 @@ Download and install *PlantUML*[fn:11], a text-based markup language for creatin
 #+begin_src emacs-lisp
 (use-package plantuml-mode
   :after org
-  :init (dotfiles/install "default-jre")
   :custom (plantuml-default-exec-mode 'jar)
           (plantuml-jar-path "~/.local/bin/plantuml.jar")
           (org-plantuml-jar-path (expand-file-name "~/.local/bin/plantuml.jar"))

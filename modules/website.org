@@ -16,8 +16,7 @@ Download *Ox-hugo*[fn:5] and configure it for =one-post-for-file= to add support
 
 #+begin_src emacs-lisp
 (use-package ox-hugo
-  :after ox
-  :init (dotfiles/install "hugo"))
+  :after ox)
 #+end_src
 
 * Posts
