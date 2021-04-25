@@ -1,12 +1,18 @@
-# Append to the $PATH
+# Force colours
 
-# Ensure that ~~/.local/bin~ added to the =$PATH= variable.
+# Manually set the terminal type to ~xterm-256color~ for better colours on TTY Emacs.
 
 
-PATH=$PATH:~/.local/bin
-export PATH
+export TERM=xterm-256color
 
-# Launch on TTY1
+# Setting up the $PATH
+
+#  Ensure ~~/.local/bin~ added to the =$PATH= environment variable.
+
+
+export PATH=$PATH:~/.local/bin
+
+# Starting Emacs by default on TTY1
 
 # When launching into a new session on ~TTY1~, if the display server is not running, run *StartX*[fn:3]. This will launch the window manager.
 

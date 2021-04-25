@@ -17,13 +17,20 @@ Override the default behaviour of the Shell environment to integrate with Emacs.
 
 Override the default shell profile under *Bash*.
 
+** Force colours
+
+Manually set the terminal type to ~xterm-256color~ for better colours on TTY Emacs.
+
+#+begin_src shell
+export TERM=xterm-256color
+#+end_src
+
 ** Setting up the $PATH
 
  Ensure ~~/.local/bin~ added to the =$PATH= environment variable.
 
 #+begin_src shell
-PATH=$PATH:~/.local/bin
-export PATH
+export PATH=$PATH:~/.local/bin
 #+end_src
 
 ** Starting Emacs by default on TTY1
