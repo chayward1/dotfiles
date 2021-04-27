@@ -225,6 +225,20 @@ More capture templates for *Org roam*[fn:4] are defined here in the context of s
   "a" '(org-agenda :which-key "Agenda"))
 #+end_src
 
+** Navigation and search
+
+Use *Deft* to search and navigate the knowledge base with text filtering.
+
+#+begin_src emacs-lisp
+(use-package deft
+  :after org-roam
+  :custom (deft-recursive t)
+          (deft-directory org-directory)
+          (deft-default-extension "org")
+          (deft-use-filter-string-for-filename t)
+  :config (dotfiles/leader "rs" '(deft :which-key "Search (deft)")))
+#+end_src
+
 * Resources
 
 [fn:1] https://orgmode.org
