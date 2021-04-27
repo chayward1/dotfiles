@@ -30,6 +30,7 @@ RUN apt install -y \
     libjansson-dev
 
 RUN apt install -y \
+    isync
     libxapian-dev \
     libgmime-3.0-dev
 
@@ -49,4 +50,5 @@ RUN ./autogen.sh \
     && make
     && make install
 
+WORKDIR /usr/src/app
 ENTRYPOINT [ "emacs" ]
