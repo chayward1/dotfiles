@@ -68,7 +68,7 @@ Download *mbsync*[fn:3] as part of the ~isync~ package on Ubuntu/Debian.
 sudo apt install -y isync
 #+end_src
 
-*Mu4e*[fn:2] is packaged for Ubuntu/Debian, but has a few dependencies to build for Emacs.
+*Mu4e*[fn:2] is packaged for Ubuntu/Debian, but has a few dependencies to build for Emacs. I've had a lot of problems on multiple distributions trying to use the packaged versions. I would recommend installing it from source, which I detail here: https://chrishayward.xyz/posts/ https://chrishayward.xyz/posts/installing-mu-mu4e-from-source/
 
 #+begin_src shell
 sudo apt install -y mu4e libgmime-3.0-dev libxapian-dev
@@ -79,11 +79,12 @@ sudo apt install -y mu4e libgmime-3.0-dev libxapian-dev
 :header-args: :tangle no
 :END:
 
-Once mail has been synchronized you need to index it using *mu*[fn:1].
+Once mail has been synchronized you need to init, and index it using *mu*[fn:1].
 
 #+begin_src shell
 mbsync -a
-mu index --maildir="~/.cache/mail"
+mu init --maildir="~/.cache/mail" --my-address="chris@chrishayward.xyz"
+mu index
 #+end_src
 
 * Integration
