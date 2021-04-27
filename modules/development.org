@@ -25,7 +25,6 @@ Get started by installing the *gopls*[fn:4] language server.
 #+begin_src shell
 GO111MODULE=on go get golang.org/x/tools/gopls@latest
 #+end_src
-
 ** Setup the environment
 
 Make some modifications to the environment.
@@ -172,17 +171,28 @@ Download and install *PlantUML*[fn:11], a text-based markup language for creatin
           (dotfiles/leader "ti" '(org-toggle-inline-images :which-key "Images")))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://microsoft.github.io/debug-adapter-protocol
+
 [fn:2] https://microsoft.github.io/language-server-protocol
+
 [fn:3] https://golang.org
+
 [fn:4] https://pkg.go.dev/golang.org/x/tools/gopls
+
 [fn:5] https://emacswiki.org/emacs/GoMode
+
 [fn:6] https://github.com/zweifisch/ob-http
+
 [fn:7] https://github.com/MaskRay/ccls
+
 [fn:8] https://python.org
+
 [fn:9] https://emacswiki.org/emacs/PythonProgrammingInEmacs
+
 [fn:10] https://pypi.org/project/python-language-server/
+
 [fn:11] https://plantuml.com
+
 [fn:12] https://github.com/skuro/plantuml-mode

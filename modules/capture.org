@@ -49,7 +49,8 @@ Create screencasts with =one-frame-per-action= GIF recording via *Emacs gif scre
   "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://github.com/tecosaur/screenshot
+
 [fn:2] https://github.com/takaxp/emacs-gif-screencast

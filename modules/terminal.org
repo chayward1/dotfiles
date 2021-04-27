@@ -55,9 +55,12 @@ Here's an example of what that looks like:
   :config (dotfiles/leader "v" '(vterm-other-window :which-key "Terminal")))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://gnu.org/software/emacs/manual/html_node/eshell/index.html
+
 [fn:2] https://github.com/akermu/emacs-libvterm
+
 [fn:3] https://github.com/zwild/eshell-prompt-extras
+
 [fn:4] https://chrishayward.xyz/posts/immutable-emacs/

@@ -21,7 +21,7 @@ Real time checking and one-shot methods to check and correct common spelling and
 
 ** Spelling
 
-Configure *InteractiveSpell*[fn:6] as a backend with *FlySpell*[fn:7] for real time checking and highlighting.
+Configure *InteractiveSpell*[fn:2] as a backend with *FlySpell*[fn:3] for real time checking and highlighting.
 
 #+begin_src emacs-lisp
 (use-package ispell
@@ -38,7 +38,7 @@ Toggle highlighting within buffers with =SPC t s=.
 
 ** Grammar
 
-I use *Writegood*[fn:8] to find common writing problems such as cliches and poor wording. Grammarly for the peons!
+I use *Writegood*[fn:4] to find common writing problems such as cliches and poor wording. Grammarly for the peons!
 
 #+begin_src emacs-lisp
 (use-package writegood-mode
@@ -55,7 +55,7 @@ Toggle *Writegood* mode with =SPC t w=.
 
 * Knowledge base
 
-Download and install *Org roam*[fn:4], a plain text knowledge management system for Emacs built on top of *Org mode*[fn:1].
+Download and install *Org roam*[fn:5], a plain text knowledge management system for Emacs built on top of *Org mode*[fn:1].
 
 + Notes can be arbitrarily referenced
 + Contexts created by linking topics and notes
@@ -109,7 +109,7 @@ The default behaviour of ~org-roam~ when creating a title slug is to replace any
 
 ** Web visualizer
 
-Including the extension *Org roam server*[fn:5] will run a web application that visualizes the *Org roam*[fn:4] database. Available whenever the editor is running at https://localhost:8080. The image at the top of this page is an example of the application running.
+Including the extension *Org roam server*[fn:6] will run a web application that visualizes the *Org roam*[fn:5] database. Available whenever the editor is running at https://localhost:8080. The image at the top of this page is an example of the application running.
 
 #+begin_src emacs-lisp
 (use-package org-roam-server
@@ -118,7 +118,7 @@ Including the extension *Org roam server*[fn:5] will run a web application that 
 
 ** Daily note taking
 
-Use the =daily= note feature of *Org roam*[fn:4] to capture daily notes. Create the default capture template with some preconfigured headers.
+Use the =daily= note feature of *Org roam*[fn:5] to capture daily notes. Create the default capture template with some preconfigured headers.
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-roam
@@ -202,7 +202,7 @@ Custom capture template for courses.
 #+ATTR_LATEX: :width 420px
 [[../docs/images/2021-02-13-example-agenda.gif]]
 
-More capture templates for *Org roam*[fn:4] are defined here in the context of specific domains and topics.
+More capture templates for *Org roam*[fn:5] are defined here in the context of specific domains and topics.
 
 + Configure agenda sources
 
@@ -239,11 +239,16 @@ Use *Deft* to search and navigate the knowledge base with text filtering.
   :config (dotfiles/leader "rs" '(deft :which-key "Search (deft)")))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://orgmode.org
-[fn:4] https://github.com/org-roam/org-roam
-[fn:5] https://github.com/org-roam/org-roam-server
-[fn:6] https://emacswiki.org/emacs/InteractiveSpell
-[fn:7] https://emacswiki.org/emacs/FlySpell
-[fn:8] https://github.com/bnbeckwith/writegood-mode
+
+[fn:2] https://emacswiki.org/emacs/InteractiveSpell
+
+[fn:3] https://emacswiki.org/emacs/FlySpell
+
+[fn:4] https://github.com/bnbeckwith/writegood-mode
+
+[fn:5] https://github.com/org-roam/org-roam
+
+[fn:6] https://github.com/org-roam/org-roam-server

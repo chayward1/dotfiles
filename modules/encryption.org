@@ -97,9 +97,12 @@ Configure keybindings behind =SPC p=.
   "pg" '(password-store-generate :which-key "Generate"))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://gnupg.org
+
 [fn:2] https://elpa.gnu.org/packages/pinentry.html
+
 [fn:3] https://passwordstore.org
+
 [fn:4] https://git.zx2c4.com/password-store/tree/contrib/emacs

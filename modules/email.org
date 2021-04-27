@@ -149,10 +149,14 @@ Receive notifications for incoming mail via the *mu4e-alert*[fn:5] package.
          (mu4e-alert-enable-mode-line-display))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://codewith.mu/en/download
+
 [fn:2] https://emacswiki.org/emacs/mu4e
+
 [fn:3] https://isync.sourceforge.io
+
 [fn:4] mailto:chris@chrishayward.xyz
+
 [fn:5] https://github.com/iqbalansari/mu4e-alert

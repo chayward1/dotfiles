@@ -35,7 +35,7 @@ export PATH=$PATH:~/.local/bin
 
 ** Starting Emacs by default on TTY1
 
-When launching into a new session on ~TTY1~, if the display server is not running, run *StartX*[fn:3]. This will launch the window manager.
+When launching into a new session on ~TTY1~, if the display server is not running, run *StartX*[fn:1]. This will launch the window manager.
 
 #+begin_src shell
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
@@ -90,3 +90,7 @@ Place keybindings for executing shell commands behind =SPC x=:
   "xx" '(dotfiles/run :which-key "Run")
   "xz" '(async-shell-command :which-key "Async"))
 #+end_src
+
+* Footnotes
+
+[fn:1] https://x.org

@@ -12,7 +12,7 @@ I use *Hugo*[fn:1] for my *website*[fn:2] which I write in *Org*[fn:3] before co
 
 * Setup
 
-Download *Ox-hugo*[fn:5] and configure it for =one-post-for-file= to add support for exporting to *Hugo markdown*[fn:4].
+Download *Ox-hugo*[fn:4] and configure it for =one-post-for-file= to add support for exporting to *Hugo markdown*[fn:3].
 
 #+begin_src emacs-lisp
 (use-package ox-hugo
@@ -75,9 +75,12 @@ Add a capture template for creating blog posts and notes on other peoples conten
 ")))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://gohugo.io
+
 [fn:2] https://chrishayward.xyz
+
 [fn:3] https://markdownguide.org/tools/hugo
+
 [fn:4] https://github.com/kaushalmodi/ox-hugo

@@ -48,7 +48,8 @@ When using the [[file:writing.org][Writing]] module, add a capture template for 
 ")))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://revealjs.com
+
 [fn:2] https://github.com/hexmode/ox-reveal

@@ -107,11 +107,16 @@ Function that takes in a system and configuration file path, checks to see if th
       (make-symbolic-link dot-file sys-file))))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://chrishayward.xyz/posts/immutable-emacs/
+
 [fn:2] https://github.com/raxod502/straight.el
+
 [fn:3] https://github.com/jwiegley/use-package
+
 [fn:4] https://orgmode.org
+
 [fn:5] https://chrishayward.xyz/notes/literate-programming/
+
 [fn:6] https://github.com/emacs-collective/no-littering

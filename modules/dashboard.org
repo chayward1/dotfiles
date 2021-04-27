@@ -14,7 +14,7 @@
 #+ATTR_LATEX: :width 420px
 [[../docs/images/desktop.png]]
 
-Present a *Dashboard* when first launching Emacs. Customize the buttons of the navigator.
+Present a *Dashboard*[fn:1] when first launching Emacs. Customize the buttons of the navigator.
 
 * Configuration
 
@@ -73,3 +73,7 @@ Quickly navigate to the dashboard with =SPC SPC=.
             (switch-to-buffer "*dashboard*"))
             :which-key "Dashboard"))
 #+end_src
+
+* Footnotes
+
+[fn:1] https://github.com/emacs-dashboard/emacs-dashboard

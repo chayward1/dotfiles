@@ -25,6 +25,6 @@ My phone! This is running on a *TTY* or through *VNC* on *Termux*[fn:1]. It's pr
       dotfiles/modules '())
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://wiki.termux.com

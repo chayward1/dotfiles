@@ -8,17 +8,6 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-*WSL*[fn:1] *Ubuntu*[fn:2]
+TODO
 
-* Options
-
-+ Silence warnings on ~native-comp~
-
-#+begin_src emacs-lisp
-(setq comp-async-report-warnings-errors nil)
-#+end_src
-
-* Resources
-
-[fn:1] WSL/WSL2
-[fn:2] Ubuntu 20.04
+* Footnotes

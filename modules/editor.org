@@ -281,21 +281,40 @@ sudo apt install -y cmake \
   libtool-bin
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://vim.org
+
 [fn:2] https://evil.readthedocs.io/en/latest/index.html
+
 [fn:3] https://github.com/hlissner/doom-emacs/
+
 [fn:4] https://spacemacs.org
+
 [fn:5] https://github.com/justbur/emacs-which-key/
+
 [fn:6] https://github.com/emacs-evil/evil-collection
+
 [fn:7] https://github.com/emacs-evil/evil-surround
+
 [fn:8] https://github.com/redguardtoo/evil-nerd-commenter
+
 [fn:9] https://github.com/noctuid/general.el
+
 [fn:10] https://github.com/abo-abo/hydra
+
 [fn:11] https://en.wikipedia.org/wiki/Dired
+
 [fn:12] https://github.com/crocket/dired-single
+
 [fn:13] https://github.com/magit/magit
-[fn:15] https://github.com/magit/forge
+
 [fn:14] https://git-scm.com
+
+[fn:15] https://github.com/magit/forge
+
 [fn:16] https://github.com
+
+[fn:17] https://gnu.org/software/emacs/manual/html_mono/eshell.html
+
+[fn:18] https://github.com/akermu/emacs-libvterm

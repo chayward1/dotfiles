@@ -21,3 +21,15 @@
       dotfiles/language "en_CA"
       dotfiles/font-size 132)
 #+end_src
+
+* Footnotes
+
+[fn:1] DEFINITION NOT FOUND.
+
+[fn:2] DEFINITION NOT FOUND.
+
+[fn:3] DEFINITION NOT FOUND.
+
+[fn:4] DEFINITION NOT FOUND.
+
+[fn:5] DEFINITION NOT FOUND.

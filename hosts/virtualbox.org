@@ -20,7 +20,8 @@ The first configuration, built in the pit of evil on a Windows 10 host **gasps**
       dotfiles/language "en_CA")
 #+end_src
  
-* Resouces
+* Footnotes
 
 [fn:1] Ubuntu 20.04 LTS Server
+
 [fn:2] Alpine Linux

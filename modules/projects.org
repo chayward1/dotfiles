@@ -21,7 +21,7 @@ An *IDE*[fn:1] like experience or better can be achieved within Emacs using two 
 
 * Debug adapters
 
-*Dap mode*[fn:7] provides support for the *Debug Adapter Protocol*[fn:3] inside of Emacs.
+*Dap mode*[fn:5] provides support for the *Debug Adapter Protocol*[fn:3] inside of Emacs.
 
 #+begin_src emacs-lisp
 (use-package dap-mode
@@ -30,7 +30,7 @@ An *IDE*[fn:1] like experience or better can be achieved within Emacs using two 
 
 * Language servers
 
-Support for the *Language Server Protocol*[fn:4] is added to Emacs through the *Lsp mode*[fn:5] package.
+Support for the *Language Server Protocol*[fn:4] is added to Emacs through the *Lsp mode*[fn:6] package.
 
 #+begin_src emacs-lisp
 (use-package lsp-mode
@@ -40,7 +40,7 @@ Support for the *Language Server Protocol*[fn:4] is added to Emacs through the *
 
 ** UI integration
 
-*Lsp ui*[fn:6] provides user interface improvements for *Lsp mode*[fn:5].
+*Lsp ui*[fn:7] provides user interface improvements for *Lsp mode*[fn:6].
 
 #+begin_src emacs-lisp
 (use-package lsp-ui
@@ -51,14 +51,14 @@ Support for the *Language Server Protocol*[fn:4] is added to Emacs through the *
 
 ** Code completion
 
-Text completion via *Company*[fn:10] =AKA= *Complete Anything*.
+Text completion via *Company*[fn:8] =AKA= *Complete Anything*.
 
 #+begin_src emacs-lisp
 (use-package company
   :after lsp)
 #+end_src
 
-Integrate with *Lsp mode*[fn:5] to provide completion candidates through the *Language Server Protocol*[fn:4].
+Integrate with *Lsp mode*[fn:6] to provide completion candidates through the *Language Server Protocol*[fn:4].
 
 + Specify the repository
 + Use asynchronous completion
@@ -75,7 +75,7 @@ Integrate with *Lsp mode*[fn:5] to provide completion candidates through the *La
 
 * Docker containers
 
-Manage *Docker*[fn:8] containers with *Docker.el*[fn:9].
+Manage *Docker*[fn:9] containers with *Docker.el*[fn:10].
 
 #+begin_src emacs-lisp
 (use-package docker
@@ -99,18 +99,30 @@ Configure *Projectile*[fn:11], a project interaction library for Emacs. It provi
   :config (projectile-mode))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://en.wikipedia.org/wiki/Integrated_development_environment
+
 [fn:2] https://en.wikipedia.org/wiki/Microsoft_and_open_source
+
 [fn:3] https://microsoft.github.io/debug-adapter-protocol
+
 [fn:4] https://microsoft.github.io/language-server-protocol
-[fn:5] https://emacs-lsp.github.io/lsp-mode/
-[fn:6] https://emacs-lsp.github.io/lsp-ui/
-[fn:7] https://emacs-lsp.github.io/dap-mode/
-[fn:8] https://docker.com
-[fn:9] https://github.com/Silex/docker.el
-[fn:10] https://company-mode.github.io/
+
+[fn:5] https://emacs-lsp.github.io/dap-mode/
+
+[fn:6] https://emacs-lsp.github.io/lsp-mode/
+
+[fn:7] https://emacs-lsp.github.io/lsp-ui/
+
+[fn:8] https://company-mode.github.io/
+
+[fn:9] https://docker.com
+
+[fn:10] https://github.com/Silex/docker.el
+
 [fn:11] https://projectile.mx
-[fn:12] https://passwordstore.org
-[fn:13] https://git.zx2c4.com/password-store/tree/contrib/emacs
+
+[fn:12] https://git.zx2c4.com/password-store/tree/contrib/emacs
+
+[fn:13] https://passwordstore.org

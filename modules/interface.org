@@ -123,7 +123,7 @@ Integration with the *All the Icons Dired*[fn:4]package.
 
 ** Symbols
 
-Programming buffers made prettier with *Pretty mode*[fn:9], complimentary to the built-in *Prettify symbols mode*[fn:10].
+Programming buffers made prettier with *Pretty mode*[fn:5], complimentary to the built-in *Prettify symbols mode*[fn:6].
 
 #+begin_src emacs-lisp
 (use-package pretty-mode
@@ -132,7 +132,7 @@ Programming buffers made prettier with *Pretty mode*[fn:9], complimentary to the
 
 ** Ligatures
 
-Enable font ligatures via *Fira Code mode*[fn:11].
+Enable font ligatures via *Fira Code mode*[fn:7].
 
 + Perform when *Fira Code* is the current font
 + Don't enable on TTY
@@ -153,7 +153,7 @@ Toggle global ligature mode with =SPC t g=.
 
 ** Emojification
 
-Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[fn:13] package.
+Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[fn:8] package.
 
 #+begin_src emacs-lisp
 (use-package emojify
@@ -161,7 +161,7 @@ Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[f
   :hook (after-init . global-emojify-mode))
 #+end_src
 
-+ Place *Emojify*[fn:13] bindings behind =SPC f=
++ Place *Emojify*[fn:8] bindings behind =SPC f=
   * List with =l=
   * Search with =s=
   * Insert with =i=
@@ -183,7 +183,7 @@ Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[f
 #+ATTR_LATEX: :width 420px
 [[../docs/images/what-is-emacs-customizable.gif]]
 
-High quality and modern colour themes are provided in the *Doom Themes*[fn:5] package.
+High quality and modern colour themes are provided in the *Doom Themes*[fn:9] package.
 
 #+begin_src emacs-lisp
 (use-package doom-themes
@@ -199,7 +199,7 @@ Load a theme with =SPC t t=.
 
 ** Status bar
 
-*Doom modeline*[fn:6] provides an elegant and modern status bar / modeline.
+*Doom modeline*[fn:10] provides an elegant and modern status bar / modeline.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
@@ -241,7 +241,7 @@ Toggle line numbers with =SPC t l=.
 
 ** Parenthesis
 
-Colourize nested parenthesis with *Rainbow delimeters*[fn:8].
+Colourize nested parenthesis with *Rainbow delimeters*[fn:11].
 
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
@@ -250,7 +250,7 @@ Colourize nested parenthesis with *Rainbow delimeters*[fn:8].
 
 ** Superstar
 
-Make headline stars *super* with *Org superstar mode*[fn:14].
+Make headline stars *super* with *Org superstar mode*[fn:12].
 
 #+begin_src emacs-lisp
 (use-package org-superstar
@@ -259,19 +259,32 @@ Make headline stars *super* with *Org superstar mode*[fn:14].
   :hook (org-mode . org-superstar-mode))
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://github.com/abo-abo/swiper
+
 [fn:2] https://github.com/Yevgnen/ivy-rich
+
 [fn:3] [[https://github.com/domtronn/all-the-icons.el]]
+
 [fn:4] https://github.com/jtbm37/all-the-icons-dired
-[fn:5] https://github.com/hlissner/emacs-doom-themes
-[fn:6] https://github.com/seagle0128/doom-modeline
-[fn:7] https://github.com/emacsmirror/linum-relative
-[fn:8] https://github.com/Fanael/rainbow-delimiters
-[fn:9] https://emacswiki.org/emacs/pretty-mode.el
-[fn:10] https://emacswiki.org/emacs/PrettySymbol
-[fn:11] https://github.com/jming422/fira-code-mode
-[fn:12] https://github.com/emacs-dashboard/emacs-dashboard
-[fn:13] https://github.com/iqbalansari/emacs-emojify
-[fn:14] https://github.com/integral-dw/org-superstar-mode
+
+[fn:5] https://emacswiki.org/emacs/pretty-mode.el
+
+[fn:6] https://emacswiki.org/emacs/PrettySymbol
+
+[fn:7] https://github.com/jming422/fira-code-mode
+
+[fn:8] https://github.com/iqbalansari/emacs-emojify
+
+[fn:9] https://github.com/hlissner/emacs-doom-themes
+
+[fn:10] https://github.com/seagle0128/doom-modeline
+
+[fn:11] https://github.com/Fanael/rainbow-delimiters
+
+[fn:12] https://github.com/integral-dw/org-superstar-mode
+
+[fn:13] https://github.com/emacs-dashboard/emacs-dashboard
+
+[fn:14] https://github.com/emacsmirror/linum-relative

@@ -22,8 +22,10 @@ The first real hardware to deploy this configuration on. It's an [[https://www.a
       dotfiles/font-size 132)
 #+end_src
 
-* Resources
+* Footnotes
 
 [fn:1] https://www.amazon.com/Acer-Nitro-AN515-Laptop-i5-8300H/dp/B07C715KNT
+
 [fn:2] https://7thzero.com/blog/switch-hybrid-graphics-mode-nvidia-and-intel
+
 [fn:3] https://ubuntu.com
