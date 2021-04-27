@@ -1,7 +1,8 @@
 *.el
 *.elc
 *.eln
-*.eln.tmp
+*.eln.*
+*.html
 docs/static
 docs/public
 docs/content
