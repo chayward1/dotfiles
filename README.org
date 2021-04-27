@@ -164,10 +164,12 @@ Here's a complete list of all of the options configurable for each host, and the
 |------------------------------+-------------------------+-----------------------------------|
 | ~dotfiles/public-key~        | =5EAG356GFAE...=        | GPG key to encrypt org files for. |
 
-* Resources
+* Footnotes
 
 [fn:1] https://gnu.org/software/emacs
+
 [fn:2] https://orgmode.org/worg/org-contrib/babel/intro.html
+
 [fn:3] https://orgmode.org
+
 [fn:4] https://gnu.org/software/emacs/manual/html_node/elisp/index.html
-[fn:5] https://en.wikipedia.org/wiki/Chicken_or_the_egg
