@@ -30,6 +30,44 @@ exec dbus-launch --exit-with-session emacs -mm --debug-init
                   "~/.xinitrc")
 #+end_src
 
+** Desktop environment
+
+Use the *desktop-environment* package to automatically bind well-known programs for controlling the volume, brightness, media playback, and many other XF86 functionality bindings.
+
+#+begin_src emacs-lisp
+(use-package desktop-environment
+  :after exwm
+  :custom (desktop-environment-brightness-small-increment "5%+")
+          (desktop-environment-brightness-small-decrement "5%-")
+          (desktop-environment-brightness-normal-decrement "10%-")
+          (desktop-environment-brightness-normal-decrement "10%-")
+  :config (desktop-environment-mode))
+#+end_src
+
+** Keyboard tweaks
+:PROPERTIES:
+:header-args: conf :tangle ../config/xmodmap
+:END:
+
+Use *XModmap* to swap CapsLock and Ctrl to keep common bindings on the home row.
+
+#+begin_src conf
+clear lock
+clear control
+
+keycode 66 = Control_L
+
+add control = Control_L
+add Lock = Control_R
+#+end_src
+
+#+begin_src emacs-lisp
+(dotfiles/symlink "~/.emacs.d/config/xmodmap"
+                  "~/.Xmodmap")
+#+end_src
+
+#+RESULTS:
+
 * Browser integration
 
 Write out the ~$BROWSER~ variable so other applications can pick up the custom browser.
