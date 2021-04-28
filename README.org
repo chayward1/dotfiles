@@ -11,7 +11,7 @@
 #+ATTR_ORG:   :width 420px
 #+ATTR_HTML:  :width 420px
 #+ATTR_LATEX: :width 420px
-[[./docs/images/desktop-alt.png]]
+[[./docs/images/desktop.png]]
 
 Portable [[https://gnu.org/software/emacs][GNU/Emacs]][fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
