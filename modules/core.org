@@ -64,7 +64,7 @@ Despite having our *stateful* and *immutable* configurations seperate, it's good
   :custom (inhibit-startup-message t)
           (initial-scratch-message "")
           (comp-deferred-compilation t)
-          (custom gc-cons-threshold most-positive-fixnum)
+          (gc-cons-threshold most-positive-fixnum)
   :config (global-prettify-symbols-mode)
            (when (fboundp 'tooltip-mode)
              (tooltip-mode -1))
