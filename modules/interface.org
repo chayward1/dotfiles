@@ -74,6 +74,18 @@ Provide more information about each item in the completion menu with *Ivy rich*[
   :init (ivy-rich-mode 1))
 #+end_src
 
+** Candidate sorting
+
+Sort completion candidates based on how recently or frequently they're selected. This can be helpful when using =M-x= to run commands that aren't bound to specific key-strokes.
+
+#+begin_src emacs-lisp
+(use-package ivy-prescient
+  :after counsel
+  :custom (ivy-prescient-enable-filtering nil)
+  :config (prescient-persist-mode 1)
+          (ivy-prescient-mode 1))
+#+end_src
+
 * Unified fonts
 
 Write out to all of Emacs' available font faces with the unified font defined in the options.
