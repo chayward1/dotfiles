@@ -2,3 +2,6 @@
 *.org linguist-language=Emacs
 *.org.gpg linguist-detectable
 *.org.gpg linguist-language=Emacs
+
+*.gpg filter=gpg diff=gpg
+*.asc filter=gpg diff=gpg
