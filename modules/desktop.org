@@ -8,6 +8,11 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[../docs/images/modules-desktop.png]]
+
 I use Emacs as a Desktop Environment with the *EXWM*[fn:1] package. It allows Emacs to function as a complete tiling window manager for *X11*[fn:2]. 
 
 * Initialization
