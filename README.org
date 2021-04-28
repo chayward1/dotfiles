@@ -21,11 +21,7 @@ Portable [[https://gnu.org/software/emacs][GNU/Emacs]][fn:1] dotfiles. Built for
 
 * Options
 
-All of the options available for configuration are defined here. They may be overriden in a host configuration, and are read by the definitions in the modules. All of the variables are prefixed with ~dotfiles/~ to avoid name collision with other functions and packages.
-
-** Modules definitions
-
-All of the available modules are defined in ~dotfiles/modules-p~. The variable is constant, meaning it cannot be modified. Each time a new module is added, it must be included in this list.
+All of the options available for configuration are defined here. They may be overriden in a host configuration, and are read by the definitions in the modules. All of the variables are prefixed with ~dotfiles/~ to avoid name collision with other functions and packages. All of the available modules are defined in ~dotfiles/modules-p~. The variable is constant, meaning it cannot be modified. Each time a new module is added, it must be included in this list.
 
 #+begin_src emacs-lisp
 (defconst dotfiles/modules-p
