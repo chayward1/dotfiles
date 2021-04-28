@@ -37,10 +37,10 @@ Use the *desktop-environment* package to automatically bind well-known programs 
 #+begin_src emacs-lisp
 (use-package desktop-environment
   :after exwm
-  :custom (desktop-environment-brightness-small-increment "5%+")
-          (desktop-environment-brightness-small-decrement "5%-")
-          (desktop-environment-brightness-normal-decrement "10%-")
-          (desktop-environment-brightness-normal-decrement "10%-")
+  :custom (desktop-environment-brightness-small-increment "2%+")
+          (desktop-environment-brightness-small-decrement "2%-")
+          (desktop-environment-brightness-normal-decrement "5%-")
+          (desktop-environment-brightness-normal-decrement "5%-")
   :config (desktop-environment-mode))
 #+end_src
 
