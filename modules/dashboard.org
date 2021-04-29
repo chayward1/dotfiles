@@ -12,7 +12,7 @@
 #+ATTR_ORG: :width 420px
 #+ATTR_HTML: :width 420px
 #+ATTR_LATEX: :width 420px
-[[../docs/images/desktop.png]]
+[[../docs/images/modules-dashboard.png]]
 
 Present a *Dashboard*[fn:1] when first launching Emacs. Customize the buttons of the navigator.
 

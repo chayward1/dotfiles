@@ -6,4 +6,6 @@
 # My workflow includes launching the window manager with *Xinit*[fn:3], without the use of a display manager, controlling *everything* within Emacs.
 
 
+compton &
+xss-lock -- slock &
 exec dbus-launch --exit-with-session emacs -mm --debug-init

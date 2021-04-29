@@ -11,7 +11,8 @@
 #+ATTR_ORG:   :width 420px
 #+ATTR_HTML:  :width 420px
 #+ATTR_LATEX: :width 420px
-[[./docs/images/desktop-alt.png]]
+[[./docs/images/modules-desktop.png]]
+[[./docs/images/modules-writing.png]]
 
 Portable [[https://gnu.org/software/emacs][GNU/Emacs]][fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
@@ -158,7 +159,6 @@ Breaking down the project into logical units or chapters to keep the code more m
 + [[file:modules/terminal.org][Terminal]]
 + [[file:modules/website.org][Website]] 
 + [[file:modules/writing.org][Writing]] 
-
 
 All of the modules in ~dotfiles/modules~ load after the host overrides. By default, all of the packages defined in ~dotfiles/modules-p~ load. Override this behaviour in a host configuration file.
 
