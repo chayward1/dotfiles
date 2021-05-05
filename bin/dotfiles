@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 
 # Print help text and exit.
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+if [ "$1" = "help" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     cat <<HELP
 Usage: dotfiles [options]
 
 Examples:
-	- dotfiles fix	Fix the local copy
-	- dotfiles -h	Print the help message
+	- dotfiles help [-h]	Print the help message
+	- dotfiles fix		Fix the local copy
 HELP
     exit 1
 fi
@@ -15,7 +15,7 @@ fi
 # Fix any corruptions in the local copy.
 if [ "$1" = "fix" ]; then
     if [ -d .git/objects/ ]; then
-	find .git/objects/ -type f -empty | xargs rm
+	find .git/objects/ -type f -empty | xargs rm -f
 	git fetch -p
 	git fsck --full
     fi
