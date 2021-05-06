@@ -25,7 +25,11 @@ My workflow includes launching the window manager with *Xinit*[fn:3], without th
 #+begin_src conf
 compton &
 xss-lock -- slock &
-exec dbus-launch --exit-with-session emacs -mm --debug-init
+
+# FIXME! https://github.com/ch11ng/exwm/issues/210#issuecomment-350044271
+# exec dbus-launch --exit-with-session emacs -mm --debug-init
+
+exec dbus-launch emacs -mm --debug-init
 #+end_src
 
 ** Create a symbolic link(s)
