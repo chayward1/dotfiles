@@ -3,9 +3,13 @@
 # :header-args: :tangle ../config/xinitrc :comments org
 # :END:
 
-# My workflow includes launching the window manager with *Xinit*[fn:3], without the use of a display manager, controlling *everything* within Emacs.
+# My workflow includes launching the window manager with *Xinit*[fn:3], without the use of a display manager, controlling *everything* within Emacs. In addition, compton is used as a display compositor, and slock for a screen lock.
 
 
 compton &
 xss-lock -- slock &
-exec dbus-launch --exit-with-session emacs -mm --debug-init
+
+# FIXME! https://github.com/ch11ng/exwm/issues/210#issuecomment-350044271
+# exec dbus-launch --exit-with-session emacs -mm --debug-init
+
+exec dbus-launch emacs -mm --debug-init
