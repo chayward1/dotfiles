@@ -27,9 +27,7 @@ compton &
 xss-lock -- slock &
 
 # FIXME! https://github.com/ch11ng/exwm/issues/210#issuecomment-350044271
-# exec dbus-launch --exit-with-session emacs -mm --debug-init
-
-exec dbus-launch emacs -mm --debug-init
+exec dbus-launch --exit-with-session emacs -mm --debug-init
 #+end_src
 
 ** Create a symbolic link(s)
