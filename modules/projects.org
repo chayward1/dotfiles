@@ -19,6 +19,13 @@ An *IDE*[fn:1] like experience or better can be achieved within Emacs using two 
 + *Debug Adapter Protocol*[fn:3]
 + *Language Server Protocol*[fn:4]
 
+* Code snippets
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :ensure t)
+#+end_src
+  
 * Debug adapters
 
 *Dap mode*[fn:5] provides support for the *Debug Adapter Protocol*[fn:3] inside of Emacs.
@@ -35,7 +42,8 @@ Support for the *Language Server Protocol*[fn:4] is added to Emacs through the *
 #+begin_src emacs-lisp
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :custom (lsp-idle-delay (* 5 dotfiles/idle)))
+  :custom (lsp-idle-delay (* 5 dotfiles/idle))
+          (lsp-prefer-flymake t))
 #+end_src
 
 ** UI integration
