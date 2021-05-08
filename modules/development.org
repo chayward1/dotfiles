@@ -137,6 +137,7 @@ Adds support for *Python* and *Python 3*[fn:8] with *DAP*[fn:1] and *LSP*[fn:2] 
           (add-to-list 'org-structure-template-alist '("py" . "src python"))
           (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (org-babel-python-command "python3") ;; Same as above.
           (dap-python-executable "python3")    ;; Same as above.
           (dap-python-debugger 'debugpy))
 #+end_src
