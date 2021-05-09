@@ -42,7 +42,7 @@ Here's an example of what that looks like:
 
 * Interactive Terminal
 
-*EShell*[fn:1] isn't enough when needing interactivity from the terminal. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]][fn:4] for one of my courses required lots of terminal interaction which *Eshell*[fn:1] was unable to handle. *VTerm's*[fn:2] based on an external C library which is blazing fast, and fully interactive.
+*EShell*[fn:1] isn't enough when needing interactivity from the terminal. Going through [[https://chrishayward.xyz/notes/thinking-in-cpp/][Thinking in C++]] for one of my courses required lots of terminal interaction which *Eshell*[fn:1] was unable to handle. *VTerm's*[fn:2] based on an external C library which is blazing fast, and fully interactive.
 
 + Always compile the module
 + Open in the current buffer with =SPC v=
@@ -62,5 +62,3 @@ Here's an example of what that looks like:
 [fn:2] https://github.com/akermu/emacs-libvterm
 
 [fn:3] https://github.com/zwild/eshell-prompt-extras
-
-[fn:4] https://chrishayward.xyz/posts/immutable-emacs/

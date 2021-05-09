@@ -254,7 +254,7 @@ Interact with *Git*[fn:14] forges from *Magit*[fn:13] and Emacs using *Forge*[fn
 
 ** Interactive terminal
 
-Sometimes *Eshell*[fn:17] just isn't enough. Going through [[file:../docs/notes/thinking-in-cpp.org.gpg][Thinking in C++]] for one of my courses requires lots of terminal input which *Eshell*[fn:17] just doesn't handle. Prior to this I was dropping to another *TTY* interface, but that was cumbersome. *Vterm's*[fn:18] based on an external C library which is blazing fast.
+Sometimes *Eshell*[fn:17] just isn't enough. Going through [[https://chrishayward.xyz/notes/thinking-in-cpp/][Thinking in C++]] for one of my courses requires lots of terminal input which *Eshell*[fn:17] just doesn't handle. Prior to this I was dropping to another *TTY* interface, but that was cumbersome. *Vterm's*[fn:18] based on an external C library which is blazing fast.
 
 + Always compile the module
 
