@@ -139,6 +139,7 @@ Adds support for *Python* and *Python 3*[fn:8] with *DAP*[fn:1] and *LSP*[fn:2] 
   :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
           (org-babel-python-command "python3") ;; Same as above.
           (dap-python-executable "python3")    ;; Same as above.
+          (lsp-pyls-server-command "pylsp")
           (dap-python-debugger 'debugpy))
 #+end_src
 
@@ -147,7 +148,7 @@ Adds support for *Python* and *Python 3*[fn:8] with *DAP*[fn:1] and *LSP*[fn:2] 
 Install the *pyls*[fn:10] language server.
 
 #+begin_src shell
-pip3 install --user "python-language-server[all]"
+pip3 install --user "python-lsp-server[all]"
 #+end_src
 
 * PlantUML
