@@ -50,8 +50,15 @@ Use the *desktop-environment* package to automatically bind well-known programs 
           (desktop-environment-brightness-small-decrement "2%-")
           (desktop-environment-brightness-normal-decrement "5%-")
           (desktop-environment-brightness-normal-decrement "5%-")
+          (desktop-environment-volume-small-increment "2%+")
+          (desktop-environment-volume-small-decrement "2%-")
+          (desktop-environment-volume-normal-increment "5%+")
+          (desktop-environment-volume-normal-decrement "5%-")
   :config (desktop-environment-mode))
 #+end_src
+
+#+RESULTS:
+: t
 
 ** Keyboard tweaks
 :PROPERTIES:
