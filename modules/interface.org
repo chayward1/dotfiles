@@ -53,6 +53,13 @@ Toggle frame transparency with =SPC t r=.
   "tr" '(dotfiles/toggle-transparency :which-key "Toggle transparency"))
 #+end_src
 
+Enable frame transparency by default.
+
+#+begin_src emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+#+end_src
+
 ** Popup selection frame
 
 + Display =ivy= completions in a popup buffer
