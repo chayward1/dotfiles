@@ -30,6 +30,29 @@ There's a lot of occasions Emacs asks to input text to match a file name in a di
   :config (ivy-mode 1))
 #+end_src
 
+** Frame transparency
+
+TODO
+
+#+begin_src emacs-lisp
+(defun dotfiles/toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter nil 'alpha
+      (if (eql (cond ((numberp alpha) alpha)
+                     ((numberp (cdr alpha)) (cdr alpha))
+                     ((numberp (cadr alpha)) (cadr alpha)))
+               100)
+          '(85 . 50) '(100 . 100)))))
+#+end_src
+
+Toggle frame transparency with =SPC t r=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tr" '(dotfiles/toggle-transparency :which-key "Toggle transparency"))
+#+end_src
+
 ** Popup selection frame
 
 + Display =ivy= completions in a popup buffer
