@@ -164,6 +164,7 @@ Connect our custom hooks and configure the input keys, a custom layer for key ca
           (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
           (add-hook 'exwm-update-class-hook (lambda () (exwm-workspace-rename-buffer exwm-class-name)))
           (dotfiles/update-display)
+          (dotfiles/run-in-background "nitrogen --restore") ;; Update the wallpaper.
           (exwm-enable))
 #+end_src
 
