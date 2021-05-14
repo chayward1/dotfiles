@@ -14,10 +14,10 @@
 #+ATTR_LATEX: :width 420px
 [[./docs/images/desktop-example.png]]
 
-Portable [[https://gnu.org/software/emacs][GNU/Emacs]] dotfiles. Built for Life, Liberty, and the Open Road.
-
 #+begin_quote
 *DISCLAIMER*
 
 These dotfiles are undergoing a major re-write, use at your own caution!
 #+end_quote
+
+Portable [[https://gnu.org/software/emacs][GNU/Emacs]] dotfiles. Built for Life, Liberty, and the Open Road.
