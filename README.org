@@ -13,6 +13,12 @@
 #+ATTR_LATEX: :width 420px
 [[./docs/images/desktop-example.png]]
 
+*DISCLAIMER*
+
+#+begin_center
+These dotfiles are undergoing a major re-write. Use at your own caution.
+#+end_center
+
 Portable [[https://gnu.org/software/emacs][GNU/Emacs]][fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
 + 100% Literate
