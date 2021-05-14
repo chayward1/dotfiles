@@ -39,7 +39,7 @@
 
 ;; Apply the configurations prior to bootstrapping the package manager.
 
-(setq straight-repository-branch "develop"
+(setq straight-repository-branch "master"
       straight-use-package-by-default t
       package-enable-at-startup nil)
 
