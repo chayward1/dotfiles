@@ -33,6 +33,7 @@ Goal of this module is to provide an easily customizable dashboard buffer to dis
           (dashboard-set-heading-icons t)
           (dashboard-set-navigator t)
           (dashboard-startup-banner 'logo)
+          (dashboard-startup-banner (expand-file-name "~/.emacs.d/docs/images/emacs.png"))
           (dashboard-projects-backend 'projectile)
           (dashboard-items '((projects . 10) (recents  . 10) (agenda . 10)))
           (dashboard-navigator-buttons 
