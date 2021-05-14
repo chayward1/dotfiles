@@ -1,13 +1,14 @@
-;; Modules definitions
+;; Options
 
-;; All of the available modules are defined in ~dotfiles/modules-p~. The variable is constant, meaning it cannot be modified. Each time a new module is added, it must be included in this list.
+;; All of the options available for configuration are defined here. They may be overriden in a host configuration, and are read by the definitions in the modules. All of the variables are prefixed with ~dotfiles/~ to avoid name collision with other functions and packages. All of the available modules are defined in ~dotfiles/modules-p~. The variable is constant, meaning it cannot be modified. Each time a new module is added, it must be included in this list.
 
 
 (defconst dotfiles/modules-p
   '(core
     editor
     shell
-    email 
+    email
+    feeds
     terminal
     encryption 
     desktop
@@ -135,7 +136,6 @@
 ;; + [[file:modules/terminal.org][Terminal]]
 ;; + [[file:modules/website.org][Website]] 
 ;; + [[file:modules/writing.org][Writing]] 
-
 
 ;; All of the modules in ~dotfiles/modules~ load after the host overrides. By default, all of the packages defined in ~dotfiles/modules-p~ load. Override this behaviour in a host configuration file.
 

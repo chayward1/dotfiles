@@ -29,7 +29,8 @@ All of the options available for configuration are defined here. They may be ove
   '(core
     editor
     shell
-    email 
+    email
+    feeds
     terminal
     encryption 
     desktop

@@ -1,0 +1,40 @@
+#+TITLE: Feeds
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle feeds.el :comments org
+#+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+Setup a news feed inside of Emacs using =Elfeed=[fn:1], an Emacs web feeds client.
+
+* Setup
+
+Open up ~elfeed~ using =SPC l=.
+
+#+begin_src emacs-lisp
+(use-package elfeed
+  :commands (elfeed elfeed-update))
+#+end_src
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "l" '(:ignore t :which-key "Elfeed")
+  "ll" '(elfeed :which-key "Open")
+  "lu" '(elfeed-update :which-key "Update"))
+#+end_src
+
+* Feeds
+
+Add the feed for my [[file:website.org][Website]][fn:2] to make sure the RSS feeds are updating correctly.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'elfeed
+  (add-to-list 'elfeed-feeds "https://chrishayward.xyz/index.xml"))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://github.com/skeeto/elfeed
+
+[fn:2] https://chrishayward.xyz/index.xml
