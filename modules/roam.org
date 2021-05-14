@@ -42,23 +42,24 @@ The default behaviour of ~org-roam~ when creating a title slug is to replace any
 + Override ~org-roam-title-to-slug-function~
 
 #+begin_src emacs-lisp
-(require 'cl-lib)
-(defun dotfiles/title-to-slug (title)
-  "Convert TITLE to a filename-suitable slug."
-  (cl-flet* ((nonspacing-mark-p (char)
-                                (eq 'Mn (get-char-code-property char 'general-category)))
-             (strip-nonspacing-marks (s)
-                                     (apply #'string (seq-remove #'nonspacing-mark-p
-                                                                 (ucs-normalize-NFD-string s))))
-             (cl-replace (title pair)
-                         (replace-regexp-in-string (car pair) (cdr pair) title)))
-    (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-") ;; Convert anything not alphanumeric.
-                    ("--*" . "-")                   ;; Remove sequential dashes.
-                    ("^-" . "")                     ;; Remove starting dashes.
-                    ("-$" . "")))                   ;; Remove ending dashes.
-           (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
-      (downcase slug))))
-(setq org-roam-title-to-slug-function #'dotfiles/title-to-slug)
+(with-eval-after-load 'org-roam
+  (require 'cl-lib)
+  (defun dotfiles/title-to-slug (title)
+    "Convert TITLE to a filename-suitable slug."
+    (cl-flet* ((nonspacing-mark-p (char)
+                                  (eq 'Mn (get-char-code-property char 'general-category)))
+               (strip-nonspacing-marks (s)
+                                       (apply #'string (seq-remove #'nonspacing-mark-p
+                                                                   (ucs-normalize-NFD-string s))))
+               (cl-replace (title pair)
+                           (replace-regexp-in-string (car pair) (cdr pair) title)))
+      (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-") ;; Convert anything not alphanumeric.
+                      ("--*" . "-")                   ;; Remove sequential dashes.
+                      ("^-" . "")                     ;; Remove starting dashes.
+                      ("-$" . "")))                   ;; Remove ending dashes.
+             (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+        (downcase slug))))
+  (setq org-roam-title-to-slug-function #'dotfiles/title-to-slug))
 #+end_src
 
 ** Visualizer
@@ -76,18 +77,19 @@ Use the ~org-roam-server~ web application to visualize the ~org-roam~ database. 
 Use the ~daily~ note feature of ~org-roam~ to capture daily notes. Create the default capture template with some preconfigured headers.
 
 #+begin_src emacs-lisp
-(add-to-list 'org-roam-dailies-capture-templates
-  '("d" "Default" entry (function org-roam-capture--get-point)
-           "* %?"
-           :file-name "docs/daily/%<%Y-%m-%d>"
-           :head
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-dailies-capture-templates
+    '("d" "Default" entry (function org-roam-capture--get-point)
+             "* %?"
+             :file-name "docs/daily/%<%Y-%m-%d>"
+             :head
 "
 ,#+TITLE: %<%Y-%m-%d>
 ,#+AUTHOR: Christopher James Hayward
 
 ,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 ,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-"))
+")))
 #+end_src
 
 * Templates
@@ -95,17 +97,18 @@ Use the ~daily~ note feature of ~org-roam~ to capture daily notes. Create the de
 Collection of capture templates for various contexts. Here is one for a generic document.
 
 #+begin_src emacs-lisp
-(add-to-list 'org-roam-capture-templates
-  '("d" "Default" entry (function org-roam-capture--get-point)
-        "%?"
-        :file-name "docs/${slug}"
-        :unnarrowed t
-        :head 
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+    '("d" "Default" entry (function org-roam-capture--get-point)
+          "%?"
+          :file-name "docs/${slug}"
+          :unnarrowed t
+          :head 
 "
 ,#+TITLE: ${title}
 ,#+AUTHOR: Christopher James Hayward
 ,#+EMAIL: chris@chrishayward.xyz
-"))
+")))
 #+end_src
 
 ** Course
@@ -113,12 +116,13 @@ Collection of capture templates for various contexts. Here is one for a generic 
 Capture template for a new course. Capture with =SPC r c c=.
 
 #+begin_src emacs-lisp
-(add-to-list 'org-roam-capture-templates
-  '("c" "Course" plain (function org-roam-capture--get-point)
-        "%?"
-        :file-name "docs/courses/${slug}"
-        :unnarrowed t
-        :head
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-capture-templates
+    '("c" "Course" plain (function org-roam-capture--get-point)
+          "%?"
+          :file-name "docs/courses/${slug}"
+          :unnarrowed t
+          :head
 "
 ,#+TITLE: ${title}
 ,#+SUBTITLE:
@@ -127,7 +131,7 @@ Capture template for a new course. Capture with =SPC r c c=.
 
 ,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 ,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-"))
+")))
 #+end_src
 
 * Shortcuts
