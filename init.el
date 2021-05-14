@@ -4,11 +4,12 @@
 
 
 (defconst dotfiles/modules-p
-  '(core
+  '(org trash
     editor
     shell
     email
     feeds
+    media
     terminal
     encryption 
     desktop
@@ -102,15 +103,7 @@
 
 ;; Hosts
 
-;; Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Here's some examples to get started:
-
-;; + [[file:hosts/acernitro.org][Acernitro]]
-;; + [[file:hosts/gamingpc.org][GamingPC]]
-;; + [[file:hosts/localhost.org][Termux]]
-;; + [[file:hosts/raspberry.org][Raspberry]]
-;; + [[file:hosts/virtualbox.org][VirtualBox]] 
-
-;; Begin the process by loading any host specific option overrides. The host configuration tangles, and loads (if it exist) using the systems name. If a host definition doesn't exist the default values remain. 
+;; Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Begin the process by loading any host specific option overrides. The host configuration tangles, and loads (if it exist) using the systems name. If a host definition doesn't exist the default values remain. 
 
 
 (let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
@@ -119,25 +112,7 @@
 
 ;; Modules
 
-;; Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. Below are details of the modules, and their respective dependencies.
-
-;; + [[file:modules/capture.org][Capture]]
-;; + [[file:modules/core.org][Core]] 
-;; + [[file:modules/dashboard.org][Dashboard]] 
-;; + [[file:modules/desktop.org][Desktop]] 
-;; + [[file:modules/development.org][Development]] 
-;; + [[file:modules/editor.org][Editor]] 
-;; + [[file:modules/email.org][Email]] 
-;; + [[file:modules/encryption.org][Encryption]] 
-;; + [[file:modules/interface.org][Interface]] 
-;; + [[file:modules/presentations.org][Presentations]] 
-;; + [[file:modules/projects.org][Projects]] 
-;; + [[file:modules/shell.org][Shell]] 
-;; + [[file:modules/terminal.org][Terminal]]
-;; + [[file:modules/website.org][Website]] 
-;; + [[file:modules/writing.org][Writing]] 
-
-;; All of the modules in ~dotfiles/modules~ load after the host overrides. By default, all of the packages defined in ~dotfiles/modules-p~ load. Override this behaviour in a host configuration file.
+;; Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. All of the modules in ~dotfiles/modules~ load after the host overrides. By default, all of the packages defined in ~dotfiles/modules-p~ load. Override this behaviour in a host configuration file.
 
 
 (dolist (m dotfiles/modules)

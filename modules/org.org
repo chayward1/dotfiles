@@ -1,0 +1,103 @@
+#+TITLE: Org
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle core.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Organize your plain-life in plain-text. The hallmark feature of Emacs, ~org-mode~ is the king of markup languages. It has rich feature support for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
+
+* Hook
+
+Define a custom hook when ~org-mode~ is enabled to customize the experience:
+
++ Enable ~org-indent-mode~ to indent and align text with the parent heading
++ Enable ~visual-line-mode~ to allow text to overflow and wrap to the next visual line
++ Enable ~variable-pitch-mode~ to support multiple font-pitches and monospaced fonts
+
+#+begin_src emacs-lisp
+(defun dotfiles/org-mode-hook (nil)
+  "Executes each time `org-mode' is enabled."
+  (org-indent-mode)       ;; Indent and align text.
+  (visual-line-mode 1)    ;; Allow text to overflow line.
+  (variable-pitch-ode 1)) ;; Enable monospaced fonts.
+#+end_src
+
+* Setup
+
+Force ~straight~ to ignore the local version of ~org-mode~, instead downloading the most recent version available.
+
+#+begin_src emacs-lisp
+(straight-use-package '(org :local-repo nil))
+#+end_src
+
+Setup the default babel languages and structure templates, and apply customizations:
+
++ Setup ~org-mode-hook~ with our custom hook
++ Setup ~org-ellipsis~ to show headlines with hidden contents
++ Setup ~org-log-*~ for event logging
++ Setup ~org-src-*~ for source blocks
++ Setup ~org-todo-keyword~ sequence
+
+#+begin_src emacs-lisp
+(use-package org
+  :hook (org-mode . dotfiles/org-mode-hook)
+  :custom (org-ellipsis " ▾")
+          (org-log-done 'time)
+          (org-log-into-drawer t)
+          (org-return-follows-link t)
+          (org-image-actual-width nil)
+          (org-directory dotfiles/home)
+          (org-src-fontify-natively t)
+          (org-src-tab-acts-natively t)
+          (org-src-preserve-indentation t)
+          (org-confirm-babel-evaluate nil)
+          (org-todo-keywords '((sequence "TODO" "START" "WAIT" "DONE")))
+  :config (require 'org-tempo) ;; Required for structure templates.
+          (add-to-list 'org-structure-template-alist '("s" . "src"))
+          (add-to-list 'org-structure-template-alist '("q" . "quote"))
+          (add-to-list 'org-structure-template-alist '("e" . "example"))
+          (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+          (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)
+                                                                   (emacs-lisp . t))))
+#+end_src
+
+* Methods
+
+Define some custom methods for use in the rest of the configuration.
+
+** Tangle directory
+
+Build all of the ~org~ files within a given directory, recursively. This is used in CI.
+
+#+begin_src emacs-lisp
+(defun dotfiles/tangle (dir)
+  "Recursively tangle the Org files within a directory."
+  (interactive)
+  (let ((org-files (directory-files-recursively dir "org")))
+    (dolist (f org-files)
+      (org-babel-tangle-file f))))
+#+end_src
+
+** Force symbolic links
+
+Function that takes in a system and configuration file path, checks to see if the system file doesn't exist, or doesn't point to the configuration file, deleting it for the latter, then creating a symbolic link to the configuration file in place.
+
+#+begin_src emacs-lisp
+(defun dotfiles/symlink (src tgt)
+  "Forces a symlink from `src' to `tgt'."
+  (interactive)
+  (let ((sys-file (expand-file-name tgt))
+        (dot-file (expand-file-name src)))
+    (when (or (not (file-exists-p sys-file))
+              (not (equal (file-symlink-p sys-file) dot-file)))
+      (delete-file sys-file)
+      (make-symbolic-link dot-file sys-file))))
+#+end_src
+
+* Footnotes
+

@@ -1,0 +1,38 @@
+#+TITLE: Trash
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle core.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Keep the system clean of debris.
+
+* Setup
+
+Despite having the stateful and immutable configuration seprated, and the entire project under version control, it's still good practice to make efforts to reduce the trash created by Emacs. The package ~no-littering~ helps us achieve just that.
+
++ Disable ~tooltip-mode~
++ Disable ~tool-bar-mode~
++ Disable ~menu-bar-mode~
++ Disable ~scroll-bar-mode~
++ Inhibit the startup message
+# + Defer ~native-comp~ compilation
++ Clear the scratch buffer instructions
++ Increase the garbage collector threshold
+
+#+begin_src emacs-lisp
+(use-package no-littering
+  :custom (inhibit-startup-message t)
+          (initial-scratch-message "")
+          ;; (comp-deferred-compilation t)
+          (gc-cons-threshold most-positive-fixnum)
+  :config (tooltip-mode -1)
+          (tool-bar-mode -1)
+          (menu-bar-mode -1)
+          (scroll-bar-mode -1))
+#+end_src
+
+* Footnotes
