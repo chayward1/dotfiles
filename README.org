@@ -2,8 +2,9 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle init.el :comments org
-#+PROPERTY: header-args            :results silent :eval no-export
+#+PROPERTY: header-args:emacs-lisp :tangle nil
+#+PROPERTY: header-args:shell      :tangle nil
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
@@ -13,149 +14,10 @@
 #+ATTR_LATEX: :width 420px
 [[./docs/images/desktop-example.png]]
 
+Portable [[https://gnu.org/software/emacs][GNU/Emacs]] dotfiles. Built for Life, Liberty, and the Open Road.
+
+#+begin_quote
 *DISCLAIMER*
 
-#+begin_center
-These dotfiles are undergoing a major re-write. Use at your own caution.
-#+end_center
-
-Portable [[https://gnu.org/software/emacs][GNU/Emacs]][fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
-
-+ 100% Literate
-+ 100% Immutable
-+ 100% Reproducible
-
-* Options
-
-All of the options available for configuration are defined here. They may be overriden in a host configuration, and are read by the definitions in the modules. All of the variables are prefixed with ~dotfiles/~ to avoid name collision with other functions and packages. All of the available modules are defined in ~dotfiles/modules-p~. The variable is constant, meaning it cannot be modified. Each time a new module is added, it must be included in this list.
-
-#+begin_src emacs-lisp
-(defconst dotfiles/modules-p
-  '(org trash
-    editor
-    shell
-    email
-    feeds
-    media
-    terminal
-    passwords pinentry 
-    desktop
-    roam agenda spelling grammar 
-    presentations
-    website 
-    capture
-    projects
-    development 
-    interface 
-    dashboard) 
-  "All of the available modules.")
-#+end_src
-
-After the host configuration has loaded, the modules defined in ~dotfiles/modules~ are loaded sequentially. By default, the value of ~dotfiles/modules~ is equal to ~dotfiles/modules-p~. This means that all of the modules will load by default. Remove symbols from this list in a host configuration, or override it entirely to modify this behaviour.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/modules dotfiles/modules-p
-  "All of the enable modules, default value equal to `dotfiles/modules-p'.")
-#+end_src
-
-** Environment variables
-
-Some of the behaviour in Emacs depends on the values of mutable environment variables. To reduce confusion in my own configuration, the values are read when Emacs starts, and then written to once the configuration has loaded. This allows the values to be overriden in a host configuration, without modifying the environment variable prior to starting.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/browser (getenv "BROWSER")
-  "Default system web browser.")
-
-(defvar dotfiles/language (getenv "LANG")
-  "Default system dictionary language.")
-#+end_src
-
-** Look and feel
-
-Define the options for the unified system font. The default is =Fira Code= due to its readability and support for ligatures. All font faces will be set with this value. Any variations to the font sizes are based on the value defined here as well, reducing the number of places to make modifications to when changing fonts.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/font "Fira Code"
-  "Unified system font family.")
-
-(defvar dotfiles/font-size 96
-  "Unified system font size.")
-#+end_src
-
-Certain actions like code completions, or binding suggestions, can be configured to wait for a specific delay before offering their respective choices. I prefer to keep this value low, so that suggestions are shown immediately. This can have an affect on the performance of Emacs on older hardware. Adjust accordingly.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/idle 0.0
-  "Delay time before offering suggestions and completions.")
-#+end_src
-
-Prefix all of the custom keybinding actions with =SPC=, a tehcnique that comes from Doom / Spacemacs. In some situations, namely when using the [[file:modules/desktop.org][Desktop]] module, the leader key may not always be available. The global prefix should be used in these circumstances.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/leader-key "SPC"
-  "The all-powerful leader key.")
-
-(defvar dotfiles/leader-key-global
-  (concat "C-" dotfiles/leader-key)
-  "Global prefix for the all-powerful leader key.")
-#+end_src
-
-** Productivity
-
-The location of source code projects for indexing in the [[file:modules/projects.org][Projects]] module are defined here. These projects will integrate their TODOs with the local Agenda. Override this setting in a host configuration, with the =DOTFILES_PROJECTS= environment variable, or use the default value of =~/.local/source/= in compliance with the XDG Base Directory specification.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/projects
-  (or (getenv "DOTFILES_PROJECTS")
-      (expand-file-name "~/.local/source"))
-  "Location of source code projects.")
-#+end_src
-
-** Security
-
-The local password store should be cloned prior to initialization. Override this setting in a host configuration, with the =DOTFILES_PASSWORDS= environment variable, or use the default value of =~/.password-store=, which is what GNU pass will assume.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/passwords
-  (or (getenv "DOTFILES_PASSWORDS")
-      (expand-file-name "~/.password-store"))
-  "Location of the local password store.")
-#+end_src
-
-Since I keep all of my writing in this repository, I encrypt *most* of my Org files with GPG. Define the key to encrypt them for / to. Override this in a host configuration file.
-
-#+begin_src emacs-lisp
-(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
-  "GPG kley to encrpy org files for/to.")
-#+end_src
-
-* Hosts
-
-Each host machines configuration loaded immediately after declaring the options, before applying any configuration. This allows system to system control while remaining immutable. Override any of the available options configurations in a host file. Begin the process by loading any host specific option overrides. The host configuration tangles, and loads (if it exist) using the systems name. If a host definition doesn't exist the default values remain. 
-
-#+begin_src emacs-lisp
-(let ((host-file (concat dotfiles/home "/hosts/" system-name ".org")))
-  (when (file-exists-p host-file)
-    (org-babel-load-file host-file)))
-#+end_src
-
-* Modules
-
-Breaking down the project into logical units or chapters to keep the code more maintainable and organized. This is also a fundamental requirement to achieve the goal of modularity. All of the modules in ~dotfiles/modules~ load after the host overrides. By default, all of the packages defined in ~dotfiles/modules-p~ load. Override this behaviour in a host configuration file.
-
-#+begin_src emacs-lisp
-(dolist (m dotfiles/modules)
-  (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
-    (when (file-exists-p mod-file)
-      (org-babel-load-file mod-file))))
-#+end_src
-
-* Footnotes
-
-[fn:1] https://gnu.org/software/emacs
-
-[fn:2] https://orgmode.org/worg/org-contrib/babel/intro.html
-
-[fn:3] https://orgmode.org
-
-[fn:4] https://gnu.org/software/emacs/manual/html_node/elisp/index.html
+These dotfiles are undergoing a major re-write, use at your own caution!
+#+end_quote
