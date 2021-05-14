@@ -13,7 +13,7 @@
     terminal
     passwords pinentry 
     desktop
-    writing 
+    roam agenda spelling grammar 
     presentations
     website 
     capture

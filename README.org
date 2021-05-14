@@ -35,7 +35,7 @@ All of the options available for configuration are defined here. They may be ove
     terminal
     passwords pinentry 
     desktop
-    writing 
+    roam agenda spelling grammar 
     presentations
     website 
     capture
