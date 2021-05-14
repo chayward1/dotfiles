@@ -31,6 +31,7 @@ All of the options available for configuration are defined here. They may be ove
     shell
     email
     feeds
+    media
     terminal
     encryption 
     desktop
@@ -151,9 +152,11 @@ Breaking down the project into logical units or chapters to keep the code more m
 + [[file:modules/desktop.org][Desktop]] 
 + [[file:modules/development.org][Development]] 
 + [[file:modules/editor.org][Editor]] 
-+ [[file:modules/email.org][Email]] 
++ [[file:modules/email.org][Email]]
 + [[file:modules/encryption.org][Encryption]] 
-+ [[file:modules/interface.org][Interface]] 
++ [[file:modules/feeds.org][Feeds]] 
++ [[file:modules/interface.org][Interface]]
++ [[file:modules/media.org][Media]] 
 + [[file:modules/presentations.org][Presentations]] 
 + [[file:modules/projects.org][Projects]] 
 + [[file:modules/shell.org][Shell]] 

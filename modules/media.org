@@ -1,0 +1,27 @@
+#+TITLE: Media
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle feeds.el :comments org
+#+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+Play multimedia inside of Emacs using *GNU/EMMS*, the Emacs Multimedia System[fn:1]:
+
+#+begin_quote
+EMMS displays and plays multimedia from within GNU/Emacs using a variety of external players and from different sources. It can run as a minimalist player and controlled with Emacs commands, or a fully-fledged, interactive media browser[fn:1].
+#+end_quote
+
+#+begin_quote
+Emms can display album art, play streaming audio, tag music files, search for lyrics, provide MPD connectivity, control the volume, and more[fn:1].
+#+end_quote
+
+* Setup
+
+#+begin_src emacs-lisp
+;; TODO.
+#+end_src
+
+* Footnotes
+
+[fn:1] https://gnu.org/software/emms
