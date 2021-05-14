@@ -2,7 +2,7 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle core.el :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle org.el :comments org
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
@@ -19,11 +19,10 @@ Define a custom hook when ~org-mode~ is enabled to customize the experience:
 + Enable ~variable-pitch-mode~ to support multiple font-pitches and monospaced fonts
 
 #+begin_src emacs-lisp
-(defun dotfiles/org-mode-hook (nil)
-  "Executes each time `org-mode' is enabled."
-  (org-indent-mode)       ;; Indent and align text.
-  (visual-line-mode 1)    ;; Allow text to overflow line.
-  (variable-pitch-ode 1)) ;; Enable monospaced fonts.
+(defun dotfiles/org-mode-hook ()
+  (org-indent-mode)        ;; Indent and align text.
+  (visual-line-mode 1)     ;; Allow text to overflow line.
+  (variable-pitch-mode 1)) ;; Enable monospaced fonts.
 #+end_src
 
 * Setup
