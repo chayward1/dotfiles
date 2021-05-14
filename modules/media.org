@@ -2,7 +2,7 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle feeds.el :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle media.el :comments org
 #+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
