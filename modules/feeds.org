@@ -6,31 +6,35 @@
 #+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
-Setup a news feed inside of Emacs using =Elfeed=[fn:1], an Emacs web feeds client.
+Setup a news feed inside of Emacs using ~elfeed~[fn:1], an Emacs web feeds client.
 
 * Setup
 
-Open up ~elfeed~ using =SPC l=.
++ Add the feed for my [[file:website.org][Website]][fn:2] to make sure the RSS feeds are updating correctly
++ Add some subreddits, mostly about ~emacs~ and ~org-mode~.
 
 #+begin_src emacs-lisp
 (use-package elfeed
-  :commands (elfeed elfeed-update))
+  :commands (elfeed elfeed-update)
+  :custom (elfeed-feeds (quote
+                          (("https://chrishayward.xyz/index.xml")
+                           ("https://reddit.com/r/emacs.rss")
+                           ("https://reddit.com/r/orgmode.rss")
+                           ("https://reddit.com/r/emacsporn.rss")))))
 #+end_src
+
+* Shortcuts
+
+Configure ~elfeed~ keybindings behind =SPC l=:
+
++ Open with =l=
++ Update with =u=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "l" '(:ignore t :which-key "Elfeed")
   "ll" '(elfeed :which-key "Open")
   "lu" '(elfeed-update :which-key "Update"))
-#+end_src
-
-* Feeds
-
-Add the feed for my [[file:website.org][Website]][fn:2] to make sure the RSS feeds are updating correctly.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'elfeed
-  (add-to-list 'elfeed-feeds "https://chrishayward.xyz/index.xml"))
 #+end_src
 
 * Footnotes
