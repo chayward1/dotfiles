@@ -33,7 +33,7 @@ All of the options available for configuration are defined here. They may be ove
     feeds
     media
     terminal
-    encryption 
+    passwords pinentry 
     desktop
     writing 
     presentations

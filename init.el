@@ -11,7 +11,7 @@
     feeds
     media
     terminal
-    encryption 
+    passwords pinentry 
     desktop
     writing 
     presentations
