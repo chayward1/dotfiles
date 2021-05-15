@@ -22,6 +22,10 @@ These dotfiles are undergoing a major re-write, use at your own caution!
 
 Portable *GNU/Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
++ 100% Reproducible
++ 100% Immutable
++ 100% Literate
+
 * Overview
 
 These is my personal configuration(s) for *GNU/Linux*[fn:2], and *GNU/Emacs*[fn:1] software. It enables a consistent experience and computing environment across all of my machines. The entire experience is controlled with *GNU/Emacs*[fn:1], leveraging it's capabilities for *Literate Programming*[fn:3].
