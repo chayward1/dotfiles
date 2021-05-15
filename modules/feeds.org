@@ -19,6 +19,7 @@ Setup a news feed inside of Emacs using ~elfeed~[fn:1], an Emacs web feeds clien
   :custom (elfeed-feeds (quote
                           (("https://chrishayward.xyz/index.xml")
                            ("https://hexdsl.co.uk/rss.xml")
+                           ("https://lukesmith.xyz/rss.xml")
                            ("https://reddit.com/r/emacs.rss")
                            ("https://reddit.com/r/orgmode.rss")
                            ("https://reddit.com/r/emacsporn.rss")))))
