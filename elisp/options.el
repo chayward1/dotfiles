@@ -10,7 +10,7 @@
     email
     feeds
     media
-    terminal
+    eshell vterm
     passwords pinentry 
     desktop
     roam agenda spelling grammar 
