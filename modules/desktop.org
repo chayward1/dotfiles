@@ -57,9 +57,6 @@ Use the *desktop-environment* package to automatically bind well-known programs 
   :config (desktop-environment-mode))
 #+end_src
 
-#+RESULTS:
-: t
-
 ** Keyboard tweaks
 :PROPERTIES:
 :header-args: conf :tangle ../config/xmodmap
