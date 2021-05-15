@@ -20,8 +20,16 @@
 These dotfiles are undergoing a major re-write, use at your own caution!
 #+end_quote
 
-Portable [[https://gnu.org/software/emacs][GNU/Emacs]][fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
+Portable *GNU/Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
 * Overview
 
-These is my personal configuration(s) for *GNU/Linux*, and *GNU/Emacs* software. It enables a consistent experience and computing environment across all of my machines. The entire experience is controlled with *GNU/Emacs*, leveraging the abilities of *Org-mode* and *Org-babel* for [[https://chrishayward.xyz/notes/literate-programming/][Literate Programming]].
+These is my personal configuration(s) for *GNU/Linux*[fn:1], and *GNU/Emacs*[fn:1] software. It enables a consistent experience and computing environment across all of my machines. The entire experience is controlled with *GNU/Emacs*[fn:1], leveraging it's capabilities for *Literate Programming*[fn:3].
+
+* Footnotes
+
+[fn:1] https://gnu.org/software/emacs/
+
+[fn:2] https://gnu.org/distros/free-distros.html
+
+[fn:3] https://chrishayward.xyz/notes/literate-programming/
