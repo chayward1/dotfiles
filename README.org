@@ -20,7 +20,7 @@
 These dotfiles are undergoing a major re-write, use at your own caution!
 #+end_quote
 
-Portable [[https://gnu.org/software/emacs][GNU/Emacs]] dotfiles. Built for Life, Liberty, and the Open Road.
+Portable [[https://gnu.org/software/emacs][GNU/Emacs]][fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
 * Overview
 
