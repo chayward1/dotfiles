@@ -11,13 +11,15 @@ Setup a news feed inside of Emacs using ~elfeed~[fn:1], an Emacs web feeds clien
 * Setup
 
 + Add the feed for my [[file:website.org][Website]][fn:2] to make sure the RSS feeds are updating correctly
-+ Add some subreddits, mostly about ~emacs~ and ~org-mode~.
++ Add some subreddits, mostly about ~linux~, ~emacs~ and ~org-mode~
 
 #+begin_src emacs-lisp
 (use-package elfeed
   :commands (elfeed elfeed-update)
   :custom (elfeed-feeds (quote
                           (("https://chrishayward.xyz/index.xml")
+                           ("https://hexdsl.co.uk/rss.xml")
+                           ("https://lukesmith.xyz/rss.xml")
                            ("https://reddit.com/r/emacs.rss")
                            ("https://reddit.com/r/orgmode.rss")
                            ("https://reddit.com/r/emacsporn.rss")))))
