@@ -2,7 +2,7 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args :results silent :eval no-export :comments org
+#+PROPERTY: header-args :results silent :eval no-export
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
@@ -25,15 +25,155 @@ Portable *GNU/Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Literate
 
 * Setup
-# :PROPERTIES:
-# :header-args: :tangle early-init.el
-# :END:
+:PROPERTIES:
+:header-args: :tangle early-init.el
+:END:
 
 These is my personal configuration(s) for *GNU/Linux*[fn:2], and *GNU/Emacs*[fn:1] software. It enables a consistent experience and computing environment across all of my machines. The entire experience is controlled with *GNU/Emacs*[fn:1], leveraging it's capabilities for *Literate Programming*[fn:3]. 
 
 #+begin_src emacs-lisp
 ;; This file is controlled by README.org
 ;; Please make any modifications there.
+#+end_src
+
+** Cleanup
+
+Emacs creates a lot of files relative to ~user-emacs-directory~. These files are not part of this immutable configuration and do not belong in the Emacs directory. To solve this issue, before most of the packages have loaded, I change the value, a method I detail in this post[fn:4]
+
+#+begin_src emacs-lisp
+;; The original value of `user-emacs-directory' prior to redirection.
+(defconst dotfiles/home
+  (or (getenv "DOTFILES_HOME")
+      (expand-file-name user-emacs-directory)))
+
+;; The redirection target of `user-emacs-directory' during initialization.
+(defconst dotfiles/cache
+  (or (getenv "DOTFILES_CACHE")
+      (expand-file-name "~/.cache/emacs")))
+
+;; Make sure `dotfiles/cache' is a valid directory.
+(unless (file-exists-p dotfiles/cache)
+  (make-directory dotfiles/cache t))
+
+;; Redirect the value of `user-emacs-directory'.
+(setq user-emacs-directory dotfiles/cache)
+
+;; Disable error messages for packages that don't support native-comp.
+(setq comp-async-report-warnings-errors nil)
+
+;; Disable unwanted features.
+(setq make-backup-files nil
+      create-lockfiles nil)
+#+end_src
+
+** Packages
+
+Download and install packages using ~straight.el~[fn:5], a fully functional package manager for Emacs that integrates with ~use-package~, a popular way of installing packages for Emacs.
+
+#+begin_src emacs-lisp
+;; Apply the configurations prior to bootstrapping the package manager.
+(setq straight-repository-branch "master"
+      straight-use-package-by-default t
+      package-enable-at-startup nil)
+#+end_src
+
+Bootstrap the package manager by loading the bootstrap-file, downloading it when it doesn't exist on a new system. This operation may take some time on a new system.
+
+#+begin_src emacs-lisp
+;; Bootstrap the package manager.
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; Integrate with `use-package' by installing it via `straight'.
+(straight-use-package 'use-package)
+
+;; Specify core package sources.
+(straight-use-package 'no-littering)
+(straight-use-package '(org :local-repo nil)
+#+end_src
+
+** Options
+
+All of the options are defined early in the config, this is for two reasons: The first being to allow the possibility of sharing between modules, the values which are set early in the configuration. The second reason, related to the first, is to allow machine specific overrides depending on the context where Emacs is running.
+
+#+begin_src emacs-lisp
+;; All of the modules available sorted in their default load order.
+(defconst dotfiles/modules-p
+  '(org trash keys evil dired magit
+    shell mu4e elfeed eshell vterm
+    gpg pass x11 exwm roam agenda
+    spelling grammar reveal hugo
+    capture projects docker lsp dap
+    cc go uml conf python fonts ivy
+    themes modeline dashboard))
+
+;; All of the enabled modules.
+(defvar dotfiles/modules dotfiles/modules-p)
+
+;; The default system language.
+(defvar dotfiles/language (getenv "LANG"))
+
+;; Configure a unified system font.
+(defvar dotfiles/font "Fira Code")
+
+;; Default system font size.
+(defvar dotfiles/font-size 96)
+
+;; Delay time before offering suggestions and completions.
+(defvar dotfiles/idle 0.0)
+
+;; The all powerful leader key.
+(defvar dotfiles/leader-key "SPC")
+
+;; Global prefix for the leader key under X11 windows.
+(defvar dotfiles/leader-key-global
+  (concat "C-" dotfiles/leader-key))
+
+;; The location on disk of source code projects.
+(defvar dotfiles/projects
+  (or (getenv "DOTFILES_PROJECTS")
+      (expand-file-name "~/.local/source")))
+
+;; The location on disk of the local copy of the password store.
+(defvar dotfiles/passwords
+  (or (getenv "DOTFILES_PASSWORDS")
+      (expand-file-name "~/.password-store")))
+
+;; The public GPG key to encrpyt files, and emails for / to / with.
+(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+#+end_src
+
+** Methods
+
+Define two methods that will be used in the next phase of startup: The first method will load a machine-specific (host) configuration file, and the second method will load a custom module definition.
+
+#+begin_src emacs-lisp
+;; Load a host configuration.
+(defun dotfiles/load-host (host-name)
+  "Load the host configuration file for the system `host-name'."
+  (interactive)
+  (let ((host-file (concat dotfiles/home "/hosts/" host-name ".org")))
+    (when (file-exists-p host-file)
+      (org-babel-load-file host-file))))
+
+;; Load a module definition.
+(defun dotfiles/load-modules (modules)
+  "Load the `modules' in sequential order."
+  (interactive)
+  (dolist (m modules)
+    (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
+      (when (file-exists-p mod-file)
+	(org-babel-load-file mod-file)))))
 #+end_src
 
 * Config
@@ -48,12 +188,16 @@ Once the early-init phase as completed, there are only two remaining tasks to co
 ;; Please make any modifications there.
 #+end_src
 
+** Hosts
+
 The first task involves loading a machine-specific (host) configuration file. This gives the oppertunity for a host to intervene in the module loading process, adding or removing modules before the next stage has begun. This is accomplished by modifying the list of modules in ~dotfiles/modules~.
 
 #+begin_src emacs-lisp
 ;; Load the host configuration.
 (dotfiles/load-host system-name)
 #+end_src
+
+** Modules
 
 After the host configuration file has loaded, the value of ~dotfiles/modules~ is used to load all of the enabled modules. They're loaded in sequential order, and an error in any module will end this process.
 
@@ -69,3 +213,7 @@ After the host configuration file has loaded, the value of ~dotfiles/modules~ is
 [fn:2] https://gnu.org/distros/free-distros.html
 
 [fn:3] https://chrishayward.xyz/notes/literate-programming/
+
+[fn:4] https://chrishayward.xyz/posts/immutable-emacs/
+
+[fn:5] https://github.com/raxod502/straight.el
