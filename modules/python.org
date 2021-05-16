@@ -1,0 +1,67 @@
+#+TITLE: Python
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle python.el :comments org
+#+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Python is an interpreted high-level general-purpose programming language[fn:1].
+
+* Setup
+
+Ensure ~python3~[fn:1] is installed on the system, and the ~lsp~ and ~dap~ modules have been loaded before loading this module.
+
+#+begin_src shell
+RUN apt install -y python3 python3-pip
+#+end_src
+
+** Install the language server
+
+Install the ~pyls~[fn:2] language server.
+
+#+begin_src shell
+RUN pip3 install --user "python-lsp-server[all]"
+#+end_src
+
+* Config
+
+Add support for ~python3~[fn:1], including ~dap~ and ~lsp~ integration. The built-in Emacs mode ~python-mode~[fn:3] handles the rest of the integration.
+
+#+begin_src emacs-lisp
+(use-package python-mode
+  :hook (python-mode . lsp-deferred)
+  :config (require 'dap-python)
+          (add-to-list 'org-src-lang-modes '("python" . python))
+          (add-to-list 'org-structure-template-alist '("py" . "src python"))
+          (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
+  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
+          (org-babel-python-command "python3") ;; Same as above.
+          (dap-python-executable "python3")    ;; Same as above.
+          (lsp-pyls-server-command "pylsp")
+          (dap-python-debugger 'debugpy))
+#+end_src
+
+** Code symbols
+
+Programming buffers can be made prettier with ~pretty-mode~[fn:4], this is complimentary to ~prettify-symbols-mode~[fn:5], a built-in package containing similar (but lacking) functionality.
+
+#+begin_src emacs-lisp
+(use-package pretty-mode
+  :hook (python-mode . turn-on-pretty-mode))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://python.org
+
+[fn:2] https://pypi.org/project/python-language-server/
+
+[fn:3] https://emacswiki.org/emacs/PythonProgrammingInEmacs
+
+[fn:4] https://emacswiki.org/emacs/pretty-mode.el
+
+[fn:5] https://emacswiki.org/emacs/PrettySymbol

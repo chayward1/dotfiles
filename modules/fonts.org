@@ -54,18 +54,10 @@ It's finally here, first class support for Emojis in Emacs via the ~emacs-emojif
   :hook (after-init . global-emojify-mode))
 #+end_src
 
-** Symbols
-
-Programming buffers can be made prettier with ~pretty-mode~[fn:5], this is complimentary to ~prettify-symbols-mode~[fn:6], a built-in package containing similar (but lacking) functionality.
-
-#+begin_src emacs-lisp
-(use-package pretty-mode
-  :hook (python-mode . turn-on-pretty-mode))
-#+end_src
 
 ** Ligatures
 
-Enable ~firacode~[fn:1] font ligatures with the ~fira-code-mode~[fn:7] package. Only perform this action when ~firacode~[fn:1] is the current font, and Emacs isn't running on the TTY.
+Enable ~firacode~[fn:1] font ligatures with the ~fira-code-mode~[fn:5] package. Only perform this action when ~firacode~[fn:1] is the current font, and Emacs isn't running on the TTY.
 
 #+begin_src emacs-lisp
 (use-package fira-code-mode
@@ -118,8 +110,4 @@ Scale the text inside of buffers using the custom transient binding, behind =SPC
 
 [fn:4] https://github.com/Fanael/rainbow-delimiters
 
-[fn:5] https://emacswiki.org/emacs/pretty-mode.el
-
-[fn:6] https://emacswiki.org/emacs/PrettySymbol
-
-[fn:7] https://github.com/jming422/fira-code-mode
+[fn:5] https://github.com/jming422/fira-code-mode

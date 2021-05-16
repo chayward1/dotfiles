@@ -1,0 +1,75 @@
+#+TITLE: Go
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle go.el :comments org
+#+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Go is an open source programming language that makes it easy to build simple, reliable, and efficient software[fn:1]
+
+* Setup
+
+Install ~golang~[fn:1] on your system, and configure your environment prior to loading this module.
+
+#+begin_src shell
+RUN apt install -y golang
+#+end_src
+
+** Language server
+
+Get started by installing the ~gopls~[fn:2] language server.
+
+#+begin_src shell
+GO111MODULE=on go get golang.org/x/tools/gopls@latest
+#+end_src
+
+** Setup the environment
+
+Make some modifications to the environment. Set the =$GOPATH= variable prior to loading, allowing modification of the default value. Include the =bin= subdirectory of the =$GOPATH= in the =$PATH= variable, adding compiled golang applications to the system path.
+
+#+begin_src emacs-lisp
+(setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
+(setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
+#+end_src
+
+* Config
+
+Use the ~go-mode~[fn:3] package for integration with ~lsp-mode~, manually setting the path to ~gopls~[fn:2] before loading.
+
+#+begin_src emacs-lisp
+(use-package go-mode
+  :hook (go-mode . lsp)
+  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
+#+end_src
+
+** Before save hooks
+
+Apply some custom behaviour when saving ~golang~[fn:1] buffers. Format and organize the imports before saving.
+
+#+begin_src emacs-lisp
+(defun dotfiles/go-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(add-hook 'go-mode-hook #'dotfiles/go-hook)
+#+end_src
+
+** Babel structure templates
+
+Configure the ~babel~ engine to support ~golang~[fn:1] source blocks.
+
+#+begin_src emacs-lisp
+(add-to-list 'org-structure-template-alist '("go" . "src go"))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://golang.org
+
+[fn:2] https://pkg.go.dev/golang.org/x/tools/gopls
+
+[fn:3] https://emacswiki.org/emacs/GoMode

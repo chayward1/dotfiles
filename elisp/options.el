@@ -4,7 +4,7 @@
     gpg pass x11 exwm roam agenda
     spelling grammar reveal hugo
     capture projects docker lsp dap
-    development 
+    development go python
     fonts ivy themes modeline dashboard) 
   "All of the available modules.")
 

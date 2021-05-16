@@ -11,75 +11,6 @@
 
 Support for individual programming languages, has a hard dependency on the [[file:projects.org][Projects]] module for integration with *LSP*[fn:1] / *DAP*[fn:2]
 
-* Go
-
-First class language support for *Golang*[fn:3].
-
-+ Full support of *LSP*[fn:1] 
-+ Full support of *DAP*[fn:1]
-
-** Installing requirements
-
-Get started by installing the *gopls*[fn:4] language server.
-
-#+begin_src shell
-GO111MODULE=on go get golang.org/x/tools/gopls@latest
-#+end_src
-** Setup the environment
-
-Make some modifications to the environment.
-
-*** Overriding the $GOPATH
-
-Set the =$GOPATH= environment variable prior to loading the module, allowing modification of the default value.
-
-#+begin_src emacs-lisp
-(setenv "GOPATH" (concat (getenv "HOME") "/.go/"))
-#+end_src
-
-*** Adding $GOBIN to the $PATH
-
-Include the ~bin~ subdirectory of the =$GOPATH= in the =$PATH= variable, adding compiled Golang applications to the system path.
-
-#+begin_src emacs-lisp
-(setenv "PATH" (concat (getenv "GOPATH") "bin:" (getenv "PATH")))
-#+end_src
-
-** Configuration 
-
-Include the *go-mode*[fn:5] package for integration with *lsp-mode* from the [[file:projects.org][Projects]] module.
-
-+ Manually set the ~gopls~ application path
-
-#+begin_src emacs-lisp
-(use-package go-mode
-  :hook (go-mode . lsp)
-  :custom (lsp-go-gopls-server-path "~/.go/bin/gopls"))
-#+end_src
-
-*** Before save hooks
-
-Apply some custom behaviour prior to saving buffers.
-
-+ Format buffers
-+ Organize imports
-
-#+begin_src emacs-lisp
-(defun dotfiles/go-hook ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-(add-hook 'go-mode-hook #'dotfiles/go-hook)
-#+end_src
-
-*** Babel structure templates
-
-Add a structure template for *Golang*[fn:3] source blocks.
-
-#+begin_src emacs-lisp
-(add-to-list 'org-structure-template-alist '("go" . "src go"))
-#+end_src
-
 * HTTP
 
 Interactive with *HTTP* endpoints using the *ob-http*[fn:6] package. You can see how it works in my post [[file:../docs/posts/kanye-as-a-service.org.gpg][Kanye as a Service]]. Essentialy it adds interactive *HTTP* blocks that can output their results in place.
@@ -122,41 +53,12 @@ Add support for the *C/C++* family of languages via the *CCLS*[fn:7] language se
           (org-babel-do-load-languages 'org-babel-load-languages '((C . t))))
 #+end_src
 
-* Python
-
-Adds support for *Python* and *Python 3*[fn:8] with *DAP*[fn:1] and *LSP*[fn:2] integration. The built in Emacs mode *python-mode*[fn:9] implements the behaviour.
-
-+ Load the babel language modules for Python
-+ Add a structure template with ~<py~
-
-#+begin_src emacs-lisp
-(use-package python-mode
-  :hook (python-mode . lsp-deferred)
-  :config (require 'dap-python)
-          (add-to-list 'org-src-lang-modes '("python" . python))
-          (add-to-list 'org-structure-template-alist '("py" . "src python"))
-          (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
-  :custom (python-shell-interpreter "python3") ;; Required if "python" is not python 3.
-          (org-babel-python-command "python3") ;; Same as above.
-          (dap-python-executable "python3")    ;; Same as above.
-          (lsp-pyls-server-command "pylsp")
-          (dap-python-debugger 'debugpy))
-#+end_src
-
-** Installing the language server
-
-Install the *pyls*[fn:10] language server.
-
-#+begin_src shell
-pip3 install --user "python-lsp-server[all]"
-#+end_src
-
 * PlantUML
 
-Download and install *PlantUML*[fn:11], a text-based markup language for creating UML diagrams. You can read my notes about the tool [[file:../docs/notes/plantuml.org.gpg][PlantUML]] here. Support added through the *plantuml-mode*[fn:12] package.
+Download and install *PlantUML*[fn:8], a text-based markup language for creating UML diagrams. You can read my notes about the tool [[file:../docs/notes/plantuml.org.gpg][PlantUML]] here. Support added through the *plantuml-mode*[fn:9] package.
 
 + Install requirements
-+ Load the babel module for *PlantUML*[fn:11]
++ Load the babel module for *PlantUML*[fn:8]
 + Create a structure template with ~<pl~
 + Toggle inline imagines with =SPC t i=
 
@@ -189,12 +91,12 @@ Download and install *PlantUML*[fn:11], a text-based markup language for creatin
 
 [fn:7] https://github.com/MaskRay/ccls
 
-[fn:8] https://python.org
+[fn:8] https://plantuml.com
 
-[fn:9] https://emacswiki.org/emacs/PythonProgrammingInEmacs
+[fn:9] https://github.com/skuro/plantuml-mode
 
 [fn:10] https://pypi.org/project/python-language-server/
 
-[fn:11] https://plantuml.com
+[fn:11] https://emacswiki.org/emacs/PythonProgrammingInEmacs
 
-[fn:12] https://github.com/skuro/plantuml-mode
+[fn:12] https://python.org
