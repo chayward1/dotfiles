@@ -12,12 +12,6 @@
 #+ATTR_LATEX: :width 420px
 [[./docs/images/desktop-example.png]]
 
-#+begin_quote
-*DISCLAIMER*
-
-These dotfiles are undergoing a major re-write, use at your own caution!
-#+end_quote
-
 Portable *GNU/Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 
 + 100% Reproducible
