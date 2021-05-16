@@ -8,18 +8,18 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-Override the default behaviour of the Shell environment to integrate with Emacs.
+Shell environment integration.
 
-* Profile
+* Setup
 :PROPERTIES:
 :header-args: :tangle ../config/profile :comments org
 :END:
 
-Override the default shell profile under *Bash*.
+Override the default behaviour of the Shell environment to integrate with Emacs.
 
 ** Force colours
 
-Manually set the terminal type to ~xterm-256color~ for better colours on TTY Emacs.
+When using Emacs on the TTY, the colours sometimes will default to 16 or 8 colours, making it look horrible. It's possible to override this behaviour on every platform by manually set the terminal type to =xterm-256color=.
 
 #+begin_src shell
 export TERM=xterm-256color
@@ -27,7 +27,7 @@ export TERM=xterm-256color
 
 ** Setting up the $PATH
 
- Ensure ~~/.local/bin~ added to the =$PATH= environment variable.
+ Ensure =~/.local/bin= has been added to the ~$PATH~ environment variable, this location is used frequently to deploy local binaries.
 
 #+begin_src shell
 export PATH=$PATH:~/.local/bin
@@ -35,7 +35,7 @@ export PATH=$PATH:~/.local/bin
 
 ** Starting Emacs by default on TTY1
 
-When launching into a new session on ~TTY1~, if the display server is not running, run *StartX*[fn:1]. This will launch the window manager.
+When launching into a new session on TTY1, if the display server is not running, run ~startx~[fn:1]. This will launch the window manager.
 
 #+begin_src shell
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
@@ -45,7 +45,7 @@ fi
 
 ** Creating symbolic links
 
-The system looks for the default shell profile under *Bash* at ~~/.profile~. Creating a symbolic link from this location to our configuration will override the startup behaviour.
+The system looks for the default shell profile under ~bash~[fn:2] at =~/.profile=. Creating a symbolic link from this location to our configuration will override the startup behaviour.
 
 #+begin_src emacs-lisp
 (dotfiles/symlink "~/.emacs.d/config/profile"
@@ -77,7 +77,7 @@ Define a method to apply commands to the current call process, this is to avoid 
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 #+end_src
 
-** Keybindings
+* Shortcuts
 
 Place keybindings for executing shell commands behind =SPC x=:
 
@@ -94,3 +94,5 @@ Place keybindings for executing shell commands behind =SPC x=:
 * Footnotes
 
 [fn:1] https://x.org
+
+[fn:2] https://gnu.org/software/bash/
