@@ -1,8 +1,8 @@
-#+TITLE: Passwords
+#+TITLE: Pass
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle passwords.el :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle pass.el :comments org
 #+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
@@ -13,15 +13,15 @@ Password management inside of Emacs.
 
 * Setup
 
-Install ~pass~ on the system.
+Install ~pass~[fn:1] on the system before loading the module.
 
 #+begin_src shell
-RUN apt install pass
+RUN apt install -y pass
 #+end_src
 
 * Config
 
-Encrypted passwords are stored inside files, in a file structure providing easy commands for generating, modifying, and copying passwords. ~password-store.el~ provides a wrapper for the functionality within Emacs.
+Encrypted passwords are stored inside files, in a file structure providing easy commands for generating, modifying, and copying passwords. ~password-store.el~[fn:2] provides a wrapper for the functionality within Emacs.
 
 #+begin_src emacs-lisp
 (use-package password-store
@@ -45,3 +45,7 @@ Configure keybindings behind =SPC p=:
 #+end_src
 
 * Footnotes
+
+[fn:1] https://passwordstore.org
+
+[fn:2] https://github.com/NicolasPetton/pass

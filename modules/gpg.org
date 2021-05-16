@@ -1,29 +1,29 @@
-#+TITLE: Pinentry
+#+TITLE: GPG
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle pinentry.el :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle gpg.el :comments org
 #+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-Handle GPG pinentry within Emacs.
+Handle GPG[fn:1] pinentry within Emacs.
 
 * Setup
 :PROPERTIES:
 :header-args: :tangle ../config/gpg-agent.conf
 :END:
 
-When the ~gpg-agent~ loads it will read the configuration at =~/.gnupg/gpg-agent.conf=. Override the default settings to allow Emacs to function as the Pinentry application.
+When the ~gpg-agent~[fn:1] loads it will read the configuration at =~/.gnupg/gpg-agent.conf=. Override the default settings to allow Emacs to function as the Pinentry application.
 
 #+begin_src conf
 allow-emacs-pinentry
 allow-loopback-pinentry
 #+end_src
 
-You may need to restart the ~gpg-agent~ to load the configuration without rebooting.
+You may need to restart the ~gpg-agent~[fn:1] to load the configuration without rebooting.
 
 #+begin_src shell :tangle nil
 gpgconf --reload gpg-agent
@@ -38,7 +38,7 @@ Create the symbolic link to the configuration file.
                   "~/.gnupg/gpg-agent.conf")
 #+end_src
 
-With the ~pinentry~ package for Emacs prompts will now appear in the minibuffer. Increase the minimum prime bit size to increase performance during symmetric encryption.
+With the ~pinentry~[fn:2] package for Emacs prompts will now appear in the minibuffer. Increase the minimum prime bit size to increase performance during symmetric encryption.
 
 #+begin_src emacs-lisp
 (use-package pinentry
@@ -50,6 +50,8 @@ With the ~pinentry~ package for Emacs prompts will now appear in the minibuffer.
   :config (pinentry-start))
 #+end_src
 
+** Including agenda files
+
 Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
 
 #+begin_src emacs-lisp
@@ -60,3 +62,7 @@ Override ~org-agenda-file-regexp~ to include =.org.gpg= files.
 #+end_src
 
 * Footnotes
+
+[fn:1] https://gnupg.org
+
+[fn:2] https://elpa.gnu.org/packages/pinentry.html

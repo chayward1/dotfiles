@@ -1,0 +1,71 @@
+#+TITLE: EXWM
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle exwm.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Emacs can run as a complete tiling window manager for X11.
+
+* Setup
+
+Load the ~x11~ module before loading this module.
+
+* Config
+
+When ~exwm~[fn:1] first launches the ~init-hook~ is executed, allowing us to define some custom logic inside of a hook. Display the time and date, and the battery information, if any is available. I add this here because when I'm running Emacs without ~exwm~[fn:1], information such as the batter and time is typically already available.
+
+#+begin_src emacs-lisp
+(defun dotfiles/init-hook ()
+  (exwm-workspace-switch-create 1)
+  (setq display-time-and-date t)
+  (display-battery-mode 1)
+  (display-time-mode 1))
+#+end_src
+
+** Display detection
+
+Enable hot plugging by forcing a profile change with ~autorandr~.
+
+#+begin_src emacs-lisp
+(defun dotfiles/update-display ()
+  "Update the displays by forcing a change through autorandr."
+  (dotfiles/run-in-background "autorandr --change --force"))
+#+end_src
+
+** Window manager
+
+Connect all of the custom hooks and configure the input keys, a custom layer for key captures when Emacs us running as a window manager. Enable ~randr~ support, to function with ~autorandr~, and apply some default bindings.
+
+#+begin_src emacs-lisp
+(use-package exwm
+  :when (window-system)
+  :custom (exwm-workspace-show-all-buffers t)
+          (exwm-input-prefix-keys
+            '(?\M-x
+              ?\C-g
+              ?\C-\ ))
+          (exwm-input-global-keys
+            `(([?\s-r] . exwm-reset)
+              ,@(mapcar (lambda (i)
+                          `(,(kbd (format "s-%d" i)) .
+                          (lambda ()
+                          (interactive)
+                          (exwm-workspace-switch-create ,i))))
+                          (number-sequence 1 9))))
+  :config (require 'exwm-randr)
+          (exwm-randr-enable)
+          (add-hook 'exwm-init-hook #'dotfiles/init-hook)
+          (add-hook 'exwm-randr-screen-change-hook #'dotfiles/update-display)
+          (add-hook 'exwm-update-class-hook (lambda () (exwm-workspace-rename-buffer exwm-class-name)))
+          (dotfiles/update-display)
+          (dotfiles/run-in-background "nitrogen --restore") ;; Update the wallpaper.
+          (exwm-enable))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://github.com/ch11ng/exwm

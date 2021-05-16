@@ -1,19 +1,11 @@
 (defconst dotfiles/modules-p
-  '(org trash
-    keys evil dired magit
-    shell
-    mu4e
-    elfeed
-    eshell vterm
-    passwords pinentry 
-    desktop
-    roam agenda spelling grammar 
-    reveal hugo 
-    capture
-    projects
+  '(org trash keys evil dired magit
+    shell mu4e elfeed eshell vterm
+    gpg pass x11 exwm roam agenda
+    spelling grammar reveal hugo
+    capture projects docker lsp dap
     development 
-    fonts ivy themes modeline 
-    dashboard) 
+    fonts ivy themes modeline dashboard) 
   "All of the available modules.")
 
 (defvar dotfiles/modules dotfiles/modules-p
