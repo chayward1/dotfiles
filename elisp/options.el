@@ -13,7 +13,7 @@
     passwords pinentry 
     desktop
     roam agenda spelling grammar 
-    presentations
+    reveal
     website 
     capture
     projects

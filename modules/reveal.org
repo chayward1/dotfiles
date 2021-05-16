@@ -1,18 +1,18 @@
-#+TITLE: Presentations
+#+TITLE: Reveal
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle presentations.el :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle reveal.el :comments org
 #+PROPERTY: header-args            :results silent :eval no-export
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-Create slideshows and give high quality presentations.
+Create high-quality, portably presentations with ~reveal.js~[fn:1].
 
-* Portable slides
+* Config
 
-Produce high quality presentations that work anywhere with =HTML/JS= using [[https://revealjs.com][Reveal.js]][fn:1]. Achieve integration inside of Emacs with [[https://github.com/hexmode/ox-reveal][ox-reveal]][fn:2]. Configure it to use a =CDN= producing presentations that are not dependent on locally installed software. An important caveat here is that paths to images must be absolute URLs.
+Integrate ~reveal.js~[fn:1] with Emacs using the ~ox-reveal~[fn:2] package. Configure it to use a CDN to produce presentations that are not dependent on any locally installed software. An important caveat here is that the paths to images must be absolute URLs. I get around this by hosting all of the images myself, meaning I can load the presentations in any web browser.
 
 #+begin_src emacs-lisp
 (use-package ox-reveal
@@ -20,9 +20,9 @@ Produce high quality presentations that work anywhere with =HTML/JS= using [[htt
   :custom (org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"))
 #+end_src
 
-** Capture template
+* Shortcuts
 
-When using the [[file:writing.org][Writing]] module, add a capture template for quickly creating slide presentations with the desired markup and configuration already applied.
+Add a capture tempalte for quickly creating slide presentations with the desired markup and configuration already applied.
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-roam
