@@ -145,7 +145,7 @@ Toggle frame transparency with =SPC t r=.
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "tr" '(dotfiles/toggle-transparency :which-key "Toggle transparency"))
+  "tr" '(dotfiles/toggle-transparency :which-key "Transparency"))
 #+end_src
 
 * Footnotes

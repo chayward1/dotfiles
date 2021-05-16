@@ -37,9 +37,9 @@ Implement the lambda prompt for aesthetic purposes with the ~eshell-prompt-extra
 
 * Shortcuts
 
-Open ~eshell~ in the current buffer with =SPC e=:
+Open ~eshell~ in the current buffer with =SPC s e=:
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "e" '(eshell :which-key "EShell"))
+  "se" '(eshell :which-key "EShell"))
 #+end_src

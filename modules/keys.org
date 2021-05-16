@@ -59,11 +59,13 @@ Implement some shortcut bindings, with a significant portion of them cherry pick
 + Close buffers with =SPC c=
 + Find files with =SPC . (period)=
 + Switch buffers with =SPC , (comma)=
++ Kill buffers with =SPC / (slash)=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "." '(find-file :which-key "Files")
-  "," '(switch-to-buffer :which-key "Buffers"))
+  "," '(switch-to-buffer :which-key "Buffers")
+  "/" '(kill-buffer :which-key "Kill"))
 #+end_src
 
 ** Quitting Emacs

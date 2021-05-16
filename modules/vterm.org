@@ -33,11 +33,11 @@ I noticed ~eshell~ wasn't enough when needing interactivity from the terminal. G
 
 * Shortcuts
 
-Open a new ~vterm~ buffer with =SPC v=:
+Open a new ~vterm~ buffer with =SPC s v=:
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "v" '(vterm-other-window :which-key "VTerm"))
+  "sv" '(vterm-other-window :which-key "VTerm"))
 #+end_src
 
 * Footnotes

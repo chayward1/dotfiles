@@ -38,15 +38,15 @@ Create screencasts with =one-frame-per-action= GIF recording via *Emacs gif scre
 
 * Keybindings
 
-+ Place keybindings for capturing the screen behind =SPC s=.
++ Place keybindings for capturing the screen behind =SPC c=.
   * Screenshot with =s=
   * Screencast with =c=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "s" '(:ignore t :which-key "Screen")
-  "ss" '(screenshot :which-key "Screenshot")
-  "sc" '(gif-screencast-start-or-stop :which-key "Screencast"))
+  "c" '(:ignore t :which-key "Screen")
+  "cs" '(screenshot :which-key "Screenshot")
+  "cc" '(gif-screencast-start-or-stop :which-key "Screencast"))
 #+end_src
 
 * Footnotes

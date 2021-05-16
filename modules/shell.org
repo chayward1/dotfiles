@@ -79,16 +79,16 @@ Define a method to apply commands to the current call process, this is to avoid 
 
 * Shortcuts
 
-Place keybindings for executing shell commands behind =SPC x=:
+Place keybindings for executing shell commands behind =SPC s=:
 
 + Run shell commands with =x=
 + Run async shell commands with =z=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
-  "x" '(:ignore t :which-key "Run")
-  "xx" '(dotfiles/run :which-key "Run")
-  "xz" '(async-shell-command :which-key "Async"))
+  "s" '(:ignore t :which-key "Run")
+  "sx" '(dotfiles/run :which-key "Run")
+  "sz" '(async-shell-command :which-key "Async"))
 #+end_src
 
 * Footnotes
