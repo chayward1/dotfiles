@@ -2,9 +2,7 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle nil
-#+PROPERTY: header-args:shell      :tangle nil
-#+PROPERTY: header-args            :results silent :eval no-export :comments org
+#+PROPERTY: header-args :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
@@ -26,20 +24,42 @@ Portable *GNU/Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 + 100% Immutable
 + 100% Literate
 
-* Overview
+* Setup
+# :PROPERTIES:
+# :header-args: :tangle early-init-new.el
+# :END:
 
-These is my personal configuration(s) for *GNU/Linux*[fn:2], and *GNU/Emacs*[fn:1] software. It enables a consistent experience and computing environment across all of my machines. The entire experience is controlled with
-*GNU/Emacs*[fn:1], leveraging it's capabilities for *Literate Programming*[fn:3].
+These is my personal configuration(s) for *GNU/Linux*[fn:2], and *GNU/Emacs*[fn:1] software. It enables a consistent experience and computing environment across all of my machines. The entire experience is controlled with *GNU/Emacs*[fn:1], leveraging it's capabilities for *Literate Programming*[fn:3]. 
 
 #+begin_src emacs-lisp
 ;; This file is controlled by README.org
-;; DO NOT MODIFY.
+;; Please make any modifications there.
+#+end_src
 
+* Config
+:PROPERTIES:
+:header-args: :tangle init.el
+:END:
+
+Once the early-init phase as completed, there are only two remaining tasks to complete before the system is fully initialized.
+
+#+begin_src emacs-lisp
+;; This file is controlled by README.org
+;; Please make any modifications there.
+#+end_src
+
+The first task involves loading a machine-specific (host) configuration file. This gives the oppertunity for a host to intervene in the module loading process, adding or removing modules before the next stage has begun. This is accomplished by modifying the list of modules in ~dotfiles/modules~.
+
+#+begin_src emacs-lisp
 ;; Load the host configuration.
 (dotfiles/load-host system-name)
+#+end_src
 
+After the host configuration file has loaded, the value of ~dotfiles/modules~ is used to load all of the enabled modules. They're loaded in sequential order, and an error in any module will end this process.
+
+#+begin_src emacs-lisp
 ;; Load the enabled modules.
-(dotfiles/load-modules dotfiles/modules)
+(dotfiles/load-modules)
 #+end_src
 
 * Footnotes
