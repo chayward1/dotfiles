@@ -10,7 +10,15 @@
 
 VTerm is an implementation of libvterm for Emacs.
 
-* Interactive Terminal
+* Setup
+
+Install the dependencies before loading the module.
+
+#+begin_src shell
+RUN apt install -y cmake libtool libtool-bin
+#+end_src
+
+* Config
 
 I noticed ~eshell~ wasn't enough when needing interactivity from the terminal. Going through [[https://chrishayward.xyz/notes/thinking-in-cpp/][Thinking in C++]] for one of my courses required lots of terminal interaction which ~eshell~ was unable to handle. Since ~vterm~ is based on ~libvterm~, an external C library, it's blazing fast and fully interactive. Add a few configurations:
 
