@@ -81,25 +81,6 @@ add Lock = Control_R
 
 #+RESULTS:
 
-* Browser integration
-
-Write out the ~$BROWSER~ variable so other applications can pick up the custom browser.
-
-+ Place custom keybindings for browsing behind =SPC b=
-  + URL with =u=
-  + URL at point with =p=
-  + URL at cursor with =c=
-
-#+begin_src emacs-lisp
-(setenv "BROWSER" dotfiles/browser)
-
-(dotfiles/leader
-  "u" '(:ignore t :which-key "Browse")
-  "uu" '(browse-url :which-key "URL")
-  "up" '(browse-url-at-point :which-key "Point")
-  "uc" '(browse-url-at-cursor :which-key "Cursor"))
-#+end_src
-
 * Displays detection
 
 When the window manager first launches the ~init-hook~ executes, allowing us to define some custom logic.
