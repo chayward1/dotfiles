@@ -8,11 +8,11 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-Organize your plain-life in plain-text. The hallmark feature of Emacs, ~org-mode~ is the king of markup languages. It has rich feature support for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
+Organize your plain-life in plain-text. The hallmark feature of Emacs, ~org-mode~[fn:1] is the king of markup languages. It has rich feature support for project management, scheduling, development, and writing. It's hard to convey everything within its capabilities.
 
-* Hook
+* Setup
 
-Define a custom hook when ~org-mode~ is enabled to customize the experience:
+Define a custom hook when ~org-mode~[fn:1] is enabled to customize the experience:
 
 + Enable ~org-indent-mode~ to indent and align text with the parent heading
 + Enable ~visual-line-mode~ to allow text to overflow and wrap to the next visual line
@@ -25,9 +25,9 @@ Define a custom hook when ~org-mode~ is enabled to customize the experience:
   (variable-pitch-mode 1)) ;; Enable monospaced fonts.
 #+end_src
 
-* Setup
+* Config
 
-Force ~straight~ to ignore the local version of ~org-mode~, instead downloading the most recent version available.
+Force ~straight~ to ignore the local version of ~org-mode~[fn:1], instead downloading the most recent version available.
 
 #+begin_src emacs-lisp
 (straight-use-package '(org :local-repo nil))
@@ -65,6 +65,17 @@ Setup the default babel languages and structure templates, and apply customizati
                                                                    (emacs-lisp . t))))
 #+end_src
 
+** Headline stars
+
+Make the headline stars a bit more *super* with ~org-superstar-mode~[fn:2]. Only enable this inside of a window system, as the effect can be distracting on the TTY.
+
+#+begin_src emacs-lisp
+(use-package org-superstar
+  :when (window-system)
+  :after org
+  :hook (org-mode . org-superstar-mode))
+#+end_src
+
 * Methods
 
 Define some custom methods for use in the rest of the configuration.
@@ -100,3 +111,6 @@ Function that takes in a system and configuration file path, checks to see if th
 
 * Footnotes
 
+[fn:1] https://orgmode.org
+
+[fn:2] https://github.com/integral-dw/org-superstar-mode

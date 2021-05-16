@@ -1,0 +1,125 @@
+#+TITLE: Fonts
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle fonts.el :comments org
+#+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Unified system font across Emacs.
+
+* Setup
+
+Install the required ~firacode~[fn:1] font before loading the module:
+
+#+begin_src shell
+RUN apt install -y fonts-firacode
+#+end_src
+
+* Config
+
+Write out the value of ~dotfiles/font~ to all of the available font faces supported by Emacs. By default, this uses ~firacode~[fn:1] for its readability and ligature support. All of the heights are configured to ~dotfiles/font-size~ by default, with further configuration based on the given size possible.
+
+#+begin_src emacs-lisp
+(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
+(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
+#+end_src
+
+** Icons
+
+Emacs feels more modern with prioritized icon fonts, available in the ~all-the-icons~[fn:2] package. This makes navigation and visually parsing directories much faster, given that the file types are quickly identified by their corresponding icons.
+
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+#+end_src
+
+Integration with the built-in ~dired~ package is available in the ~all-the-icons-dired~[fn:3] package.
+
+#+begin_src emacs-lisp
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
+
+** Emojis
+
+It's finally here, first class support for Emojis in Emacs via the ~emacs-emojify~[fn:4] package. Have we finally gone too far?
+
+#+begin_src emacs-lisp
+(use-package emojify
+  :when (window-system)
+  :hook (after-init . global-emojify-mode))
+#+end_src
+
+** Symbols
+
+Programming buffers can be made prettier with ~pretty-mode~[fn:5], this is complimentary to ~prettify-symbols-mode~[fn:6], a built-in package containing similar (but lacking) functionality.
+
+#+begin_src emacs-lisp
+(use-package pretty-mode
+  :hook (python-mode . turn-on-pretty-mode))
+#+end_src
+
+** Ligatures
+
+Enable ~firacode~[fn:1] font ligatures with the ~fira-code-mode~[fn:7] package. Only perform this action when ~firacode~[fn:1] is the current font, and Emacs isn't running on the TTY.
+
+#+begin_src emacs-lisp
+(use-package fira-code-mode
+  :when (and (window-system)
+             (equal dotfiles/font "Fira Code"))
+  :hook (prog-mode org-mode))
+#+end_src
+
+** Parenthesis
+
+Colourize nested parenthesis with ~rainbow-delimeters~[fn:4], a mandatory life-jacked to keep you from drowning in the sea of them in Lisp.
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Text scaling
+
+Define a transient keybinding for scaling the text. One caveat to this, it only works when Emacs is running as a GUI application, and has no effect in the terminal.
+
+#+begin_src emacs-lisp
+(defhydra hydra-text-scale (:timeout 4)
+  "Scale"
+  ("j" text-scale-increase "Increase")
+  ("k" text-scale-decrease "Decrease")
+  ("f" nil "Finished" :exit t))
+#+end_src
+
+* Shortcuts
+
+Scale the text inside of buffers using the custom transient binding, behind =SPC t f=:
+
++ Increase with =j=
++ Decrease with =k=
++ Finish with =f=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tf" '(hydra-text-scale/body :which-key "Font"))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://github.com/tonsky/FiraCode
+
+[fn:2] [[https://github.com/domtronn/all-the-icons.el]]
+
+[fn:3] https://github.com/jtbm37/all-the-icons-dired
+
+[fn:4] https://github.com/Fanael/rainbow-delimiters
+
+[fn:5] https://emacswiki.org/emacs/pretty-mode.el
+
+[fn:6] https://emacswiki.org/emacs/PrettySymbol
+
+[fn:7] https://github.com/jming422/fira-code-mode

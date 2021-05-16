@@ -116,108 +116,6 @@ Sort completion candidates based on how recently or frequently they're selected.
           (ivy-prescient-mode 1))
 #+end_src
 
-* Unified fonts
-
-Write out to all of Emacs' available font faces with the unified font defined in the options.
-
-#+begin_src emacs-lisp
-(set-face-attribute 'default nil :font dotfiles/font :height dotfiles/font-size)
-(set-face-attribute 'fixed-pitch nil :font dotfiles/font :height dotfiles/font-size)
-(set-face-attribute 'variable-pitch nil :font dotfiles/font :height dotfiles/font-size)
-#+end_src
-
-** Text scaling
-
-Define a transient keybinding for Scaling the text.
-
-#+begin_src emacs-lisp
-(defhydra hydra-text-scale (:timeout 4)
-  "Scale"
-  ("j" text-scale-increase "Increase")
-  ("k" text-scale-decrease "Decrease")
-  ("f" nil "Finished" :exit t))
-#+end_src
-
-+ Scale the text inside of buffers with =SPC t f=
-  * Increase =j=
-  * Decrease =k=
-  * Finished =f=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "tf" '(hydra-text-scale/body :which-key "Font"))
-#+end_src
-
-** Icon fonts
-
-Dired feels more modern with prioritized icon fonts using *All the Icons*[fn:3]. This makes navigation and visually parsing directories much faster, given that file types are quickly identified by their corresponding icons.
-
-#+begin_src emacs-lisp
-(use-package all-the-icons)
-#+end_src
-
-Integration with the *All the Icons Dired*[fn:4]package.
-
-#+begin_src emacs-lisp
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
-#+end_src
-
-** Symbols
-
-Programming buffers made prettier with *Pretty mode*[fn:5], complimentary to the built-in *Prettify symbols mode*[fn:6].
-
-#+begin_src emacs-lisp
-(use-package pretty-mode
-  :hook (python-mode . turn-on-pretty-mode))
-#+end_src
-
-** Ligatures
-
-Enable font ligatures via *Fira Code mode*[fn:7].
-
-+ Perform when *Fira Code* is the current font
-+ Don't enable on TTY
-
-#+begin_src emacs-lisp
-(use-package fira-code-mode
-  :when (and (window-system)
-             (equal dotfiles/font "Fira Code"))
-  :hook (prog-mode org-mode))
-#+end_src
-
-Toggle global ligature mode with =SPC t g=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "tg" '(global-fira-code-mode :which-key "Ligatures"))
-#+end_src
-
-** Emojification
-
-Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[fn:8] package.
-
-#+begin_src emacs-lisp
-(use-package emojify
-  :when (window-system)
-  :hook (after-init . global-emojify-mode))
-#+end_src
-
-+ Place *Emojify*[fn:8] bindings behind =SPC f=
-  * List with =l=
-  * Search with =s=
-  * Insert with =i=
-  * Describe with =d=
-
-#+begin_src emacs-lisp
-;; (dotfiles/leader
-;;   "f" '(:ignore t :which-key "Emojify")
-;;   "fl" '(emojify-list-emojis :which-key "List")
-;;   "fs" '(emojify-apropos-emoji :which-key "Search")
-;;   "fi" '(emojify-insert-emoji :which-key "Insert")
-;;   "fd" '(emojify-describe-emoji :which-key "Describe"))
-#+end_src
-
 * Line numbering
 
 Relative line numbers are important when using VI emulation keys. You can prefix commands with a number, allowing you to perform that action that number of times. Useful when navigating around pages that are hundreds, or even thousands of lines long.
@@ -248,26 +146,6 @@ Toggle line numbers with =SPC t l=.
 #+begin_src emacs-lisp
 (dotfiles/leader
   "tl" '(linum-relative-global-mode :which-key "Lines"))
-#+end_src
-
-* Parenthesis
-
-Colourize nested parenthesis with *Rainbow delimeters*[fn:11].
-
-#+begin_src emacs-lisp
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-#+end_src
-
-* Superstar
-
-Make headline stars *super* with *Org superstar mode*[fn:12].
-
-#+begin_src emacs-lisp
-(use-package org-superstar
-  :when (window-system)
-  :after org
-  :hook (org-mode . org-superstar-mode))
 #+end_src
 
 * Footnotes

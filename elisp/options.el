@@ -17,7 +17,7 @@
     capture
     projects
     development 
-    interface themes modeline 
+    fonts interface themes modeline 
     dashboard) 
   "All of the available modules.")
 
