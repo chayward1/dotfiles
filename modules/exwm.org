@@ -63,6 +63,7 @@ Connect all of the custom hooks and configure the input keys, a custom layer for
           (add-hook 'exwm-update-class-hook (lambda () (exwm-workspace-rename-buffer exwm-class-name)))
           (dotfiles/update-display)
           (dotfiles/run-in-background "nitrogen --restore") ;; Update the wallpaper.
+          (dotfiles/run-in-background "xmodmap")            ;; Rebind CTRL and CAPS.
           (exwm-enable))
 #+end_src
 
