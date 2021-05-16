@@ -19,7 +19,7 @@
     capture
     projects
     development 
-    interface 
+    interface themes modeline 
     dashboard) 
   "All of the available modules.")
 

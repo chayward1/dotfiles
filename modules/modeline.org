@@ -1,0 +1,19 @@
+#+TITLE: Modeline
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+Extend the usability of the Emacs modeline.
+
+* Config
+
+Implement and elegant and modern status bar, fully customizable and compatible with our themes with the ~doom-modeline~[fn:1] package.
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :custom (doom-modeline-height 16)
+  :config (doom-modeline-mode 1))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://github.com/seagle0128/doom-modeline

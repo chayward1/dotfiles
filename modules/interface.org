@@ -210,46 +210,15 @@ Gotta have those emojis, first class support for Emacs via the *Emacs-emojify*[f
   * Describe with =d=
 
 #+begin_src emacs-lisp
-(dotfiles/leader
-  "f" '(:ignore t :which-key "Emojify")
-  "fl" '(emojify-list-emojis :which-key "List")
-  "fs" '(emojify-apropos-emoji :which-key "Search")
-  "fi" '(emojify-insert-emoji :which-key "Insert")
-  "fd" '(emojify-describe-emoji :which-key "Describe"))
+;; (dotfiles/leader
+;;   "f" '(:ignore t :which-key "Emojify")
+;;   "fl" '(emojify-list-emojis :which-key "List")
+;;   "fs" '(emojify-apropos-emoji :which-key "Search")
+;;   "fi" '(emojify-insert-emoji :which-key "Insert")
+;;   "fd" '(emojify-describe-emoji :which-key "Describe"))
 #+end_src
 
-* Modern themes
-
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[../docs/images/what-is-emacs-customizable.gif]]
-
-High quality and modern colour themes are provided in the *Doom Themes*[fn:9] package.
-
-#+begin_src emacs-lisp
-(use-package doom-themes
-  :init (load-theme 'doom-moonlight t))
-#+end_src
-
-Load a theme with =SPC t t=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "tt" '(counsel-load-theme t t :which-key "Theme"))
-#+end_src
-
-** Status bar
-
-*Doom modeline*[fn:10] provides an elegant and modern status bar / modeline.
-
-#+begin_src emacs-lisp
-(use-package doom-modeline
-  :custom (doom-modeline-height 16)
-  :config (doom-modeline-mode 1))
-#+end_src
-
-** Line numbering
+* Line numbering
 
 Relative line numbers are important when using VI emulation keys. You can prefix commands with a number, allowing you to perform that action that number of times. Useful when navigating around pages that are hundreds, or even thousands of lines long.
 
@@ -281,7 +250,7 @@ Toggle line numbers with =SPC t l=.
   "tl" '(linum-relative-global-mode :which-key "Lines"))
 #+end_src
 
-** Parenthesis
+* Parenthesis
 
 Colourize nested parenthesis with *Rainbow delimeters*[fn:11].
 
@@ -290,7 +259,7 @@ Colourize nested parenthesis with *Rainbow delimeters*[fn:11].
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-** Superstar
+* Superstar
 
 Make headline stars *super* with *Org superstar mode*[fn:12].
 
