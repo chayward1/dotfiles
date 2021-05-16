@@ -7,7 +7,7 @@
   '(org trash
     keys evil dired magit
     shell
-    email
+    mu4e
     elfeed
     eshell vterm
     passwords pinentry 

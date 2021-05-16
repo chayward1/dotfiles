@@ -1,27 +1,30 @@
-#+TITLE: Email
+#+TITLE: Mu4e
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle email.el :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle mu4e.el :comments org
 #+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-#+ATTR_ORG: :width 420px
-#+ATTR_HTML: :width 420px
-#+ATTR_LATEX: :width 420px
-[[../docs/images/2021-02-13-example-mu4e.gif]]
+Plain-text email inside of Emacs.
 
-Plain text email delivered via *mu*[fn:1], *mu4e*[fn:2] and *mbsync*[fn:3]. I run my *own email server*[fn:4], so your configuration may differ from mine. 
+* Setup
 
-* Sync
+Make sure the following dependencies are installed on your system before loading the module. I would recommend against using any distributions pre-packaged version of ~mu4e~[fn:1], and instead build it yourself which I detail in this post[fn:2]:
+
+#+begin_src shell
+RUN apt install -y isync libgmime-3.0-dev libxapian-dev
+#+end_src
+
+** Setting up mbsync
 :PROPERTIES:
 :header-args: :tangle ../config/mbsyncrc :comments org
 :END:
 
-This is the *mbsyncrc*[fn:3] file I use to synchronize my local mail with my server.
+The program that actually synchronizes the emails with the server is ~mbsync~[fn:3]. Create the configuration file, this is for my personal mail server[fn:4], which I host myself, so make sure you write your own.
 
 #+begin_src conf
 IMAPStore xyz-remote
@@ -44,57 +47,40 @@ Expunge Both
 SyncState *
 #+end_src
 
-** Create symbolic link
+** Create symbolic links
 
-The system typically expects to find this file at ~$HOME/.mbsyncrc~, but you may also specify a custom path if launching the command using arguments. I chose to symlink the default location to my repository.
+The system typically expects to find this file at =$HOME/.mbsyncrc=, but you may also specify a custom path if launching the command using arguments. I chose to symlink the default location to my repository.
 
 #+begin_src emacs-lisp
 (dotfiles/symlink "~/.emacs.d/config/mbsyncrc"
                   "~/.mbsyncrc")
 #+end_src
 
-This repository also contains my personal encrypted auth info.
+This repository also contains my personal encrypted auth info, this is required by ~mbsync~[fn:3] to sign all of the outbound messages.
 
 #+begin_src emacs-lisp
 (dotfiles/symlink "~/.emacs.d/config/authinfo.gpg"
                   "~/.authinfo.gpg")
 #+end_src
 
-** Installing the software
+** First time indexing
 
-Download *mbsync*[fn:3] as part of the ~isync~ package on Ubuntu/Debian.
-
-#+begin_src shell
-sudo apt install -y isync
-#+end_src
-
-*Mu4e*[fn:2] is packaged for Ubuntu/Debian, but has a few dependencies to build for Emacs. I've had a lot of problems on multiple distributions trying to use the packaged versions. I would recommend installing it from source, which I detail here: https://chrishayward.xyz/posts/ https://chrishayward.xyz/posts/installing-mu-mu4e-from-source/
+Before you can use ~mu4e~[fn:1] inside of Emacs, you need to synchronize the mail database, and index it using ~mu~[fn:5], the library used by ~mu4e~[fn:1] under the hood. Execute these commands in your terminal before loading the module, after that you can do everything inside of Emacs:
 
 #+begin_src shell
-sudo apt install -y mu4e libgmime-3.0-dev libxapian-dev
+RUN mbsync -a
+RUN mu init --maildir="~/.cache/mail" --my-address="chris@chrishayward.xyz"
+RUN mu index
 #+end_src
 
-* Indexing
-:PROPERTIES:
-:header-args: :tangle no
-:END:
+* Config
 
-Once mail has been synchronized you need to init, and index it using *mu*[fn:1].
-
-#+begin_src shell
-mbsync -a
-mu init --maildir="~/.cache/mail" --my-address="chris@chrishayward.xyz"
-mu index
-#+end_src
-
-* Integration
-
-After syncing and indexing the mail is ready for Emacs. Download and install *mu4e*[fn:2] and configure the *mail account*[fn:3].
+After syncing and indexing, the mail is ready for Emacs. Include ~mu4e~[fn:1] in the configuration by adding the custom built version to the load path, and configure the mail account.
 
 + Update every 5 minutes
++ Configure mail account(s)
 + Scale text for all devices
 + Sign outbound mail with GPG key
-+ Configure mail account(s)
 
 #+begin_src emacs-lisp
 (use-package mu4e
@@ -128,18 +114,9 @@ After syncing and indexing the mail is ready for Emacs. Download and install *mu
             (smtpmail-stream-type . starttls))))))
 #+end_src
 
-** Keybinding
-
-Create a keybinding to open the mail dashboard with =SPC m=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
- "m" '(mu4e :which-key "Mail"))
-#+end_src
-
 ** Desktop notifications
 
-Receive notifications for incoming mail via the *mu4e-alert*[fn:5] package.
+Receive desktop notifications when new mail arrives with the ~mu4e-alert~[fn:6] package.
 
 #+begin_src emacs-lisp
 (use-package mu4e-alert
@@ -149,14 +126,25 @@ Receive notifications for incoming mail via the *mu4e-alert*[fn:5] package.
          (mu4e-alert-enable-mode-line-display))
 #+end_src
 
+* Shortcuts
+
+Open the ~mu4e~[fn:1] dashboard with =SPC m=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+ "m" '(mu4e :which-key "Mu4e"))
+#+end_src
+
 * Footnotes
 
-[fn:1] https://codewith.mu/en/download
+[fn:1] https://emacswiki.org/emacs/mu4e
 
-[fn:2] https://emacswiki.org/emacs/mu4e
+[fn:2] https://chrishayward.xyz/posts/installing-mu-mu4e-from-source/
 
 [fn:3] https://isync.sourceforge.io
 
 [fn:4] mailto:chris@chrishayward.xyz
 
-[fn:5] https://github.com/iqbalansari/mu4e-alert
+[fn:5] https://codewith.mu/en/download
+
+[fn:6] https://github.com/iqbalansari/mu4e-alert
