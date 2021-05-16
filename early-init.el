@@ -49,7 +49,7 @@
 
 ;; Specify core package sources.
 (straight-use-package 'no-littering)
-(straight-use-package '(org :local-repo nil)
+(straight-use-package '(org :local-repo nil))
 
 ;; All of the modules available sorted in their default load order.
 (defconst dotfiles/modules-p
@@ -94,7 +94,7 @@
       (expand-file-name "~/.password-store")))
 
 ;; The public GPG key to encrpyt files, and emails for / to / with.
-(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
 
 ;; Load a host configuration.
 (defun dotfiles/load-host (host-name)

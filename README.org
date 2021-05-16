@@ -99,7 +99,7 @@ Bootstrap the package manager by loading the bootstrap-file, downloading it when
 
 ;; Specify core package sources.
 (straight-use-package 'no-littering)
-(straight-use-package '(org :local-repo nil)
+(straight-use-package '(org :local-repo nil))
 #+end_src
 
 ** Options
@@ -150,7 +150,7 @@ All of the options are defined early in the config, this is for two reasons: The
       (expand-file-name "~/.password-store")))
 
 ;; The public GPG key to encrpyt files, and emails for / to / with.
-(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
 #+end_src
 
 ** Methods
