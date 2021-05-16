@@ -1,0 +1,80 @@
+#+TITLE: Ivy
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle ivy.el :comments org
+#+PROPERTY: header-args:shell      :tangle no
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Bring Emacs out of the eighties.
+
+* Config
+
+There's a lot of occasions where Emacs asks you to input text to match a file name in a directory, or of a potential buffer selection. The family of packages ~ivy/swiper~[fn:1] work together toward this common goal of improving the default completion menu system.
+
+#+begin_src emacs-lisp
+(use-package ivy
+  :diminish
+  :config (ivy-mode 1))
+#+end_src
+
+** Replacements
+
+Include ~counsel~[fn:2], a customized set of commands to replace the built-in completion buffers. This will provide an experience similar to what you've maybe experienced on ~doom~ or ~spacemacs~.
+
+#+begin_src emacs-lisp
+(use-package counsel
+  :after ivy
+  :custom (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+  :config (counsel-mode 1))
+#+end_src
+
+** Additional details
+
+Provide more information about each item in the completion menu with ~ivy-rich~[fn:3]. This will include snippets from any available documentation, or active buffers.
+
+#+begin_src emacs-lisp
+(use-package ivy-rich
+  :after counsel
+  :init (ivy-rich-mode 1))
+#+end_src
+
+** Popup selection frame
+
+Display ~ivy~[fn:1] completions in a popup buffer with the ~ivy-posframe~[fn:4] package. I prefer to use this since the menu appears in the center of my screen, stopping my from having to tilt my head to look down at the default completion menu appearing in the mini-buffer.
+
+#+begin_src emacs-lisp
+(use-package ivy-posframe
+  :after ivy
+  :when (window-system)
+  :custom (ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+          (ivy-posframe-parameters '((parent-frame nil)))
+  :config (ivy-posframe-mode 1))
+#+end_src
+
+** Candidate selection sorting
+
+Sort completion candidates based on how recently or frequently they're selected with ~prescient.el~[fn:5]. This can be helpful when using =M-x= to run commands that aren't bound to specific key-strokes.
+
+#+begin_src emacs-lisp
+(use-package ivy-prescient
+  :after counsel
+  :custom (ivy-prescient-enable-filtering nil)
+  :config (prescient-persist-mode 1)
+          (ivy-prescient-mode 1))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://github.com/abo-abo/swiper
+
+[fn:2] https://libraries.io/emacs/counsel
+
+[fn:3] https://github.com/Yevgnen/ivy-rich
+
+[fn:4] https://github.com/tumashu/ivy-posframe
+
+[fn:5] https://github.com/raxod502/prescient.el

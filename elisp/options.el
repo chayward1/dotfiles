@@ -17,7 +17,7 @@
     capture
     projects
     development 
-    fonts interface themes modeline 
+    fonts ivy themes modeline 
     dashboard) 
   "All of the available modules.")
 
