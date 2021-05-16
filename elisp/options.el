@@ -9,7 +9,6 @@
     shell
     email
     feeds
-    media
     eshell vterm
     passwords pinentry 
     desktop
