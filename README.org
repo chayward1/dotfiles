@@ -31,6 +31,17 @@ Portable *GNU/Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
 These is my personal configuration(s) for *GNU/Linux*[fn:2], and *GNU/Emacs*[fn:1] software. It enables a consistent experience and computing environment across all of my machines. The entire experience is controlled with
 *GNU/Emacs*[fn:1], leveraging it's capabilities for *Literate Programming*[fn:3].
 
+#+begin_src emacs-lisp
+;; This file is controlled by README.org
+;; DO NOT MODIFY.
+
+;; Load the host configuration.
+(dotfiles/load-host system-name)
+
+;; Load the enabled modules.
+(dotfiles/load-modules dotfiles/modules)
+#+end_src
+
 * Footnotes
 
 [fn:1] https://gnu.org/software/emacs/
