@@ -5,7 +5,7 @@
 
 (defconst dotfiles/modules-p
   '(org trash
-    editor
+    keys evil dired magit
     shell
     email
     feeds

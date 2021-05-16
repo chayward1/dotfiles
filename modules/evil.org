@@ -1,0 +1,62 @@
+#+TITLE: Evil
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle evil.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Transform Emacs into Vim.
+
+* Config
+
+Emacs has some strange default keybindings, which given the age of the project, is not surprising. To overcome this nearly show-stopping hurdle, we transform Emacs into Vim with ~evil~[fn:1], the Extensible VI Layer for Emacs.
+
+#+begin_src emacs-lisp
+(use-package evil
+  :custom (evil-want-integration t)  ;; Required for `evil-collection'.
+          (evil-want-keybinding nil) ;; Same as above
+  :config (evil-mode +1))
+#+end_src
+
+** Improvements
+
+While covering substantial ground towards the goal, the default keybindings implemented in ~evil~[fn:1] alone are lacking compared to what you would expect from Vim. There's a community curated package ~evil-collection~[fn:2] that does a much better job implementing the proper keybindings.
+
+#+begin_src emacs-lisp
+(use-package evil-collection
+  :after evil
+  :config (evil-collection-init))
+#+end_src
+
+** Surround text
+
+Quickly and efficiently surround text with ~evil-surround~[fn:3]. Highlight blocks of text with function definitions, quotations, or any symbol you can input from your keyboard.
+
+#+begin_src emacs-lisp
+(use-package evil-surround
+  :after evil
+  :config (global-evil-surround-mode 1))
+#+end_src
+
+** Toggle comments
+
+Toggle comments in a language agnostic manner with ~evil-nerd-commenter~[fn:4]. Add a custom binding to =M-;= to mimmic the behaviour in other popular Emacs configuration frameworks. What is =M-?= Called the *Meta* key in Emacs, it typically refers to =Alt=.
+
+#+begin_src emacs-lisp
+(use-package evil-nerd-commenter
+  :after evil
+  :bind ("M-;" . evilnc-comment-or-uncomment-lines))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://github.com/emacs-evil/evil-mode
+
+[fn:2] https://github.com/emacs-evil/evil-collection
+
+[fn:3] https://github.com/emacs-evil/evil-surround
+
+[fn:4] https://github.com/redguardtoo/evil-nerd-commenter

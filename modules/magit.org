@@ -1,0 +1,62 @@
+#+TITLE: Magit
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle magit.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
+Handle all of the git interactions inside of Emacs.
+
+* Setup
+
+Deploy the global configuration file for ~git~[fn:1], by default it reads from =$HOME/.gitconfig=.
+
+#+begin_src emacs-lisp
+(dotfiles/symlink "~/.emacs.d/config/git"
+                  "~/.gitconfig")
+#+end_src
+
+* Config
+
+Another hallmark feature of Emacs is ~magit~[fn:2]. It's a complete git porcelain inside of Emacs. The developer has stressed that it's most unfortunate name was meant to be pronounced like *magic* but with *git*. Despire his best efforts a lot of people have taken to pronouncing it *maggot*, which keeps him awake at night (probably).
+
+#+begin_src emacs-lisp
+(use-package magit
+  :commands magit-status
+  :custom (magit-display-buffer-function
+           #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+** Forge integration
+
+It's possible to interact with forges from Github / Gitlab using ~forge~[fn:3]. It requires the respective =$TOKEN= to be configured, or an alternative form of authentication. This enables working with pull-requests, code-reviews, and issues from inside of Emacs.
+
+#+begin_src emacs-lisp
+(use-package forge
+  :after magit)
+#+end_src
+
+* Shortcuts
+
+Interact with ~magit~[fn:2] behind =SPC g=:
+
++ Clone with =c=
++ Status with =g=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "g" '(:ignore t :which-key "Magit")
+  "gc" '(magit-clone :which-key "Clone")
+  "gg" '(magit-status :which-key "Status"))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://git-scm.com
+
+[fn:2] https://github.com/magit/magit
+
+[fn:3] https://github.com/magit/forge
