@@ -8,13 +8,12 @@
     keys evil dired magit
     shell
     email
-    feeds
+    elfeed
     eshell vterm
     passwords pinentry 
     desktop
     roam agenda spelling grammar 
-    reveal
-    website 
+    reveal hugo 
     capture
     projects
     development 

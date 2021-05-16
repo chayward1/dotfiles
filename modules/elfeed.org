@@ -1,8 +1,8 @@
-#+TITLE: Feeds
+#+TITLE: Elfeed
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle feeds.el :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle elfeed.el :comments org
 #+PROPERTY: header-args:shell      :tangle no
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
@@ -10,7 +10,7 @@ Setup a news feed inside of Emacs using ~elfeed~[fn:1], an Emacs web feeds clien
 
 * Setup
 
-+ Add the feed for my [[file:website.org][Website]][fn:2] to make sure the RSS feeds are updating correctly
++ Add the feed for my website[fn:2] to make sure the RSS feeds are updating correctly
 + Add some subreddits, mostly about ~linux~, ~emacs~ and ~org-mode~
 
 #+begin_src emacs-lisp
@@ -25,7 +25,7 @@ Setup a news feed inside of Emacs using ~elfeed~[fn:1], an Emacs web feeds clien
 
 * Shortcuts
 
-Configure ~elfeed~ keybindings behind =SPC l=:
+Configure ~elfeed~[fn:1] keybindings behind =SPC l=:
 
 + Open with =l=
 + Update with =u=

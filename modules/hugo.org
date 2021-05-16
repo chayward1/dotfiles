@@ -1,27 +1,39 @@
-#+TITLE: Website
+#+TITLE: Hugo
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args:emacs-lisp :tangle website.el :comments org
+#+PROPERTY: header-args:emacs-lisp :tangle hugo.el :comments org
 #+PROPERTY: header-args            :results silent :eval no-export :comments org
 
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-I use *Hugo*[fn:1] for my *website*[fn:2] which I write in *Org*[fn:3] before compiling to *Hugo markdown*[fn:4].
+Create entire websites with Emacs.
 
 * Setup
 
-Download *Ox-hugo*[fn:4] and configure it for =one-post-for-file= to add support for exporting to *Hugo markdown*[fn:3].
+Download and install ~hugo~[fn:1] on your system before loading the module:
+
+#+begin_src shell
+RUN apt install -y hugo
+#+end_src
+
+* Config
+
+It's possible to export ~org-mode~ into ~hugo~[fn:1] specific markdown[fn:2] using the ~ox-hugo~[fn:3] package. I have my setup configured for one-post-per-file, despite it not being the suggested method. The option will appear in the default export menu inside of an ~org-mode~ buffer, accessible by pressing =C-c C-e=.
 
 #+begin_src emacs-lisp
 (use-package ox-hugo
   :after ox)
 #+end_src
 
-* Posts
+* Shortcuts
 
-Add a capture template for creating new blog posts.
+Create capture templates for creating new blog posts, and creating publicly shared notes on various topics, and other peoples published works.
+
+** Posts
+
+I post nonsense on my personal blog, available here[fn:4]. This template makes sure the file ends up going to the right location, with the configuration pre-applied.
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-roam
@@ -48,9 +60,9 @@ Add a capture template for creating new blog posts.
 ")))
 #+end_src
 
-* Notes
+** Notes
 
-Add a capture template for creating blog posts and notes on other peoples content / published works.
+Read my notes on various textbooks, artciles, and other un-categorized nonsense here[fn:5]. This template makes sure the file ends up going to the right location, with the configuration pre-applied.
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-roam
@@ -79,8 +91,10 @@ Add a capture template for creating blog posts and notes on other peoples conten
 
 [fn:1] https://gohugo.io
 
-[fn:2] https://chrishayward.xyz
+[fn:2] https://markdownguide.org/tools/hugo
 
-[fn:3] https://markdownguide.org/tools/hugo
+[fn:3] https://github.com/kaushalmodi/ox-hugo
 
-[fn:4] https://github.com/kaushalmodi/ox-hugo
+[fn:4] https://chrishayward.xyz/posts/
+
+[fn:5] https://chrishayward.xyz/notes/
