@@ -63,33 +63,8 @@ Implement some shortcut bindings, with a significant portion of them cherry pick
 #+begin_src emacs-lisp
 (dotfiles/leader
   "." '(find-file :which-key "Files")
-  "," '(switch-buffer :which-key "Buffers")
-  "c" '(kill-buffer-and-window :which-key "Close"))
+  "," '(switch-to-buffer :which-key "Buffers"))
 #+end_src
-
-** Managing windows
-
-Screen space is divided into Frames inside of Emacs, manage them behind =SPC w=:
-
-+ Swap with =w=
-+ Close with =c=
-+ Move with =h,j,k,l=
-+ Split with =s - <motion>=
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "w" '(:ignore t :which-key "Window")
-  "ww" '(window-swap-states :which-key "Swap")
-  "wc" '(delete-window :which-key "Close")
-  "wh" '(windmove-left :which-key "Left")
-  "wj" '(windmove-down :which-key "Down")
-  "wk" '(windmove-up :which-key "Up")
-  "wl" '(windmove-right :which-key "Right")
-  "ws" '(:ignore t :which-key "Split")
-  "wsj" '(split-window-below :which-key "Down")
-  "wsl" '(split-window-right :which-key "Right"))
-#+end_src
-
 
 ** Quitting Emacs
 
@@ -105,6 +80,31 @@ Customize the behaviour of exiting emacs, with keybindings behind =SPC q=:
   "qq" '(save-buffers-kill-emacs :which-key "Save")
   "qw" '(kill-emacs :which-key "Now")
   "qf" '(delete-frame :which-key "Frame"))
+#+end_src
+
+** Managing windows
+
+Screen space is divided into Frames inside of Emacs, manage them behind =SPC w=:
+
++ Swap with =w=
++ Close with =c=
++ Delete with =d=
++ Move with =h,j,k,l=
++ Split with =s - <motion>=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "w" '(:ignore t :which-key "Window")
+  "ww" '(window-swap-states :which-key "Swap")
+  "wc" '(kill-buffer-and-window :which-key "Close")
+  "wd" '(delete-window :which-key "Close")
+  "wh" '(windmove-left :which-key "Left")
+  "wj" '(windmove-down :which-key "Down")
+  "wk" '(windmove-up :which-key "Up")
+  "wl" '(windmove-right :which-key "Right")
+  "ws" '(:ignore t :which-key "Split")
+  "wsj" '(split-window-below :which-key "Down")
+  "wsl" '(split-window-right :which-key "Right"))
 #+end_src
 
 ** Helper Functions
