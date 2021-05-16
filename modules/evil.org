@@ -41,14 +41,50 @@ Quickly and efficiently surround text with ~evil-surround~[fn:3]. Highlight bloc
   :config (global-evil-surround-mode 1))
 #+end_src
 
+** Line numbering
+
+Relative line numbers are important when using VI emulation keys. You can prefix commands with a number, allowing you to perform that action that number of times. Useful when navigating around pages that are hundreds, or even thousands of lines long.
+
+#+begin_example
+  5:
+  4:
+  3:
+  2:
+  1:
+156: << CURRENT LINE >>
+  1:
+  2:
+  3:
+  4:
+  5:
+#+end_example
+
+This behaviour is implemented with ~linum-relative~[fn:4], hooking into the ~display-line-number-mode~ as the backend for good performance in the GUI or TTY.
+
+#+begin_src emacs-lisp
+(use-package linum-relative
+  :commands (linum-relative-global-mode)
+  :custom (linum-delay t)
+          (linum-relative-backend 'display-line-numbers-mode))
+#+end_src
+
 ** Toggle comments
 
-Toggle comments in a language agnostic manner with ~evil-nerd-commenter~[fn:4]. Add a custom binding to =M-;= to mimmic the behaviour in other popular Emacs configuration frameworks. What is =M-?= Called the *Meta* key in Emacs, it typically refers to =Alt=.
+Toggle comments in a language agnostic manner with ~evil-nerd-commenter~[fn:5]. Add a custom binding to =M-;= to mimmic the behaviour in other popular Emacs configuration frameworks. What is =M-?= Called the *Meta* key in Emacs, it typically refers to =Alt=.
 
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
   :after evil
   :bind ("M-;" . evilnc-comment-or-uncomment-lines))
+#+end_src
+
+* Shortcuts
+
+Toggle relative line numbers with =SPC t l=.
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "tl" '(linum-relative-global-mode :which-key "Lines"))
 #+end_src
 
 * Footnotes
@@ -59,4 +95,6 @@ Toggle comments in a language agnostic manner with ~evil-nerd-commenter~[fn:4]. 
 
 [fn:3] https://github.com/emacs-evil/evil-surround
 
-[fn:4] https://github.com/redguardtoo/evil-nerd-commenter
+[fn:4] https://github.com/emacsmirror/linum-relative
+
+[fn:5] https://github.com/redguardtoo/evil-nerd-commenter

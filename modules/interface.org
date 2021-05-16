@@ -116,38 +116,6 @@ Sort completion candidates based on how recently or frequently they're selected.
           (ivy-prescient-mode 1))
 #+end_src
 
-* Line numbering
-
-Relative line numbers are important when using VI emulation keys. You can prefix commands with a number, allowing you to perform that action that number of times. Useful when navigating around pages that are hundreds, or even thousands of lines long.
-
-#+begin_example
-  5:
-  4:
-  3:
-  2:
-  1:
-156: << CURRENT LINE >>
-  1:
-  2:
-  3:
-  4:
-  5:
-#+end_example
-
-#+begin_src emacs-lisp
-(use-package linum-relative
-  :commands (linum-relative-global-mode)
-  :custom (linum-delay t)
-          (linum-relative-backend 'display-line-numbers-mode))
-#+end_src
-
-Toggle line numbers with =SPC t l=.
-
-#+begin_src emacs-lisp
-(dotfiles/leader
-  "tl" '(linum-relative-global-mode :which-key "Lines"))
-#+end_src
-
 * Footnotes
 
 [fn:1] https://github.com/abo-abo/swiper
