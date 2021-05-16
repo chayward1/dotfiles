@@ -59,7 +59,7 @@ After the host configuration file has loaded, the value of ~dotfiles/modules~ is
 
 #+begin_src emacs-lisp
 ;; Load the enabled modules.
-(dotfiles/load-modules)
+(dotfiles/load-modules dotfiles/modules)
 #+end_src
 
 * Footnotes

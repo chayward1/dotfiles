@@ -5,4 +5,4 @@
 (dotfiles/load-host system-name)
 
 ;; Load the enabled modules.
-(dotfiles/load-modules)
+(dotfiles/load-modules dotfiles/modules)
