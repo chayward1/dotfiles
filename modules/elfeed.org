@@ -17,10 +17,11 @@ Setup a news feed inside of Emacs using ~elfeed~[fn:1], an Emacs web feeds clien
 (use-package elfeed
   :commands (elfeed elfeed-update)
   :custom (elfeed-feeds (quote
-                          (("https://chrishayward.xyz/index.xml")
-                           ("https://hexdsl.co.uk/rss.xml")
+                          (("https://hexdsl.co.uk/rss.xml")
                            ("https://lukesmith.xyz/rss.xml")
-                           ("https://friendo.monster/rss.xml")))))
+                           ("https://friendo.monster/rss.xml")
+                           ("https://chrishayward.xyz/index.xml")
+                           ("https://protesilaos.com/codelog.xml")))))
 #+end_src
 
 * Shortcuts
