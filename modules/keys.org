@@ -65,7 +65,7 @@ Implement some shortcut bindings, with a significant portion of them cherry pick
 (dotfiles/leader
   "." '(find-file :which-key "Files")
   "," '(switch-to-buffer :which-key "Buffers")
-  "/" '(kill-buffer :which-key "Kill"))
+  "c" '(kill-buffer-and-window :which-key "Close"))
 #+end_src
 
 ** Quitting Emacs
@@ -98,8 +98,7 @@ Screen space is divided into Frames inside of Emacs, manage them behind =SPC w=:
 (dotfiles/leader
   "w" '(:ignore t :which-key "Window")
   "ww" '(window-swap-states :which-key "Swap")
-  "wc" '(kill-buffer-and-window :which-key "Close")
-  "wd" '(delete-window :which-key "Delete")
+  "wc" '(delete-window :which-key "Close")
   "wh" '(windmove-left :which-key "Left")
   "wj" '(windmove-down :which-key "Down")
   "wk" '(windmove-up :which-key "Up")
