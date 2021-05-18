@@ -20,7 +20,7 @@ RUN apt install sqlite
 
 * Config
 
-Configure ~org-roam~, a plain-text knowledge management system for Emacs built on top of ~org-mode~. Here's a quick recap of the main principles:
+Configure ~org-roam~[fn:1], a plain-text knowledge management system for Emacs built on top of ~org-mode~. Here's a quick recap of the main principles:
 
 + Notes can be arbitrarily referened
 + Contexts created by linking topics and notes
@@ -36,7 +36,7 @@ Configure ~org-roam~, a plain-text knowledge management system for Emacs built o
 
 ** Files
 
-The default behaviour of ~org-roam~ when creating a title slug is to replace any non alpha numerical (whitespace) to ~_~. I wanted to change this to use ~_~ and have done so here in my own definition. The only substantial difference from the original definition is the character used.
+The default behaviour of ~org-roam~[fn:1] when creating a title slug is to replace any non alpha numerical (whitespace) to ~_~. I wanted to change this to use ~_~ and have done so here in my own definition. The only substantial difference from the original definition is the character used.
 
 + Define a new ~title-to-slug~ function
 + Override ~org-roam-title-to-slug-function~
@@ -64,7 +64,7 @@ The default behaviour of ~org-roam~ when creating a title slug is to replace any
 
 ** Visualizer
 
-Use the ~org-roam-server~ web application to visualize the ~org-roam~ database. It's available whenever the editor is running at http://localhost:8080.
+Use the ~org-roam-server~[fn:2] web application to visualize the ~org-roam~[fn:1] database. It's available whenever the editor is running at http://localhost:8080.
 
 #+begin_src emacs-lisp
 (use-package org-roam-server
@@ -74,7 +74,7 @@ Use the ~org-roam-server~ web application to visualize the ~org-roam~ database. 
 
 ** Dailies
 
-Use the ~daily~ note feature of ~org-roam~ to capture daily notes. Create the default capture template with some preconfigured headers.
+Use the ~daily~ note feature of ~org-roam~[fn:1] to capture daily notes. Create the default capture template with some preconfigured headers.
 
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-roam
@@ -136,7 +136,7 @@ Capture template for a new course. Capture with =SPC r c c=.
 
 * Shortcuts
 
-Configure custom keybindings for ~org-roam~ behind =SPC r=:
+Configure custom keybindings for ~org-roam~[fn:1] behind =SPC r=:
 
 + Find with =f=
 + Insert with =i=
@@ -169,3 +169,7 @@ Place keybindings for daily notes behind =SPC r d=:
 #+end_src
 
 * Footnotes
+
+[fn:1] https://github.com/org-roam/org-roam
+
+[fn:2] https://github.com/org-roam/org-roam-server
