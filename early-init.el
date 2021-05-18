@@ -53,7 +53,7 @@
 
 ;; All of the modules available sorted in their default load order.
 (defconst dotfiles/modules-p
-  '(org trash keys evil dired magit
+  '(trash keys org evil dired magit
     shell mu4e elfeed eshell vterm
     gpg pass x11 exwm roam agenda
     spelling grammar reveal hugo
