@@ -65,6 +65,16 @@ Setup the default babel languages and structure templates, and apply customizati
                                                                    (emacs-lisp . t))))
 #+end_src
 
+** Pomodoro
+
+Adds support for the Pomodoro workflow in Emacs through the ~org-pomodoro~[fn:4] package. Some workflows benefit from thje option to work a few minutes of *overtime* to finish a task before taking a break. With this workflow, a break notification is sent at the end of the pomodoro timer, but the break starts when calling =M-x org-pomodoro=.
+
+#+begin_src emacs-lisp
+(use-package org-pomodoro
+  :after org
+  :custom (org-pomodoro-manual-break t)) ;; Enable the 'overtime' workflow.
+#+end_src
+
 ** Flashcards
 
 Create study flashcards using ~org-drill~[fn:2], an extension for ~org-mode~. It uses a spaced repititon algorithm to conduct interactive drill sesslions using ~org-mode~ buffers as sources of facts to be memorized. Each drill can be restricted to topics in the current buffer, one of several, all agenda files, or a single topic across all buffers.
@@ -118,6 +128,21 @@ Function that takes in a system and configuration file path, checks to see if th
       (make-symbolic-link dot-file sys-file))))
 #+end_src
 
+
+* Shortcuts
+
+Place ~org-mode~[fn:1] extension bindings behind =SPC o=.
+
++ Drill with =l=
++ Pomodoro with =p=
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "o" '(:ignore t :which-key "Org")
+  "ol" '(org-drill :which-key "Drill")
+  "op" '(org-pomodoro :which-key "Pomodoro"))
+#+end_src
+  
 * Footnotes
 
 [fn:1] https://orgmode.org
@@ -125,3 +150,5 @@ Function that takes in a system and configuration file path, checks to see if th
 [fn:2] https://orgmode.org/worg/org-contrib/org-drill.html
 
 [fn:3] https://github.com/integral-dw/org-superstar-mode
+
+[fn:4] https://github.com/marcinkoziej/org-pomodoro
