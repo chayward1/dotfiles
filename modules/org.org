@@ -65,9 +65,18 @@ Setup the default babel languages and structure templates, and apply customizati
                                                                    (emacs-lisp . t))))
 #+end_src
 
+** Flashcards
+
+Create study flashcards using ~org-drill~[fn:2], an extension for ~org-mode~. It uses a spaced repititon algorithm to conduct interactive drill sesslions using ~org-mode~ buffers as sources of facts to be memorized. Each drill can be restricted to topics in the current buffer, one of several, all agenda files, or a single topic across all buffers.
+
+#+begin_src emacs-lisp
+(use-package org-drill
+  :after org)
+#+end_src
+
 ** Headline stars
 
-Make the headline stars a bit more *super* with ~org-superstar-mode~[fn:2]. Only enable this inside of a window system, as the effect can be distracting on the TTY.
+Make the headline stars a bit more *super* with ~org-superstar-mode~[fn:3]. Only enable this inside of a window system, as the effect can be distracting on the TTY.
 
 #+begin_src emacs-lisp
 (use-package org-superstar
@@ -113,4 +122,6 @@ Function that takes in a system and configuration file path, checks to see if th
 
 [fn:1] https://orgmode.org
 
-[fn:2] https://github.com/integral-dw/org-superstar-mode
+[fn:2] https://orgmode.org/worg/org-contrib/org-drill.html
+
+[fn:3] https://github.com/integral-dw/org-superstar-mode
