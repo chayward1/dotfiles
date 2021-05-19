@@ -1,0 +1,86 @@
+#+TITLE: EMMS
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle emms.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp: nil
+
+EMMS[fn:1] is Emacs as a multimedia player.
+
+* Setup
+
+Make sure you install the required packages on your system before loading the module.
+
+#+begin_src shell
+RUN apt install -y mpc mpd mpv
+#+end_src
+
+** Music player daemon
+:PROPERTIES:
+:header-args: :tangle ../config/mpd.conf
+:END:
+
+MPD[fn:2] uses a simple text configuration file. Most options only accept a string in " quotes ". The most important option to configure is the ~music_directory~. This is where all of the music ~mpd~[fn:2] will serve exists. It will read the directory recursively.
+
+#+begin_src conf
+music_directory  "~/.local/share/media/music"
+#+end_src
+
+You can configure where ~mpd~[fn:2] will look for playlists. You may want to configure this option if you share your playlists between devices.
+
+#+begin_src conf
+playlist_directory  "~/.local/share/media/playlists"
+#+end_src
+
+It's possible to serve ~mpd~[fn:2] over the network by configuring it to listen on =0.0.0.0=, or by the systems host name. For a local setup, leave it as =localhost=.
+
+#+begin_src conf
+bind_to_address  "localhost"
+port             "6600"
+#+end_src
+
+*** Deploy the configuration
+
+MPD[fn:2] will look for its configuration in =~/.config/mpd/mpd.conf=, and =/etc/mpd.conf= respectively.
+
+#+begin_src emacs-lisp
+(let ((mpd-dir "~/.config/mpd"))
+  (unless (file-exists-p mpd-dir)
+    (make-directory mpd-dir t))
+  (dotfiles/symlink "~/.emacs.d/config/mpd.conf"
+                    (concat mpd-dir "/mpd.conf")))
+#+end_src
+
+* Config
+
+Displays and play multimedia from within Emacs with ~emms~[fn:1], using a variety of external players from different sources. It can run as a minimalist player and controlled with commands, or a fully fledged interactive media browser. It can display album art, play streaming media, tag files, search lyrics, and provide ~mpd~[fn:2] connectivity.
+
+#+begin_src emacs-lisp
+(use-package emms
+  :custom (emms-player-mpd-server-name "localhost")
+          (emms-player-mpd-server-port "6600")
+  :config (require 'emms-setup)
+          (require 'emms-player-mpd)
+          (emms-all)
+          (emms-default-players)
+          (add-to-list 'emms-info-functions 'emms-info-mpd)
+          (add-to-list 'emms-player-list 'emms-player-mpd))
+#+end_src
+
+* Shortcuts
+
+Place bindings for ~emms~[fn:1] behind =SPC u=:
+
+#+begin_src emacs-lisp
+(dotfiles/leader
+  "u" '(:ignore t :which-key "EMMS"))
+#+end_src
+
+* Footnotes
+
+[fn:1] https://gnu.org/software/emms/
+
+[fn:2] https://musicpd.org

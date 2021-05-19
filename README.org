@@ -103,13 +103,12 @@ All of the options are defined early in the config, this is for two reasons: The
 #+begin_src emacs-lisp
 ;; All of the modules available sorted in their default load order.
 (defconst dotfiles/modules-p
-  '(trash keys org evil dired magit
-    shell mu4e elfeed eshell vterm
-    gpg pass x11 exwm roam agenda
-    spelling grammar reveal hugo
-    capture projects docker lsp dap
-    cc go uml conf python fonts ivy
-    themes modeline dashboard))
+  '(trash keys org evil dired magit shell
+    emms mu4e elfeed eshell vterm gpg pass
+    x11 exwm roam agenda spelling grammar
+    reveal hugo capture projects docker
+    lsp dap cc go uml conf python fonts
+    ivy themes modeline dashboard))
 
 ;; All of the enabled modules.
 (defvar dotfiles/modules dotfiles/modules-p)
