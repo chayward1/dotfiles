@@ -144,6 +144,7 @@ Place ~org-mode~[fn:1] extension bindings behind =SPC o=.
   "o" '(:ignore t :which-key "Org")
   "od" '(:ignore t :which-key "Drill")
   "odd" '(org-drill :which-key "Drill")
+  "odc" '(org-drill-cram :which-key "Cram")
   "odr" '(org-drill-resume :which-key "Resume")
   "op" '(org-pomodoro :which-key "Pomodoro"))
 #+end_src
