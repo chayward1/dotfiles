@@ -72,7 +72,8 @@ Adds support for the Pomodoro workflow in Emacs through the ~org-pomodoro~[fn:4]
 #+begin_src emacs-lisp
 (use-package org-pomodoro
   :after org
-  :custom (org-pomodoro-manual-break t)) ;; Enable the 'overtime' workflow.
+  :custom (org-pomodoro-manual-break t)      ;; Enable the 'overtime' workflow.
+          (org-pomodoro-keep-killed-time t)) ;; Track abandoned timers.
 #+end_src
 
 ** Flashcards
@@ -133,13 +134,17 @@ Function that takes in a system and configuration file path, checks to see if th
 
 Place ~org-mode~[fn:1] extension bindings behind =SPC o=.
 
-+ Drill with =l=
++ Drill with =d=
+  + Drill with =d=
+  + Resume with =r=
 + Pomodoro with =p=
 
 #+begin_src emacs-lisp
 (dotfiles/leader
   "o" '(:ignore t :which-key "Org")
-  "ol" '(org-drill :which-key "Drill")
+  "od" '(:ignore t :which-key "Drill")
+  "odd" '(org-drill :which-key "Drill")
+  "odr" '(org-drill-resume :which-key "Resume")
   "op" '(org-pomodoro :which-key "Pomodoro"))
 #+end_src
   
