@@ -8,22 +8,25 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-My phone! This is running on a *TTY* or through *VNC* on *Termux*[fn:1]. It's pretty bare-bones but it's Org-mode in your pocket!
+Emacs on Android via Termux[fn:1].
 
-* Issues
+* Config
 
-+ Android devices do not use the Linux hostname
-+ Setting a custom hostname is impossible
-
-* Options
-
-+ Increase font size for small phone screen
-+ Clear ~dotfiles/modules~ and add one by one
+Increase the default font size to accomodate the smaller screen size.
 
 #+begin_src emacs-lisp
-(setq dotfiles/font-size 132
-      dotfiles/modules '())
+(setq dotfiles/font-size 132)
 #+end_src
+
+** Disable modules
+
+Many modules simply do not run under Termux[fn:1].
+
+#+begin_src emacs-lisp
+(delete 'x11 dotfiles/modules)    ;; TODO Create VNC module.
+(delete 'exwm dotfiles/modules)   ;; Cannot run EXWM without X11.
+#+end_src
+
 
 * Footnotes
 
