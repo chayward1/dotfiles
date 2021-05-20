@@ -38,12 +38,16 @@ pygmentsUseClasses = true
     url = "https://gitlab.com/chayward1/"
 
   [[params.social]]
-    name = "linkedin"
-    url = "https://linkedin.com/in/christopher-hayward-00b6a8197/"
+    name = "email"
+    url = "mailto:chris@chrishayward.xzy"
 
   # [[params.social]]
   #   name = "youtube"
   #   url = "https://youtube.com/channel/UCOOh07namjfzGwRuay1LqRQ"
+
+  # [[params.social]]
+  #   name = "linkedin"
+  #   url = "https://linkedin.com/in/christopher-hayward-00b6a8197/"
 
 [privacy]
   [privacy.disqus]
@@ -76,6 +80,6 @@ pygmentsUseClasses = true
     weight = 20
 
   [[menu.main]]
-    name = "Contact"
-    url = "mailto:chris@chrishayward.xyz"
+    name = "Projects"
+    url = "https://git.chrishayward.xyz/explore/repos"
     weight = 30
