@@ -129,14 +129,14 @@ Emacs supports frame transparency when running under the X Window System[fn:1].
                      ((numberp (cdr alpha)) (cdr alpha))
                      ((numberp (cadr alpha)) (cadr alpha)))
                100)
-          '(85 . 50) '(100 . 100)))))
+          '(85 . 80) '(100 . 100)))))
 #+end_src
 
 Enable frame transparency by default.
 
 #+begin_src emacs-lisp
-(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
-(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+(set-frame-parameter (selected-frame) 'alpha '(85 . 80))
+(add-to-list 'default-frame-alist '(alpha . (85 . 80)))
 #+end_src
 
 * Shortcuts
