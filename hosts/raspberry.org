@@ -8,13 +8,11 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-*Raspberry Pi 400*[fn:1] personal computer, and a small fleet of *Zero*[fn:2], *Zero WH*[fn:3], *4*[fn:4], and *4B's*[fn:5].
+Emacs running via Rasbian[fn:1] on a Raspberry Pi 400[fn:2], and a small fleet of Zero and Zero WH[fn:3] machines.
 
-* Options
+* Config
 
-+ Set the browser manually
-+ Set the language to Canadian english
-+ Increase the font size for small screens
+Configure the pre-packaged ~chromium-browser~[fn:4] as the default system browser, override the dictionary with Canadian english, and increase the font size to accomodate the smaller screen.
 
 #+begin_src emacs-lisp
 (setq dotfiles/browser "chromium-browser"
@@ -24,12 +22,10 @@
 
 * Footnotes
 
-[fn:1] DEFINITION NOT FOUND.
+[fn:1] https://raspbian.org
 
-[fn:2] DEFINITION NOT FOUND.
+[fn:2] https://www.raspberrypi.org/products/raspberry-pi-400/
 
-[fn:3] DEFINITION NOT FOUND.
+[fn:3] https://www.raspberrypi.org/blog/zero-wh/
 
-[fn:4] DEFINITION NOT FOUND.
-
-[fn:5] DEFINITION NOT FOUND.
+[fn:4] https://pimylifeup.com/raspberry-pi-chromium-browser/

@@ -8,12 +8,11 @@
 #+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 #+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
 
-The first configuration, built in the pit of evil on a Windows 10 host **gasps**. I opted for *easy mode* when creating this host and based it on the *Ubuntu 20.04 LTS Server Edition*[fn:1]. Future versions may see this abandoned for *Alpine Linux*[fn:2]
+Emacs running via Ubuntu[fn:1] and VirtualBox[fn:2]
 
-* Options
+* Config
 
-+ Set the browser manually
-+ Set the language to Canadian english
+Configure ~firefox~[fn:3] as the system browser, and set override the dictionary with Canadian english for writing school assignments.
   
 #+begin_src emacs-lisp
 (setq dotfiles/browser "firefox"
@@ -22,6 +21,9 @@ The first configuration, built in the pit of evil on a Windows 10 host **gasps**
  
 * Footnotes
 
-[fn:1] Ubuntu 20.04 LTS Server
+[fn:1] https://ubuntu.com
 
-[fn:2] Alpine Linux
+[fn:2] https://virtualbox.com
+
+[fn:3] https://firefox.com
+
