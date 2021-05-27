@@ -41,14 +41,6 @@ pygmentsUseClasses = true
     name = "email"
     url = "mailto:chris@chrishayward.xzy"
 
-  # [[params.social]]
-  #   name = "youtube"
-  #   url = "https://youtube.com/channel/UCOOh07namjfzGwRuay1LqRQ"
-
-  # [[params.social]]
-  #   name = "linkedin"
-  #   url = "https://linkedin.com/in/christopher-hayward-00b6a8197/"
-
 [privacy]
   [privacy.disqus]
     disable = true
