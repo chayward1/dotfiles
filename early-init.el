@@ -30,6 +30,9 @@
       straight-use-package-by-default t
       package-enable-at-startup nil)
 
+;; BUGFIX https://github.com/raxod502/straight.el/issues/757
+(defvar native-comp-deferred-compilation-deny-list ())
+
 ;; Bootstrap the package manager.
 (defvar bootstrap-version)
 (let ((bootstrap-file

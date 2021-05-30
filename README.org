@@ -69,6 +69,9 @@ Download and install packages using ~straight.el~[fn:5], a fully functional pack
 (setq straight-repository-branch "master"
       straight-use-package-by-default t
       package-enable-at-startup nil)
+
+;; BUGFIX https://github.com/raxod502/straight.el/issues/757
+(defvar native-comp-deferred-compilation-deny-list ())
 #+end_src
 
 Bootstrap the package manager by loading the bootstrap-file, downloading it when it doesn't exist on a new system. This operation may take some time on a new system.
