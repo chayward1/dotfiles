@@ -25,7 +25,9 @@ High quality and modern colour themes are provides inside of Emacs via the ~doom
 
 #+begin_src emacs-lisp
 (use-package doom-themes
-  :init (load-theme 'doom-moonlight t))
+  :init (load-theme 'doom-moonlight t)
+  :custom (doom-themes-enable-bold t)
+          (doom-themes-enable-italic t))
 #+end_src
 
 * Shortcuts
