@@ -32,7 +32,7 @@ These is my personal configuration(s) for *GNU/Linux*[fn:2], and *GNU/Emacs*[fn:
 
 ** Cleanup
 
-Emacs creates a lot of files relative to ~user-emacs-directory~. These files are not part of this immutable configuration and do not belong in the Emacs directory. To solve this issue, before most of the packages have loaded, I change the value, a method I detail in this post[fn:4]
+Emacs creates a lot of files relative to ~user-emacs-directory~. These files are not part of this immutable configuration and do not belong in the Emacs directory. To solve this issue, before most of the packages have loaded, I change the value, a method I detail in this post[fn:4].
 
 #+begin_src emacs-lisp
 ;; The original value of `user-emacs-directory' prior to redirection.
@@ -51,6 +51,12 @@ Emacs creates a lot of files relative to ~user-emacs-directory~. These files are
 
 ;; Redirect the value of `user-emacs-directory'.
 (setq user-emacs-directory dotfiles/cache)
+
+;; Remove the eln-cache subdirectory.
+(delete (expand-file-name "eln-cache" dotfiles/home) comp-eln-load-path)
+
+;; Add a new eln-cache folder.
+(add-to-list 'comp-eln-load-path (expand-file-name "eln-cache" dotfiles/cache))
 
 ;; Disable error messages for packages that don't support native-comp.
 (setq comp-async-report-warnings-errors nil)

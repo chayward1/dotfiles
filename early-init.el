@@ -18,6 +18,12 @@
 ;; Redirect the value of `user-emacs-directory'.
 (setq user-emacs-directory dotfiles/cache)
 
+;; Remove the eln-cache subdirectory.
+(delete (expand-file-name "eln-cache" dotfiles/home) comp-eln-load-path)
+
+;; Add a new eln-cache folder.
+(add-to-list 'comp-eln-load-path (expand-file-name "eln-cache" dotfiles/cache))
+
 ;; Disable error messages for packages that don't support native-comp.
 (setq comp-async-report-warnings-errors nil)
 
