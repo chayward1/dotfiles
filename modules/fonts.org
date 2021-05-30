@@ -54,6 +54,16 @@ It's finally here, first class support for Emojis in Emacs via the ~emacs-emojif
   :hook (after-init . global-emojify-mode))
 #+end_src
 
+** Scrolling
+
+Emacs' default scrolling behaviour is annoying. The sudden half-page jumps and the variable scroll-speed can be fixed with a few simple commands.
+
+#+begin_src emacs-lisp
+(setq scroll-conservatively 101                    ;; Values >= 100 fix page jumping.
+      mouse-wheel-scroll-amount '(3 ((shift) . 3)) ;; Control the number of lines per jump.
+      mouse-wheel-progressive-speed t              ;; Accelerate scrolling with the mouse wheel.
+      mouse-wheel-follow-mouse t)                  ;; Scroll the window under the mouse.
+#+end_src
 
 ** Ligatures
 
