@@ -24,6 +24,17 @@ Setup a news feed inside of Emacs using ~elfeed~[fn:1], an Emacs web feeds clien
                            ("https://protesilaos.com/codelog.xml")))))
 #+end_src
 
+** Goodies
+
+Extend ~elfeed~[fn:1] with the ~elfeed-goodies~[fn:3] package.
+
+#+begin_src emacs-lisp
+(use-package elfeed-goodies
+  :after elfeed
+  :custom (elfeed-goodies/entry-pane-size 0.5)
+  :config (elfeed-goodies/setup))
+#+end_src
+
 * Shortcuts
 
 Configure ~elfeed~[fn:1] keybindings behind =SPC l=:
@@ -43,3 +54,5 @@ Configure ~elfeed~[fn:1] keybindings behind =SPC l=:
 [fn:1] https://github.com/skeeto/elfeed
 
 [fn:2] https://chrishayward.xyz/index.xml
+
+[fn:3] https://github.com/algernon/elfeed-goodies
