@@ -67,7 +67,7 @@
     x11 exwm roam agenda spelling grammar
     reveal hugo capture projects docker
     lsp dap cc go uml conf python fonts
-    ivy themes modeline dashboard))
+    nix ivy themes modeline dashboard))
 
 ;; All of the enabled modules.
 (defvar dotfiles/modules dotfiles/modules-p)
