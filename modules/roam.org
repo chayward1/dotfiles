@@ -72,26 +72,6 @@ Use the ~org-roam-server~[fn:2] web application to visualize the ~org-roam~[fn:1
   :hook (org-roam-mode . org-roam-server-mode))
 #+end_src
 
-** Dailies
-
-Use the ~daily~ note feature of ~org-roam~[fn:1] to capture daily notes. Create the default capture template with some preconfigured headers.
-
-#+begin_src emacs-lisp
-(with-eval-after-load 'org-roam
-  (add-to-list 'org-roam-dailies-capture-templates
-    '("d" "Default" entry (function org-roam-capture--get-point)
-             "* %?"
-             :file-name "docs/daily/%<%Y-%m-%d>"
-             :head
-"
-,#+TITLE: %<%Y-%m-%d>
-,#+AUTHOR: Christopher James Hayward
-
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-")))
-#+end_src
-
 * Templates
 
 Collection of capture templates for various contexts. Here is one for a generic document.
@@ -128,6 +108,26 @@ Capture template for a new course. Capture with =SPC r c c=.
 ,#+SUBTITLE:
 ,#+AUTHOR: Christopher James Hayward
 ,#+EMAIL: chris@chrishayward.xyz
+
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+")))
+#+end_src
+
+** Dailies
+
+Use the ~daily~ note feature of ~org-roam~[fn:1] to capture daily notes. Create the default capture template with some preconfigured headers.
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'org-roam
+  (add-to-list 'org-roam-dailies-capture-templates
+    '("d" "Default" entry (function org-roam-capture--get-point)
+             "* %?"
+             :file-name "docs/daily/%<%Y-%m-%d>"
+             :head
+"
+,#+TITLE: %<%Y-%m-%d>
+,#+AUTHOR: Christopher James Hayward
 
 ,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
 ,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
