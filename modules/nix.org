@@ -1,0 +1,27 @@
+#+TITLE: Nix
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
+
+#+PROPERTY: header-args:emacs-lisp :tangle nix.el :comments org
+#+PROPERTY: header-args            :results silent :eval no-export :comments org
+
+#+OPTIONS: num:nil toc:nil todo:nil tasks: nil tags:nil
+#+OPTIONS: skip:nil author:nil emacs:nil creator:nil timestamp:nil
+
+* Setup
+
+*Nix*[fn:1] is a package manager for Linux that uses functional configuration language to build reproducible package deployments. *NixOS*[fn:2] is an extension of the Nix package manager to the entire operating system.
+
+* Config
+
+Download and install ~nix-mode~ for working with *Nix* language buffers.
+
+#+begin_src emacs-lisp
+(use-package nix-mode)
+#+end_src
+
+* Footnotes
+
+[fn:1] https://nixos.org
+
+[fn:2] https://nixos.org
