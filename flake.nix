@@ -36,30 +36,29 @@
           }
         ];
       };
-      # NOTE: Work In Progress!
-      # acernitro = nixpkgs.lib.nixosSystem {
-      #   system = "x86_64-linux";
-      #   specialArgs = { inherit inputs; };
-      #   modules = [
-      #     ./hosts/acernitro
-      #     ./modules/x11.nix
-      #     ./modules/flakes.nix
-      #     ./modules/cachix.nix
-      #     inputs.home-manager.nixosModules.home-manager {
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-      #       home-manager.users.chris = {
-      #         imports = [
-      #           ./modules/git.nix
-      #           ./modules/gpg.nix
-      #           ./modules/vim.nix
-      #           ./modules/gtk.nix
-      #           ./modules/emacs.nix
-      #         ];
-      #       };
-      #     }
-      #   ];
-      # };
+      acernitro = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/acernitro
+          ./modules/x11.nix
+          ./modules/flakes.nix
+          ./modules/cachix.nix
+          inputs.home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.chris = {
+              imports = [
+                ./modules/git.nix
+                ./modules/gpg.nix
+                ./modules/vim.nix
+                ./modules/gtk.nix
+                ./modules/emacs.nix
+              ];
+            };
+          }
+        ];
+      };
     };
   };
 }

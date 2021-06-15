@@ -347,6 +347,9 @@ X11, or X[fn:13] is the generic name for the X Window System Display Server. All
   environment = {
     systemPackages = with pkgs; [
       pkgs.sqlite
+      pkgs.pfetch
+      pkgs.cmatrix
+      pkgs.asciiquarium
     ];
     extraInit = ''
       export XAUTHORITY=/tmp/Xauthority

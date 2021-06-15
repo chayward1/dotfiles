@@ -10,6 +10,9 @@
   environment = {
     systemPackages = with pkgs; [
       pkgs.sqlite
+      pkgs.pfetch
+      pkgs.cmatrix
+      pkgs.asciiquarium
     ];
     extraInit = ''
       export XAUTHORITY=/tmp/Xauthority
