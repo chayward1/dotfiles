@@ -15,7 +15,6 @@
   networking.interfaces.enp6s0f1.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
-  sound.enable = true;
   services.openssh.enable = true;
   services.printing.enable = true;
 
