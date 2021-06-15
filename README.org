@@ -178,10 +178,7 @@ Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#nixo
 
 *** Configuration
 
-This configuration can function independently from the rest of the project. If you wish to install a specific host without including the entire flake, you can create a symbolic link from =/etc/nixos= to =/etc/dotfiles/hosts/<name>=. This configuration also handles a few requirements that must occur /outside/ of the Home Manager[fn:7] integration:
-
-1) It imports the Emacs Overlay[fn:8]
-2) It installs the unstable version of Nix[fn:5]
+This is a basic default configuration that specified the indended default configuration of the system. Because NixOS[fn:4] has a declarative configuration model, you can create or edit a description of the desired configuration, and update it from one file.
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/nixos/configuration.nix
 # <<file-warning>>
@@ -240,7 +237,7 @@ The file system for this host is a single 24GB QCOW file, a format for disk imag
 }
 #+END_SRC
 
-** TODO Acernitro
+** Acernitro
 
 My gaming laptop, the model is an Acer Nitro AN-515-53[fn:12]. The Nitro 5 has more in common with the mid-range notebooks rather than the gaming models due to its cooling design, chassis, and overall construction.
 
@@ -257,18 +254,17 @@ Here are the specs:
 
 #+NAME: host-acernitro
 #+BEGIN_SRC nix :noweb yes
-# NOTE: Work In Progress!
-# acernitro = nixpkgs.lib.nixosSystem {
-#   system = "x86_64-linux";
-#   specialArgs = { inherit inputs; };
-#   modules = [
-#     ./hosts/acernitro
-#     <<module-x11>>
-#     <<module-flakes>>
-#     <<module-cachix>>
-#     <<module-home-manager>>
-#   ];
-# };
+acernitro = nixpkgs.lib.nixosSystem {
+  system = "x86_64-linux";
+  specialArgs = { inherit inputs; };
+  modules = [
+    ./hosts/acernitro
+    <<module-x11>>
+    <<module-flakes>>
+    <<module-cachix>>
+    <<module-home-manager>>
+  ];
+};
 #+END_SRC
 
 Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#acernitro~.
@@ -285,7 +281,43 @@ Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#acer
 }
 #+END_SRC
 
-*** TODO Configuration
+*** Configuration
+
+This configuration is nearly identical to the default, except for a few key differences:
+
++ Applies the desired hostname
++ It adds support for =UEFI= systems
++ Uses an OS Prober to detect dual-boot
+
+#+BEGIN_SRC nix :noweb yes :tangle hosts/acernitro/configuration.nix
+# <<file-warning>>
+{ config, pkgs, inputs, ... }:
+
+{
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.useOsProber = true;
+  boot.loader.grub.device = "/dev/sda";
+
+  time.timeZone = "America/Toronto";
+
+  networking.hostName = "acernitro";
+  networking.useDHCP = false;
+  networking.firewall.enable = false;
+  networking.interfaces.ens3.useDHCP = true;
+
+  programs.mtr.enable = true;
+  programs.fish.enable = true;
+  programs.gnupg.agent.enable = true;
+
+  users.users.chris = {
+    shell = pkgs.fish;
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+  };
+}
+#+END_SRC
 
 *** TODO Hardware
 
