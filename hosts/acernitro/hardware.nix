@@ -15,6 +15,8 @@
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.support32Bit = true;
 
+  services.xserver.dpi = 96;
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/2f548eb9-47ce-4280-950f-9c6d1d162852";
       fsType = "ext4"; 
