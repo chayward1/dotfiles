@@ -57,6 +57,7 @@ let
 in {
   home.packages = [
     pkgs.arandr
+    pkgs.nitrogen
     pkgs.autorandr
     pkgs.hugo
     pkgs.pass
@@ -78,6 +79,7 @@ in {
   xsession = {
     enable = true;
     windowManager.command = ''
+      ${pkgs.nitrogen}/bin/nitrogen --restore
       ${myEmacs}/bin/emacs --daemon -f exwm-enable
       ${myEmacs}/bin/emacsclient -c
     '';
