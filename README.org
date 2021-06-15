@@ -372,6 +372,129 @@ This configuration is nearly identical to the default, except for a few key diff
 }
 #+END_SRC
 
+* Development Shells
+
+The command ~nix-shell~[fn:13] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
+
+Import this shell with ~nix-shell /etc/dotfiles~.
+
+#+BEGIN_SRC nix :noweb yes :tangle shell.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+
+let
+  nixBin = writeShellScriptBin "nix" ''
+    ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
+  '';
+
+in mkShell {
+  buildInputs = [
+    git
+  ];
+  shellHook = ''
+    export FLAKE=$(pwd)
+    export PATH=$FLAKE/bin:${nixBin}/bin:$PATH"
+  '';
+}
+#+END_SRC
+
+** Go
+
+Go[fn:14] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/go~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/go.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    go
+    gopls
+    protoc-gen-go-grpc
+  ];
+  shellHook = ''
+    export GO111MODULE=on
+    export GOPATH=$HOME/.go/
+    export PATH=$GOPATH/bin:$PATH
+  '';
+}
+#+END_SRC
+
+** gRPC
+
+gRPC[fn:15] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/grpc~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/grpc.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    grpc
+    grpc-tools
+    grpcui
+    grpcurl
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
+** C/C++
+
+C[fn:16] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. C++[fn:17] is a general-purpose programming language created as an extension of the C[fn:16] programming language.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/cc~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/cc.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    ccls
+    gnumake
+    libstdcxx5
+    gcc-unwrapped
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
+** Python
+
+Python[fn:18] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/python~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/python.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    python39Packages.pip
+    python39Packages.pip-tools
+    python39Packages.pyls-mypy
+    python39Packages.pyls-isort
+    python39Packages.pyls-black
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
 * Module Definitions
 
 Modules are files combined by NixOS[fn:4] to produce the full system configuration. Modules wre introduced to allow extending NixOS[fn:4] without modifying its source code. They also allow splitting up =configuration.nix=, making the system configuration easier to maintain and use.
@@ -383,7 +506,7 @@ Modules are files combined by NixOS[fn:4] to produce the full system configurati
 ./modules/x11.nix
 #+END_SRC
 
-X11, or X[fn:13] is the generic name for the X Window System Display Server. All graphical GNU/Linux[fn:1] applications connect to an X-Window[fn:13] (or Wayland[fn:14]) to display graphical data on the monitor of a computer. Its a program that acts as the interface between graphical applications and the graphics subsystem of the computer.
+X11, or X[fn:19] is the generic name for the X Window System Display Server. All graphical GNU/Linux[fn:1] applications connect to an X-Window[fn:19] (or Wayland[fn:20]) to display graphical data on the monitor of a computer. Its a program that acts as the interface between graphical applications and the graphics subsystem of the computer.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/x11.nix
 # <<file-warning>>
@@ -427,7 +550,7 @@ X11, or X[fn:13] is the generic name for the X Window System Display Server. All
 ./modules/flakes.nix
 #+END_SRC
 
-Nix Flakes[fn:15] are an upcoming feature of the Nix package manager[fn:5]. They allow you to specify your codes dependencies in a declarative way, simply by listing them inside of a ~flake.nix~ file. Each dependency is then pinned to a specific git-hash. Flakes[fn:15] replace the =nix-channels= command and things like ~builtins.fetchGit~, keeping dependencies at the top of the tree, and channels always in sync. Currently, Flakes[fn:15] are not available unless explicitly enabled.
+Nix Flakes[fn:21] are an upcoming feature of the Nix package manager[fn:5]. They allow you to specify your codes dependencies in a declarative way, simply by listing them inside of a ~flake.nix~ file. Each dependency is then pinned to a specific git-hash. Flakes[fn:21] replace the =nix-channels= command and things like ~builtins.fetchGit~, keeping dependencies at the top of the tree, and channels always in sync. Currently, Flakes[fn:21] are not available unless explicitly enabled.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/flakes.nix
 # <<file-warning>>
@@ -455,7 +578,7 @@ Nix Flakes[fn:15] are an upcoming feature of the Nix package manager[fn:5]. They
 ./modules/cachix.nix
 #+END_SRC
 
-Cachix[fn:16] is a Command line client for Nix[fn:5] binary cache hosting. This allows downloading and usage of pre-compiled binaries for applications on /nearly/ every available system architecture. This speeds up the time it takes to rebuild configurations.
+Cachix[fn:22] is a Command line client for Nix[fn:5] binary cache hosting. This allows downloading and usage of pre-compiled binaries for applications on /nearly/ every available system architecture. This speeds up the time it takes to rebuild configurations.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/cachix.nix
 # <<file-warning>>
@@ -475,7 +598,7 @@ Cachix[fn:16] is a Command line client for Nix[fn:5] binary cache hosting. This 
 
 ** Firefox
 
-Firefox Browser[fn:17], also known as Mozilla Firefox or simply Firefox, is a free and open-source web browser developed by the Mozilla Foundation and its subsidiary, the Mozilla Corporation. Firefox uses the Gecko layout engine to render web pages, which implements current and anticipated web standards. In 2017, Firefox began incorporating new technology under the code name Quantum to promote parallelism and a more intuitive user interface.
+Firefox Browser[fn:23], also known as Mozilla Firefox or simply Firefox, is a free and open-source web browser developed by the Mozilla Foundation and its subsidiary, the Mozilla Corporation. Firefox uses the Gecko layout engine to render web pages, which implements current and anticipated web standards. In 2017, Firefox began incorporating new technology under the code name Quantum to promote parallelism and a more intuitive user interface.
 
 #+NAME: module-firefox
 #+BEGIN_SRC nix
@@ -522,7 +645,7 @@ inputs.home-manager.nixosModules.home-manager {
 ./modules/git.nix
 #+END_SRC
 
-Git[fn:18] is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency. Git is easy to learn, has a tiny footprint, and lighting fast performance. It outclasses every other version control tool such as: SCM, Subversion, CVS, ClearCase, with features like cheap local branching, convinient staging areas, and multiple workflows.
+Git[fn:24] is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency. Git is easy to learn, has a tiny footprint, and lighting fast performance. It outclasses every other version control tool such as: SCM, Subversion, CVS, ClearCase, with features like cheap local branching, convinient staging areas, and multiple workflows.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/git.nix
 # <<file-warning>>
@@ -549,7 +672,7 @@ Git[fn:18] is a free and open source distributed version control system designed
 ./modules/gpg.nix
 #+END_SRC
 
-GNU Privacy Guard[fn:19] is a free-software replacement for Symantec's PGP cryptographic software suite. It is compliant with RFC 4880, the IETF standards-track specification of OpenPGP. Modern versions of PGP are interoperable with GnuPG and other OpenPGP-compliant systems.
+GNU Privacy Guard[fn:25] is a free-software replacement for Symantec's PGP cryptographic software suite. It is compliant with RFC 4880, the IETF standards-track specification of OpenPGP. Modern versions of PGP are interoperable with GnuPG and other OpenPGP-compliant systems.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/gpg.nix
 # <<file-warning>>
@@ -572,7 +695,7 @@ GNU Privacy Guard[fn:19] is a free-software replacement for Symantec's PGP crypt
 ./modules/vim.nix
 #+END_SRC
 
-Neovim[fn:20] is a project that seeks to aggressively refactor Vim in order to:
+Neovim[fn:26] is a project that seeks to aggressively refactor Vim in order to:
 
 + Simplify maintenance and encourage contributions
 + Split the work between multiple developers
@@ -612,7 +735,7 @@ Neovim[fn:20] is a project that seeks to aggressively refactor Vim in order to:
 ./modules/gtk.nix
 #+END_SRC
 
-GTK[fn:21] is a free and open-source, cross-platform widget toolkit for graphical user interfaces. It's one of the most popular toolkits for the Wayland[fn:14] and X11[fn:13] windowing systems.
+GTK[fn:27] is a free and open-source, cross-platform widget toolkit for graphical user interfaces. It's one of the most popular toolkits for the Wayland[fn:20] and X11[fn:19] windowing systems.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/gtk.nix
 # <<file-warning>>
@@ -645,129 +768,6 @@ GTK[fn:21] is a free and open-source, cross-platform widget toolkit for graphica
 }
 #+END_SRC
 
-* Development Shells
-
-The command ~nix-shell~[fn:22] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
-
-Import this shell with ~nix-shell /etc/dotfiles~.
-
-#+BEGIN_SRC nix :noweb yes :tangle shell.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-
-let
-  nixBin = writeShellScriptBin "nix" ''
-    ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
-  '';
-
-in mkShell {
-  buildInputs = [
-    git
-  ];
-  shellHook = ''
-    export FLAKE=$(pwd)
-    export PATH=$FLAKE/bin:${nixBin}/bin:$PATH"
-  '';
-}
-#+END_SRC
-
-** Go
-
-Go[fn:23] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/go~
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/go.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    go
-    gopls
-    protoc-gen-go-grpc
-  ];
-  shellHook = ''
-    export GO111MODULE=on
-    export GOPATH=$HOME/.go/
-    export PATH=$GOPATH/bin:$PATH
-  '';
-}
-#+END_SRC
-
-** gRPC
-
-gRPC[fn:24] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/grpc~
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/grpc.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    grpc
-    grpc-tools
-    grpcui
-    grpcurl
-  ];
-  shellHook = ''
-  '';
-}
-#+END_SRC
-
-** C/C++
-
-C[fn:25] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. C++[fn:26] is a general-purpose programming language created as an extension of the C[fn:25] programming language.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/cc~
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/cc.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    ccls
-    gnumake
-    libstdcxx5
-    gcc-unwrapped
-  ];
-  shellHook = ''
-  '';
-}
-#+END_SRC
-
-** Python
-
-Python[fn:27] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/python~
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/python.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    python39Packages.pip
-    python39Packages.pip-tools
-    python39Packages.pyls-mypy
-    python39Packages.pyls-isort
-    python39Packages.pyls-black
-  ];
-  shellHook = ''
-  '';
-}
-#+END_SRC
-
 * Emacs Configuration
 
 #+NAME: module-emacs
@@ -775,7 +775,7 @@ mkShell {
 ./modules/emacs.nix
 #+END_SRC
 
-GNU/Emacs[fn:2] is an extensible, customizable, free/libre text editor -- and more. At its core is an interpreter for Emacs Lisp[fn:19], a dialect of the Lisp programming language with extensions to support text editing. Other features include:
+GNU/Emacs[fn:2] is an extensible, customizable, free/libre text editor -- and more. At its core is an interpreter for Emacs Lisp[fn:25], a dialect of the Lisp programming language with extensions to support text editing. Other features include:
 
 + Highly customizable
 + Full Unicopde support
@@ -992,7 +992,7 @@ epkgs.nix-mode
 
 ** Evil Mode
 
-Evil[fn:12] is an extensible VI layer for GNU/Emacs[fn:2]. It emulates the main features of Vim[fn:20], turning GNU/Emacs[fn:2] into a modal editor.
+Evil[fn:12] is an extensible VI layer for GNU/Emacs[fn:2]. It emulates the main features of Vim[fn:26], turning GNU/Emacs[fn:2] into a modal editor.
 
 #+NAME: emacs-evil-package
 #+BEGIN_SRC nix
@@ -1002,7 +1002,7 @@ epkgs.evil-surround
 epkgs.evil-nerd-commenter
 #+END_SRC
 
-The next time Emacs[fn:2] is started, it will come up in /normal state/, denoted by =<N>= in the modeline. This is where the main ~vi~ bindings are defined. Like Emacs[fn:2] in general, Evil[fn:12] is extensible in Emacs Lisp[fn:19].
+The next time Emacs[fn:2] is started, it will come up in /normal state/, denoted by =<N>= in the modeline. This is where the main ~vi~ bindings are defined. Like Emacs[fn:2] in general, Evil[fn:12] is extensible in Emacs Lisp[fn:25].
 
 #+NAME: emacs-evil-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1181,7 +1181,7 @@ epkgs.which-key
 
 ** EWW
 
-The Emacs Web Wowser[fn:31] is a Web browser written in Emacs Lisp[fn:19] based on the ~shr.el~ library. It's my primary browser when it comes to text-based browsing.
+The Emacs Web Wowser[fn:31] is a Web browser written in Emacs Lisp[fn:25] based on the ~shr.el~ library. It's my primary browser when it comes to text-based browsing.
 
 + Use ~eww~ as the default browser
 + Don't use any special fonts or colours
@@ -1263,7 +1263,7 @@ Emojify[fn:35] is an Emacs[fn:2] extension to display Emojis. It can display Git
 epkgs.eshell-prompt-extras
 #+END_SRC
 
-EShell [fn:36] is a shell-like command interpreter for GNU/Emacs[fn:2] implemented in Emacs Lisp[fn:19]. It invokes no external processes except for those requested by the user. It's intended to be an alternative for IELM, and a full REPL envionment for Emacs[fn:2].
+EShell [fn:36] is a shell-like command interpreter for GNU/Emacs[fn:2] implemented in Emacs Lisp[fn:25]. It invokes no external processes except for those requested by the user. It's intended to be an alternative for IELM, and a full REPL envionment for Emacs[fn:2].
 
 #+NAME: emacs-eshell-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1282,7 +1282,7 @@ EShell [fn:36] is a shell-like command interpreter for GNU/Emacs[fn:2] implement
 
 ** VTerm
 
-Emacs Libvterm (VTerm)[fn:37] is a fully-fledged terminal emulator inside GNU/Emacs[fn:2] based on Libvterm[fn:38], a blazing fast C library used in Neovim[fn:20]. As a result of using compiled code (instead of Emacs Lisp[fn:19]), VTerm[fn:37] is capable, fast, and it can seamlessly handle large outputs.
+Emacs Libvterm (VTerm)[fn:37] is a fully-fledged terminal emulator inside GNU/Emacs[fn:2] based on Libvterm[fn:38], a blazing fast C library used in Neovim[fn:26]. As a result of using compiled code (instead of Emacs Lisp[fn:25]), VTerm[fn:37] is capable, fast, and it can seamlessly handle large outputs.
 
 #+NAME: emacs-vterm-package
 #+BEGIN_SRC nix
@@ -1298,7 +1298,7 @@ epkgs.vterm
 
 ** Magit
 
-Magit[fn:39] is an interface to the Git[fn:18] version control system, implemented as a GNU/Emacs[fn:2] package written in Elisp[fn:19]. It fills the glaring gap between the Git[fn:18] command line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks within a few mnemonic key presses.
+Magit[fn:39] is an interface to the Git[fn:24] version control system, implemented as a GNU/Emacs[fn:2] package written in Elisp[fn:25]. It fills the glaring gap between the Git[fn:24] command line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks within a few mnemonic key presses.
 
 #+NAME: emacs-magit-package
 #+BEGIN_SRC nix
@@ -1930,7 +1930,7 @@ Company[fn:59] is a text completion framework for GNU/Emacs[fn:2]. The name stan
 epkgs.go-mode
 #+END_SRC
 
-Go Mode[fn:60] is a major mode for editing Golang[fn:23] source code in GNU/Emacs[fn:2].
+Go Mode[fn:60] is a major mode for editing Golang[fn:14] source code in GNU/Emacs[fn:2].
 
 #+NAME: emacs-golang-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1950,7 +1950,7 @@ Go Mode[fn:60] is a major mode for editing Golang[fn:23] source code in GNU/Emac
 epkgs.pretty-mode
 #+END_SRC
 
-The built in Python Mode[fn:61] has a nice feature set for working with Python[fn:27] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:58] server. These tools are included in the Development Shell[fn:22] for Python[fn:27].
+The built in Python Mode[fn:61] has a nice feature set for working with Python[fn:18] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:58] server. These tools are included in the Development Shell[fn:13] for Python[fn:18].
 
 #+NAME: emacs-python-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2079,35 +2079,35 @@ Doom Modeline[fn:66] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:12] https://evil.readthedocs.io/en/latest/overview.html
 
-[fn:13] https://x.org/wiki/
+[fn:13] https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html
 
-[fn:14] https://wayland.freedesktop.org
+[fn:14] https://golang.org
 
-[fn:15] https://nixos.wiki/wiki/Flakes
+[fn:15] https://grpc.io
 
-[fn:16] https://nix-community.cachix.org
+[fn:16] https://iso.org/standard/74528.html
 
-[fn:17] https://en.wikipedia.org/wiki/Firefox
+[fn:17] https://en.wikipedia.org/wiki/C++
 
-[fn:18] https://git-scm.com
+[fn:18] https://python.org
 
-[fn:19] https://emacswiki.org/emacs/LearnEmacsLisp
+[fn:19] https://x.org/wiki/
 
-[fn:20] https://neovim.io
+[fn:20] https://wayland.freedesktop.org
 
-[fn:21] https://gtk.org
+[fn:21] https://nixos.wiki/wiki/Flakes
 
-[fn:22] https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html
+[fn:22] https://nix-community.cachix.org
 
-[fn:23] https://golang.org
+[fn:23] https://en.wikipedia.org/wiki/Firefox
 
-[fn:24] https://grpc.io
+[fn:24] https://git-scm.com
 
-[fn:25] https://iso.org/standard/74528.html
+[fn:25] https://emacswiki.org/emacs/LearnEmacsLisp
 
-[fn:26] https://en.wikipedia.org/wiki/C++
+[fn:26] https://neovim.io
 
-[fn:27] https://python.org
+[fn:27] https://gtk.org
 
 [fn:28] https://github.com/nixos/nix-mode
 
