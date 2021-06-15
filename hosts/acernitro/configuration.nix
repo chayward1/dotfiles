@@ -14,6 +14,8 @@
   networking.useDHCP = false;
   networking.firewall.enable = false;
   networking.interfaces.ens3.useDHCP = true;
+  networking.wireless.enable = true;
+  networking.wireless.userControlled.enable = true;
 
   programs.mtr.enable = true;
   programs.fish.enable = true;

@@ -288,6 +288,7 @@ This configuration is nearly identical to the default, except for a few key diff
 + Applies the desired hostname
 + It adds support for =UEFI= systems
 + Uses an OS Prober to detect dual-boot
++ Enables support for wireless networking
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/acernitro/configuration.nix
 # <<file-warning>>
@@ -306,6 +307,8 @@ This configuration is nearly identical to the default, except for a few key diff
   networking.useDHCP = false;
   networking.firewall.enable = false;
   networking.interfaces.ens3.useDHCP = true;
+  networking.wireless.enable = true;
+  networking.wireless.userControlled.enable = true;
 
   programs.mtr.enable = true;
   programs.fish.enable = true;
