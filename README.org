@@ -326,6 +326,9 @@ This configuration is nearly identical to the default, except for a few key diff
 
 *** TODO Hardware
 
++ Enables sound via PulseAudio
++ Adds support for the NVIDIA Hybrid GPU
+
 * Module Definitions
 
 Modules are files combined by NixOS[fn:4] to produce the full system configuration. Modules wre introduced to allow extending NixOS[fn:4] without modifying its source code. They also allow splitting up =configuration.nix=, making the system configuration easier to maintain and use.
