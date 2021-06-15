@@ -403,6 +403,7 @@ X11, or X[fn:13] is the generic name for the X Window System Display Server. All
     ];
     extraInit = ''
       export XAUTHORITY=/tmp/Xauthority
+      export xserverauthfile=$XAUTHORITY
       [ -e ~/.Xauthority ] && mv -f ~/.Xauthority "$XAUTHORITY"
     '';
   };
