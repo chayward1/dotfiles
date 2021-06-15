@@ -15,6 +15,10 @@
   networking.interfaces.enp6s0f1.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
+  # Pre-configured wireless networks.
+  networking.wireless.networks.MyWiFi_5C1870.pskRaw =
+    "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
+
   services.openssh.enable = true;
   services.printing.enable = true;
 
