@@ -659,7 +659,7 @@ inputs.home-manager.nixosModules.home-manager {
 }
 #+END_SRC
 
-** Git
+*** Git
 
 #+NAME: module-git
 #+BEGIN_SRC nix
@@ -686,7 +686,7 @@ Git[fn:25] is a free and open source distributed version control system designed
 }
 #+END_SRC
 
-** Gpg
+*** Gpg
 
 #+NAME: module-gpg
 #+BEGIN_SRC nix
@@ -709,7 +709,7 @@ GNU Privacy Guard[fn:26] is a free-software replacement for Symantec's PGP crypt
 }
 #+END_SRC
 
-** Vim
+*** Vim
 
 #+NAME: module-vim
 #+BEGIN_SRC nix
@@ -749,7 +749,7 @@ Neovim[fn:27] is a project that seeks to aggressively refactor Vim in order to:
 }
 #+END_SRC
 
-** GTK
+*** GTK
 
 #+NAME: module-gtk
 #+BEGIN_SRC nix
