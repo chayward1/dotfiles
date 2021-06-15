@@ -2,20 +2,22 @@
 { config, pkgs, inputs, ... }:
 
 {
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.useOsProber = true;
-  boot.loader.grub.device = "/dev/sda";
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   time.timeZone = "America/Toronto";
 
   networking.hostName = "acernitro";
-  networking.useDHCP = false;
   networking.firewall.enable = false;
-  networking.interfaces.ens3.useDHCP = true;
   networking.wireless.enable = true;
   networking.wireless.userControlled.enable = true;
+  networking.useDHCP = false;
+  networking.interfaces.enp6s0f1.useDHCP = true;
+  networking.interfaces.wlp0s20f3.useDHCP = true;
+
+  sound.enable = true;
+  services.openssh.enable = true;
+  services.printing.enable = true;
 
   programs.mtr.enable = true;
   programs.fish.enable = true;
