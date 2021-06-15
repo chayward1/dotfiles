@@ -2,6 +2,14 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
+#+EXPORT_FILE_NAME: dotfiles
+#+ROAM_KEY: https://chrishayward.xyz/dotfiles
+
+#+HUGO_BASE_DIR: docs
+#+HUGO_AUTO_SET_LASTMOD: t
+#+HUGO_SECTION:
+#+HUGO_DRAFT: false
+
 #+NAME: description
 #+BEGIN_SRC text
 Immutable NixOS dotfiles.
