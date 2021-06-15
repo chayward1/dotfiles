@@ -26,10 +26,52 @@ This file is controlled by /etc/dotfiles/README.org
 
 1) Download the latest version of NixOS https://nixos.org/download.html
 2) Partition drives and mount the file system https://nixos.org/manual/nixos/stable/#sec-installation-partitioning
-3) Clone the project to =/etc/dotfiles= ~git clone git@git.chrishayward.xyz:chris/dotfiles /etc/dotfiles~
-4) Load the default shell environment ~nix-shell /etc/dotfiles~
-5) Install the default system ~sudo nixos-rebuild switch --flake /etc/dotfiles#nixos~
+3) Clone the project to =/mnt/etc/dotfiles= ~git clone git@git.chrishayward.xyz:chris/dotfiles /mnt/etc/dotfiles~
+4) Load the default shell environment ~nix-shell /mnt/etc/dotfiles~
+5) Install the default system ~sudo nixos-install --flake /mnt/etc/dotfiles#nixos~
 6) Reboot and login, start a graphical system with ~startx~
+
+** Making Changes
+
+The ~nixos-rebuild~ command updates the system so that it corresponds to the configuration specified in the module. It builds the new system in =/nix/store/=, runs the activation scripts, and restarts and system services (if needed). The command has one required argument, which specifies the desired operation:
+
++ switch :: Build and activate the new configuration, making it the new boot default
++ boot :: Build the new configuration and make it the boot default, without activation
++ test :: Build and activate the new configuration, without adding it to the boot menu
++ build :: Build the new configuration, without activation, nor adding it to the boot menu
++ build-vm :: Build a script that starts a virtual machine with the desired configuration
+
+#+BEGIN_SRC shell
+# Build and activate a new configuration.
+sudo nixos-rebuild switch --flake $FLAKE#$HOSTNAME
+#+END_SRC
+
+Instead of building a new configuration, it's possible to rollback to a previous generation using the ~nixos-rebuild~ command, by supplying the ~--rollback~ argument.
+
+#+BEGIN_SRC shell
+# Rollback to the previous generation.
+sudo nixos-rebuild switch --rollback
+#+END_SRC
+
+** Docker Container
+
+It's possible to use parts of this configuration using the container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
+
+#+BEGIN_SRC conf :tangle Dockerfile
+# Derive from the official image.
+FROM nixos/nix
+
+# Add the unstable channel.
+RUN nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
+RUN nix-channel --update
+
+# Setup the default environment.
+WORKDIR /etc/dotfiles
+COPY . .
+
+# Load the default system shell.
+RUN nix-shell -p
+#+END_SRC
 
 * Operating System
 
