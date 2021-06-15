@@ -617,6 +617,8 @@ GTK[fn:20] is a free and open-source, cross-platform widget toolkit for graphica
 {
   home.packages = [
     pkgs.nordic
+    pkgs.arc-theme
+    pkgs.arc-icon-theme
     pkgs.lxappearance
   ];
 

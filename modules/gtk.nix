@@ -4,6 +4,8 @@
 {
   home.packages = [
     pkgs.nordic
+    pkgs.arc-theme
+    pkgs.arc-icon-theme
     pkgs.lxappearance
   ];
 
