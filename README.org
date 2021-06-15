@@ -2,220 +2,2032 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
-#+PROPERTY: header-args :results silent :eval no-export
+#+NAME: description
+#+BEGIN_SRC text
+Immutable NixOS dotfiles.
+#+END_SRC
 
-#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+Built for Life, Liberty, and the Open Road.
 
-#+ATTR_ORG:   :width 420px
-#+ATTR_HTML:  :width 420px
-#+ATTR_LATEX: :width 420px
-[[./docs/images/desktop-example.png]]
-
-Portable *GNU/Emacs*[fn:1] dotfiles. Built for Life, Liberty, and the Open Road.
-
-+ 100% Reproducible
 + 100% Immutable
-+ 100% Literate
++ 100% Declarative
++ 100% Reproducible
 
-* Setup
-:PROPERTIES:
-:header-args: :tangle early-init.el
-:END:
+* Introduction
 
-These is my personal configuration(s) for *GNU/Linux*[fn:2], and *GNU/Emacs*[fn:1] software. It enables a consistent experience and computing environment across all of my machines. The entire experience is controlled with *GNU/Emacs*[fn:1], leveraging it's capabilities for *Literate Programming*[fn:3]. 
+This is my personal configuration(s) for GNU/Linux[fn:1] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with GNU/Emacs[fn:2], leveraging its capabilities for Literate Programming[fn:3], a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.
 
-#+begin_src emacs-lisp
-;; This file is controlled by README.org
-;; Please make any modifications there.
-#+end_src
+#+NAME: file-warning
+#+BEGIN_SRC text
+This file is controlled by /etc/dotfiles/README.org
+#+END_SRC
 
-** Cleanup
+** Getting Started
 
-Emacs creates a lot of files relative to ~user-emacs-directory~. These files are not part of this immutable configuration and do not belong in the Emacs directory. To solve this issue, before most of the packages have loaded, I change the value, a method I detail in this post[fn:4].
+1) Download the latest version of NixOS https://nixos.org/download.html
+2) Partition drives and mount the file system https://nixos.org/manual/nixos/stable/#sec-installation-partitioning
+3) Clone the project to =/etc/dotfiles= ~git clone git@git.chrishayward.xyz:chris/dotfiles /etc/dotfiles~
+4) Load the default shell environment ~nix-shell /etc/dotfiles~
+5) Install the default system ~sudo nixos-rebuild switch --flake /etc/dotfiles#nixos~
+6) Reboot and login, start a graphical system with ~startx~
 
-#+begin_src emacs-lisp
-;; The original value of `user-emacs-directory' prior to redirection.
-(defconst dotfiles/home
-  (or (getenv "DOTFILES_HOME")
-      (expand-file-name user-emacs-directory)))
+* Operating System
 
-;; The redirection target of `user-emacs-directory' during initialization.
-(defconst dotfiles/cache
-  (or (getenv "DOTFILES_CACHE")
-      (expand-file-name "~/.cache/emacs")))
+NixOS[fn:4] is a purely functional Linux distribution built on top of the Nix[fn:5] package manager. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. NixOS[fn:4] also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
 
-;; Make sure `dotfiles/cache' is a valid directory.
-(unless (file-exists-p dotfiles/cache)
-  (make-directory dotfiles/cache t))
+#+BEGIN_SRC nix :noweb yes :tangle flake.nix
+# <<file-warning>>
+{
+  description = "<<description>>";
 
-;; Redirect the value of `user-emacs-directory'.
-(setq user-emacs-directory dotfiles/cache)
+  inputs = {
+    <<os-nixpkgs>> 
+    <<os-home-manager>>
+    <<os-emacs-overlay>>
+    <<os-nixos-hardware>>
+  };
 
-;; Remove the eln-cache subdirectory.
-(delete (expand-file-name "eln-cache" dotfiles/home) comp-eln-load-path)
+  outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, ... }: {
+    nixosConfigurations = {
+      <<host-default>>
+      <<host-acernitro>>
+    };
+  };
+}
+#+END_SRC
 
-;; Add a new eln-cache folder.
-(add-to-list 'comp-eln-load-path (expand-file-name "eln-cache" dotfiles/cache))
+** Nixpkgs
 
-;; Disable error messages for packages that don't support native-comp.
-(setq comp-async-report-warnings-errors nil)
+Nixpkgs[fn:6] is a collection of over 60,000 software packages that can be installed with the Nix[fn:5] package manager. Two main branches are offered:
 
+1) The current stable release
+2) The Unstable branch following the latest development
+
+#+NAME: os-nixpkgs
+#+BEGIN_SRC nix
+nixpkgs.url = "nixpkgs/nixos-unstable";
+nixpkgs-unstable.url = "nixpkgs/master";
+#+END_SRC
+
+** Home Manager
+
+Home Manager[fn:7] provides a basic system for managing user environments using the Nix[fn:5] package manager together with the Nix libraries found in Nixpkgs[fn:6]. It allows declarative configuration of user specific (non-global) packages and files.
+
+#+NAME: os-home-manager
+#+BEGIN_SRC nix
+home-manager.url = "github:nix-community/home-manager";
+home-manager.inputs.nixpkgs.follows = "nixpkgs";
+#+END_SRC
+
+** Emacs Overlay
+
+Adding the Emacs Overlay[fn:8] extends the GNU/Emacs[fn:2] package set to contain the latest versions, and daily generations from popular package sources, including the needed dependencies to run GNU/Emacs[fn:2] as a Window Manager.
+
+#+NAME: os-emacs-overlay
+#+BEGIN_SRC nix
+emacs-overlay.url = "github:nix-community/emacs-overlay";
+#+END_SRC
+
+** NixOS Hardware
+
+NixOS Hardware[fn:9] is a collection of NixOS[fn:4] modules covering specific hardware quirks. Unlike the channel, this will update the git repository on a rebuild. However, it's easy to pin particular revisions for more stability.
+
+#+NAME: os-nixos-hardware
+#+BEGIN_SRC nix
+nixos-hardware.url = "github:nixos/nixos-hardware";
+#+END_SRC
+
+* Host Configurations
+
+NixOS[fn:4] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial.
+
+** Default
+
+The default host, built using QEMU[fn:10], a free and open-source emulator that can perform hardware virtualization. It features a lightweight system optimized for development, running GNU/Emacs[fn:2] + EXWM[fn:11] as the graphical environment.
+
+#+NAME: host-default
+#+BEGIN_SRC nix :noweb yes
+nixos = nixpkgs.lib.nixosSystem {
+  system = "x86_64-linux";
+  specialArgs = { inherit inputs; };
+  modules = [
+    ./hosts/nixos
+    <<module-x11>>
+    <<module-flakes>>
+    <<module-cachix>>
+    <<module-home-manager>>
+  ];
+};
+#+END_SRC
+
+Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#nixos~.
+
+#+BEGIN_SRC nix :noweb yes :tangle hosts/nixos/default.nix
+# <<file-warning>>
+{ ... }:
+
+{
+  imports = [
+    ./configuration.nix
+    ./hardware.nix
+  ];
+}
+#+END_SRC
+
+*** Configuration
+
+This configuration can function independently from the rest of the project. If you wish to install a specific host without including the entire flake, you can create a symbolic link from =/etc/nixos= to =/etc/dotfiles/hosts/<name>=. This configuration also handles a few requirements that must occur /outside/ of the Home Manager[fn:7] integration:
+
+1) It imports the Emacs Overlay[fn:8]
+2) It installs the unstable version of Nix[fn:5]
+
+#+BEGIN_SRC nix :noweb yes :tangle hosts/nixos/configuration.nix
+# <<file-warning>>
+{ config, pkgs, inputs, ... }:
+
+{
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  boot.loader.grub.device = "/dev/sda";
+
+  time.timeZone = "America/Toronto";
+
+  networking.hostName = "nixos";
+  networking.useDHCP = false;
+  networking.firewall.enable = false;
+  networking.interfaces.ens3.useDHCP = true;
+
+  programs.mtr.enable = true;
+  programs.fish.enable = true;
+  programs.gnupg.agent.enable = true;
+
+  users.users.chris = {
+    shell = pkgs.fish;
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+  };
+}
+#+END_SRC
+
+*** Hardware
+
+The file system for this host is a single 24GB QCOW file, a format for disk images used by QEMU[fn:10]. The file can be recreated easily by following the steps listed in the NixOS[fn:4] installation manual, specifically the section on disk formatting.
+
+#+BEGIN_SRC nix :noweb yes :tangle hosts/nixos/hardware.nix
+# <<file-warning>>
+{ config, lib, pkgs, modulesPath, ... }:
+
+{
+  imports =
+    [ (modulesPath + "/profiles/qemu-guest.nix")
+    ];
+
+  boot.initrd.availableKernelModules = [ "ata_piix" "floppy" "sd_mod" "sr_mod" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ ];
+  boot.extraModulePackages = [ ];
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/fddc37ff-a442-41fa-afc4-abf878be7c5a";
+      fsType = "ext4";
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/5fc0e3df-e796-4fe2-8482-c6acaed9d36f"; }
+    ];
+}
+#+END_SRC
+
+** TODO Acernitro
+
+My gaming laptop, the model is an Acer Nitro AN-515-53[fn:12]. The Nitro 5 has more in common with the mid-range notebooks rather than the gaming models due to its cooling design, chassis, and overall construction.
+
+Here are the specs:
+
+| Slot    | Component                             |
+|---------+---------------------------------------|
+| CPU     | Intel Core i5-8300H                   |
+| GPU     | NVIDIA GeForce GTX 1050Ti (4GB GDDR5) |
+| RAM     | 16GB DDR4                             |
+| Display | 15.6" Full HD (1920 x 1080), IPS      |
+| Storage | 1000GB HDD                            |
+| Weight  | 2.48kg (5.5 lbs)                      |
+
+#+NAME: host-acernitro
+#+BEGIN_SRC nix :noweb yes
+# NOTE: Work In Progress!
+# acernitro = nixpkgs.lib.nixosSystem {
+#   system = "x86_64-linux";
+#   specialArgs = { inherit inputs; };
+#   modules = [
+#     ./hosts/acernitro
+#     <<module-x11>>
+#     <<module-flakes>>
+#     <<module-cachix>>
+#     <<module-home-manager>>
+#   ];
+# };
+#+END_SRC
+
+Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#acernitro~.
+
+#+BEGIN_SRC nix :noweb yes :tangle hosts/acernitro/default.nix
+# <<file-warning>>
+{ ... }:
+
+{
+  imports = [
+    ./configuration.nix
+    ./hardware.nix
+  ];
+}
+#+END_SRC
+
+*** TODO Configuration
+
+*** TODO Hardware
+
+* Module Definitions
+
+Modules are files combined by NixOS[fn:4] to produce the full system configuration. Modules wre introduced to allow extending NixOS[fn:4] without modifying its source code. They also allow splitting up =configuration.nix=, making the system configuration easier to maintain and use.
+
+** X11
+
+#+NAME: module-x11
+#+BEGIN_SRC nix
+./modules/x11.nix
+#+END_SRC
+
+X11, or X[fn:13] is the generic name for the X Window System Display Server. All graphical GNU/Linux[fn:1] applications connect to an X-Window[fn:13] (or Wayland[fn:14]) to display graphical data on the monitor of a computer. Its a program that acts as the interface between graphical applications and the graphics subsystem of the computer.
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/x11.nix
+# <<file-warning>>
+{ config, pkgs, ... }:
+
+{
+  services.xserver.enable = true;
+  services.xserver.layout = "us";
+  services.xserver.libinput.enable = true;
+  services.xserver.displayManager.startx.enable = true;
+
+  environment = {
+    systemPackages = with pkgs; [
+      pkgs.sqlite
+    ];
+    extraInit = ''
+      export XAUTHORITY=/tmp/Xauthority
+      [ -e ~/.Xauthority ] && mv -f ~/.Xauthority "$XAUTHORITY"
+    '';
+  };
+
+  services.picom.enable = true;
+  services.openssh.enable = true;
+  services.printing.enable = true;
+
+  fonts.fonts = with pkgs; [
+    iosevka
+    emacs-all-the-icons-fonts
+  ];
+}
+#+END_SRC
+
+** Flakes
+
+#+NAME: module-flakes
+#+BEGIN_SRC nix
+./modules/flakes.nix
+#+END_SRC
+
+Nix Flakes[fn:15] are an upcoming feature of the Nix package manager[fn:5]. They allow you to specify your codes dependencies in a declarative way, simply by listing them inside of a ~flake.nix~ file. Each dependency is then pinned to a specific git-hash. Flakes[fn:15] replace the =nix-channels= command and things like ~builtins.fetchGit~, keeping dependencies at the top of the tree, and channels always in sync. Currently, Flakes[fn:15] are not available unless explicitly enabled.
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/flakes.nix
+# <<file-warning>>
+{ config, pkgs, inputs, ... }:
+
+{
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
+  nixpkgs = {
+    config = { allowUnfree = true; };
+    overlays = [ inputs.emacs-overlay.overlay ];
+  };
+}
+#+END_SRC
+
+** Cachix
+
+#+NAME: module-cachix
+#+BEGIN_SRC nix
+./modules/cachix.nix
+#+END_SRC
+
+Cachix[fn:16] is a Command line client for Nix[fn:5] binary cache hosting. This allows downloading and usage of pre-compiled binaries for applications on /nearly/ every available system architecture. This speeds up the time it takes to rebuild configurations.
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/cachix.nix
+# <<file-warning>>
+{ config, ... }:
+
+{
+  nix = {
+    binaryCaches = [
+      "https://nix-community.cachix.org"
+    ];
+    binaryCachePublicKeys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
+}
+#+END_SRC
+
+** Home Manager
+
+Home Manager includes a =flake.nix= file for compatibility with Nix Flakes, a feature utilized heavily in this project. When using flakes, switching to a new configuration is done /only/ for the entire system, using the command ~nixos-rebuild switch --flake <path>~, instead of ~nixos-rebuild~, and ~home-manager~ seperately.
+
+#+NAME: module-home-manager
+#+BEGIN_SRC nix :noweb yes
+inputs.home-manager.nixosModules.home-manager {
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.chris = {
+    imports = [
+      <<module-git>>
+      <<module-gpg>>
+      <<module-vim>>
+      <<module-gtk>>
+      <<module-emacs>>
+    ];
+  };
+}
+#+END_SRC
+
+** Git
+
+#+NAME: module-git
+#+BEGIN_SRC nix
+./modules/git.nix
+#+END_SRC
+
+Git[fn:17] is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency. Git is easy to learn, has a tiny footprint, and lighting fast performance. It outclasses every other version control tool such as: SCM, Subversion, CVS, ClearCase, with features like cheap local branching, convinient staging areas, and multiple workflows.
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/git.nix
+# <<file-warning>>
+{ pkgs, ... }:
+
+{
+  programs.git = {
+    enable = true;
+    userName = "Christopher James Hayward";
+    userEmail = "chris@chrishayward.xyz";
+
+    signing = {
+      key = "37AB1CB72B741E478CA026D43025DCBD46F81C0F";
+      signByDefault = true;
+    };
+  };
+}
+#+END_SRC
+
+** Gpg
+
+#+NAME: module-gpg
+#+BEGIN_SRC nix
+./modules/gpg.nix
+#+END_SRC
+
+GNU Privacy Guard[fn:18] is a free-software replacement for Symantec's PGP cryptographic software suite. It is compliant with RFC 4880, the IETF standards-track specification of OpenPGP. Modern versions of PGP are interoperable with GnuPG and other OpenPGP-compliant systems.
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/gpg.nix
+# <<file-warning>>
+{ pkgs, ... }:
+
+{
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 1800;
+    enableSshSupport = true;
+    pinentryFlavor = "gtk2";
+  };
+}
+#+END_SRC
+
+** Vim
+
+#+NAME: module-vim
+#+BEGIN_SRC nix
+./modules/vim.nix
+#+END_SRC
+
+Neovim[fn:19] is a project that seeks to aggressively refactor Vim in order to:
+
++ Simplify maintenance and encourage contributions
++ Split the work between multiple developers
++ Enable advanced UIs without core modification
++ Maximize extensibility
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/vim.nix
+# <<file-warning>>
+{ pkgs, ... }:
+
+{
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    extraConfig = ''
+      set number relativenumber
+      set nobackup
+    '';
+    extraPackages = [
+      pkgs.nixfmt
+    ];
+    plugins = with pkgs.vimPlugins; [
+      vim-nix
+      vim-airline
+      vim-polyglot
+    ];
+  };
+}
+#+END_SRC
+
+** GTK
+
+#+NAME: module-gtk
+#+BEGIN_SRC nix
+./modules/gtk.nix
+#+END_SRC
+
+GTK[fn:20] is a free and open-source, cross-platform widget toolkit for graphical user interfaces. It's one of the most popular toolkits for the Wayland[fn:14] and X11[fn:13] windowing systems.
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/gtk.nix
+# <<file-warning>>
+{ pkgs, ... }:
+
+{
+  home.packages = [
+    pkgs.nordic
+    pkgs.lxappearance
+  ];
+
+  home.file.".gtkrc-2.0" = {
+    text = ''
+      gtk-theme-name="Nordic-bluish-accent"
+      gtk-icon-theme-name="Adwaita"
+      gtk-font-name="Sans 10"
+      gtk-cursor-theme-size=0
+      gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+      gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+      gtk-button-images=0
+      gtk-menu-images=0
+      gtk-enable-event-sounds=1
+      gtk-enable-input-feedback-sounds=1
+      gtk-xft-antialias=1
+      gtk-xft-hinting=1
+      gtk-xft-hintstyle="hintmedium"
+    '';
+  };
+}
+#+END_SRC
+
+* Development Shells
+
+The command ~nix-shell~[fn:21] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
+
+Import this shell with ~nix-shell /etc/dotfiles~.
+
+#+BEGIN_SRC nix :noweb yes :tangle shell.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+
+let
+  nixBin = writeShellScriptBin "nix" ''
+    ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
+  '';
+
+in mkShell {
+  buildInputs = [
+    git
+  ];
+  shellHook = ''
+    export FLAKE=$(pwd)
+    export PATH=$FLAKE/bin:${nixBin}/bin:$PATH"
+  '';
+}
+#+END_SRC
+
+** Go
+
+Go[fn:22] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/go~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/go.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    go
+    gopls
+    protoc-gen-go-grpc
+  ];
+  shellHook = ''
+    export GO111MODULE=on
+    export GOPATH=$HOME/.go/
+    export PATH=$GOPATH/bin:$PATH
+  '';
+}
+#+END_SRC
+
+** gRPC
+
+gRPC[fn:23] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/grpc~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/grpc.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    grpc
+    grpc-tools
+    grpcui
+    grpcurl
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
+** C/C++
+
+C[fn:24] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. C++[fn:25] is a general-purpose programming language created as an extension of the C[fn:24] programming language.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/cc~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/cc.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    ccls
+    gnumake
+    libstdcxx5
+    gcc-unwrapped
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
+** Python
+
+Python[fn:26] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/python~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/python.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    python39Packages.pip
+    python39Packages.pip-tools
+    python39Packages.pyls-mypy
+    python39Packages.pyls-isort
+    python39Packages.pyls-black
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
+* Emacs Configuration
+
+#+NAME: module-emacs
+#+BEGIN_SRC nix
+./modules/emacs.nix
+#+END_SRC
+
+GNU/Emacs[fn:2] is an extensible, customizable, free/libre text editor -- and more. At its core is an interpreter for Emacs Lisp[fn:18], a dialect of the Lisp programming language with extensions to support text editing. Other features include:
+
++ Highly customizable
++ Full Unicopde support
++ Content-aware editing modes
++ Complete built-in documentation
++ Wide range of functionality beyond text editing
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/emacs.nix
+# <<file-warning>>
+{ pkgs, ... }:
+
+let
+  myEmacs = pkgs.emacsWithPackagesFromUsePackage {
+    config = ../README.org;
+    package = <<emacs-native-comp-package>>
+    alwaysEnsure = true;
+    alwaysTangle = true;
+    extraEmacsPackages = epkgs: [
+      # Required packages...
+      <<emacs-exwm-package>>
+      <<emacs-evil-package>>
+      <<emacs-general-package>>
+      <<emacs-which-key-package>>
+
+      # Optional packages.
+      <<emacs-org-package>>
+      <<emacs-org-roam-package>>
+      <<emacs-org-drill-package>>
+      <<emacs-pomodoro-package>>
+      <<emacs-writegood-package>>
+      <<emacs-hugo-package>>
+      <<emacs-reveal-package>>
+      <<emacs-pass-package>>
+      <<emacs-mu4e-package>>
+      <<emacs-dired-package>>
+      <<emacs-icons-package>>
+      <<emacs-emoji-package>>
+      <<emacs-eshell-package>>
+      <<emacs-vterm-package>>
+      <<emacs-magit-package>>
+      <<emacs-elfeed-package>>
+      <<emacs-nix-mode-package>>
+      <<emacs-projectile-package>>
+      <<emacs-lsp-package>>
+      <<emacs-company-package>>
+      <<emacs-golang-package>>
+      <<emacs-python-package>>
+      <<emacs-plantuml-package>>
+      <<emacs-swiper-package>>
+      <<emacs-doom-themes-package>>
+      <<emacs-doom-modeline-package>>
+    ];
+  };
+
+in {
+  home.packages = [
+    <<emacs-exwm-extras>>
+    <<emacs-hugo-extras>>
+    <<emacs-pass-extras>>
+    <<emacs-mu4e-extras>>
+    <<emacs-aspell-extras>>
+    <<emacs-plantuml-extras>>
+    <<emacs-nix-mode-extras>>
+  ];
+
+  programs.emacs = {
+    enable = true;
+    package = myEmacs;
+  };
+
+  <<emacs-exwm-config>>
+  <<emacs-exwm-xinitrc>>
+  <<emacs-mu4e-config>>
+}
+#+END_SRC
+
+When Emacs is started, it normally tries to load a Lisp program from an ititialization file, or /init/ file. This file, if it exists, specifies how to initialize and configure Emacs. 
+
+#+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.emacs.d/init.el
+;; <<file-warning>>
+
+;; Required inputs.
+<<emacs-exwm-elisp>>
+<<emacs-evil-elisp>>
+<<emacs-general-elisp>>
+<<emacs-which-key-elisp>>
+
+;; Optional inputs.
+<<emacs-org-elisp>>
+<<emacs-org-roam-elisp>>
+<<emacs-org-drill-elisp>>
+<<emacs-org-agenda-elisp>>
+<<emacs-pomodoro-elisp>>
+<<emacs-writegood-elisp>>
+<<emacs-aspell-elisp>>
+<<emacs-eww-elisp>>
+<<emacs-hugo-elisp>>
+<<emacs-reveal-elisp>>
+<<emacs-pass-elisp>>
+<<emacs-mu4e-elisp>>
+<<emacs-dired-elisp>>
+<<emacs-icons-elisp>>
+<<emacs-emoji-elisp>>
+<<emacs-eshell-elisp>>
+<<emacs-vterm-elisp>>
+<<emacs-magit-elisp>>
+<<emacs-fonts-elisp>>
+<<emacs-elfeed-elisp>>
+<<emacs-projectile-elisp>>
+<<emacs-lsp-elisp>>
+<<emacs-company-elisp>>
+<<emacs-golang-elisp>>
+<<emacs-python-elisp>>
+<<emacs-plantuml-elisp>>
+
+;; User interface.
+<<emacs-swiper-elisp>>
+<<emacs-doom-themes-elisp>>
+<<emacs-doom-modeline-elisp>>
+#+END_SRC
+
+It's somtimes desirable to have customization that takes effect during Emacs startup earlier than the normal init file. Place these configurations in =~/.emacs.d/early-init.el=. Most customizations should be put in the normal init file =~/.emacs.d/init.el=.
+
+#+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.emacs.d/early-init.el
+;; <<file-warning>>
+<<emacs-disable-ui-elisp>>
+<<emacs-native-comp-elisp>>
+<<emacs-backup-files-elisp>>
+<<emacs-shell-commands-elisp>>
+#+END_SRC
+
+** Disable UI
+
+Emacs[fn:2] has been around since the 1980s, and it's painfully obvious when you're greeted with the default user interface. Disable some unwanted features to clean it up, and bring the appearance to something closer to a modern editor.
+
+#+NAME: emacs-disable-ui-elisp
+#+BEGIN_SRC emacs-lisp
+;; Disable unwanted UI elements.
+(tooltip-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+;; Fix the scrolling behaviour.
+(setq scroll-conservatively 101)
+
+;; Fix mouse-wheel scrolling behaviour.
+(setq mouse-wheel-follow-mouse t
+      mouse-wheel-progressive-speed t
+      mouse-wheel-scroll-amount '(3 ((shift) . 3)))
+#+END_SRC
+
+** Native Comp
+
+#+NAME: emacs-native-comp-package
+#+BEGIN_SRC nix
+pkgs.emacsGcc;
+#+END_SRC
+
+Native Comp, also known as GccEmacs, refers to the ~--with-native-compilation~ configuration option when building GNU/Emacs[fn:2]. It adds support for compiling Emacs Lisp to native code using ~libgccjit~. All of the Emacs Lisp packages shipped with Emacs are native-compiled, providing a noticable performance iomprovement out-of-the-box.
+
+#+NAME: emacs-native-comp-elisp
+#+BEGIN_SRC emacs-lisp
+;; Silence warnings from packages that don't support `native-comp'.
+(setq comp-async-report-warnings-errors nil         ;; Emacs 27.2 ...
+      native-comp-async-report-warnings-errors nil) ;; Emacs 28+  ...
+#+END_SRC
+
+** Backup Files
+
+Emacs[fn:2] makes a backup for a file only the first time the file is saved from a buffer. No matter how many times the file is subsequently written to, the backup remains unchanged. For files managed by a version control system, backup files are redundant since the previous versions are already stored.
+
+#+NAME: emacs-backup-files-elisp
+#+BEGIN_SRC emacs-lisp
 ;; Disable unwanted features.
 (setq make-backup-files nil
       create-lockfiles nil)
-#+end_src
+#+END_SRC
 
-** Packages
+** Shell Commands
 
-Download and install packages using ~straight.el~[fn:5], a fully functional package manager for Emacs that integrates with ~use-package~, a popular way of installing packages for Emacs.
+Define some methods for interaction between GNU/Emacs[fn:2], and the systems underyling shell:
 
-#+begin_src emacs-lisp
-;; Apply the configurations prior to bootstrapping the package manager.
-(setq straight-repository-branch "master"
-      straight-use-package-by-default t
-      package-enable-at-startup nil)
+1) Method to run an external process, launching any application on a new process without interferring with Emacs[fn:2]
+2) Method to apply commands to the curren call process, effecting the running instance of Emacs[fn:2]
 
-;; BUGFIX https://github.com/raxod502/straight.el/issues/757
-(defvar native-comp-deferred-compilation-deny-list ())
-#+end_src
+#+NAME: emacs-shell-commands-elisp
+#+BEGIN_SRC emacs-lisp
+;; Define a method to run an external process.
+(defun dotfiles/run (cmd)
+  "Run an external process."
+  (interactive (list (read-shell-command "λ ")))
+  (start-process-shell-command cmd nil cmd))
 
-Bootstrap the package manager by loading the bootstrap-file, downloading it when it doesn't exist on a new system. This operation may take some time on a new system.
+;; Define a method to run a background process.
+(defun dotfiles/run-in-background (cmd)
+  (let ((command-parts (split-string cmd "[ ]+")))
+    (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+#+END_SRC
 
-#+begin_src emacs-lisp
-;; Bootstrap the package manager.
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+** Nix Mode
 
-;; Integrate with `use-package' by installing it via `straight'.
-(straight-use-package 'use-package)
+#+NAME: emacs-nix-mode-extras
+#+BEGIN_SRC nix
+pkgs.nixfmt
+#+END_SRC
 
-;; Specify core package sources.
-(straight-use-package 'no-littering)
-(straight-use-package '(org :local-repo nil))
-#+end_src
+Nix-mode[fn:27] is an Emacs[fn:2] major mode for editing Nix[fn:5] expressions. This provides basic handling of =.nix= files. Syntax highlighting and indentation support using =SMIE= are provided.
 
-** Options
+#+NAME: emacs-nix-mode-package
+#+BEGIN_SRC nix
+epkgs.nix-mode
+#+END_SRC
 
-All of the options are defined early in the config, this is for two reasons: The first being to allow the possibility of sharing between modules, the values which are set early in the configuration. The second reason, related to the first, is to allow machine specific overrides depending on the context where Emacs is running.
+** Evil Mode
 
-#+begin_src emacs-lisp
-;; All of the modules available sorted in their default load order.
-(defconst dotfiles/modules-p
-  '(trash keys org evil dired magit shell
-    emms mu4e elfeed eshell vterm gpg pass
-    x11 exwm roam agenda spelling grammar
-    reveal hugo capture projects docker
-    lsp dap cc go uml conf python fonts
-    nix ivy themes modeline dashboard))
+Evil[fn:12] is an extensible VI layer for GNU/Emacs[fn:2]. It emulates the main features of Vim[fn:19], turning GNU/Emacs[fn:2] into a modal editor.
 
-;; All of the enabled modules.
-(defvar dotfiles/modules dotfiles/modules-p)
+#+NAME: emacs-evil-package
+#+BEGIN_SRC nix
+epkgs.evil
+epkgs.evil-collection
+epkgs.evil-surround
+epkgs.evil-nerd-commenter
+#+END_SRC
 
-;; The default system language.
-(defvar dotfiles/language (getenv "LANG"))
+The next time Emacs[fn:2] is started, it will come up in /normal state/, denoted by =<N>= in the modeline. This is where the main ~vi~ bindings are defined. Like Emacs[fn:2] in general, Evil[fn:12] is extensible in Emacs Lisp[fn:18].
 
-;; Configure a unified system font.
-(defvar dotfiles/font "Fira Code")
+#+NAME: emacs-evil-elisp
+#+BEGIN_SRC emacs-lisp
+;; Enable the Extensible VI Layer for Emacs.
+(setq evil-want-integration t   ;; Required for `evil-collection.'
+      evil-want-keybinding nil) ;; Same as above.
+(evil-mode +1)
 
-;; Default system font size.
-(defvar dotfiles/font-size 96)
+;; Configure `evil-collection'.
+(evil-collection-init)
 
-;; Delay time before offering suggestions and completions.
-(defvar dotfiles/idle 0.0)
+;; Configure `evil-surround'.
+(global-evil-surround-mode +1)
 
-;; The all powerful leader key.
-(defvar dotfiles/leader-key "SPC")
+;; Configure `evil-nerd-commenter'.
+(global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
+#+END_SRC
 
-;; Global prefix for the leader key under X11 windows.
-(defvar dotfiles/leader-key-global
-  (concat "C-" dotfiles/leader-key))
+** EXWM
 
-;; The location on disk of source code projects.
-(defvar dotfiles/projects
-  (or (getenv "DOTFILES_PROJECTS")
-      (expand-file-name "~/.local/source")))
+#+NAME: emacs-exwm-package
+#+BEGIN_SRC nix
+epkgs.exwm
+#+END_SRC
 
-;; The location on disk of the local copy of the password store.
-(defvar dotfiles/passwords
-  (or (getenv "DOTFILES_PASSWORDS")
-      (expand-file-name "~/.password-store")))
+EXWM (Emacs X Window Manager)[fn:11] is a full-featured tiling X window manager for GNU/Emacs[fn:2] built on-top of XELB. It features:
 
-;; The public GPG key to encrpyt files, and emails for / to / with.
-(defvar dotfiles/public-key "37AB1CB72B741E478CA026D43025DCBD46F81C0F")
-#+end_src
++ Fully keyboard-driven operations
++ Hybrid layout modes (tiling & stacking)
++ Dynamic workspace support
++ ICCM/EWMH compliance
 
-** Methods
+#+NAME: emacs-exwm-extras
+#+BEGIN_SRC nix
+pkgs.arandr
+pkgs.autorandr
+#+END_SRC
+  
+I wanted to leave ~(exwm-enable)~ out of my Emacs configuration (which does no harm anyways). This can be called when using the daemon to start EXWM[fn:11].
 
-Define two methods that will be used in the next phase of startup: The first method will load a machine-specific (host) configuration file, and the second method will load a custom module definition.
+#+NAME: emacs-exwm-config
+#+BEGIN_SRC nix
+xsession = {
+  enable = true;
+  windowManager.command = ''
+    ${myEmacs}/bin/emacs --daemon -f exwm-enable
+    ${myEmacs}/bin/emacsclient -c
+  '';
+};
+#+END_SRC
 
-#+begin_src emacs-lisp
-;; Load a host configuration.
-(defun dotfiles/load-host (host-name)
-  "Load the host configuration file for the system `host-name'."
-  (interactive)
-  (let ((host-file (concat dotfiles/home "/hosts/" host-name ".org")))
-    (when (file-exists-p host-file)
-      (org-babel-load-file host-file))))
+EXWM[fn:11] cannot make an X window manager by itself, this is by design; You must tell X to do it. Override the =~/.xinitrc= file to start the =xsession=.
 
-;; Load a module definition.
-(defun dotfiles/load-modules (modules)
-  "Load the `modules' in sequential order."
-  (interactive)
-  (dolist (m modules)
-    (let ((mod-file (concat dotfiles/home "/modules/" (symbol-name m) ".org")))
-      (when (file-exists-p mod-file)
-	(org-babel-load-file mod-file)))))
-#+end_src
+#+NAME: emacs-exwm-xinitrc
+#+BEGIN_SRC nix
+home.file.".xinitrc" = {
+  text = ''
+    exec ./.xsession
+  '';
+};
+#+END_SRC
 
-* Config
-:PROPERTIES:
-:header-args: :tangle init.el
-:END:
+#+NAME: emacs-exwm-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `exwm'.
+(setq exwm-worspace-show-all-buffers t)
+(setq exwm-input-prefix-keys
+  '(?\M-x
+  ?\C-g
+  ?\C-\ ))
+(setq exwm-input-global-keys
+  `(([?\s-r] . exwm-reset)
+    ,@(mapcar (lambda (i)
+                `(,(kbd (format "s-%d" i)) .
+                (lambda ()
+                (interactive)
+                (exwm-workspace-switch-create ,i))))
+                (number-sequence 1 9))))
 
-Once the early-init phase as completed, there are only two remaining tasks to complete before the system is fully initialized.
+;; Configure `exwm-randr'.
+(require 'exwm-randr)
+(exwm-randr-enable)
 
-#+begin_src emacs-lisp
-;; This file is controlled by README.org
-;; Please make any modifications there.
-#+end_src
+;; Configure custom hooks.
+(setq display-time-and-date t)
+(add-hook 'exwm-init-hook
+  (lambda ()
+    (display-battery-mode +1) ;; Display battery info (if available).
+    (display-time-mode +1)))  ;; Display the time in the modeline.
 
-** Hosts
+;; Setup buffer display names.
+(add-hook 'exwm-update-class-hook
+  (lambda ()
+    (exwm-workspace-rename-buffer exwm-class-name))) ;; Use the system class name.
 
-The first task involves loading a machine-specific (host) configuration file. This gives the oppertunity for a host to intervene in the module loading process, adding or removing modules before the next stage has begun. This is accomplished by modifying the list of modules in ~dotfiles/modules~.
+;; Configure monitor hot-swapping.
+(add-hook 'exwm-randr-screen-change-hook
+  (lambda ()
+    (dotfiles/run-in-background "autorandr --change --force"))) ;; Swap to the next screen config.
+#+END_SRC
 
-#+begin_src emacs-lisp
-;; Load the host configuration.
-(dotfiles/load-host system-name)
-#+end_src
+** General
 
-** Modules
+#+NAME: emacs-general-package
+#+BEGIN_SRC nix
+epkgs.general
+#+END_SRC
 
-After the host configuration file has loaded, the value of ~dotfiles/modules~ is used to load all of the enabled modules. They're loaded in sequential order, and an error in any module will end this process.
+General[fn:28] provides a more convenient method for binding keys in Emacs[fn:2], providing a unified interface for key definitions. Its primary purpose is to build on /existing/ functionality to make key definitions more clear and concise.
 
-#+begin_src emacs-lisp
-;; Load the enabled modules.
-(dotfiles/load-modules dotfiles/modules)
-#+end_src
+#+NAME: emacs-general-elisp
+#+BEGIN_SRC emacs-lisp
+;; Use <SPC> as a leader key via `general.el'.
+(general-create-definer dotfiles/leader
+  :states '(normal motion)
+  :keymaps 'override
+  :prefix "SPC"
+  :global-prefix "C-SPC")
+
+;; Find files with <SPC> <period> ...
+;; Switch buffers with <SPC> <comma> ...
+(dotfiles/leader
+  "." '(find-file :which-key "File")
+  "," '(switch-to-buffer :which-key "Buffer")
+  "c" '(kill-buffer-and-window :which-key "Close"))
+
+;; Add keybindings for executing shell commands.
+(dotfiles/leader
+  "r" '(:ignore t :which-key "Run")
+  "rr" '(dotfiles/run :which-key "Run")
+  "ra" '(async-shell-command :which-key "Async"))
+
+;; Add keybindings for quitting Emacs.
+(dotfiles/leader
+  "q" '(:ignore t :which-key "Quit")
+  "qq" '(save-buffers-kill-emacs :which-key "Save")
+  "qw" '(kill-emacs :which-key "Now")
+  "qf" '(delete-frame :which-key "Frame"))
+
+;; Add keybindings for toggles / tweaks.
+(dotfiles/leader
+  "t" '(:ignore t :which-key "Toggle / Tweak"))
+
+;; Add keybindings for working with frames to replace
+;; the C-x <num> <num> method of bindings, which is awful.
+(dotfiles/leader
+  "w" '(:ignore t :which-key "Windows")
+  "ww" '(window-swap-states :which-key "Swap")
+  "wc" '(delete-window :which-key "Close")
+  "wh" '(windmove-left :which-key "Left")
+  "wj" '(windmove-down :which-key "Down")
+  "wk" '(windmove-up :which-key "Up")
+  "wl" '(windmove-right :which-key "Right")
+  "ws" '(:ignore t :which-key "Split")
+  "wsj" '(split-window-below :which-key "Below")
+  "wsl" '(split-window-right :which-key "Right"))
+#+END_SRC
+
+** Which Key
+
+Which-key[fn:29] is a minor mode for Emacs[fn:2] that displays the key bindings following your currently entered incomplete command (prefix) in a popup or mini-buffer.
+
+#+NAME: emacs-which-key-package
+#+BEGIN_SRC nix
+epkgs.which-key
+#+END_SRC
+
+#+NAME: emacs-which-key-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `which-key' to see keyboard bindings in the
+;; mini-buffer and when using M-x.
+(setq which-key-idle-delay 0.0)
+(which-key-mode +1)
+#+END_SRC
+
+** EWW
+
+The Emacs Web Wowser[fn:30] is a Web browser written in Emacs Lisp[fn:18] based on the ~shr.el~ library. It's my primary browser when it comes to text-based browsing.
+
++ Use ~eww~ as the default browser
++ Don't use any special fonts or colours
+
+#+NAME: emacs-eww-elisp
+#+BEGIN_SRC emacs-lisp
+;; Set `eww' as the default browser.
+(setq browse-url-browser-function 'eww-browse-url)
+
+;; Configure the `shr' rendering engine.
+(setq shr-use-fonts nil
+      shr-use-colors nil)
+#+END_SRC
+
+** Dired
+
+#+NAME: emacs-dired-package
+#+BEGIN_SRC nix
+epkgs.dired-single
+#+END_SRC
+
+Dired[fn:31] shows a directory listing inside of an Emacs[fn:2] buffer that can be used to perform various file operations on files and subdirectories. THe operations you can perform are numerous, from creating subdirectories, byte-compiling files, searching, and editing files. Dired-Extra[fn:32] provides extra functionality for Dired[fn:31].
+
+#+NAME: emacs-dired-elisp
+#+BEGIN_SRC emacs-lisp
+;; Include `dired-x' for the `jump' method.
+(require 'dired-x)
+
+;; Configure `dired-single' to support `evil' keys.
+(evil-collection-define-key 'normal 'dired-mode-map
+  "h" 'dired-single-up-directory
+  "l" 'dired-single-buffer)
+
+;; Setup `all-the-icons' and the `dired' extension.
+
+;; Configure keybindings for `dired'.
+(dotfiles/leader
+  "d" '(dired-jump :which-key "Dired"))
+#+END_SRC
+
+** Icons
+
+#+NAME: emacs-icons-package
+#+BEGIN_SRC nix
+epkgs.all-the-icons
+epkgs.all-the-icons-dired
+#+END_SRC
+
+All The Icons[fn:33] is a utility package to collect various Icon Fonts and prioritize them within GNU/Emacs[fn:2].
+
+#+NAME: emacs-icons-elisp
+#+BEGIN_SRC emacs-lisp
+;; Setup `all-the-icons-dired'.
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+;; Display default font ligatures.
+(global-prettify-symbols-mode +1)
+#+END_SRC
+
+** Emojis
+
+#+NAME: emacs-emoji-package
+#+BEGIN_SRC nix
+epkgs.emojify
+#+END_SRC
+
+Emojify[fn:34] is an Emacs[fn:2] extension to display Emojis. It can display GitHub style Emojis like :smile: or plain ascii ones such as :). It tries to be as efficient as possible, while also providing flexibility.
+
+#+NAME: emacs-emoji-elisp
+#+BEGIN_SRC emacs-lisp
+;; Setup `emojify'.
+(add-hook 'after-init-hook 'global-emojify-mode)
+#+END_SRC
+
+** EShell
+
+#+NAME: emacs-eshell-package
+#+BEGIN_SRC nix
+epkgs.eshell-prompt-extras
+#+END_SRC
+
+EShell [fn:35] is a shell-like command interpreter for GNU/Emacs[fn:2] implemented in Emacs Lisp[fn:18]. It invokes no external processes except for those requested by the user. It's intended to be an alternative for IELM, and a full REPL envionment for Emacs[fn:2].
+
+#+NAME: emacs-eshell-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `eshell'.
+(setq eshell-highlight-prompt nil
+      eshell-prefer-lisp-functions nil)
+
+;; Configure the lambda prompt.
+(autoload 'epe-theme-lambda "eshell-prompt-extras")
+(setq eshell-prompt-function 'epe-theme-lambda)
+
+;; Configure keybindings for `eshell'.
+(dotfiles/leader
+  "e" '(eshell :which-key "EShell"))
+#+END_SRC
+
+** VTerm
+
+Emacs Libvterm (VTerm)[fn:36] is a fully-fledged terminal emulator inside GNU/Emacs[fn:2] based on Libvterm[fn:37], a blazing fast C library used in Neovim[fn:19]. As a result of using compiled code (instead of Emacs Lisp[fn:18]), VTerm[fn:36] is capable, fast, and it can seamlessly handle large outputs.
+
+#+NAME: emacs-vterm-package
+#+BEGIN_SRC nix
+epkgs.vterm
+#+END_SRC
+
+#+NAME: emacs-vterm-elisp
+#+BEGIN_SRC emacs-lisp
+;; Add keybindings for interacting with the shell(s).
+(dotfiles/leader
+  "v" '(vterm :which-key "VTerm"))
+#+END_SRC
+
+** Magit
+
+Magit[fn:38] is an interface to the Git[fn:17] version control system, implemented as a GNU/Emacs[fn:2] package written in Elisp[fn:18]. It fills the glaring gap between the Git[fn:17] command line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks within a few mnemonic key presses.
+
+#+NAME: emacs-magit-package
+#+BEGIN_SRC nix
+epkgs.magit
+#+END_SRC
+
+| Key | Description                          |
+|-----+--------------------------------------|
+| gg  | Check the status of a repository     |
+| gc  | Clone a remote repository            |
+| gf  | Fetch the contents of the repository |
+| gp  | Pull the remotes of the repository   |
+
+#+NAME: emacs-magit-elisp
+#+BEGIN_SRC emacs-lisp
+;; Add keybindings for working with `magit'.
+(dotfiles/leader
+  "g" '(:ignore t :which-key "Git")
+  "gg" '(magit-status :which-key "Status")
+  "gc" '(magit-clone :which-key "Clone")
+  "gf" '(magit-fetch :which-key "Fetch")
+  "gp" '(magit-pull :which-key "Pull"))
+#+END_SRC
+
+** Fonts
+
+#+NAME: emacs-fonts-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure the font when running as `emacs-server'.
+(custom-set-faces
+  '(default ((t (:inherit nil :height 96 :family "Iosevka")))))
+
+;; Set all three of Emacs' font faces.
+;; NOTE: This only works without `emacs-server'.
+;; (set-face-attribute 'default nil :font "Iosevka" :height 96)
+;; (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 96)
+;; (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 96)
+#+END_SRC
+
+** Elfeed
+
+#+NAME: emacs-elfeed-package
+#+BEGIN_SRC nix
+epkgs.elfeed
+#+END_SRC
+
+Elfeed[fn:39] is an extensible web feed reader for GNU/Emacs[fn:2], support both =Atom= and =RSS=. It requires =Emacs 24.3+= and is available for download from the standard repositories.
+
+| Key | Command |
+|-----+---------|
+| l   | Open    |
+| u   | Update  |
+
+#+NAME: emacs-elfeed-elisp
+#+BEGIN_SRC emacs-lisp
+;; Add custom feeds for `elfeed' to fetch.
+(setq elfeed-feeds (quote
+                     (("https://hexdsl.co.uk/rss.xml")
+                      ("https://lukesmith.xyz/rss.xml")
+                      ("https://friendo.monster/rss.xml")
+                      ("https://chrishayward.xyz/index.xml")
+                      ("https://protesilaos.com/codelog.xml"))))
+
+;; Add custom keybindings for `elfeed'.
+(dotfiles/leader
+  "l" '(:ignore t :which-key "Elfeed")
+  "ll" '(elfeed :which-key "Open")
+  "lu" '(elfeed-update :which-key "Update"))
+#+END_SRC
+
+** Org Mode
+
+#+NAME: emacs-org-package
+#+BEGIN_SRC nix
+epkgs.org
+#+END_SRC
+
+Org-mode[fn:40] is a document editing and organizing mode, designed for notes, planning, and authoring within the free software text editor GNU/Emacs[fn:2]. The name is used to encompass plain text files (such as this one) that include simple marks to indicate levels of a hierarchy, and an editor with functions that can read the markup and manipulate the hierarchy elements.
+
+#+NAME: emacs-org-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `org-mode' source blocks.
+(setq org-src-fontify-natively t      ;; Make source blocks prettier.
+      org-src-tab-acts-natively t     ;; Use TAB indents within source blocks.
+      org-src-preserve-indentation t) ;; Stop `org-mode' from formatting blocks.
+
+;; Add an `org-mode-hook'.
+(add-hook 'org-mode-hook
+  (lambda ()
+    (org-indent-mode)
+    (visual-line-mode)))
+
+;; Remove the `Validate XHTML 1.0' message from HTML export.
+(setq org-export-html-validation-link nil
+      org-html-validation-link nil)
+
+;; TODO: Configure default structure templates.
+;; (require 'org-tempo)
+
+;; Apply custom keybindings.
+(dotfiles/leader
+  "o" '(:ignore t :which-key "Org")
+  "oe" '(org-export-dispatch :which-key "Export")
+  "ot" '(org-babel-tangle :which-key "Tangle")
+  "of" '(:ignore t :which-key "Footnotes")
+  "ofn" '(org-footnote-normalize :which-key "Normalize"))
+#+END_SRC
+
+** Org Roam
+
+#+NAME: emacs-org-roam-package
+#+BEGIN_SRC nix
+epkgs.org-roam
+epkgs.org-roam-server
+#+END_SRC
+
+Org Roam[fn:41] is a plain-text knowledge management system. It borrows principles from the Zettelkasten method[fn:42], providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using Org Mode[fn:40] for their personal wiki (me). Org Roam Server[fn:43] is a Web application to visualize the Org Roam[fn:41] database. Although it should automatically reload if there's a change in the database, it can be done so manually by clicking the =reload= button on the Web interface.
+
+#+NAME: emacs-org-roam-elisp
+#+BEGIN_SRC emacs-lisp
+;; Setup `org-roam' hooks.
+(add-hook 'after-init-hook
+  (lambda ()
+    (org-roam-mode)
+    (org-roam-server-mode)))
+
+;; Configure `org-roam'.
+(setq org-roam-encrypt-files t
+      org-roam-directory (expand-file-name "/etc/dotfiles")
+      org-roam-capture-templates '()
+      org-roam-dailies-capture-templates '())
+
+;; Encrypt files with the public key.
+(setq epa-file-select-keys 2
+      epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+      epa-cache-passphrase-for-symmetric-encryption t)
+
+;; Define a new `title-to-slug' function to override the default `org-roam-title-to-slug' function.
+;; This is done to change the replacement character from "_" to "-".
+(require 'cl-lib)
+(defun dotfiles/title-to-slug (title)
+  "Convert TITLE to a filename-suitable slug."
+  (cl-flet* ((nonspacing-mark-p (char)
+                                (eq 'Mn (get-char-code-property char 'general-category)))
+             (strip-nonspacing-marks (s)
+                                     (apply #'string (seq-remove #'nonspacing-mark-p
+                                                                 (ucs-normalize-NFD-string s))))
+             (cl-replace (title pair)
+                         (replace-regexp-in-string (car pair) (cdr pair) title)))
+    (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-") ;; Convert anything not alphanumeric.
+                    ("--*" . "-")                   ;; Remove sequential dashes.
+                    ("^-" . "")                     ;; Remove starting dashes.
+                    ("-$" . "")))                   ;; Remove ending dashes.
+           (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+      (downcase slug))))
+(setq org-roam-title-to-slug-function #'dotfiles/title-to-slug)
+
+;; Configure capture templates.
+;; Standard document.
+(add-to-list 'org-roam-capture-templates
+  '("d" "Default" entry (function org-roam-capture--get-point)
+        "%?"
+        :file-name "docs/${slug}"
+        :unnarrowed t
+        :head 
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+EMAIL: chris@chrishayward.xyz
+"))
+
+;; Course document.
+(add-to-list 'org-roam-capture-templates
+  '("c" "Course" plain (function org-roam-capture--get-point)
+        "%?"
+        :file-name "docs/courses/${slug}"
+        :unnarrowed t
+        :head
+"
+,#+TITLE: ${title}
+,#+SUBTITLE:
+,#+AUTHOR: Christopher James Hayward
+,#+EMAIL: chris@chrishayward.xyz
+
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+"))
+
+;; Daily notes.
+(add-to-list 'org-roam-dailies-capture-templates
+  '("d" "Default" entry (function org-roam-capture--get-point)
+           "* %?"
+           :file-name "docs/daily/%<%Y-%m-%d>"
+           :head
+"
+,#+TITLE: %<%Y-%m-%d>
+,#+AUTHOR: Christopher James Hayward
+
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+"))
+
+;; Apply custom keybindings.
+(dotfiles/leader
+  "or"  '(:ignore t :which-key "Roam")
+  "ori" '(org-roam-insert :which-key "Insert")
+  "orf" '(org-roam-find-file :which-key "Find")
+  "orc" '(org-roam-capture :which-key "Capture")
+  "orb" '(org-roam-buffer-toggle-display :which-key "Buffer"))
+
+;; Apply custom keybindings for dailies.
+(dotfiles/leader
+  "ord" '(:ignore t :which-key "Dailies")
+  "ordd" '(org-roam-dailies-find-date :which-key "Date")
+  "ordt" '(org-roam-dailies-find-today :which-key "Today")
+  "ordm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+  "ordy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+#+END_SRC
+
+** Org Drill
+
+#+NAME: emacs-org-drill-package
+#+BEGIN_SRC nix
+epkgs.org-drill
+#+END_SRC
+
+Org Drill[fn:44] is an extension for Org Mode[fn:40] that uses a spaced repition algorithm to conduct interactive /Drill Sessions/ using Org files as sources of facts to be memorized.
+
+#+NAME: emacs-org-drill-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure keybindings for `org-drill'.
+(dotfiles/leader
+  "od" '(:ignore t :which-key "Drill")
+  "odd" '(org-drill :which-key "Drill")
+  "odc" '(org-drill-cram :which-key "Cram")
+  "odr" '(org-drill-resume :which-key "Resume"))
+#+END_SRC
+
+** Org Agenda
+
+The way Org Mode[fn:40] works, TODO items, time-stamped items, and tagged headlines can be scattered throughout a file, or even a number of files. To get an overview of open action items, or of events that are important for a particular date, this information must be collected, sorted, and displayed in an organized way.
+
+#+NAME: emacs-org-agenda-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `org-agenda' to use the project files.
+(setq org-agenda-files '("/etc/dotfiles/"
+                         "/etc/dotfiles/docs/"
+                         "/etc/dotfiles/docs/courses/"
+                         "/etc/dotfiles/docs/daily/"
+                         "/etc/dotfiles/docs/notes/"
+                         "/etc/dotfiles/docs/posts/"
+                         "/etc/dotfiles/docs/slides/"))
+
+;; Include files encrypted with `gpg'.
+(require 'org)
+(unless (string-match-p "\\.gpg" org-agenda-file-regexp)
+  (setq org-agenda-file-regexp
+    (replace-regexp-in-string "\\\\\\.org" "\\\\.org\\\\(\\\\.gpg\\\\)?"
+                              org-agenda-file-regexp)))
+
+;; Open an agenda buffer with SPC o a.
+(dotfiles/leader
+  "oa" '(org-agenda :which-key "Agenda"))
+#+END_SRC
+
+** Org Pomodoro
+
+#+NAME: emacs-pomodoro-package
+#+BEGIN_SRC nix
+epkgs.org-pomodoro
+#+END_SRC
+
+Org Pomodoro[fn:45] adds basic support for the Pomodoro Technique[fn:46] in GNU/Emacs[fn:2]. It can be started for the task at point, or the last task time was clocked for. Each session starts a timer of 25 minutes, finishing with a break of 5 minutes. After 4 sessions, ther will be a break of 20 minutes. All values are customizable.
+
+#+NAME: emacs-pomodoro-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `org-pomodor' with the overtime workflow.
+(setq org-pomodoro-manual-break t
+      org-pomodoro-keep-killed-time t)
+
+;; Configure keybindings.
+(dotfiles/leader
+  "op" '(org-pomodoro :which-key "Pomodoro"))
+#+END_SRC
+
+** Writegood Mode
+
+#+NAME: emacs-writegood-package
+#+BEGIN_SRC nix
+epkgs.writegood-mode
+#+END_SRC
+
+Writegood Mode[fn:47] is an Emacs[fn:2] minor mode to aid in finding common writing problems. It highlights the text based on the following criteria:
+
++ Weasel Words
++ Passive Voice
++ Duplicate Words
+
+#+NAME: emacs-writegood-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `writegood-mode'.
+(dotfiles/leader
+  "tg" '(writegood-mode :which-key "Grammar"))
+#+END_SRC
+
+** Aspell
+
+#+NAME: emacs-aspell-extras
+#+BEGIN_SRC nix
+pkgs.aspell
+pkgs.aspellDicts.en
+pkgs.aspellDicts.en-science
+pkgs.aspellDicts.en-computers
+#+END_SRC
+
+GNU Aspell[fn:48] is a Free and Open Source spell checker designed to replace ISpell. It can be used as a library, or an independent spell checker. Its main feature is that it does a superior job of suggesting possible replacements for mis-spelled words than any other spell checker for the English language.
+
+#+NAME: emacs-aspell-elisp
+#+BEGIN_SRC emacs-lisp
+;; Use `aspell' as a drop-in replacement for `ispell'.
+(setq ispell-program-name "aspell"
+      ispell-eextra-args '("--sug-mode=fast"))
+
+;; Configure the built-in `flyspell-mode'.
+(dotfiles/leader
+  "ts" '(flyspell-mode :which-key "Spelling"))
+#+END_SRC
+
+** Hugo
+
+#+NAME: emacs-hugo-extras
+#+BEGIN_SRC nix
+pkgs.hugo
+#+END_SRC
+
+Hugo[fn:49] is one of the most popular open-source static site generators.
+
+#+NAME: emacs-hugo-package
+#+BEGIN_SRC nix
+epkgs.ox-hugo
+#+END_SRC
+
+Ox-Hugo[fn:50] is an Org-Mode[fn:40] exporter for Hugo[fn:49] compabile markdown. I post nonsense on my Personal Blog[fn:51], and share my notes on various textbooks, articles, and software Here[fn:52].
+
+#+NAME: emacs-hugo-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `ox-hugo' as an `org-mode-export' backend.
+(require 'ox-hugo)
+
+;; Capture templates.
+;; Personal blog post.
+(add-to-list 'org-roam-capture-templates
+             '("p" "Post" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "docs/posts/${slug}"
+               :unnarrowed t
+               :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+DATE: %<%Y-%m-%d>
+
+,#+OPTIONS: num:nil todo:nil tasks:nil
+
+,#+EXPORT_FILE_NAME: ${slug}
+,#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
+
+,#+HUGO_BASE_DIR: ../
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: posts
+,#+HUGO_DRAFT: true
+"))
+
+;; Shared notes.
+(add-to-list 'org-roam-capture-templates
+             '("n" "Notes" plain (function org-roam-capture--get-point)
+                "%?"
+                :file-name "docs/notes/${slug}"
+                :unnarrowed t
+                :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+
+,#+OPTIONS: num:nil todo:nil tasks:nil
+,#+EXPORT_FILE_NAME: ${slug}
+,#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
+
+,#+HUGO_BASE_DIR: ../
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: notes
+,#+HUGO_DRAFT: true
+"))
+#+END_SRC
+
+** Reveal
+
+#+NAME: emacs-reveal-package
+#+BEGIN_SRC nix
+epkgs.ox-reveal
+#+END_SRC
+
+Reveal.js[fn:53] is an open source HTML presentation framework. It enables anyone with a web browser to create fully-featured and beautiful presentations for free. Presentations with Reveal.js[fn:53] are built on open web technologies. That means anything you can do on the web, you can do in your presentation. Ox Reveal[fn:54] is an Org Mode[fn:40] export backend.
+
+#+NAME: emacs-reveal-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `ox-reveal' as an `org-mode-export' backend.
+(require 'ox-reveal)
+
+;; Don't rely on any local software.
+(setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+
+;; Create a capture template.
+(add-to-list 'org-roam-capture-templates
+             '("s" "Slides" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "docs/slides/${slug}"
+               :unnarrowed t
+               :head
+"
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+EMAIL: chris@chrishayward.xyz
+
+,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+,#+REVEAL_THEME: serif
+
+,#+EXPORT_FILE_NAME: ${slug}
+
+,#+OPTIONS: reveal_title_slide:nil
+,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+"))
+#+END_SRC
+
+** Passwords
+
+#+NAME: emacs-pass-extras
+#+BEGIN_SRC nix
+pkgs.pass
+#+END_SRC
+
+With Pass[fn:55], each password lives inside of an encrypted =gpg= file, whose name is the title of the website or resource that requires the password. These encrypted files may be organized into meaningful folder hierarchies, compies from computer to computer, and in general, manipulated using standard command line tools.
+
+#+NAME: emacs-pass-package
+#+BEGIN_SRC nix
+epkgs.password-store
+#+END_SRC
+
+Configure keybindings for passwords behind =SPC p=:
+
+| Key | Description         |
+|-----+---------------------|
+| p   | Copy a password     |
+| r   | Rename a password   |
+| g   | Generate a password |
+
+#+NAME: emacs-pass-elisp
+#+BEGIN_SRC emacs-lisp
+;; Set the path to the password store.
+(setq password-store-dir (expand-file-name "~/.password-store"))
+
+;; Apply custom keybindings.
+(dotfiles/leader
+  "p" '(:ignore t :which-key "Passwords")
+  "pp" '(password-store-copy :which-key "Copy")
+  "pr" '(password-store-rename :which-key "Rename")
+  "pg" '(password-store-generate :which-key "Generate"))
+#+END_SRC
+
+** MU4E
+
+#+NAME: emacs-mu4e-extras
+#+BEGIN_SRC nix
+pkgs.mu
+pkgs.isync
+#+END_SRC
+
+#+NAME: emacs-mu4e-package
+#+BEGIN_SRC nix
+epkgs.mu4e-alert
+#+END_SRC
+
+#+NAME: emacs-mu4e-config
+#+BEGIN_SRC nix
+home.file.".mbsyncrc" = {
+  text = ''
+    IMAPStore xyz-remote
+    Host mail.chrishayward.xyz
+    User chris@chrishayward.xyz
+    PassCmd "pass chrishayward.xyz/chris"
+    SSLType IMAPS
+    
+    MaildirStore xyz-local
+    Path ~/.cache/mail/
+    Inbox ~/.cache/mail/inbox
+    SubFolders Verbatim
+    
+    Channel xyz
+    Far :xyz-remote:
+    Near :xyz-local:
+    Patterns * !Archives
+    Create Both
+    Expunge Both
+    SyncState *
+  '';
+};
+#+END_SRC
+
+#+BEGIN_SRC sh
+mbsync -a
+mu init --maildir="~/.cache/mail" --my-address="chris@chrishayward.xyz"
+mu index
+#+END_SRC
+
+#+NAME: emacs-mu4e-elisp
+#+BEGIN_SRC emacs-lisp
+;; Add the `mu4e' shipped with `mu' to the load path.
+(add-to-list 'load-path "/etc/profiles/per-user/chris/share/emacs/site-lisp/mu4e/")
+(require 'mu4e)
+
+;; Confiugure `mu4e'.
+(setq mu4e-maildir "~/.cache/mail"
+      mu4e-update-interval (* 5 60)
+      mu4e-get-mail-command "mbsync -a"
+      mu4e-compose-format-flowed t
+      mu4e-change-filenames-when-moving t
+      mu4e-compose-signature (concat "Chris Hayward\n"
+                                     "chris@chrishayward.xyz"))
+
+;; Sign all outbound email with GPG.
+(add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
+(setq message-send-mail-function 'smtpmail-send-it
+      mml-secure-openpgp-signers '("37AB1CB72B741E478CA026D43025DCBD46F81C0F"))
+
+;; Setup `mu4e' accounts.
+(setq mu4e-contexts
+  (list
+    ;; Main
+    ;; chris@chrishayward.xyz
+    (make-mu4e-context
+      :name "Main"
+      :match-func
+        (lambda (msg)
+          (when msg
+            (string-prefix-p "/Main" (mu4e-message-field msg :maildir))))
+      :vars
+        '((user-full-name . "Christopher James Hayward")
+          (user-mail-address . "chris@chrishayward.xyz")
+          (smtpmail-smtp-server . "mail.chrishayward.xyz")
+          (smtpmail-smtp-service . 587)
+          (smtpmail-stream-type . starttls)))))
+
+;; Setup `mu4e-alert'.
+(setq mu4e-alert-set-default-style 'libnotify)
+(mu4e-alert-enable-notifications)
+(mu4e-alert-enable-mode-line-display)
+
+;; Open the `mu4e' dashboard.
+(dotfiles/leader
+  "m" '(mu4e :which-key "Mail"))
+#+END_SRC
+
+** Projectile
+
+#+NAME: emacs-projectile-package
+#+BEGIN_SRC nix
+epkgs.projectile
+#+END_SRC
+
+Projectile[fn:56] is a project interaction library for GNU/Emacs[fn:2]. Its goal is to provide a nice set of features operating on a project level, without introducing external dependencies.
+
+#+NAME: emacs-projectile-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure the `projectile-project-search-path'.
+(setq projectile-project-search-path '("~/.local/source"))
+(projectile-mode +1)
+#+END_SRC
+
+** LSP Mode
+
+#+NAME: emacs-lsp-package
+#+BEGIN_SRC nix
+epkgs.lsp-mode
+epkgs.lsp-ui
+#+END_SRC
+
+The Language Server Protocol (LSP)[fn:57] defines the protocol used between an Editor or IDE, and a language server that provides features like:
+
++ Auto Complete
++ Go To Defintion
++ Find All References
+
+#+NAME: emacs-lsp-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `lsp-mode'.
+(setq lsp-idle-delay 0.5
+      lsp-prefer-flymake t)
+
+;; Configure `lsp-ui'.
+(setq lsp-ui-doc-position 'at-point
+      lsp-ui-doc-delay 0.5)
+#+END_SRC
+
+** Company Mode
+
+#+NAME: emacs-company-package
+#+BEGIN_SRC nix
+epkgs.company
+#+END_SRC
+
+Company[fn:58] is a text completion framework for GNU/Emacs[fn:2]. The name stands for =Complete Anything=. It uses pluggable back-ends and front-ends to retieve and display completion candidates.
+
+#+NAME: emacs-company-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `company-mode'.
+(setq company-backend 'company-capf
+      lsp-completion-provider :capf)
+
+;; Enable it globally.
+(global-company-mode +1)
+#+END_SRC
+
+** Go Mode
+
+#+NAME: emacs-golang-package
+#+BEGIN_SRC nix
+epkgs.go-mode
+#+END_SRC
+
+Go Mode[fn:59] is a major mode for editing Golang[fn:22] source code in GNU/Emacs[fn:2].
+
+#+NAME: emacs-golang-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `go-mode' to work with `lsp-mode'.
+(defun dotfiles/go-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+;; Configure a custom `before-save-hook'.
+(add-hook 'go-mode-hook #'dotfiles/go-hook)
+#+END_SRC
+
+** Python Mode
+
+#+NAME: emacs-python-package
+#+BEGIN_SRC nix
+epkgs.pretty-mode
+#+END_SRC
+
+The built in Python Mode[fn:60] has a nice feature set for working with Python[fn:26] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:57] server. These tools are included in the Development Shell[fn:21] for Python[fn:26].
+
+#+NAME: emacs-python-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `pretty-mode' to work with `python-mode'.
+(add-hook 'python-mode-hook
+  (lambda ()
+    (turn-on-pretty-mode)))
+#+END_SRC
+
+** PlantUML
+
+#+NAME: emacs-plantuml-extras
+#+BEGIN_SRC nix
+pkgs.plantuml
+#+END_SRC
+
+PlantUML[fn:61] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:61] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
+
+#+NAME: emacs-plantuml-package
+#+BEGIN_SRC nix
+epkgs.plantuml-mode
+#+END_SRC
+
+PlantUML Mode[fn:62] is a major mode for editing PlantUML[fn:61] sources in GNU/Emacs[fn:2].
+
+#+NAME: emacs-plantuml-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `plantuml-mode'.
+(setq plantuml-default-exec-mode 'executable)
+#+END_SRC
+
+** Swiper
+
+#+NAME: emacs-swiper-package
+#+BEGIN_SRC nix
+epkgs.ivy
+epkgs.counsel
+epkgs.ivy-rich
+epkgs.ivy-posframe
+epkgs.ivy-prescient
+#+END_SRC
+
+Ivy (Swiper)[fn:: https://github.com/abo-abo/swiper] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
+
+#+NAME: emacs-swiper-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `ivy'.
+(setq counsel-linux-app-format-function
+  #'counsel-linux-app-format-function-name-only)
+(ivy-mode +1)
+(counsel-mode +1)
+
+;; Configure `ivy-rich'.
+(ivy-rich-mode +1)
+
+;; Configure `ivy-posframe'.
+(setq ivy-posframe-parameters '((parent-frame nil))
+      ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+(ivy-posframe-mode +1)
+
+;; Configure `ivy-prescient'.
+(setq ivy-prescient-enable-filtering nil)
+(ivy-prescient-mode +1)
+#+END_SRC
+
+** Doom Themes
+
+#+NAME: emacs-doom-themes-package
+#+BEGIN_SRC nix
+epkgs.doom-themes
+#+END_SRC
+
+Doom Themes[fn:63] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
+
+#+NAME: emacs-doom-themes-elisp
+#+BEGIN_SRC emacs-lisp
+;; Include modern themes from `doom-themes'.
+(setq doom-themes-enable-bold t
+      doom-themes-enable-italic t)
+
+;; Load the `doom-moonlight' theme.
+(load-theme 'doom-moonlight t)
+(doom-modeline-mode +1)
+#+END_SRC
+
+** Doom Modeline
+
+#+NAME: emacs-doom-modeline-package
+#+BEGIN_SRC nix
+epkgs.doom-modeline
+#+END_SRC
+
+Doom Modeline[fn:64] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
+
+#+NAME: emacs-doom-modeline-elisp
+#+BEGIN_SRC emacs-lisp
+;; Add the `doom-modeline' after initialization.
+(add-hook 'after-init-hook 'doom-modeline-mode)
+(setq doom-modeline-height 16
+      doom-modeline-icon t)
+#+END_SRC
 
 * Footnotes
 
-[fn:1] https://gnu.org/software/emacs/
+[fn:1] https://gnu.org
 
-[fn:2] https://gnu.org/distros/free-distros.html
+[fn:2] https://gnu.org/software/emacs/
 
-[fn:3] https://chrishayward.xyz/notes/literate-programming/
+[fn:3] https://literateprogramming.com/knuthweb.pdf
 
-[fn:4] https://chrishayward.xyz/posts/immutable-emacs/
+[fn:4] https://nixos.org/manual/nixos/stable
 
-[fn:5] https://github.com/raxod502/straight.el
+[fn:5] https://nixos.org/manual/nix/stable
+
+[fn:6] https://nixos.org/manual/nixpkgs/stable
+
+[fn:7] https://github.com/nix-community/home-manager
+
+[fn:8] https://github.com/nix-community/emacs-overlay
+
+[fn:9] https://github.com/nixos/nixos-hardware
+
+[fn:10] https://qemu.org
+
+[fn:11] https://github.com/ch11ng/exwm
+
+[fn:12] https://evil.readthedocs.io/en/latest/overview.html
+
+[fn:13] https://x.org/wiki/
+
+[fn:14] https://wayland.freedesktop.org
+
+[fn:15] https://nixos.wiki/wiki/Flakes
+
+[fn:16] https://nix-community.cachix.org
+
+[fn:17] https://git-scm.com
+
+[fn:18] https://emacswiki.org/emacs/LearnEmacsLisp
+
+[fn:19] https://neovim.io
+
+[fn:20] https://gtk.org
+
+[fn:21] https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html
+
+[fn:22] https://golang.org
+
+[fn:23] https://grpc.io
+
+[fn:24] https://iso.org/standard/74528.html
+
+[fn:25] https://en.wikipedia.org/wiki/C++
+
+[fn:26] https://python.org
+
+[fn:27] https://github.com/nixos/nix-mode
+
+[fn:28] https://github.com/noctuid/general.el
+
+[fn:29] https://github.com/justbur/emacs-which-key
+
+[fn:30] https://emacswiki.org/emacs/eww
+
+[fn:31] https://emacswiki.org/emacs/DiredMode
+
+[fn:32] https://emacswiki.org/emacs/DiredExtra#Dired_X
+
+[fn:33] https://github.com/domtronn/all-the-icons.el
+
+[fn:34] https://github.com/iqbalansari/emacs-emojify
+
+[fn:35] https://gnu.org/software/emacs/manual/html_mono/eshell.html
+
+[fn:36] https://github.com/akermu/emacs-libvterm
+
+[fn:37] https://github.com/neovim/libvterm
+
+[fn:38] https://magit.vc
+
+[fn:39] https://github.com/skeeto/elfeed
+
+[fn:40] https://orgmode.org
+
+[fn:41] https://github.com/org-roam/org-roam
+
+[fn:42] https://zettelkasten.de
+
+[fn:43] https://github.com/org-roam/org-roam-server
+
+[fn:44] https://orgmode.org/worg/org-contrib/org-drill.html
+
+[fn:45] https://marcinkoziej/org-pomodoro
+
+[fn:46] https://en.wikipedia.org/wiki/Pomodoro_Technique
+
+[fn:47] https://github.com/bnbeckwith/writegood-mode
+
+[fn:48] https://aspell.net
+
+[fn:49] https://gohugo.io
+
+[fn:50] https://oxhugo.scripter.co
+
+[fn:51] https://chrishayward.xyz/posts/
+
+[fn:52] https://chrishayward.xyz/notes/
+
+[fn:53] https://revealjs.com
+
+[fn:54] https://github.com/hexmode/ox-reveal
+
+[fn:55] https://password-store.org
+
+[fn:56] https://projectile.mx
+
+[fn:57] https://microsoft.github.io/language-server-protocol
+
+[fn:58] https://company-mode.github.io
+
+[fn:59] https://emacswiki.org/emacs/GoMode
+
+[fn:60] https://emacswiki.org/emacs/PythonProgrammingInEmacs
+
+[fn:61] https://plantuml.com
+
+[fn:62] https://github.com/skuro/plantuml-mode
+
+[fn:63] https://github.com/hlissner/emacs-doom-themes
+
+[fn:64] https://github.com/seagle0128/doom-modeline
+
+[fn:65] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
