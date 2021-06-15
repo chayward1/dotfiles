@@ -346,7 +346,7 @@ Cachix[fn:16] is a Command line client for Nix[fn:5] binary cache hosting. This 
 
 ** Home Manager
 
-Home Manager includes a =flake.nix= file for compatibility with Nix Flakes, a feature utilized heavily in this project. When using flakes, switching to a new configuration is done /only/ for the entire system, using the command ~nixos-rebuild switch --flake <path>~, instead of ~nixos-rebuild~, and ~home-manager~ seperately.
+Home Manager[fn:7] includes a =flake.nix= file for compatibility with Nix Flakes, a feature utilized heavily in this project. When using flakes, switching to a new configuration is done /only/ for the entire system, using the command ~nixos-rebuild switch --flake <path>~, instead of ~nixos-rebuild~, and ~home-manager~ seperately.
 
 #+NAME: module-home-manager
 #+BEGIN_SRC nix :noweb yes
@@ -1840,7 +1840,7 @@ epkgs.ivy-posframe
 epkgs.ivy-prescient
 #+END_SRC
 
-Ivy (Swiper)[fn:: https://github.com/abo-abo/swiper] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
+Ivy (Swiper)[fn:63] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
 
 #+NAME: emacs-swiper-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1870,7 +1870,7 @@ Ivy (Swiper)[fn:: https://github.com/abo-abo/swiper] is a generic completion mec
 epkgs.doom-themes
 #+END_SRC
 
-Doom Themes[fn:63] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
+Doom Themes[fn:64] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
 
 #+NAME: emacs-doom-themes-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1890,7 +1890,7 @@ Doom Themes[fn:63] is a theme megapack for GNU/Emacs[fn:2], inspired by communit
 epkgs.doom-modeline
 #+END_SRC
 
-Doom Modeline[fn:64] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
+Doom Modeline[fn:65] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
 
 #+NAME: emacs-doom-modeline-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2026,8 +2026,10 @@ Doom Modeline[fn:64] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:62] https://github.com/skuro/plantuml-mode
 
-[fn:63] https://github.com/hlissner/emacs-doom-themes
+[fn:63] https://github.com/abo-abo/swiper
 
-[fn:64] https://github.com/seagle0128/doom-modeline
+[fn:64] https://github.com/hlissner/emacs-doom-themes
 
-[fn:65] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
+[fn:65] https://github.com/seagle0128/doom-modeline
+
+[fn:66] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
