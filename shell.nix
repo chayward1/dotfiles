@@ -13,7 +13,7 @@ in mkShell {
     git
   ];
   shellHook = ''
-    export FLAKE=$(pwd)
-    export PATH=$FLAKE/bin:${nixBin}/bin:$PATH"
+    export FLAKE="$(pwd)"
+    export PATH="$FLAKE/bin:${nixBin}/bin:$PATH"
   '';
 }
