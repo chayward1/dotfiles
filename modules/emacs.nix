@@ -35,6 +35,7 @@ let
       epkgs.eshell-prompt-extras
       epkgs.vterm
       epkgs.magit
+      epkgs.hydra
       epkgs.elfeed
       epkgs.nix-mode
       epkgs.projectile

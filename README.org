@@ -661,9 +661,12 @@ The Teamviewer[fn:25] remote connectivity cloud platform enables secure remote a
 { pkgs, ... }:
 
 {
-  environment.systemPackages = [
-    pkgs.teamviewer
-  ];
+  # NOTE: Neither of these are working!
+  # services.teamviewer.enable = true;
+
+  # environment.systemPackages = [
+  #   pkgs.teamviewer
+  # ];
 }
 #+END_SRC
 
@@ -866,6 +869,7 @@ let
       <<emacs-eshell-package>>
       <<emacs-vterm-package>>
       <<emacs-magit-package>>
+      <<emacs-fonts-package>>
       <<emacs-elfeed-package>>
       <<emacs-nix-mode-package>>
       <<emacs-projectile-package>>
@@ -1376,6 +1380,11 @@ epkgs.magit
 
 ** Fonts
 
+#+NAME: emacs-fonts-package
+#+BEGIN_SRC nix
+epkgs.hydra
+#+END_SRC
+
 #+NAME: emacs-fonts-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Configure the font when running as `emacs-server'.
@@ -1387,6 +1396,17 @@ epkgs.magit
 ;; (set-face-attribute 'default nil :font "Iosevka" :height 96)
 ;; (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 96)
 ;; (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 96)
+
+;; Define a `hydra' function for scaling the text interactively.
+(defhydra hydra-text-scale (:timeout 4)
+  "Scale text"
+  ("j" text-scale-decrease "Decrease")
+  ("k" text-scale-increase "Increase")
+  ("f" nil "Finished" :exit t))
+
+;; Create keybinding for calling the function.
+(dotfiles/leader
+  "tf" '(hydra-text-scale/body :which-key "Font"))
 #+END_SRC
 
 ** Elfeed

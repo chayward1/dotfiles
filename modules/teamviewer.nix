@@ -2,7 +2,10 @@
 { pkgs, ... }:
 
 {
-  environment.systemPackages = [
-    pkgs.teamviewer
-  ];
+  # NOTE: Neither of these are working!
+  # services.teamviewer.enable = true;
+
+  # environment.systemPackages = [
+  #   pkgs.teamviewer
+  # ];
 }
