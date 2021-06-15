@@ -2,6 +2,9 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
+#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+
 #+NAME: description
 #+BEGIN_SRC text
 Immutable NixOS dotfiles.
@@ -70,7 +73,7 @@ WORKDIR /etc/dotfiles
 COPY . .
 
 # Load the default system shell.
-RUN nix-shell -p
+RUN nix-shell /etc/dotfiles
 #+END_SRC
 
 * Operating System

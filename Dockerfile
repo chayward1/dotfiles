@@ -10,4 +10,4 @@ WORKDIR /etc/dotfiles
 COPY . .
 
 # Load the default system shell.
-RUN nix-shell -p
+RUN nix-shell /etc/dotfiles
