@@ -893,6 +893,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 
 ;; User interface.
 <<emacs-swiper-elisp>>
+<<emacs-transparency-elisp>>
 <<emacs-doom-themes-elisp>>
 <<emacs-doom-modeline-elisp>>
 #+END_SRC
@@ -2016,6 +2017,17 @@ Ivy (Swiper)[fn:64] is a generic completion mechanism for GNU/Emacs[fn:2]. While
 (ivy-prescient-mode +1)
 #+END_SRC
 
+** Transparency
+
+It's possible to control the frame opacity in GNU/Emacs[fn:2]. Unlike other transparency hacks, it's not merely showing the desktop background image, but is true transparency -- you can se other windows behind the Emacs[fn:2] window.
+
+#+NAME: emacs-transparency-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure the default frame transparency.
+(set-frame-parameter (selected-frame) 'alpha '(95 . 95))
+(add-to-list 'default-frame-alist '(alpha . (95 . 95)))
+#+END_SRC
+
 ** Doom Themes
 
 #+NAME: emacs-doom-themes-package
@@ -2034,6 +2046,10 @@ Doom Themes[fn:65] is a theme megapack for GNU/Emacs[fn:2], inspired by communit
 ;; Load the `doom-moonlight' theme.
 (load-theme 'doom-moonlight t)
 (doom-modeline-mode +1)
+
+;; Load a new theme with <SPC> t t.
+(dotfiles/leader
+  "tt" '(counsel-load-theme :which-key "Theme"))
 #+END_SRC
 
 ** Doom Modeline
