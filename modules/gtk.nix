@@ -3,7 +3,6 @@
 
 {
   home.packages = [
-    pkgs.nordic
     pkgs.arc-theme
     pkgs.arc-icon-theme
     pkgs.lxappearance
@@ -11,8 +10,8 @@
 
   home.file.".gtkrc-2.0" = {
     text = ''
-      gtk-theme-name="Nordic-bluish-accent"
-      gtk-icon-theme-name="Adwaita"
+      gtk-theme-name="Arc-Dark"
+      gtk-icon-theme-name="Arc"
       gtk-font-name="Sans 10"
       gtk-cursor-theme-size=0
       gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
