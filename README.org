@@ -492,6 +492,25 @@ inputs.home-manager.nixosModules.home-manager {
 }
 #+END_SRC
 
+** TODO Firefox
+
+#+NAME: module-firefox
+#+BEGIN_SRC nix
+./modules/firefox.nix
+#+END_SRC
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/firefox.nix
+# <<file-warning>>
+{ pkgs, ... }:
+
+{
+  # NOTE: Use the binary until module is developed.
+  home.packages = [
+    pkgs.firefox-bin 
+  ];
+}
+#+END_SRC
+
 ** Git
 
 #+NAME: module-git
@@ -1014,6 +1033,7 @@ EXWM (Emacs X Window Manager)[fn:11] is a full-featured tiling X window manager 
 #+NAME: emacs-exwm-extras
 #+BEGIN_SRC nix
 pkgs.arandr
+pkgs.nitrogen
 pkgs.autorandr
 #+END_SRC
   
@@ -1024,6 +1044,7 @@ I wanted to leave ~(exwm-enable)~ out of my Emacs configuration (which does no h
 xsession = {
   enable = true;
   windowManager.command = ''
+    ${pkgs.nitrogen}/bin/nitrogen --restore
     ${myEmacs}/bin/emacs --daemon -f exwm-enable
     ${myEmacs}/bin/emacsclient -c
   '';
