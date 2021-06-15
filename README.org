@@ -1032,7 +1032,6 @@ EXWM (Emacs X Window Manager)[fn:11] is a full-featured tiling X window manager 
 
 #+NAME: emacs-exwm-extras
 #+BEGIN_SRC nix
-pkgs.arandr
 pkgs.nitrogen
 pkgs.autorandr
 #+END_SRC

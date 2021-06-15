@@ -56,7 +56,6 @@ let
 
 in {
   home.packages = [
-    pkgs.arandr
     pkgs.nitrogen
     pkgs.autorandr
     pkgs.hugo
