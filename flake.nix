@@ -44,6 +44,7 @@
           ./modules/x11.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
+          ./modules/firefox.nix
           inputs.home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

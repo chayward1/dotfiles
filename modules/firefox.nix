@@ -3,7 +3,7 @@
 
 {
   # NOTE: Use the binary until module is developed.
-  home.packages = [
+  environment.systemPackages = [
     pkgs.firefox-bin 
   ];
 }
