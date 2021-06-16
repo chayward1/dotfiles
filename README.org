@@ -398,7 +398,7 @@ This configuration is nearly identical to the default, except for a few key diff
 }
 #+END_SRC
 
-** TODO Android
+** Android
 
 This is my Samsung Galaxy S10+[fn:14] running Nix On Droid[fn:10] with the experimental support for Flakes being used to manage the configuration.
 
