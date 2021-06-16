@@ -404,7 +404,26 @@ This is my Samsung Galaxy S10+[fn:14] running Nix On Droid[fn:10] with the exper
 
 #+NAME: host-android
 #+BEGIN_SRC nix
-# TODO: Android.
+android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
+  config = ./hosts/android/nix-on-droid.nix
+}).activationPackage;
+#+END_SRC
+
+Build the activation package with ~nix build .#android --impure~, and activate it with =result/activate=.
+
+#+BEGIN_SRC nix :noweb yes :tangle hosts/android/nix-on-droid.nix
+# <<file-warning>>
+{ pkgs, ... }:
+
+{
+  environment.packages = [
+    pkgs.git
+    pkgs.vim
+    pkgs.pass
+    pkgs.gnupg
+    pkgs.openssh
+  ];
+}
 #+END_SRC
 
 ** TODO Homecloud
