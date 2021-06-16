@@ -422,6 +422,7 @@ Build the activation package with ~nix build .#android --impure~, and activate i
     pkgs.pass
     pkgs.gnupg
     pkgs.openssh
+    pkgs.nixFlakes;
   ];
 }
 #+END_SRC
@@ -464,7 +465,7 @@ TODO: Raspberry Pi Zero/Zero WH
 
 The command ~nix-shell~[fn:15] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
 
-Import this shell with ~nix-shell /etc/dotfiles~.
+Import this shell with ~nix-shell /etc/dotfiles/shell.nix~.
 
 #+BEGIN_SRC nix :noweb yes :tangle shell.nix
 # <<file-warning>>
@@ -492,7 +493,7 @@ in mkShell {
 
 Go[fn:16] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/go~
+Import this shell with ~nix-shell /etc/dotfiles/shells/go.nix~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/go.nix
 # <<file-warning>>
@@ -517,7 +518,7 @@ mkShell {
 
 gRPC[fn:17] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/grpc~
+Import this shell with ~nix-shell /etc/dotfiles/shells/grpc.nix~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/grpc.nix
 # <<file-warning>>
@@ -540,7 +541,7 @@ mkShell {
 
 C[fn:18] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. C++[fn:19] is a general-purpose programming language created as an extension of the C[fn:18] programming language.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/cc~
+Import this shell with ~nix-shell /etc/dotfiles/shells/cc.nix~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/cc.nix
 # <<file-warning>>
@@ -563,7 +564,7 @@ mkShell {
 
 Python[fn:20] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/python~
+Import this shell with ~nix-shell /etc/dotfiles/shells/python.nix~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/python.nix
 # <<file-warning>>
