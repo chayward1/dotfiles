@@ -4,10 +4,13 @@
 with pkgs;
 mkShell {
   buildInputs = [
+    gdb
     ccls
+    cmake
     gnumake
     libstdcxx5
     gcc-unwrapped
+    llvmPackages.libcxx
   ];
   shellHook = ''
   '';
