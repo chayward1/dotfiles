@@ -50,6 +50,7 @@ let
       epkgs.ivy-rich
       epkgs.ivy-posframe
       epkgs.ivy-prescient
+      epkgs.desktop-environment
       epkgs.doom-themes
       epkgs.doom-modeline
     ];
@@ -67,6 +68,7 @@ in {
     pkgs.aspellDicts.en
     pkgs.aspellDicts.en-science
     pkgs.aspellDicts.en-computers
+    pkgs.brightnessctl
     pkgs.plantuml
     pkgs.nixfmt
   ];

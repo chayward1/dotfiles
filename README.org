@@ -1092,6 +1092,7 @@ let
       <<emacs-python-package>>
       <<emacs-plantuml-package>>
       <<emacs-swiper-package>>
+      <<emacs-desktop-package>>
       <<emacs-doom-themes-package>>
       <<emacs-doom-modeline-package>>
     ];
@@ -1104,6 +1105,7 @@ in {
     <<emacs-pass-extras>>
     <<emacs-mu4e-extras>>
     <<emacs-aspell-extras>>
+    <<emacs-desktop-extras>>
     <<emacs-plantuml-extras>>
     <<emacs-nix-mode-extras>>
   ];
@@ -1157,6 +1159,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-golang-elisp>>
 <<emacs-python-elisp>>
 <<emacs-plantuml-elisp>>
+<<emacs-desktop-elisp>>
 
 ;; User interface.
 <<emacs-swiper-elisp>>
@@ -2314,6 +2317,29 @@ It's possible to control the frame opacity in GNU/Emacs[fn:2]. Unlike other tran
 (add-to-list 'default-frame-alist '(alpha . (95 . 95)))
 #+END_SRC
 
+** Desktop Environment
+
+#+NAME: emacs-desktop-extras
+#+BEGIN_SRC nix
+pkgs.brightnessctl
+#+END_SRC
+
+The Desktop Environment[fn:73] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
+
+#+NAME: emacs-desktop-package
+#+BEGIN_SRC nix
+epkgs.desktop-environment
+#+END_SRC
+
+You can control the brightness, volume, take screenshots, and lock / unlock the screen. The package depends on the availability of shell commands to do the heavy lifting. They can be changed by customizing the appropriate variables.
+
+#+NAME: emacs-desktop-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `desktop-environment'.
+(require 'desktop-environment)
+(desktop-environment-mode +1)
+#+END_SRC
+
 ** Doom Themes
 
 #+NAME: emacs-doom-themes-package
@@ -2321,7 +2347,7 @@ It's possible to control the frame opacity in GNU/Emacs[fn:2]. Unlike other tran
 epkgs.doom-themes
 #+END_SRC
 
-Doom Themes[fn:73] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
+Doom Themes[fn:74] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
 
 #+NAME: emacs-doom-themes-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2345,7 +2371,7 @@ Doom Themes[fn:73] is a theme megapack for GNU/Emacs[fn:2], inspired by communit
 epkgs.doom-modeline
 #+END_SRC
 
-Doom Modeline[fn:74] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
+Doom Modeline[fn:75] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
 
 #+NAME: emacs-doom-modeline-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2501,8 +2527,10 @@ Doom Modeline[fn:74] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:72] https://github.com/abo-abo/swiper
 
-[fn:73] https://github.com/hlissner/emacs-doom-themes
+[fn:73] https://github.com/DamienCassou/desktop-environment
 
-[fn:74] https://github.com/seagle0128/doom-modeline
+[fn:74] https://github.com/hlissner/emacs-doom-themes
 
-[fn:75] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
+[fn:75] https://github.com/seagle0128/doom-modeline
+
+[fn:76] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
