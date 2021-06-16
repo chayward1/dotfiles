@@ -72,9 +72,19 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/homecloud
+          <<module-flakes>>
+          <<module-cachix>>
         ];
       };
-      # TODO: Raspberry
+      raspberry = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/raspberry
+          ./modules/flakes.nix
+          ./modules/cachix.nix
+        ];
+      };
       # TODO: Zero-One
       # TODO: Zero-One
     };
