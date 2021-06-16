@@ -74,6 +74,7 @@
           ./hosts/homecloud
           <<module-flakes>>
           <<module-cachix>>
+          <<module-jellyfin>>
         ];
       };
       raspberry = nixpkgs.lib.nixosSystem {
@@ -85,8 +86,24 @@
           ./modules/cachix.nix
         ];
       };
-      # TODO: Zero-One
-      # TODO: Zero-One
+      zero-one = nixpkgs.lib.nixosSystem {
+        system = "armv7l-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/zero-one
+          ./modules/flakes.nix
+          ./modules/cachix.nix
+        ];
+      };
+      zero-two = nixpkgs.lib.nixosSystem {
+        system = "armv7l-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/zero-one
+          ./modules/flakes.nix
+          ./modules/cachix.nix
+        ];
+      };
     };
   };
 }
