@@ -74,6 +74,7 @@
           ./hosts/homecloud
           <<module-flakes>>
           <<module-cachix>>
+          <<module-docker>>
           <<module-jellyfin>>
         ];
       };
