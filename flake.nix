@@ -67,7 +67,13 @@
       android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
         config = ./hosts/android/nix-on-droid.nix;
       }).activationPackage;
-      # TODO: Homecloud
+      homecloud = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/homecloud
+        ];
+      };
       # TODO: Raspberry
       # TODO: Zero-One
       # TODO: Zero-One
