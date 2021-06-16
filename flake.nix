@@ -65,7 +65,7 @@
         ];
       };
       android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
-        config = ./hosts/android/nix-on-droid.nix
+        config = ./hosts/android/nix-on-droid.nix;
       }).activationPackage;
       # TODO: Homecloud
       # TODO: Raspberry
