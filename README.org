@@ -431,7 +431,7 @@ Build the activation package with ~nix build .#android --impure~, and activate i
 The Raspberry Pi Model B-8GB[fn:15] is the latest product in the popular Raspberry Pi range of computers. It offers groundbreaking increases in processor speed, multimedia performance, memory, and connectivity compared to the prior generation. On NixOS[fn:4], the Raspberry Pi family is /only/ supported on the =AArch64= platform, although there is community support for =armv6l= and =armv7l=.
 
 #+NAME: host-homecloud
-#+BEGIN_SRC nix
+#+BEGIN_SRC nix :noweb yes
 homecloud = nixpkgs.lib.nixosSystem {
   system = "aarch64-linux";
   specialArgs = { inherit inputs; };
@@ -2263,7 +2263,10 @@ PlantUML Mode[fn:71] is a major mode for editing PlantUML[fn:70] sources in GNU/
 #+NAME: emacs-plantuml-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Configure `plantuml-mode'.
-(setq plantuml-default-exec-mode 'executable)
+(add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+(org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+(setq plantuml-default-exec-mode 'executable
+      org-plantuml-exec-mode 'plantuml)
 #+END_SRC
 
 ** Swiper

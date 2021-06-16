@@ -72,10 +72,10 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/homecloud
-          <<module-flakes>>
-          <<module-cachix>>
-          <<module-docker>>
-          <<module-jellyfin>>
+          ./modules/flakes.nix
+          ./modules/cachix.nix
+          ./modules/docker.nix
+          ./modules/jellyfin.nix
         ];
       };
       raspberry = nixpkgs.lib.nixosSystem {
