@@ -16,8 +16,9 @@
     ];
     extraInit = ''
       export XAUTHORITY=/tmp/Xauthority
-      export xserverauthfile=$XAUTHORITY
+      export xserverauthfile=/tmp/xserverauth
       [ -e ~/.Xauthority ] && mv -f ~/.Xauthority "$XAUTHORITY"
+      [ -e ~/.xserverauth*] && mv -f ~/.xserverauth* "$xserverauthfile"
     '';
   };
 
