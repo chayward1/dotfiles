@@ -1569,10 +1569,15 @@ The Emacs Web Wowser[fn:41] is a Web browser written in Emacs Lisp[fn:35] based 
 
 ** ERC
 
-ERC[fn:42] is a powerful, modular, and extensible IRC client for GNU/Emacs[fn:2].
+ERC[fn:42] is a powerful, modular, and extensible IRC client for GNU/Emacs[fn:2]. It's part of the GNU project, and included in Emacs.
 
 #+NAME: emacs-erc-elisp
 #+BEGIN_SRC emacs-lisp
+;; Configure `erc'.
+(setq erc-autojoin-channels-alist '(("irc.libera.chat" "#emacs" "#nixos" "#systemcrafters"))
+      erc-track-exclude-types '("JOIN" "NICK" "QUIT" "MODE")
+      erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+
 ;; Connect to IRC via `erc'.
 (defun dotfiles/erc-connect ()
   "Connected to IRC via `erc'."
