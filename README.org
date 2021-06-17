@@ -43,9 +43,9 @@ This file is controlled by /etc/dotfiles/README.org
 
 The ~nixos-rebuild~ command updates the system so that it corresponds to the configuration specified in the module. It builds the new system in =/nix/store/=, runs the activation scripts, and restarts and system services (if needed). The command has one required argument, which specifies the desired operation:
 
-+ switch :: Build and activate the new configuration, making it the new boot default
 + boot :: Build the new configuration and make it the boot default, without activation
 + test :: Build and activate the new configuration, without adding it to the boot menu
++ switch :: Build and activate the new configuration, making it the new boot default
 + build :: Build the new configuration, without activation, nor adding it to the boot menu
 + build-vm :: Build a script that starts a virtual machine with the desired configuration
 
@@ -1090,6 +1090,7 @@ let
       <<emacs-company-package>>
       <<emacs-golang-package>>
       <<emacs-python-package>>
+      <<emacs-rustic-package>>
       <<emacs-plantuml-package>>
       <<emacs-swiper-package>>
       <<emacs-desktop-package>>
@@ -1158,6 +1159,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-company-elisp>>
 <<emacs-golang-elisp>>
 <<emacs-python-elisp>>
+<<emacs-rustic-elisp>>
 <<emacs-plantuml-elisp>>
 <<emacs-desktop-elisp>>
 
@@ -2230,6 +2232,21 @@ Go Mode[fn:68] is a major mode for editing Golang[fn:18] source code in GNU/Emac
 (add-hook 'go-mode-hook #'dotfiles/go-hook)
 #+END_SRC
 
+** Rustic
+
+#+NAME: emacs-rustic-package
+#+BEGIN_SRC nix
+epkgs.rustic
+#+END_SRC
+
+Rustic[fn:69] is a fork of rust-mode that integrates well with the Language Server Protocol[fn:66]. Include the rust shell before launching GNU/Emacs[fn:2] to use this!
+
+#+NAME: emacs-rustic-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `rustic' with `lsp-mode'.
+(setq rustic-format-on-save t)
+#+END_SRC
+
 ** Python Mode
 
 #+NAME: emacs-python-package
@@ -2237,7 +2254,7 @@ Go Mode[fn:68] is a major mode for editing Golang[fn:18] source code in GNU/Emac
 epkgs.pretty-mode
 #+END_SRC
 
-The built in Python Mode[fn:69] has a nice feature set for working with Python[fn:22] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:66] server. These tools are included in the Development Shell[fn:17] for Python[fn:22].
+The built in Python Mode[fn:70] has a nice feature set for working with Python[fn:22] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:66] server. These tools are included in the Development Shell[fn:17] for Python[fn:22].
 
 #+NAME: emacs-python-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2254,14 +2271,14 @@ The built in Python Mode[fn:69] has a nice feature set for working with Python[f
 pkgs.plantuml
 #+END_SRC
 
-PlantUML[fn:70] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:70] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
+PlantUML[fn:71] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:71] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
 
 #+NAME: emacs-plantuml-package
 #+BEGIN_SRC nix
 epkgs.plantuml-mode
 #+END_SRC
 
-PlantUML Mode[fn:71] is a major mode for editing PlantUML[fn:70] sources in GNU/Emacs[fn:2].
+PlantUML Mode[fn:72] is a major mode for editing PlantUML[fn:71] sources in GNU/Emacs[fn:2].
 
 #+NAME: emacs-plantuml-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2283,7 +2300,7 @@ epkgs.ivy-posframe
 epkgs.ivy-prescient
 #+END_SRC
 
-Ivy (Swiper)[fn:72] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
+Ivy (Swiper)[fn:73] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
 
 #+NAME: emacs-swiper-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2324,7 +2341,7 @@ It's possible to control the frame opacity in GNU/Emacs[fn:2]. Unlike other tran
 pkgs.brightnessctl
 #+END_SRC
 
-The Desktop Environment[fn:73] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
+The Desktop Environment[fn:74] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
 
 #+NAME: emacs-desktop-package
 #+BEGIN_SRC nix
@@ -2347,7 +2364,7 @@ You can control the brightness, volume, take screenshots, and lock / unlock the 
 epkgs.doom-themes
 #+END_SRC
 
-Doom Themes[fn:74] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
+Doom Themes[fn:75] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
 
 #+NAME: emacs-doom-themes-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2371,7 +2388,7 @@ Doom Themes[fn:74] is a theme megapack for GNU/Emacs[fn:2], inspired by communit
 epkgs.doom-modeline
 #+END_SRC
 
-Doom Modeline[fn:75] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
+Doom Modeline[fn:76] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
 
 #+NAME: emacs-doom-modeline-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2519,18 +2536,20 @@ Doom Modeline[fn:75] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:68] https://emacswiki.org/emacs/GoMode
 
-[fn:69] https://emacswiki.org/emacs/PythonProgrammingInEmacs
+[fn:69] https://github.com/brotzeit/rustic
 
-[fn:70] https://plantuml.com
+[fn:70] https://emacswiki.org/emacs/PythonProgrammingInEmacs
 
-[fn:71] https://github.com/skuro/plantuml-mode
+[fn:71] https://plantuml.com
 
-[fn:72] https://github.com/abo-abo/swiper
+[fn:72] https://github.com/skuro/plantuml-mode
 
-[fn:73] https://github.com/DamienCassou/desktop-environment
+[fn:73] https://github.com/abo-abo/swiper
 
-[fn:74] https://github.com/hlissner/emacs-doom-themes
+[fn:74] https://github.com/DamienCassou/desktop-environment
 
-[fn:75] https://github.com/seagle0128/doom-modeline
+[fn:75] https://github.com/hlissner/emacs-doom-themes
 
-[fn:76] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
+[fn:76] https://github.com/seagle0128/doom-modeline
+
+[fn:77] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2

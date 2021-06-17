@@ -44,6 +44,7 @@ let
       epkgs.company
       epkgs.go-mode
       epkgs.pretty-mode
+      epkgs.rustic
       epkgs.plantuml-mode
       epkgs.ivy
       epkgs.counsel
