@@ -10,7 +10,7 @@ mkShell {
   ];
   shellHook = ''
     export GO111MODULE=on
-    export GOPATH=$HOME/.go/
+    export GOPATH=$XDG_DATA_HOME/go
     export PATH=$GOPATH/bin:$PATH
   '';
 }
