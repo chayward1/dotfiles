@@ -46,6 +46,7 @@
           ./modules/x11.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
+          ./modules/nvidia.nix
           ./modules/firefox.nix
           ./modules/moonlight.nix
           ./modules/teamviewer.nix
