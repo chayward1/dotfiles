@@ -768,7 +768,7 @@ X11, or X[fn:25] is the generic name for the X Window System Display Server. All
       export XAUTHORITY=/tmp/Xauthority
       export xserverauthfile=/tmp/xserverauth
       [ -e ~/.Xauthority ] && mv -f ~/.Xauthority "$XAUTHORITY"
-      [ -e ~/.xserverauth*] && mv -f ~/.xserverauth* "$xserverauthfile"
+      [ -e ~/.serverauth.* ] && mv -f ~/.serverauth.* "$xserverauthfile"
     '';
   };
 

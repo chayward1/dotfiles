@@ -18,7 +18,7 @@
       export XAUTHORITY=/tmp/Xauthority
       export xserverauthfile=/tmp/xserverauth
       [ -e ~/.Xauthority ] && mv -f ~/.Xauthority "$XAUTHORITY"
-      [ -e ~/.xserverauth*] && mv -f ~/.xserverauth* "$xserverauthfile"
+      [ -e ~/.serverauth.* ] && mv -f ~/.serverauth.* "$xserverauthfile"
     '';
   };
 
