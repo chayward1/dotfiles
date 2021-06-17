@@ -15,6 +15,11 @@
 Immutable NixOS dotfiles.
 #+END_SRC
 
+#+ATTR_ORG: :width 420px
+#+ATTR_HTML: :width 420px
+#+ATTR_LATEX: :width 420px
+[[./docs/images/desktop-example.png]]
+
 Built for Life, Liberty, and the Open Road.
 
 + 100% Immutable
