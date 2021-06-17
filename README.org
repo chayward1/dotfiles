@@ -1740,6 +1740,9 @@ Elfeed[fn:50] is an extensible web feed reader for GNU/Emacs[fn:2], support both
 
 #+NAME: emacs-elfeed-elisp
 #+BEGIN_SRC emacs-lisp
+;; Configure `elfeed'.
+(setq elfeed-db-directory (expand-file-name "~/.cache/elfeed"))
+
 ;; Add custom feeds for `elfeed' to fetch.
 (setq elfeed-feeds (quote
                      (("https://hexdsl.co.uk/rss.xml")
