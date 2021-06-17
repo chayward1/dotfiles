@@ -1504,7 +1504,7 @@ General[fn:39] provides a more convenient method for binding keys in Emacs[fn:2]
 (dotfiles/leader
   "." '(find-file :which-key "File")
   "," '(switch-to-buffer :which-key "Buffer")
-  "k" '(kill-buffer :which-key "Kill"))
+  "k" '(kill-buffer :which-key "Kill")
   "c" '(kill-buffer-and-window :which-key "Close"))
 
 ;; Add keybindings for executing shell commands.
