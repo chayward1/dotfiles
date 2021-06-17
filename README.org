@@ -1242,6 +1242,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-hugo-elisp>>
 <<emacs-reveal-elisp>>
 <<emacs-pass-elisp>>
+<<emacs-erc-elisp>>
 <<emacs-mu4e-elisp>>
 <<emacs-dired-elisp>>
 <<emacs-icons-elisp>>
@@ -1566,6 +1567,27 @@ The Emacs Web Wowser[fn:41] is a Web browser written in Emacs Lisp[fn:35] based 
       shr-use-colors nil)
 #+END_SRC
 
+** ERC
+
+ERC[fn:42] is a powerful, modular, and extensible IRC client for GNU/Emacs[fn:2].
+
+#+NAME: emacs-erc-elisp
+#+BEGIN_SRC emacs-lisp
+;; Connect to IRC via `erc'.
+(defun dotfiles/erc-connect ()
+  "Connected to IRC via `erc'."
+  (interactive)
+  (erc-tls :server "irc.libera.chat"
+           :port 6697
+           :nick "megaphone"
+           :password (password-store-get "megaphone@libera.chat")
+           :full-name "Chris Hayward"))
+
+;; Configure keybindings.
+(dotfiles/leader
+  "i" '(dotfiles/erc-connect :which-key "Chat"))
+#+END_SRC
+
 ** Dired
 
 #+NAME: emacs-dired-package
@@ -1573,7 +1595,7 @@ The Emacs Web Wowser[fn:41] is a Web browser written in Emacs Lisp[fn:35] based 
 epkgs.dired-single
 #+END_SRC
 
-Dired[fn:42] shows a directory listing inside of an Emacs[fn:2] buffer that can be used to perform various file operations on files and subdirectories. THe operations you can perform are numerous, from creating subdirectories, byte-compiling files, searching, and editing files. Dired-Extra[fn:43] provides extra functionality for Dired[fn:42].
+Dired[fn:43] shows a directory listing inside of an Emacs[fn:2] buffer that can be used to perform various file operations on files and subdirectories. THe operations you can perform are numerous, from creating subdirectories, byte-compiling files, searching, and editing files. Dired-Extra[fn:44] provides extra functionality for Dired[fn:43].
 
 #+NAME: emacs-dired-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1600,7 +1622,7 @@ epkgs.all-the-icons
 epkgs.all-the-icons-dired
 #+END_SRC
 
-All The Icons[fn:44] is a utility package to collect various Icon Fonts and prioritize them within GNU/Emacs[fn:2].
+All The Icons[fn:45] is a utility package to collect various Icon Fonts and prioritize them within GNU/Emacs[fn:2].
 
 #+NAME: emacs-icons-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1618,7 +1640,7 @@ All The Icons[fn:44] is a utility package to collect various Icon Fonts and prio
 epkgs.emojify
 #+END_SRC
 
-Emojify[fn:45] is an Emacs[fn:2] extension to display Emojis. It can display GitHub style Emojis like :smile: or plain ascii ones such as :). It tries to be as efficient as possible, while also providing flexibility.
+Emojify[fn:46] is an Emacs[fn:2] extension to display Emojis. It can display GitHub style Emojis like :smile: or plain ascii ones such as :). It tries to be as efficient as possible, while also providing flexibility.
 
 #+NAME: emacs-emoji-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1633,7 +1655,7 @@ Emojify[fn:45] is an Emacs[fn:2] extension to display Emojis. It can display Git
 epkgs.eshell-prompt-extras
 #+END_SRC
 
-EShell [fn:46] is a shell-like command interpreter for GNU/Emacs[fn:2] implemented in Emacs Lisp[fn:35]. It invokes no external processes except for those requested by the user. It's intended to be an alternative for IELM, and a full REPL envionment for Emacs[fn:2].
+EShell [fn:47] is a shell-like command interpreter for GNU/Emacs[fn:2] implemented in Emacs Lisp[fn:35]. It invokes no external processes except for those requested by the user. It's intended to be an alternative for IELM, and a full REPL envionment for Emacs[fn:2].
 
 #+NAME: emacs-eshell-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1652,7 +1674,7 @@ EShell [fn:46] is a shell-like command interpreter for GNU/Emacs[fn:2] implement
 
 ** VTerm
 
-Emacs Libvterm (VTerm)[fn:47] is a fully-fledged terminal emulator inside GNU/Emacs[fn:2] based on Libvterm[fn:48], a blazing fast C library used in Neovim[fn:36]. As a result of using compiled code (instead of Emacs Lisp[fn:35]), VTerm[fn:47] is capable, fast, and it can seamlessly handle large outputs.
+Emacs Libvterm (VTerm)[fn:48] is a fully-fledged terminal emulator inside GNU/Emacs[fn:2] based on Libvterm[fn:49], a blazing fast C library used in Neovim[fn:36]. As a result of using compiled code (instead of Emacs Lisp[fn:35]), VTerm[fn:48] is capable, fast, and it can seamlessly handle large outputs.
 
 #+NAME: emacs-vterm-package
 #+BEGIN_SRC nix
@@ -1668,7 +1690,7 @@ epkgs.vterm
 
 ** Magit
 
-Magit[fn:49] is an interface to the Git[fn:34] version control system, implemented as a GNU/Emacs[fn:2] package written in Elisp[fn:35]. It fills the glaring gap between the Git[fn:34] command line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks within a few mnemonic key presses.
+Magit[fn:50] is an interface to the Git[fn:34] version control system, implemented as a GNU/Emacs[fn:2] package written in Elisp[fn:35]. It fills the glaring gap between the Git[fn:34] command line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks within a few mnemonic key presses.
 
 #+NAME: emacs-magit-package
 #+BEGIN_SRC nix
@@ -1731,7 +1753,7 @@ epkgs.hydra
 epkgs.elfeed
 #+END_SRC
 
-Elfeed[fn:50] is an extensible web feed reader for GNU/Emacs[fn:2], support both =Atom= and =RSS=. It requires =Emacs 24.3+= and is available for download from the standard repositories.
+Elfeed[fn:51] is an extensible web feed reader for GNU/Emacs[fn:2], support both =Atom= and =RSS=. It requires =Emacs 24.3+= and is available for download from the standard repositories.
 
 | Key | Command |
 |-----+---------|
@@ -1765,7 +1787,7 @@ Elfeed[fn:50] is an extensible web feed reader for GNU/Emacs[fn:2], support both
 epkgs.org
 #+END_SRC
 
-Org-mode[fn:51] is a document editing and organizing mode, designed for notes, planning, and authoring within the free software text editor GNU/Emacs[fn:2]. The name is used to encompass plain text files (such as this one) that include simple marks to indicate levels of a hierarchy, and an editor with functions that can read the markup and manipulate the hierarchy elements.
+Org-mode[fn:52] is a document editing and organizing mode, designed for notes, planning, and authoring within the free software text editor GNU/Emacs[fn:2]. The name is used to encompass plain text files (such as this one) that include simple marks to indicate levels of a hierarchy, and an editor with functions that can read the markup and manipulate the hierarchy elements.
 
 #+NAME: emacs-org-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1805,7 +1827,7 @@ epkgs.org-roam
 epkgs.org-roam-server
 #+END_SRC
 
-Org Roam[fn:52] is a plain-text knowledge management system. It borrows principles from the Zettelkasten method[fn:53], providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using Org Mode[fn:51] for their personal wiki (me). Org Roam Server[fn:54] is a Web application to visualize the Org Roam[fn:52] database. Although it should automatically reload if there's a change in the database, it can be done so manually by clicking the =reload= button on the Web interface.
+Org Roam[fn:53] is a plain-text knowledge management system. It borrows principles from the Zettelkasten method[fn:54], providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using Org Mode[fn:52] for their personal wiki (me). Org Roam Server[fn:55] is a Web application to visualize the Org Roam[fn:53] database. Although it should automatically reload if there's a change in the database, it can be done so manually by clicking the =reload= button on the Web interface.
 
 #+NAME: emacs-org-roam-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1915,7 +1937,7 @@ Org Roam[fn:52] is a plain-text knowledge management system. It borrows principl
 epkgs.org-drill
 #+END_SRC
 
-Org Drill[fn:55] is an extension for Org Mode[fn:51] that uses a spaced repition algorithm to conduct interactive /Drill Sessions/ using Org files as sources of facts to be memorized.
+Org Drill[fn:56] is an extension for Org Mode[fn:52] that uses a spaced repition algorithm to conduct interactive /Drill Sessions/ using Org files as sources of facts to be memorized.
 
 #+NAME: emacs-org-drill-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1929,7 +1951,7 @@ Org Drill[fn:55] is an extension for Org Mode[fn:51] that uses a spaced repition
 
 ** Org Agenda
 
-The way Org Mode[fn:51] works, TODO items, time-stamped items, and tagged headlines can be scattered throughout a file, or even a number of files. To get an overview of open action items, or of events that are important for a particular date, this information must be collected, sorted, and displayed in an organized way.
+The way Org Mode[fn:52] works, TODO items, time-stamped items, and tagged headlines can be scattered throughout a file, or even a number of files. To get an overview of open action items, or of events that are important for a particular date, this information must be collected, sorted, and displayed in an organized way.
 
 #+NAME: emacs-org-agenda-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1961,7 +1983,7 @@ The way Org Mode[fn:51] works, TODO items, time-stamped items, and tagged headli
 epkgs.org-pomodoro
 #+END_SRC
 
-Org Pomodoro[fn:56] adds basic support for the Pomodoro Technique[fn:57] in GNU/Emacs[fn:2]. It can be started for the task at point, or the last task time was clocked for. Each session starts a timer of 25 minutes, finishing with a break of 5 minutes. After 4 sessions, ther will be a break of 20 minutes. All values are customizable.
+Org Pomodoro[fn:57] adds basic support for the Pomodoro Technique[fn:58] in GNU/Emacs[fn:2]. It can be started for the task at point, or the last task time was clocked for. Each session starts a timer of 25 minutes, finishing with a break of 5 minutes. After 4 sessions, ther will be a break of 20 minutes. All values are customizable.
 
 #+NAME: emacs-pomodoro-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1981,7 +2003,7 @@ Org Pomodoro[fn:56] adds basic support for the Pomodoro Technique[fn:57] in GNU/
 epkgs.writegood-mode
 #+END_SRC
 
-Writegood Mode[fn:58] is an Emacs[fn:2] minor mode to aid in finding common writing problems. It highlights the text based on the following criteria:
+Writegood Mode[fn:59] is an Emacs[fn:2] minor mode to aid in finding common writing problems. It highlights the text based on the following criteria:
 
 + Weasel Words
 + Passive Voice
@@ -2004,7 +2026,7 @@ pkgs.aspellDicts.en-science
 pkgs.aspellDicts.en-computers
 #+END_SRC
 
-GNU Aspell[fn:59] is a Free and Open Source spell checker designed to replace ISpell. It can be used as a library, or an independent spell checker. Its main feature is that it does a superior job of suggesting possible replacements for mis-spelled words than any other spell checker for the English language.
+GNU Aspell[fn:60] is a Free and Open Source spell checker designed to replace ISpell. It can be used as a library, or an independent spell checker. Its main feature is that it does a superior job of suggesting possible replacements for mis-spelled words than any other spell checker for the English language.
 
 #+NAME: emacs-aspell-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2024,14 +2046,14 @@ GNU Aspell[fn:59] is a Free and Open Source spell checker designed to replace IS
 pkgs.hugo
 #+END_SRC
 
-Hugo[fn:60] is one of the most popular open-source static site generators.
+Hugo[fn:61] is one of the most popular open-source static site generators.
 
 #+NAME: emacs-hugo-package
 #+BEGIN_SRC nix
 epkgs.ox-hugo
 #+END_SRC
 
-Ox-Hugo[fn:61] is an Org-Mode[fn:51] exporter for Hugo[fn:60] compabile markdown. I post nonsense on my Personal Blog[fn:62], and share my notes on various textbooks, articles, and software Here[fn:63].
+Ox-Hugo[fn:62] is an Org-Mode[fn:52] exporter for Hugo[fn:61] compabile markdown. I post nonsense on my Personal Blog[fn:63], and share my notes on various textbooks, articles, and software Here[fn:64].
 
 #+NAME: emacs-hugo-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2091,7 +2113,7 @@ Ox-Hugo[fn:61] is an Org-Mode[fn:51] exporter for Hugo[fn:60] compabile markdown
 epkgs.ox-reveal
 #+END_SRC
 
-Reveal.js[fn:64] is an open source HTML presentation framework. It enables anyone with a web browser to create fully-featured and beautiful presentations for free. Presentations with Reveal.js[fn:64] are built on open web technologies. That means anything you can do on the web, you can do in your presentation. Ox Reveal[fn:65] is an Org Mode[fn:51] export backend.
+Reveal.js[fn:65] is an open source HTML presentation framework. It enables anyone with a web browser to create fully-featured and beautiful presentations for free. Presentations with Reveal.js[fn:65] are built on open web technologies. That means anything you can do on the web, you can do in your presentation. Ox Reveal[fn:66] is an Org Mode[fn:52] export backend.
 
 #+NAME: emacs-reveal-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2131,7 +2153,7 @@ Reveal.js[fn:64] is an open source HTML presentation framework. It enables anyon
 pkgs.pass
 #+END_SRC
 
-With Pass[fn:66], each password lives inside of an encrypted =gpg= file, whose name is the title of the website or resource that requires the password. These encrypted files may be organized into meaningful folder hierarchies, compies from computer to computer, and in general, manipulated using standard command line tools.
+With Pass[fn:67], each password lives inside of an encrypted =gpg= file, whose name is the title of the website or resource that requires the password. These encrypted files may be organized into meaningful folder hierarchies, compies from computer to computer, and in general, manipulated using standard command line tools.
 
 #+NAME: emacs-pass-package
 #+BEGIN_SRC nix
@@ -2259,7 +2281,7 @@ mu index
 epkgs.projectile
 #+END_SRC
 
-Projectile[fn:67] is a project interaction library for GNU/Emacs[fn:2]. Its goal is to provide a nice set of features operating on a project level, without introducing external dependencies.
+Projectile[fn:68] is a project interaction library for GNU/Emacs[fn:2]. Its goal is to provide a nice set of features operating on a project level, without introducing external dependencies.
 
 #+NAME: emacs-projectile-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2276,7 +2298,7 @@ epkgs.lsp-mode
 epkgs.lsp-ui
 #+END_SRC
 
-The Language Server Protocol (LSP)[fn:68] defines the protocol used between an Editor or IDE, and a language server that provides features like:
+The Language Server Protocol (LSP)[fn:69] defines the protocol used between an Editor or IDE, and a language server that provides features like:
 
 + Auto Complete
 + Go To Defintion
@@ -2300,7 +2322,7 @@ The Language Server Protocol (LSP)[fn:68] defines the protocol used between an E
 epkgs.company
 #+END_SRC
 
-Company[fn:69] is a text completion framework for GNU/Emacs[fn:2]. The name stands for =Complete Anything=. It uses pluggable back-ends and front-ends to retieve and display completion candidates.
+Company[fn:70] is a text completion framework for GNU/Emacs[fn:2]. The name stands for =Complete Anything=. It uses pluggable back-ends and front-ends to retieve and display completion candidates.
 
 #+NAME: emacs-company-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2319,7 +2341,7 @@ Company[fn:69] is a text completion framework for GNU/Emacs[fn:2]. The name stan
 epkgs.go-mode
 #+END_SRC
 
-Go Mode[fn:70] is a major mode for editing Golang[fn:12] source code in GNU/Emacs[fn:2].
+Go Mode[fn:71] is a major mode for editing Golang[fn:12] source code in GNU/Emacs[fn:2].
 
 #+NAME: emacs-golang-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2339,7 +2361,7 @@ Go Mode[fn:70] is a major mode for editing Golang[fn:12] source code in GNU/Emac
 epkgs.rustic
 #+END_SRC
 
-Rustic[fn:69] is a fork of rust-mode that integrates well with the Language Server Protocol[fn:66]. Include the rust shell before launching GNU/Emacs[fn:2] to use this!
+Rustic[fn:70] is a fork of rust-mode that integrates well with the Language Server Protocol[fn:67]. Include the rust shell before launching GNU/Emacs[fn:2] to use this!
 
 #+NAME: emacs-rustic-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2354,7 +2376,7 @@ Rustic[fn:69] is a fork of rust-mode that integrates well with the Language Serv
 epkgs.pretty-mode
 #+END_SRC
 
-The built in Python Mode[fn:71] has a nice feature set for working with Python[fn:18] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:68] server. These tools are included in the Development Shell[fn:11] for Python[fn:18].
+The built in Python Mode[fn:72] has a nice feature set for working with Python[fn:18] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:69] server. These tools are included in the Development Shell[fn:11] for Python[fn:18].
 
 #+NAME: emacs-python-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2371,14 +2393,14 @@ The built in Python Mode[fn:71] has a nice feature set for working with Python[f
 pkgs.plantuml
 #+END_SRC
 
-PlantUML[fn:72] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:72] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
+PlantUML[fn:73] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:73] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
 
 #+NAME: emacs-plantuml-package
 #+BEGIN_SRC nix
 epkgs.plantuml-mode
 #+END_SRC
 
-PlantUML Mode[fn:73] is a major mode for editing PlantUML[fn:72] sources in GNU/Emacs[fn:2].
+PlantUML Mode[fn:74] is a major mode for editing PlantUML[fn:73] sources in GNU/Emacs[fn:2].
 
 #+NAME: emacs-plantuml-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2400,7 +2422,7 @@ epkgs.ivy-posframe
 epkgs.ivy-prescient
 #+END_SRC
 
-Ivy (Swiper)[fn:74] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
+Ivy (Swiper)[fn:75] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
 
 #+NAME: emacs-swiper-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2441,7 +2463,7 @@ It's possible to control the frame opacity in GNU/Emacs[fn:2]. Unlike other tran
 pkgs.brightnessctl
 #+END_SRC
 
-The Desktop Environment[fn:75] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
+The Desktop Environment[fn:76] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
 
 #+NAME: emacs-desktop-package
 #+BEGIN_SRC nix
@@ -2464,7 +2486,7 @@ You can control the brightness, volume, take screenshots, and lock / unlock the 
 epkgs.doom-themes
 #+END_SRC
 
-Doom Themes[fn:76] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
+Doom Themes[fn:77] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
 
 #+NAME: emacs-doom-themes-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2488,7 +2510,7 @@ Doom Themes[fn:76] is a theme megapack for GNU/Emacs[fn:2], inspired by communit
 epkgs.doom-modeline
 #+END_SRC
 
-Doom Modeline[fn:77] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
+Doom Modeline[fn:78] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
 
 #+NAME: emacs-doom-modeline-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2582,74 +2604,76 @@ Doom Modeline[fn:77] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:41] https://emacswiki.org/emacs/eww
 
-[fn:42] https://emacswiki.org/emacs/DiredMode
+[fn:42] https://gnu.org/software/emacs/erc.html
 
-[fn:43] https://emacswiki.org/emacs/DiredExtra#Dired_X
+[fn:43] https://emacswiki.org/emacs/DiredMode
 
-[fn:44] https://github.com/domtronn/all-the-icons.el
+[fn:44] https://emacswiki.org/emacs/DiredExtra#Dired_X
 
-[fn:45] https://github.com/iqbalansari/emacs-emojify
+[fn:45] https://github.com/domtronn/all-the-icons.el
 
-[fn:46] https://gnu.org/software/emacs/manual/html_mono/eshell.html
+[fn:46] https://github.com/iqbalansari/emacs-emojify
 
-[fn:47] https://github.com/akermu/emacs-libvterm
+[fn:47] https://gnu.org/software/emacs/manual/html_mono/eshell.html
 
-[fn:48] https://github.com/neovim/libvterm
+[fn:48] https://github.com/akermu/emacs-libvterm
 
-[fn:49] https://magit.vc
+[fn:49] https://github.com/neovim/libvterm
 
-[fn:50] https://github.com/skeeto/elfeed
+[fn:50] https://magit.vc
 
-[fn:51] https://orgmode.org
+[fn:51] https://github.com/skeeto/elfeed
 
-[fn:52] https://github.com/org-roam/org-roam
+[fn:52] https://orgmode.org
 
-[fn:53] https://zettelkasten.de
+[fn:53] https://github.com/org-roam/org-roam
 
-[fn:54] https://github.com/org-roam/org-roam-server
+[fn:54] https://zettelkasten.de
 
-[fn:55] https://orgmode.org/worg/org-contrib/org-drill.html
+[fn:55] https://github.com/org-roam/org-roam-server
 
-[fn:56] https://marcinkoziej/org-pomodoro
+[fn:56] https://orgmode.org/worg/org-contrib/org-drill.html
 
-[fn:57] https://en.wikipedia.org/wiki/Pomodoro_Technique
+[fn:57] https://marcinkoziej/org-pomodoro
 
-[fn:58] https://github.com/bnbeckwith/writegood-mode
+[fn:58] https://en.wikipedia.org/wiki/Pomodoro_Technique
 
-[fn:59] https://aspell.net
+[fn:59] https://github.com/bnbeckwith/writegood-mode
 
-[fn:60] https://gohugo.io
+[fn:60] https://aspell.net
 
-[fn:61] https://oxhugo.scripter.co
+[fn:61] https://gohugo.io
 
-[fn:62] https://chrishayward.xyz/posts/
+[fn:62] https://oxhugo.scripter.co
 
-[fn:63] https://chrishayward.xyz/notes/
+[fn:63] https://chrishayward.xyz/posts/
 
-[fn:64] https://revealjs.com
+[fn:64] https://chrishayward.xyz/notes/
 
-[fn:65] https://github.com/hexmode/ox-reveal
+[fn:65] https://revealjs.com
 
-[fn:66] https://password-store.org
+[fn:66] https://github.com/hexmode/ox-reveal
 
-[fn:67] https://projectile.mx
+[fn:67] https://password-store.org
 
-[fn:68] https://microsoft.github.io/language-server-protocol
+[fn:68] https://projectile.mx
 
-[fn:69] https://company-mode.github.io
+[fn:69] https://microsoft.github.io/language-server-protocol
 
-[fn:70] https://emacswiki.org/emacs/GoMode
+[fn:70] https://company-mode.github.io
 
-[fn:71] https://plantuml.com
+[fn:71] https://emacswiki.org/emacs/GoMode
 
-[fn:72] https://github.com/skuro/plantuml-mode
+[fn:72] https://plantuml.com
 
-[fn:73] https://github.com/abo-abo/swiper
+[fn:73] https://github.com/skuro/plantuml-mode
 
-[fn:74] https://github.com/DamienCassou/desktop-environment
+[fn:74] https://github.com/abo-abo/swiper
 
-[fn:75] https://github.com/hlissner/emacs-doom-themes
+[fn:75] https://github.com/DamienCassou/desktop-environment
 
-[fn:76] https://github.com/seagle0128/doom-modeline
+[fn:76] https://github.com/hlissner/emacs-doom-themes
 
-[fn:77] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
+[fn:77] https://github.com/seagle0128/doom-modeline
+
+[fn:78] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
