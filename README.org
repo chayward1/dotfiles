@@ -2605,5 +2605,3 @@ Doom Modeline[fn:77] is a fancy and fast modeline inspired by minimalism design.
 [fn:76] https://github.com/seagle0128/doom-modeline
 
 [fn:77] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
-
-[fn:78] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
