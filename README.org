@@ -339,7 +339,14 @@ mkShell {
 
 * Host Configurations
 
-NixOS[fn:4] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial.
+NixOS[fn:4] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial. It also makes it easier to share common configurations amongst all of the hosts, such as with pre-configured wireless networking:
+
+#+NAME: host-config-wifi
+#+BEGIN_SRC nix
+# Pre-configured wireless networks.
+networking.wireless.networks.MyWiFi_5C1870.pskRaw =
+  "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
+#+END_SRC
 
 ** Default
 
@@ -509,9 +516,7 @@ This configuration is nearly identical to the default, except for a few key diff
   networking.interfaces.enp6s0f1.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
-  # Pre-configured wireless networks.
-  networking.wireless.networks.MyWiFi_5C1870.pskRaw =
-    "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
+  <<host-config-wifi>>
 
   services.openssh.enable = true;
   services.printing.enable = true;
