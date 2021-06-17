@@ -163,13 +163,187 @@ nix-on-droid.url = "github:t184256/nix-on-droid/master";
 nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
 #+END_SRC
 
+* Development Shells
+
+The command ~nix-shell~[fn:11] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
+
+Import this shell with ~nix-shell /etc/dotfiles/shell.nix~.
+
+#+BEGIN_SRC nix :noweb yes :tangle shell.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+
+let
+  nixBin = writeShellScriptBin "nix" ''
+    ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
+  '';
+
+in mkShell {
+  buildInputs = [
+    git
+  ];
+  shellHook = ''
+    export FLAKE="$(pwd)"
+    export PATH="$FLAKE/bin:${nixBin}/bin:$PATH"
+  '';
+}
+#+END_SRC
+
+** Go
+
+Go[fn:12] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/go.nix~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/go.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    go
+    gopls
+    protoc-gen-go-grpc
+  ];
+  shellHook = ''
+    export GO111MODULE=on
+    export GOPATH=$XDG_DATA_HOME/go
+    export PATH=$GOPATH/bin:$PATH
+  '';
+}
+#+END_SRC
+
+** Rust
+
+Rust[fn:13] is a multi-paradigm programming language designed for performance and safety, especially safe concurrency. It is syntactically similar to C++, but can garantee memory safety by using a borrow checker to validate references. Rust[fn:13] achieves memory safety /without/ garbage collection, and reference counting is optional.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/rust.nix~.
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/rust.nix
+# <<file-warning>>
+{ pkgs ? import <nixpgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    rustup
+  ];
+  shellHook = ''
+    export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+    export CARGO_HOME="$XDG_DATA_HOME/cargo"
+    export PATH="$CARGO_HOME/bin:$PATH"
+  '';
+}
+#+END_SRC
+
+** Node
+
+Node.js[fn:14] is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine, and executes JavaScript code outside of a web browser. Node.js[fn:14] lets developers user JavaScript to write command line tools, and for server-side scripting to produce dynamic web page content.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/node.nix~.
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/node.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    nodejs
+    yarn
+  ];
+  shellHook = ''
+    export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR/npm"
+    export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+    export NPM_CACHE_PREFIX="$XDG_CACHE_HOME/npm"
+    export PATH="$(yarn global bin):$PATH"
+  '';
+}
+#+END_SRC
+
+** gRPC
+
+gRPC[fn:15] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/grpc.nix~.
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/grpc.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    grpc
+    grpc-tools
+    grpcui
+    grpcurl
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
+** C/C++
+
+C[fn:16] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. C++[fn:17] is a general-purpose programming language created as an extension of the C[fn:16] programming language.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/cc.nix~.
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/cc.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    gdb
+    ccls
+    cmake
+    gnumake
+    libstdcxx5
+    gcc-unwrapped
+    llvmPackages.libcxx
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
+** Python
+
+Python[fn:18] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
+
+Import this shell with ~nix-shell /etc/dotfiles/shells/python.nix~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/python.nix
+# <<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    python39Packages.pip
+    python39Packages.pip-tools
+    python39Packages.pyls-mypy
+    python39Packages.pyls-isort
+    python39Packages.pyls-black
+  ];
+  shellHook = ''
+  '';
+}
+#+END_SRC
+
 * Host Configurations
 
 NixOS[fn:4] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial.
 
 ** Default
 
-The default host, built using QEMU[fn:11], a free and open-source emulator that can perform hardware virtualization. It features a lightweight system optimized for development, running GNU/Emacs[fn:2] + EXWM[fn:12] as the graphical environment.
+The default host, built using QEMU[fn:19], a free and open-source emulator that can perform hardware virtualization. It features a lightweight system optimized for development, running GNU/Emacs[fn:2] + EXWM[fn:20] as the graphical environment.
 
 #+NAME: host-default
 #+BEGIN_SRC nix :noweb yes
@@ -234,7 +408,7 @@ This is a basic default configuration that specified the indended default config
 
 *** Hardware
 
-The file system for this host is a single 24GB QCOW file, a format for disk images used by QEMU[fn:11]. The file can be recreated easily by following the steps listed in the NixOS[fn:4] installation manual, specifically the section on disk formatting.
+The file system for this host is a single 24GB QCOW file, a format for disk images used by QEMU[fn:19]. The file can be recreated easily by following the steps listed in the NixOS[fn:4] installation manual, specifically the section on disk formatting.
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/nixos/hardware.nix
 # <<file-warning>>
@@ -263,7 +437,7 @@ The file system for this host is a single 24GB QCOW file, a format for disk imag
 
 ** Acernitro
 
-My gaming laptop, the model is an Acer Nitro AN-515-53[fn:13]. The Nitro 5 has more in common with the mid-range notebooks rather than the gaming models due to its cooling design, chassis, and overall construction.
+My gaming laptop, the model is an Acer Nitro AN-515-53[fn:21]. The Nitro 5 has more in common with the mid-range notebooks rather than the gaming models due to its cooling design, chassis, and overall construction.
 
 Here are the specs:
 
@@ -400,7 +574,7 @@ This configuration is nearly identical to the default, except for a few key diff
 
 ** Android
 
-This is my Samsung Galaxy S10+[fn:14] running Nix On Droid[fn:10] with the experimental support for Flakes being used to manage the configuration.
+This is my Samsung Galaxy S10+[fn:22] running Nix On Droid[fn:10] with the experimental support for Flakes being used to manage the configuration.
 
 #+NAME: host-android
 #+BEGIN_SRC nix
@@ -428,7 +602,7 @@ Build the activation package with ~nix build .#android --impure~, and activate i
 
 ** TODO Homecloud
 
-The Raspberry Pi Model B-8GB[fn:15] is the latest product in the popular Raspberry Pi range of computers. It offers groundbreaking increases in processor speed, multimedia performance, memory, and connectivity compared to the prior generation. On NixOS[fn:4], the Raspberry Pi family is /only/ supported on the =AArch64= platform, although there is community support for =armv6l= and =armv7l=.
+The Raspberry Pi Model B-8GB[fn:23] is the latest product in the popular Raspberry Pi range of computers. It offers groundbreaking increases in processor speed, multimedia performance, memory, and connectivity compared to the prior generation. On NixOS[fn:4], the Raspberry Pi family is /only/ supported on the =AArch64= platform, although there is community support for =armv6l= and =armv7l=.
 
 #+NAME: host-homecloud
 #+BEGIN_SRC nix :noweb yes
@@ -477,7 +651,7 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 
 ** TODO Raspberry
 
-The Raspberry Pi 400[fn:16] is your complete personal computer, built into a compact keyboard. It features a quad-core, 64-bit processor, 4GB of RAM, wireless networking, dual-display output, 4k video playback, as well as a 40-pin GPIO header. It's the most powerful Raspberry Pi computer yet.
+The Raspberry Pi 400[fn:24] is your complete personal computer, built into a compact keyboard. It features a quad-core, 64-bit processor, 4GB of RAM, wireless networking, dual-display output, 4k video playback, as well as a 40-pin GPIO header. It's the most powerful Raspberry Pi computer yet.
 
 #+NAME: host-raspberry
 #+BEGIN_SRC nix :noweb yes
@@ -552,180 +726,6 @@ zero-two = nixpkgs.lib.nixosSystem {
     ./modules/cachix.nix
   ];
 };
-#+END_SRC
-
-* Development Shells
-
-The command ~nix-shell~[fn:17] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
-
-Import this shell with ~nix-shell /etc/dotfiles/shell.nix~.
-
-#+BEGIN_SRC nix :noweb yes :tangle shell.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-
-let
-  nixBin = writeShellScriptBin "nix" ''
-    ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
-  '';
-
-in mkShell {
-  buildInputs = [
-    git
-  ];
-  shellHook = ''
-    export FLAKE="$(pwd)"
-    export PATH="$FLAKE/bin:${nixBin}/bin:$PATH"
-  '';
-}
-#+END_SRC
-
-** Go
-
-Go[fn:18] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/go.nix~
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/go.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    go
-    gopls
-    protoc-gen-go-grpc
-  ];
-  shellHook = ''
-    export GO111MODULE=on
-    export GOPATH=$XDG_DATA_HOME/go
-    export PATH=$GOPATH/bin:$PATH
-  '';
-}
-#+END_SRC
-
-** Rust
-
-Rust[fn:19] is a multi-paradigm programming language designed for performance and safety, especially safe concurrency. It is syntactically similar to C++, but can garantee memory safety by using a borrow checker to validate references. Rust[fn:19] achieves memory safety /without/ garbage collection, and reference counting is optional.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/rust.nix~.
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/rust.nix
-# <<file-warning>>
-{ pkgs ? import <nixpgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    rustup
-  ];
-  shellHook = ''
-    export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
-    export CARGO_HOME="$XDG_DATA_HOME/cargo"
-    export PATH="$CARGO_HOME/bin:$PATH"
-  '';
-}
-#+END_SRC
-
-** Node
-
-Node.js[fn:20] is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine, and executes JavaScript code outside of a web browser. Node.js[fn:20] lets developers user JavaScript to write command line tools, and for server-side scripting to produce dynamic web page content.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/node.nix~.
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/node.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    nodejs
-    yarn
-  ];
-  shellHook = ''
-    export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR/npm"
-    export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
-    export NPM_CACHE_PREFIX="$XDG_CACHE_HOME/npm"
-    export PATH="$(yarn global bin):$PATH"
-  '';
-}
-#+END_SRC
-
-** gRPC
-
-gRPC[fn:21] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/grpc.nix~.
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/grpc.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    grpc
-    grpc-tools
-    grpcui
-    grpcurl
-  ];
-  shellHook = ''
-  '';
-}
-#+END_SRC
-
-** C/C++
-
-C[fn:22] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. C++[fn:23] is a general-purpose programming language created as an extension of the C[fn:22] programming language.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/cc.nix~.
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/cc.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    gdb
-    ccls
-    cmake
-    gnumake
-    libstdcxx5
-    gcc-unwrapped
-    llvmPackages.libcxx
-  ];
-  shellHook = ''
-  '';
-}
-#+END_SRC
-
-** Python
-
-Python[fn:24] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/python.nix~
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/python.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    python39Packages.pip
-    python39Packages.pip-tools
-    python39Packages.pyls-mypy
-    python39Packages.pyls-isort
-    python39Packages.pyls-black
-  ];
-  shellHook = ''
-  '';
-}
 #+END_SRC
 
 * Module Definitions
@@ -1317,7 +1317,7 @@ epkgs.nix-mode
 
 ** Evil Mode
 
-Evil[fn:13] is an extensible VI layer for GNU/Emacs[fn:2]. It emulates the main features of Vim[fn:36], turning GNU/Emacs[fn:2] into a modal editor.
+Evil[fn:21] is an extensible VI layer for GNU/Emacs[fn:2]. It emulates the main features of Vim[fn:36], turning GNU/Emacs[fn:2] into a modal editor.
 
 #+NAME: emacs-evil-package
 #+BEGIN_SRC nix
@@ -1327,7 +1327,7 @@ epkgs.evil-surround
 epkgs.evil-nerd-commenter
 #+END_SRC
 
-The next time Emacs[fn:2] is started, it will come up in /normal state/, denoted by =<N>= in the modeline. This is where the main ~vi~ bindings are defined. Like Emacs[fn:2] in general, Evil[fn:13] is extensible in Emacs Lisp[fn:35].
+The next time Emacs[fn:2] is started, it will come up in /normal state/, denoted by =<N>= in the modeline. This is where the main ~vi~ bindings are defined. Like Emacs[fn:2] in general, Evil[fn:21] is extensible in Emacs Lisp[fn:35].
 
 #+NAME: emacs-evil-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1353,7 +1353,7 @@ The next time Emacs[fn:2] is started, it will come up in /normal state/, denoted
 epkgs.exwm
 #+END_SRC
 
-EXWM (Emacs X Window Manager)[fn:12] is a full-featured tiling X window manager for GNU/Emacs[fn:2] built on-top of XELB. It features:
+EXWM (Emacs X Window Manager)[fn:20] is a full-featured tiling X window manager for GNU/Emacs[fn:2] built on-top of XELB. It features:
 
 + Fully keyboard-driven operations
 + Hybrid layout modes (tiling & stacking)
@@ -1366,7 +1366,7 @@ pkgs.nitrogen
 pkgs.autorandr
 #+END_SRC
   
-I wanted to leave ~(exwm-enable)~ out of my Emacs configuration (which does no harm anyways). This can be called when using the daemon to start EXWM[fn:12].
+I wanted to leave ~(exwm-enable)~ out of my Emacs configuration (which does no harm anyways). This can be called when using the daemon to start EXWM[fn:20].
 
 #+NAME: emacs-exwm-config
 #+BEGIN_SRC nix
@@ -1380,7 +1380,7 @@ xsession = {
 };
 #+END_SRC
 
-EXWM[fn:12] cannot make an X window manager by itself, this is by design; You must tell X to do it. Override the =~/.xinitrc= file to start the =xsession=.
+EXWM[fn:20] cannot make an X window manager by itself, this is by design; You must tell X to do it. Override the =~/.xinitrc= file to start the =xsession=.
 
 #+NAME: emacs-exwm-xinitrc
 #+BEGIN_SRC nix
@@ -2271,7 +2271,7 @@ Company[fn:69] is a text completion framework for GNU/Emacs[fn:2]. The name stan
 epkgs.go-mode
 #+END_SRC
 
-Go Mode[fn:70] is a major mode for editing Golang[fn:18] source code in GNU/Emacs[fn:2].
+Go Mode[fn:70] is a major mode for editing Golang[fn:12] source code in GNU/Emacs[fn:2].
 
 #+NAME: emacs-golang-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2306,7 +2306,7 @@ Rustic[fn:69] is a fork of rust-mode that integrates well with the Language Serv
 epkgs.pretty-mode
 #+END_SRC
 
-The built in Python Mode[fn:71] has a nice feature set for working with Python[fn:24] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:68] server. These tools are included in the Development Shell[fn:17] for Python[fn:24].
+The built in Python Mode[fn:71] has a nice feature set for working with Python[fn:18] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:68] server. These tools are included in the Development Shell[fn:11] for Python[fn:18].
 
 #+NAME: emacs-python-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2472,33 +2472,33 @@ Doom Modeline[fn:77] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:10] https://github.com/t184256/nix-on-droid
 
-[fn:11] https://qemu.org
+[fn:11] https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html
 
-[fn:12] https://github.com/ch11ng/exwm
+[fn:12] https://golang.org
 
-[fn:13] https://evil.readthedocs.io/en/latest/overview.html
+[fn:13] https://rust-lang.org
 
-[fn:14] https://samsung.com/us/mobile/galaxy-s10/buy/
+[fn:14] https://nodejs.org
 
-[fn:15] https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[fn:15] https://grpc.io
 
-[fn:16] https://raspberrypi.org/products/raspberry-pi-400/
+[fn:16] https://iso.org/standard/74528.html
 
-[fn:17] https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html
+[fn:17] https://en.wikipedia.org/wiki/C++
 
-[fn:18] https://golang.org
+[fn:18] https://python.org
 
-[fn:19] https://rust-lang.org
+[fn:19] https://qemu.org
 
-[fn:20] https://nodejs.org
+[fn:20] https://github.com/ch11ng/exwm
 
-[fn:21] https://grpc.io
+[fn:21] https://evil.readthedocs.io/en/latest/overview.html
 
-[fn:22] https://iso.org/standard/74528.html
+[fn:22] https://samsung.com/us/mobile/galaxy-s10/buy/
 
-[fn:23] https://en.wikipedia.org/wiki/C++
+[fn:23] https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
 
-[fn:24] https://python.org
+[fn:24] https://raspberrypi.org/products/raspberry-pi-400/
 
 [fn:25] https://x.org/wiki/
 
