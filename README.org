@@ -2306,11 +2306,7 @@ Rustic[fn:69] is a fork of rust-mode that integrates well with the Language Serv
 epkgs.pretty-mode
 #+END_SRC
 
-<<<<<<< HEAD
-The built in Python Mode[fn:70] has a nice feature set for working with Python[fn:22] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:66] server. These tools are included in the Development Shell[fn:17] for Python[fn:22].
-=======
 The built in Python Mode[fn:71] has a nice feature set for working with Python[fn:24] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:68] server. These tools are included in the Development Shell[fn:17] for Python[fn:24].
->>>>>>> 851c6b81a77cb4098f8e85d80bfa1dc43186ee12
 
 #+NAME: emacs-python-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2327,22 +2323,14 @@ The built in Python Mode[fn:71] has a nice feature set for working with Python[f
 pkgs.plantuml
 #+END_SRC
 
-<<<<<<< HEAD
-PlantUML[fn:71] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:71] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
-=======
 PlantUML[fn:72] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:72] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
->>>>>>> 851c6b81a77cb4098f8e85d80bfa1dc43186ee12
 
 #+NAME: emacs-plantuml-package
 #+BEGIN_SRC nix
 epkgs.plantuml-mode
 #+END_SRC
 
-<<<<<<< HEAD
-PlantUML Mode[fn:72] is a major mode for editing PlantUML[fn:71] sources in GNU/Emacs[fn:2].
-=======
 PlantUML Mode[fn:73] is a major mode for editing PlantUML[fn:72] sources in GNU/Emacs[fn:2].
->>>>>>> 851c6b81a77cb4098f8e85d80bfa1dc43186ee12
 
 #+NAME: emacs-plantuml-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2364,11 +2352,7 @@ epkgs.ivy-posframe
 epkgs.ivy-prescient
 #+END_SRC
 
-<<<<<<< HEAD
-Ivy (Swiper)[fn:73] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
-=======
 Ivy (Swiper)[fn:74] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
->>>>>>> 851c6b81a77cb4098f8e85d80bfa1dc43186ee12
 
 #+NAME: emacs-swiper-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2409,11 +2393,7 @@ It's possible to control the frame opacity in GNU/Emacs[fn:2]. Unlike other tran
 pkgs.brightnessctl
 #+END_SRC
 
-<<<<<<< HEAD
-The Desktop Environment[fn:74] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
-=======
 The Desktop Environment[fn:75] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
->>>>>>> 851c6b81a77cb4098f8e85d80bfa1dc43186ee12
 
 #+NAME: emacs-desktop-package
 #+BEGIN_SRC nix
@@ -2436,11 +2416,7 @@ You can control the brightness, volume, take screenshots, and lock / unlock the 
 epkgs.doom-themes
 #+END_SRC
 
-<<<<<<< HEAD
-Doom Themes[fn:75] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
-=======
 Doom Themes[fn:76] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
->>>>>>> 851c6b81a77cb4098f8e85d80bfa1dc43186ee12
 
 #+NAME: emacs-doom-themes-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2464,11 +2440,7 @@ Doom Themes[fn:76] is a theme megapack for GNU/Emacs[fn:2], inspired by communit
 epkgs.doom-modeline
 #+END_SRC
 
-<<<<<<< HEAD
-Doom Modeline[fn:76] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
-=======
 Doom Modeline[fn:77] is a fancy and fast modeline inspired by minimalism design. It's integrated into Centaur Emacs, Doom Emacs, and Spacemacs.
->>>>>>> 851c6b81a77cb4098f8e85d80bfa1dc43186ee12
 
 #+NAME: emacs-doom-modeline-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2620,11 +2592,6 @@ Doom Modeline[fn:77] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:70] https://emacswiki.org/emacs/GoMode
 
-<<<<<<< HEAD
-[fn:69] https://github.com/brotzeit/rustic
-
-[fn:70] https://emacswiki.org/emacs/PythonProgrammingInEmacs
-
 [fn:71] https://plantuml.com
 
 [fn:72] https://github.com/skuro/plantuml-mode
@@ -2639,19 +2606,6 @@ Doom Modeline[fn:77] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:77] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
 =======
-[fn:71] https://emacswiki.org/emacs/PythonProgrammingInEmacs
-
-[fn:72] https://plantuml.com
-
-[fn:73] https://github.com/skuro/plantuml-mode
-
-[fn:74] https://github.com/abo-abo/swiper
-
-[fn:75] https://github.com/DamienCassou/desktop-environment
-
-[fn:76] https://github.com/hlissner/emacs-doom-themes
-
-[fn:77] https://github.com/seagle0128/doom-modeline
 
 [fn:78] https://laptopmedia.com/laptop-specs/acer-nitro-5-an515-53-2
 >>>>>>> 851c6b81a77cb4098f8e85d80bfa1dc43186ee12
