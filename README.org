@@ -2645,7 +2645,7 @@ Doom Modeline[fn:78] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:56] https://orgmode.org/worg/org-contrib/org-drill.html
 
-[fn:57] https://marcinkoziej/org-pomodoro
+[fn:57] https://github.com/marcinkoziej/org-pomodoro
 
 [fn:58] https://en.wikipedia.org/wiki/Pomodoro_Technique
 
