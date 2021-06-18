@@ -365,6 +365,7 @@ nixos = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/nixos
     <<module-x11>>
+    <<module-xdg>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-home-manager>>
@@ -470,6 +471,7 @@ acernitro = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/acernitro
     <<module-x11>>
+    <<module-xdg>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-nvidia>>
