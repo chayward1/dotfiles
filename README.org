@@ -365,6 +365,7 @@ nixos = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/nixos
     <<module-x11>>
+    <<module-xdg>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-home-manager>>
@@ -470,6 +471,7 @@ acernitro = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/acernitro
     <<module-x11>>
+    <<module-xdg>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-nvidia>>
@@ -1605,6 +1607,18 @@ ERC[fn:43] is a powerful, modular, and extensible IRC client for GNU/Emacs[fn:2]
 (setq erc-autojoin-channels-alist '(("irc.libera.chat" "#emacs" "#nixos" "#systemcrafters"))
       erc-track-exclude-types '("JOIN" "NICK" "QUIT" "MODE")
       erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+
+;; Configure the `erc-fill-column' to use the full buffer.
+(make-variable-buffer-local 'erc-fill-column)
+(add-hook 'window-configuration-change-hook
+  '(lambda ()
+     (save-excursion
+       (walk-windows
+         (lambda (w)
+           (let ((buffer (window-buffer w)))
+             (set-buffer buffer)
+             (when (eq major-mode 'erc-mode)
+               (setq erc-fill-column (- (window-width w) 2)))))))))
 
 ;; Connect to IRC via `erc'.
 (defun dotfiles/erc-connect ()
