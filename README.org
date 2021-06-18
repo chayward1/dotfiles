@@ -365,7 +365,6 @@ nixos = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/nixos
     <<module-x11>>
-    <<module-xdg>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-home-manager>>
@@ -471,7 +470,6 @@ acernitro = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/acernitro
     <<module-x11>>
-    <<module-xdg>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-nvidia>>
@@ -787,28 +785,6 @@ X11, or X[fn:25] is the generic name for the X Window System Display Server. All
     iosevka
     emacs-all-the-icons-fonts
   ];
-}
-#+END_SRC
-
-** XDG
-
-#+NAME: module-xdg
-#+BEGIN_SRC nix
-./modules/xdg.nix
-#+END_SRC
-
-The XDG Base Directory Specification[fn:27] defines where files should be by located by various programs and services:
-
-#+BEGIN_SRC nix :noweb yes :tangle modules/xdg.nix
-# <<file-warning>>
-{ config, pkgs, ... }:
-
-{
-  environment.variables = {
-    XDG_CACHE_HOME = "~/.cache/"
-    XDG_CONIG_DIR = "~/.config/"
-    XDG_DATA_HOME = "~/.local/share/"
-  };
 }
 #+END_SRC
 

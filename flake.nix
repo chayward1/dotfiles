@@ -21,7 +21,6 @@
         modules = [
           ./hosts/nixos
           ./modules/x11.nix
-          ./modules/xdg.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           inputs.home-manager.nixosModules.home-manager {
@@ -45,7 +44,6 @@
         modules = [
           ./hosts/acernitro
           ./modules/x11.nix
-          ./modules/xdg.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           ./modules/nvidia.nix
