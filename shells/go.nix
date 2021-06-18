@@ -6,7 +6,6 @@ mkShell {
   buildInputs = [
     go
     gopls
-    protoc-gen-go-grpc
   ];
   shellHook = ''
     export GO111MODULE=on
