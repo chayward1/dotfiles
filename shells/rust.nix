@@ -1,5 +1,5 @@
 # This file is controlled by /etc/dotfiles/README.org
-{ pkgs ? import <nixpgs> { } }:
+{ pkgs ? import <nixpkgs> { } }:
 
 with pkgs;
 mkShell {

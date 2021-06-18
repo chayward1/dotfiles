@@ -229,7 +229,7 @@ Import this shell with ~nix-shell /etc/dotfiles/shells/rust.nix~.
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/rust.nix
 # <<file-warning>>
-{ pkgs ? import <nixpgs> { } }:
+{ pkgs ? import <nixpkgs> { } }:
 
 with pkgs;
 mkShell {
