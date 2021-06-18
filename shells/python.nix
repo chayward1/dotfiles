@@ -4,11 +4,11 @@
 with pkgs;
 mkShell {
   buildInputs = [
-    python39Packages.pip
-    python39Packages.pip-tools
-    python39Packages.pyls-mypy
-    python39Packages.pyls-isort
-    python39Packages.pyls-black
+    python38Packages.pip
+    python38Packages.pip-tools
+    python38Packages.pyls-mypy
+    python38Packages.pyls-isort
+    python38Packages.pyls-black
   ];
   shellHook = ''
   '';
