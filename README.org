@@ -2588,7 +2588,7 @@ Doom Modeline[fn:79] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:16] https://iso.org/standard/74528.html
 
-[fn:17] https://en.wikipedia.org/wiki/C++
+[fn:17] https://en.wikipedia.org/wiki/C++/
 
 [fn:18] https://python.org
 
