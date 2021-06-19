@@ -9,6 +9,16 @@
   networking.firewall.enable = false;
   networking.interfaces.ens3.useDHCP = true;
 
+  networking.hosts = {
+    "192.168.3.105" = [ "gamingpc" ];
+    # "" = [ "acernitro" ];
+    "192.168.3.182" = [ "raspberry" ];
+    # "" = [ "homecloud" ];
+    # "" = [ "zero-one" ];
+    # "" = [ "zero-two" ];
+    # "" = [ "android" ];
+  };
+
   programs.mtr.enable = true;
   programs.fish.enable = true;
   programs.gnupg.agent.enable = true;

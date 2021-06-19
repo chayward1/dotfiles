@@ -347,7 +347,6 @@ NixOS[fn:4] typically stores the current machine configuration in =/etc/nixos/co
 
 #+NAME: host-config-wifi
 #+BEGIN_SRC nix
-# Pre-configured wireless networks.
 networking.wireless.networks.MyWiFi_5C1870.pskRaw =
   "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
 #+END_SRC
@@ -356,7 +355,6 @@ It's helpful to add the machine hostnames to the networking configuration, so I 
 
 #+NAME: host-config-home
 #+BEGIN_SRC nix
-# Pre-configured networking hosts.
 networking.hosts = {
   "192.168.3.105" = [ "gamingpc" ];
   # "" = [ "acernitro" ];
@@ -416,6 +414,8 @@ This is a basic default configuration that specified the indended default config
   networking.useDHCP = false;
   networking.firewall.enable = false;
   networking.interfaces.ens3.useDHCP = true;
+
+  <<host-config-home>>
 
   programs.mtr.enable = true;
   programs.fish.enable = true;
@@ -535,6 +535,7 @@ This configuration is nearly identical to the default, except for a few key diff
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
   <<host-config-wifi>>
+  <<host-config-home>>
 
   services.xserver.dpi = 96;
   services.openssh.enable = true;
@@ -653,7 +654,7 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
   networking.interfaces.eth0.useDHCP = true;
   networking.interfaces.wlan0.useDHCP = true;
 
-  <<host-config-wifi>>
+  <<host-config-home>>
 
   environment.systemPackages = [
     pkgs.libraspberrypi
