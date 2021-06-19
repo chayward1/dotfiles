@@ -700,7 +700,7 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
   networking.wireless.enable = true;
   networking.wireless.userControlled.enable = true;
 
-  <<host-wifi-config>>
+  <<host-config-wifi>>
 
   environment.systemPackages = [
     pkgs.libraspberrypi
@@ -725,39 +725,39 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 { config, pkgs, lib, inputs, ... }:
 
 {
-  imports = [
-    inputs.nixos-hardware.nixosModules.raspberry-pi-4
-  ];
+  # imports = [
+  #   inputs.nixos-hardware.nixosModules.raspberry-pi-4
+  # ];
 
-  boot.kernelPackages = pkgs.linuxPackages_rpi4;
+  # boot.kernelPackages = pkgs.linuxPackages_rpi4;
   boot.tmpOnTmpfs = true;
   boot.initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
-  boot.kernelParams = [
-    "8250.nr_uarts=1"
-    "console=ttyAMA0,115200"
-    "console=tty1"
-    "cma=128M"
-  ];
+  # boot.kernelParams = [
+  #   "8250.nr_uarts=1"
+  #   "console=ttyAMA0,115200"
+  #   "console=tty1"
+  #   "cma=128M"
+  # ];
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
-  boot.loader.raspberryPi = {
-    enable = true;
-    version = 4;
-    firmwareConfig = ''
-      dtparam=sd_poll_once=on
-      dtparam=audio=on
-    '';
-  };
+  # boot.loader.raspberryPi = {
+  #   enable = true;
+  #   version = 4;
+  #   firmwareConfig = ''
+  #     dtparam=sd_poll_once=on
+  #     dtparam=audio=on
+  #   '';
+  # };
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
   hardware.enableRedistributableFirmware = true;
-  hardware.raspberry-pi."4".fkms-3d.enable = true;
+  # hardware.raspberry-pi."4".fkms-3d.enable = true;
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-label/NIXOS_SD";
+      device = "/dev/disk/by-uuid/444444444-4444-4444-8888-888888888888";
       fsType = "ext4";
       options = [ "noatime" ];
     };
