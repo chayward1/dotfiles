@@ -604,6 +604,7 @@ raspberry = nixpkgs.lib.nixosSystem {
           <<module-gtk>>
         ];
       };
+    };
   ];
 };
 #+END_SRC
