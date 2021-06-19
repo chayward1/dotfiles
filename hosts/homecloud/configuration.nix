@@ -30,7 +30,11 @@
     pkgs.raspberrypi-eeprom
   ];
 
+  programs.fish.enable = true;
+  programs.mtr.enable = true;
+
   users.users.chris = {
+    shell = pkgs.fish;
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
   };
