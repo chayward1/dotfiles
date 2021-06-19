@@ -550,8 +550,8 @@ This configuration is nearly identical to the default, except for a few key diff
 
   users.users.chris = {
     shell = pkgs.fish;
-    isnormaluser = true;
-    extragroups = [ "wheel" ];
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
   };
 }
 #+END_SRC

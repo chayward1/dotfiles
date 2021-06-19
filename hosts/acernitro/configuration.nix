@@ -37,7 +37,7 @@
 
   users.users.chris = {
     shell = pkgs.fish;
-    isnormaluser = true;
-    extragroups = [ "wheel" ];
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
   };
 }
