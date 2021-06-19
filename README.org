@@ -381,6 +381,7 @@ nixos = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/nixos
     <<module-x11>>
+    <<module-ssh>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-home-manager>>
@@ -488,6 +489,7 @@ acernitro = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/acernitro
     <<module-x11>>
+    <<module-ssh>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-nvidia>>
@@ -612,6 +614,7 @@ raspberry = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/raspberry
     <<module-x11>>
+    <<module-ssh>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-home-manager>>
@@ -726,6 +729,7 @@ homecloud = nixpkgs.lib.nixosSystem {
   specialArgs = { inherit inputs; };
   modules = [
     ./hosts/homecloud
+    <<module-ssh>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-docker>>
@@ -775,6 +779,7 @@ zero-one = nixpkgs.lib.nixosSystem {
   specialArgs = { inherit inputs; };
   modules = [
     ./hosts/zero-one
+    ./modules/ssh.nix
     ./modules/flakes.nix
     ./modules/cachix.nix
   ];
@@ -789,7 +794,8 @@ zero-two = nixpkgs.lib.nixosSystem {
   system = "armv7l-linux";
   specialArgs = { inherit inputs; };
   modules = [
-    ./hosts/zero-one
+    ./hosts/zero-two
+    ./modules/ssh.nix
     ./modules/flakes.nix
     ./modules/cachix.nix
   ];

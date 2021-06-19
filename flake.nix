@@ -21,6 +21,7 @@
         modules = [
           ./hosts/nixos
           ./modules/x11.nix
+          ./modules/ssh.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           inputs.home-manager.nixosModules.home-manager {
@@ -44,6 +45,7 @@
         modules = [
           ./hosts/acernitro
           ./modules/x11.nix
+          ./modules/ssh.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           ./modules/nvidia.nix
@@ -71,6 +73,7 @@
         modules = [
           ./hosts/raspberry
           ./modules/x11.nix
+          ./modules/ssh.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           inputs.home-manager.nixosModules.home-manager {
@@ -93,6 +96,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/homecloud
+          ./modules/ssh.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           ./modules/docker.nix
@@ -104,6 +108,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/zero-one
+          ./modules/ssh.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
         ];
@@ -112,7 +117,8 @@
         system = "armv7l-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/zero-one
+          ./hosts/zero-two
+          ./modules/ssh.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
         ];
