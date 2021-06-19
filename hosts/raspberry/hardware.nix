@@ -6,7 +6,7 @@
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
-  # boot.kernelPackages = pkgs.linuxPackages_rpi4;
+  boot.kernelPackages = pkgs.linuxPackages_rpi4;
   boot.tmpOnTmpfs = true;
   boot.initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
   boot.kernelParams = [
