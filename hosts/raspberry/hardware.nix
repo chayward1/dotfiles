@@ -18,14 +18,14 @@
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
-  # boot.loader.raspberryPi = {
-  #   enable = true;
-  #   version = 4;
-  #   firmwareConfig = ''
-  #     dtparam=sd_poll_once=on
-  #     dtparam=audio=on
-  #   '';
-  # };
+  boot.loader.raspberryPi = {
+    enable = true;
+    version = 4;
+    firmwareConfig = ''
+      dtparam=sd_poll_once=on
+      dtparam=audio=on
+    '';
+  };
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
