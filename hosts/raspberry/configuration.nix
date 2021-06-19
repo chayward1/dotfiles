@@ -8,9 +8,15 @@
   networking.interfaces.eth0.useDHCP = true;
   networking.interfaces.wlan0.useDHCP = true;
 
-  # Pre-configured wireless networks.
-  networking.wireless.networks.MyWiFi_5C1870.pskRaw =
-    "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
+  networking.hosts = {
+    "192.168.3.105" = [ "gamingpc" ];
+    # "" = [ "acernitro" ];
+    "192.168.3.182" = [ "raspberry" ];
+    # "" = [ "homecloud" ];
+    # "" = [ "zero-one" ];
+    # "" = [ "zero-two" ];
+    # "" = [ "android" ];
+  };
 
   environment.systemPackages = [
     pkgs.libraspberrypi
