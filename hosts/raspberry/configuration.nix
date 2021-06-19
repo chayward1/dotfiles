@@ -6,6 +6,8 @@
   networking.firewall.enable = false;
   networking.wireless.enable = true;
   networking.wireless.userControlled.enable = true;
+  networking.interfaces.eth0.useDHCP = true;
+  networking.interfaces.wlan0.useDHCP = true;
 
   # Pre-configured wireless networks.
   networking.wireless.networks.MyWiFi_5C1870.pskRaw =
