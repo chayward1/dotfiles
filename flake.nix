@@ -99,8 +99,6 @@
           ./modules/ssh.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
-          ./modules/docker.nix
-          ./modules/jellyfin.nix
         ];
       };
       zero-one = nixpkgs.lib.nixosSystem {

@@ -361,7 +361,7 @@ networking.hosts = {
   "192.168.3.163" = [ "acernitro_" ];
   "192.168.3.182" = [ "raspberry" ];
   "192.168.3.123" = [ "raspberry_" ];
-  # "" = [ "homecloud" ];
+  "192.168.3.183" = [ "homecloud" ];
   # "" = [ "homecloud_" ];
   # "" = [ "zero-one" ];
   # "" = [ "zero-two" ];
@@ -543,7 +543,6 @@ This configuration is nearly identical to the default, except for a few key diff
   <<host-config-home>>
 
   services.xserver.dpi = 96;
-  services.openssh.enable = true;
   services.printing.enable = true;
 
   programs.mtr.enable = true;
@@ -643,6 +642,8 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 { config, pkgs, ... }:
 
 {
+  time.timeZone = "America/Toronto";
+
   networking.hostName = "raspberry";
   networking.firewall.enable = false;
   networking.networkmanager.enable = true;
@@ -737,8 +738,6 @@ homecloud = nixpkgs.lib.nixosSystem {
     <<module-ssh>>
     <<module-flakes>>
     <<module-cachix>>
-    <<module-docker>>
-    <<module-jellyfin>>
   ];
 };
 #+END_SRC
@@ -757,19 +756,81 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 }
 #+END_SRC
 
-*** TODO Configuration
+*** Configuration
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/homecloud/configuration.nix
 # <<file-warning>>
-{ # TODO
+{ config, pkgs, ... }:
+
+{
+  time.timeZone = "America/Toronto";
+
+  networking.hostName = "homecloud";
+  networking.firewall.enable = false;
+  networking.networkmanager.enable = true;
+  networking.interfaces.eth0.useDHCP = true;
+  networking.interfaces.wlan0.useDHCP = true;
+
+  <<host-config-wifi>>
+  <<host-config-home>>
+
+  environment.systemPackages = [
+    pkgs.libraspberrypi
+    pkgs.raspberrypi-eeprom
+  ];
+
+  users.users.chris = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" ];
+  };
 }
 #+END_SRC
 
-*** TODO Hardware
+*** Hardware
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/homecloud/hardware.nix
 # <<file-warning>>
-{ # TODO
+{ config, pkgs, lib, inputs, ... }:
+
+{
+  # imports = [
+  #   inputs.nixos-hardware.nixosModules.raspberry-pi-4
+  # ];
+
+  # boot.kernelPackages = pkgs.linuxPackages_rpi4;
+  boot.tmpOnTmpfs = true;
+  boot.initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
+  boot.kernelParams = [
+    "8250.nr_uarts=1"
+    "console=ttyAMA0,115200"
+    "console=tty1"
+    "cma=128M"
+  ];
+
+  boot.loader.grub.enable = false;
+  boot.loader.generic-extlinux-compatible.enable = true;
+  boot.loader.raspberryPi = {
+    enable = true;
+    version = 4;
+    firmwareConfig = ''
+      hdmi_drive=2
+      hdmi_force_hotplug=1
+      dtparam=sd_poll_once=on
+      dtparam=audio=on
+    '';
+  };
+
+  # hardware.raspberry-pi."4".fkms-3d.enable = true;
+
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
+      fsType = "ext4";
+      options = [ "noatime" ];
+    };
+  };
+
+  powerManagement.cpuFreqGovernor = "ondemand";
 }
 #+END_SRC
 

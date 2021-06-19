@@ -15,7 +15,7 @@
     "192.168.3.163" = [ "acernitro_" ];
     "192.168.3.182" = [ "raspberry" ];
     "192.168.3.123" = [ "raspberry_" ];
-    # "" = [ "homecloud" ];
+    "192.168.3.183" = [ "homecloud" ];
     # "" = [ "homecloud_" ];
     # "" = [ "zero-one" ];
     # "" = [ "zero-two" ];
