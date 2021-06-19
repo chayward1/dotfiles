@@ -22,13 +22,12 @@
     enable = true;
     version = 4;
     firmwareConfig = ''
+      hdmi_drive=2
+      hdmi_force_hotplug=1
       dtparam=sd_poll_once=on
       dtparam=audio=on
     '';
   };
-
-  # FIXME: Import hardware overlay.
-  services.xserver.videoDrivers = [ "fbdev"];
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
