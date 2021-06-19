@@ -6,15 +6,15 @@
   #   inputs.nixos-hardware.nixosModules.raspberry-pi-4
   # ];
 
-  boot.kernelPackages = pkgs.linuxPackages_rpi4;
+  # boot.kernelPackages = pkgs.linuxPackages_rpi4;
   boot.tmpOnTmpfs = true;
   boot.initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
-  # boot.kernelParams = [
-  #   "8250.nr_uarts=1"
-  #   "console=ttyAMA0,115200"
-  #   "console=tty1"
-  #   "cma=128M"
-  # ];
+  boot.kernelParams = [
+    "8250.nr_uarts=1"
+    "console=ttyAMA0,115200"
+    "console=tty1"
+    "cma=128M"
+  ];
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;

@@ -722,6 +722,8 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 
 *** Hardware
 
+This section is very much a work in progress. I have struggled to get this device to boot according to the NixOS documentation / wiki on the subject. It seems that when running with the vendored kernel there's an issue booting from the SD card. Nevertheless, the issue is avoided by using the standard kernel.
+
 #+BEGIN_SRC nix :noweb yes :tangle hosts/raspberry/hardware.nix
 # <<file-warning>>
 { config, pkgs, lib, inputs, ... }:
@@ -734,12 +736,12 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
   # boot.kernelPackages = pkgs.linuxPackages_rpi4;
   boot.tmpOnTmpfs = true;
   boot.initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
-  # boot.kernelParams = [
-  #   "8250.nr_uarts=1"
-  #   "console=ttyAMA0,115200"
-  #   "console=tty1"
-  #   "cma=128M"
-  # ];
+  boot.kernelParams = [
+    "8250.nr_uarts=1"
+    "console=ttyAMA0,115200"
+    "console=tty1"
+    "cma=128M"
+  ];
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
