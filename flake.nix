@@ -82,9 +82,22 @@
                 ./modules/gpg.nix
                 ./modules/vim.nix
                 ./modules/gtk.nix
+                ./modules/emacs.nix
               ];
             };
           }
+          # inputs.home-manager.nixosModules.home-manager {
+          #   home-manager.useGlobalPkgs = true;
+          #   home-manager.useUserPackages = true;
+          #   home-manager.users.chris = {
+          #     imports = [
+          #       ./modules/git.nix
+          #       ./modules/gpg.nix
+          #       ./modules/vim.nix
+          #       ./modules/gtk.nix
+          #     ];
+          #   };
+          # }
         ];
       };
       homecloud = nixpkgs.lib.nixosSystem {

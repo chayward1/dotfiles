@@ -611,18 +611,19 @@ raspberry = nixpkgs.lib.nixosSystem {
     <<module-x11>>
     <<module-flakes>>
     <<module-cachix>>
-    inputs.home-manager.nixosModules.home-manager {
-      home-manager.useGlobalPkgs = true;
-      home-manager.useUserPackages = true;
-      home-manager.users.chris = {
-        imports = [
-          <<module-git>>
-          <<module-gpg>>
-          <<module-vim>>
-          <<module-gtk>>
-        ];
-      };
-    }
+    <<module-home-manager>>
+    # inputs.home-manager.nixosModules.home-manager {
+    #   home-manager.useGlobalPkgs = true;
+    #   home-manager.useUserPackages = true;
+    #   home-manager.users.chris = {
+    #     imports = [
+    #       <<module-git>>
+    #       <<module-gpg>>
+    #       <<module-vim>>
+    #       <<module-gtk>>
+    #     ];
+    #   };
+    # }
   ];
 };
 #+END_SRC
