@@ -23,7 +23,6 @@
   };
 
   services.picom.enable = true;
-  services.openssh.enable = true;
   services.printing.enable = true;
 
   fonts.fonts = with pkgs; [
