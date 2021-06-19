@@ -97,7 +97,7 @@
                 ./modules/gtk.nix
               ];
             };
-          };
+          }
         ];
       };
       zero-one = nixpkgs.lib.nixosSystem {
