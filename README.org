@@ -657,7 +657,7 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 }
 #+END_SRC
 
-** TODO Raspberry
+** Raspberry
 
 The Raspberry Pi 400[fn:24] is your complete personal computer, built into a compact keyboard. It features a quad-core, 64-bit processor, 4GB of RAM, wireless networking, dual-display output, 4k video playback, as well as a 40-pin GPIO header. It's the most powerful Raspberry Pi computer yet.
 
