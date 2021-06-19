@@ -27,6 +27,9 @@
     '';
   };
 
+  # FIXME: Import hardware overlay.
+  services.xserver.videoDrivers = [ "fbdev"];
+
   sound.enable = true;
   hardware.pulseaudio.enable = true;
   hardware.enableRedistributableFirmware = true;

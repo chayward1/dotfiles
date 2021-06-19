@@ -701,6 +701,9 @@ This section is very much a work in progress. I have struggled to get this devic
     '';
   };
 
+  # FIXME: Import hardware overlay.
+  services.xserver.videoDrivers = [ "fbdev"];
+
   sound.enable = true;
   hardware.pulseaudio.enable = true;
   hardware.enableRedistributableFirmware = true;
@@ -899,7 +902,7 @@ Apply some configuration to the default settings:
 {
   services.openssh = {
     enable = true;
-    permitRootLogin = false;
+    permitRootLogin = "no";
     passwordAuthentication = false;
   };
 }
