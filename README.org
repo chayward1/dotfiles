@@ -649,13 +649,9 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 {
   networking.hostName = "raspberry";
   networking.firewall.enable = false;
-  networking.wireless.enable = true;
-  networking.wireless.userControlled.enable = true;
   networking.networkmanager.enable = true;
   networking.interfaces.eth0.useDHCP = true;
   networking.interfaces.wlan0.useDHCP = true;
-
-  <<host-config-wifi>>
 
   environment.systemPackages = [
     pkgs.libraspberrypi
