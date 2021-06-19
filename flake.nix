@@ -84,6 +84,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/raspberry
+          ./modules/x11.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           inputs.home-manager.nixosModules.home-manager {

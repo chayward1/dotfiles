@@ -591,6 +591,7 @@ raspberry = nixpkgs.lib.nixosSystem {
   specialArgs = { inherit inputs; };
   modules = [
     ./hosts/raspberry
+    <<module-x11>>
     <<module-flakes>>
     <<module-cachix>>
     inputs.home-manager.nixosModules.home-manager {
