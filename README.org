@@ -724,7 +724,7 @@ This section is very much a work in progress. I have struggled to get this devic
 }
 #+END_SRC
 
-** TODO Homecloud
+** Homecloud
 
 The Raspberry Pi Model B-8GB[fn:23] is the latest product in the popular Raspberry Pi range of computers. It offers groundbreaking increases in processor speed, multimedia performance, memory, and connectivity compared to the prior generation. On NixOS[fn:4], the Raspberry Pi family is /only/ supported on the =AArch64= platform, although there is community support for =armv6l= and =armv7l=.
 
