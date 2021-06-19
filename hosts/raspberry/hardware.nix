@@ -2,9 +2,9 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  # imports = [
-  #   inputs.nixos-hardware.nixosModules.raspberry-pi-4
-  # ];
+  imports = [
+    inputs.nixos-hardware.nixosModules.raspberry-pi-4
+  ];
 
   # boot.kernelPackages = pkgs.linuxPackages_rpi4;
   boot.tmpOnTmpfs = true;
@@ -32,7 +32,7 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
   hardware.enableRedistributableFirmware = true;
-  # hardware.raspberry-pi."4".fkms-3d.enable = true;
+  hardware.raspberry-pi."4".fkms-3d.enable = true;
 
   fileSystems = {
     "/" = {
