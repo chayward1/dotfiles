@@ -6,6 +6,7 @@
   networking.firewall.enable = false;
   networking.wireless.enable = true;
   networking.wireless.userControlled.enable = true;
+  networking.networkmanager.enable = true;
   networking.interfaces.eth0.useDHCP = true;
   networking.interfaces.wlan0.useDHCP = true;
 
