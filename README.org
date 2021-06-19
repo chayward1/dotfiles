@@ -351,15 +351,18 @@ networking.wireless.networks.MyWiFi_5C1870.pskRaw =
   "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
 #+END_SRC
 
-It's helpful to add the machine hostnames to the networking configuration, so I can refer to another host across the network by name:
+It's helpful to add the machine hostnames to the networking configuration, so I can refer to another host across the network by name. Some devices that can have more than one IP (WIFI / Ethernet) will have the wireless hostname suffixed:
 
 #+NAME: host-config-home
 #+BEGIN_SRC nix
 networking.hosts = {
   "192.168.3.105" = [ "gamingpc" ];
   # "" = [ "acernitro" ];
+  # "" = [ "acernitro_" ];
   "192.168.3.182" = [ "raspberry" ];
+  "192.168.3.123" = [ "raspberry_" ];
   # "" = [ "homecloud" ];
+  # "" = [ "homecloud_" ];
   # "" = [ "zero-one" ];
   # "" = [ "zero-two" ];
   # "" = [ "android" ];
@@ -612,18 +615,6 @@ raspberry = nixpkgs.lib.nixosSystem {
     <<module-flakes>>
     <<module-cachix>>
     <<module-home-manager>>
-    # inputs.home-manager.nixosModules.home-manager {
-    #   home-manager.useGlobalPkgs = true;
-    #   home-manager.useUserPackages = true;
-    #   home-manager.users.chris = {
-    #     imports = [
-    #       <<module-git>>
-    #       <<module-gpg>>
-    #       <<module-vim>>
-    #       <<module-gtk>>
-    #     ];
-    #   };
-    # }
   ];
 };
 #+END_SRC
