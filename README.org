@@ -107,11 +107,11 @@ NixOS[fn:4] is a purely functional Linux distribution built on top of the Nix[fn
     nixosConfigurations = {
       <<host-default>>
       <<host-acernitro>>
-      <<host-android>>
-      <<host-homecloud>>
       <<host-raspberry>>
+      <<host-homecloud>>
       <<host-zero-one>>
       <<host-zero-two>>
+      <<host-android>>
     };
   };
 }
@@ -707,37 +707,9 @@ This section is very much a work in progress. I have struggled to get this devic
 }
 #+END_SRC
 
-** TODO Android
-
-This is my Samsung Galaxy S10+[fn:23] running Nix On Droid[fn:10] with the experimental support for Flakes being used to manage the configuration.
-
-#+NAME: host-android
-#+BEGIN_SRC nix
-android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
-  config = ./hosts/android/nix-on-droid.nix;
-}).activationPackage;
-#+END_SRC
-
-Build the activation package with ~nix build .#android --impure~, and activate it with =result/activate=.
-
-#+BEGIN_SRC nix :noweb yes :tangle hosts/android/nix-on-droid.nix
-# <<file-warning>>
-{ pkgs, ... }:
-
-{
-  environment.packages = [
-    pkgs.git
-    pkgs.vim
-    pkgs.pass
-    pkgs.gnupg
-    pkgs.openssh
-  ];
-}
-#+END_SRC
-
 ** TODO Homecloud
 
-The Raspberry Pi Model B-8GB[fn:24] is the latest product in the popular Raspberry Pi range of computers. It offers groundbreaking increases in processor speed, multimedia performance, memory, and connectivity compared to the prior generation. On NixOS[fn:4], the Raspberry Pi family is /only/ supported on the =AArch64= platform, although there is community support for =armv6l= and =armv7l=.
+The Raspberry Pi Model B-8GB[fn:23] is the latest product in the popular Raspberry Pi range of computers. It offers groundbreaking increases in processor speed, multimedia performance, memory, and connectivity compared to the prior generation. On NixOS[fn:4], the Raspberry Pi family is /only/ supported on the =AArch64= platform, although there is community support for =armv6l= and =armv7l=.
 
 #+NAME: host-homecloud
 #+BEGIN_SRC nix :noweb yes
@@ -814,6 +786,34 @@ zero-two = nixpkgs.lib.nixosSystem {
     ./modules/cachix.nix
   ];
 };
+#+END_SRC
+
+** TODO Android
+
+This is my Samsung Galaxy S10+[fn:24] running Nix On Droid[fn:10] with the experimental support for Flakes being used to manage the configuration.
+
+#+NAME: host-android
+#+BEGIN_SRC nix
+android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
+  config = ./hosts/android/nix-on-droid.nix;
+}).activationPackage;
+#+END_SRC
+
+Build the activation package with ~nix build .#android --impure~, and activate it with =result/activate=.
+
+#+BEGIN_SRC nix :noweb yes :tangle hosts/android/nix-on-droid.nix
+# <<file-warning>>
+{ pkgs, ... }:
+
+{
+  environment.packages = [
+    pkgs.git
+    pkgs.vim
+    pkgs.pass
+    pkgs.gnupg
+    pkgs.openssh
+  ];
+}
 #+END_SRC
 
 * Module Definitions
@@ -2678,9 +2678,9 @@ Doom Modeline[fn:79] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:22] https://raspberrypi.org/products/raspberry-pi-400/
 
-[fn:23] https://samsung.com/us/mobile/galaxy-s10/buy/
+[fn:23] https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
 
-[fn:24] https://www.raspberrypi.org/products/raspberry-pi-4-model-b/
+[fn:24] https://samsung.com/us/mobile/galaxy-s10/buy/
 
 [fn:25] https://x.org/wiki/
 

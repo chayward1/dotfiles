@@ -65,20 +65,6 @@
           }
         ];
       };
-      android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
-        config = ./hosts/android/nix-on-droid.nix;
-      }).activationPackage;
-      homecloud = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/homecloud
-          ./modules/flakes.nix
-          ./modules/cachix.nix
-          ./modules/docker.nix
-          ./modules/jellyfin.nix
-        ];
-      };
       raspberry = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         specialArgs = { inherit inputs; };
@@ -101,6 +87,17 @@
           }
         ];
       };
+      homecloud = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/homecloud
+          ./modules/flakes.nix
+          ./modules/cachix.nix
+          ./modules/docker.nix
+          ./modules/jellyfin.nix
+        ];
+      };
       zero-one = nixpkgs.lib.nixosSystem {
         system = "armv7l-linux";
         specialArgs = { inherit inputs; };
@@ -119,6 +116,9 @@
           ./modules/cachix.nix
         ];
       };
+      android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
+        config = ./hosts/android/nix-on-droid.nix;
+      }).activationPackage;
     };
   };
 }
