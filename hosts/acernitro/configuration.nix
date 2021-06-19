@@ -2,9 +2,6 @@
 { config, pkgs, inputs, ... }:
 
 {
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   time.timeZone = "America/Toronto";
 
   networking.hostName = "acernitro";
@@ -19,6 +16,7 @@
   networking.wireless.networks.MyWiFi_5C1870.pskRaw =
     "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
 
+  services.xserver.dpi = 96;
   services.openssh.enable = true;
   services.printing.enable = true;
 
@@ -28,7 +26,7 @@
 
   users.users.chris = {
     shell = pkgs.fish;
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    isnormaluser = true;
+    extragroups = [ "wheel" ];
   };
 }
