@@ -352,6 +352,22 @@ networking.wireless.networks.MyWiFi_5C1870.pskRaw =
   "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
 #+END_SRC
 
+It's helpful to add the machine hostnames to the networking configuration, so I can refer to another host across the network by name:
+
+#+NAME: host-config-home
+#+BEGIN_SRC nix
+# Pre-configured networking hosts.
+networking.hosts = {
+  "192.168.3.105" = [ "gamingpc" ];
+  # "" = [ "acernitro" ];
+  "192.168.3.182" = [ "raspberry" ];
+  # "" = [ "homecloud" ];
+  # "" = [ "zero-one" ];
+  # "" = [ "zero-two" ];
+  # "" = [ "android" ];
+};
+#+END_SRC
+
 ** Default
 
 The default host, built using QEMU[fn:19], a free and open-source emulator that can perform hardware virtualization. It features a lightweight system optimized for development, running GNU/Emacs[fn:2] + EXWM[fn:20] as the graphical environment.
@@ -859,7 +875,7 @@ X11, or X[fn:25] is the generic name for the X Window System Display Server. All
   services.printing.enable = true;
 
   fonts.fonts = with pkgs; [
-    iosevka
+    iosevka-bin
     emacs-all-the-icons-fonts
   ];
 }

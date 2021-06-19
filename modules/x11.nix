@@ -27,7 +27,7 @@
   services.printing.enable = true;
 
   fonts.fonts = with pkgs; [
-    iosevka
+    iosevka-bin
     emacs-all-the-icons-fonts
   ];
 }
