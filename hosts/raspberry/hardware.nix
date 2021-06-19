@@ -3,7 +3,7 @@
 
 {
   imports = [
-    inputs.nixos-hardware.nixosModules.raspberry-pi.4
+    inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_rpi4;
