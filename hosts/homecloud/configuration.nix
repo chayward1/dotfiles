@@ -14,7 +14,7 @@
     "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
   networking.hosts = {
     "192.168.3.105" = [ "gamingpc" ];
-    # "" = [ "acernitro" ];
+    "192.168.3.136" = [ "acernitro" ];
     "192.168.3.163" = [ "acernitro_" ];
     "192.168.3.182" = [ "raspberry" ];
     "192.168.3.123" = [ "raspberry_" ];
