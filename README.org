@@ -543,6 +543,7 @@ This configuration is nearly identical to the default, except for a few key diff
   <<host-config-home>>
 
   services.xserver.dpi = 96;
+  services.xserver.libinput.touchpad.tapping = false;
   services.printing.enable = true;
 
   programs.mtr.enable = true;
