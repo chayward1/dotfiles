@@ -925,6 +925,12 @@ X11, or X[fn:25] is the generic name for the X Window System Display Server. All
   services.xserver.displayManager.startx.enable = true;
 
   environment = {
+    variables = {
+      XDG_CACHE_HOME = "$HOME/.cache";
+      XDG_CONFIG_HOME = "$HOME/.config";
+      XDG_DATA_HOME = "$HOME/.local/share";
+      XDG_BIN_HOME = "$HOME/.local/bin";
+    };
     systemPackages = with pkgs; [
       pkgs.sqlite
       pkgs.pfetch
@@ -1074,6 +1080,12 @@ let
 in {
   # Add the offload script to the $PATH.
   environment.systemPackages = [ myNvidiaOffload ];
+
+  # Configure XDG compliance.
+  environment.variables = {
+    __GL_SHADER_DISK_CACHE_PATH = "$XDG_CACHE_HOME/nv";
+    CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
+  };
 
   # Enable the NVIDIA drivers.
   # NOTE: You may need to use either of the commands below:

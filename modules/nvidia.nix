@@ -15,6 +15,12 @@ in {
   # Add the offload script to the $PATH.
   environment.systemPackages = [ myNvidiaOffload ];
 
+  # Configure XDG compliance.
+  environment.variables = {
+    __GL_SHADER_DISK_CACHE_PATH = "$XDG_CACHE_HOME/nv";
+    CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
+  };
+
   # Enable the NVIDIA drivers.
   # NOTE: You may need to use either of the commands below:
   services.xserver.videoDrivers = [ "nvidia" ];
