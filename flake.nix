@@ -46,6 +46,7 @@
           ./hosts/acernitro
           ./modules/x11.nix
           ./modules/ssh.nix
+          ./modules/hugo.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           ./modules/nvidia.nix

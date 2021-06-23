@@ -62,7 +62,6 @@ in {
   home.packages = [
     pkgs.nitrogen
     pkgs.autorandr
-    pkgs.hugo
     pkgs.pass
     pkgs.mu
     pkgs.isync
