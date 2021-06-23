@@ -1390,6 +1390,7 @@ let
       <<emacs-projectile-package>>
       <<emacs-lsp-package>>
       <<emacs-company-package>>
+      <<emacs-ccls-package>>
       <<emacs-golang-package>>
       <<emacs-python-package>>
       <<emacs-rustic-package>>
