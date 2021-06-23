@@ -3,7 +3,7 @@
 #+EMAIL: chris@chrishayward.xyz
 
 #+EXPORT_FILE_NAME: dotfiles
-#+ROAM_KEY: https://chrishayward.xyz/dotfiles
+#+ROAM_KEY: https://chrishayward.xyz/dotfiles/
 
 #+HUGO_BASE_DIR: docs
 #+HUGO_AUTO_SET_LASTMOD: t
