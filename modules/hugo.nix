@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  myUpdateSite = pkgs.writeShellScriptBin "dotfiles-update-site" ''
+  myUpdateSite = pkgs.writeShellScriptBin "update-site" ''
     rsync -aP /etc/dotfiles/docs/public ubuntu@chrishayward.xyz:/var/www/chrishayward
   '';
 
