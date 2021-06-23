@@ -1010,7 +1010,7 @@ Hugo[fn:28] is one of the most popular open-source static site generators.
 
 let
   myUpdateSite = pkgs.writeShellScriptBin "update-site" ''
-    rsync -aP /etc/dotfiles/docs/public ubuntu@chrishayward.xyz:/var/www/chrishayward
+    rsync -aP /etc/dotfiles/docs/public/ ubuntu@chrishayward.xyz:/var/www/chrishayward
   '';
 
 in {

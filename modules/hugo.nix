@@ -2,7 +2,7 @@
 
 let
   myUpdateSite = pkgs.writeShellScriptBin "update-site" ''
-    rsync -aP /etc/dotfiles/docs/public ubuntu@chrishayward.xyz:/var/www/chrishayward
+    rsync -aP /etc/dotfiles/docs/public/ ubuntu@chrishayward.xyz:/var/www/chrishayward
   '';
 
 in {
