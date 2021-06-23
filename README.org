@@ -1856,6 +1856,11 @@ ERC[fn:45] is a powerful, modular, and extensible IRC client for GNU/Emacs[fn:2]
       erc-track-exclude-types '("JOIN" "NICK" "QUIT" "MODE")
       erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
 
+;; Configure `erc-fill-column'.
+(add-hook 'window-configuration-change-hook
+  '(lambda ()
+     (setq erc-fill-column (- (window-width) 12))))
+
 ;; Connect to IRC via `erc'.
 (defun dotfiles/erc-connect ()
   "Connected to IRC via `erc'."
