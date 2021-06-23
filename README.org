@@ -2018,6 +2018,9 @@ Org-mode[fn:53] is a document editing and organizing mode, designed for notes, p
 (setq org-export-html-validation-link nil
       org-html-validation-link nil)
 
+;; Configure the keywords in the TODO -> DONE sequence.
+(setq org-todo-keywords '((sequence "TODO" "START" "WAIT" "DONE")))
+
 ;; TODO: Configure default structure templates.
 ;; (require 'org-tempo)
 
