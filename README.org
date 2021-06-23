@@ -369,6 +369,15 @@ networking.hosts = {
 };
 #+END_SRC
 
+Setting up new machines, especially headless ones like the Raspberry Pi Zero, can be difficult with NixOS. I find it easier to setup automatic network configuration, and wait for the machine to appear on the network. This is complimented with a pre-authorized SSH key, making it simple to connect and complete the installation headlessly.
+
+#+NAME: host-config-ssh
+#+BEGIN_SRC nix
+users.users.chris.openssh.authorizedKeys.keys = [
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO4wka/LfG3pto15DIm9LIRbb6rWr7/ipCRiCdAKSlY4 chris@chrishayward.xyz"
+];
+#+END_SRC
+
 ** Default
 
 The default host, built using QEMU[fn:19], a free and open-source emulator that can perform hardware virtualization. It features a lightweight system optimized for development, running GNU/Emacs[fn:2] + EXWM[fn:20] as the graphical environment.
@@ -420,6 +429,7 @@ This is a basic default configuration that specified the indended default config
   networking.interfaces.ens3.useDHCP = true;
 
   <<host-config-home>>
+  <<host-config-ssh>>
 
   programs.mtr.enable = true;
   programs.fish.enable = true;
@@ -541,6 +551,7 @@ This configuration is nearly identical to the default, except for a few key diff
 
   <<host-config-wifi>>
   <<host-config-home>>
+  <<host-config-ssh>>
 
   services.xserver.dpi = 96;
   services.xserver.libinput.touchpad.tapping = false;
@@ -652,6 +663,7 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
   networking.interfaces.wlan0.useDHCP = true;
 
   <<host-config-home>>
+  <<host-config-ssh>>
 
   environment.systemPackages = [
     pkgs.libraspberrypi
@@ -774,6 +786,7 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 
   <<host-config-wifi>>
   <<host-config-home>>
+  <<host-config-ssh>>
 
   environment.systemPackages = [
     pkgs.libraspberrypi

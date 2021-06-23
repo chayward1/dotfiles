@@ -26,6 +26,9 @@
     # "" = [ "zero-two" ];
     # "" = [ "android" ];
   };
+  users.users.chris.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO4wka/LfG3pto15DIm9LIRbb6rWr7/ipCRiCdAKSlY4 chris@chrishayward.xyz"
+  ];
 
   services.xserver.dpi = 96;
   services.xserver.libinput.touchpad.tapping = false;
