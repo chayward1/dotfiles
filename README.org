@@ -1985,13 +1985,6 @@ Magit[fn:53] is an interface to the Git[fn:37] version control system, implement
 epkgs.magit
 #+END_SRC
 
-| Key | Description                          |
-|-----+--------------------------------------|
-| gg  | Check the status of a repository     |
-| gc  | Clone a remote repository            |
-| gf  | Fetch the contents of the repository |
-| gp  | Pull the remotes of the repository   |
-
 #+NAME: emacs-magit-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Add keybindings for working with `magit'.
@@ -2043,11 +2036,6 @@ epkgs.elfeed
 
 Elfeed[fn:54] is an extensible web feed reader for GNU/Emacs[fn:2], support both =Atom= and =RSS=. It requires =Emacs 24.3+= and is available for download from the standard repositories.
 
-| Key | Command |
-|-----+---------|
-| l   | Open    |
-| u   | Update  |
-
 #+NAME: emacs-elfeed-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Configure `elfeed'.
@@ -2059,7 +2047,7 @@ Elfeed[fn:54] is an extensible web feed reader for GNU/Emacs[fn:2], support both
                       ("https://lukesmith.xyz/rss.xml")
                       ("https://friendo.monster/rss.xml")
                       ("https://chrishayward.xyz/index.xml")
-                      ("https://protesilaos.com/codelog.xml"))))
+                      ("https://protesilaos.com/master.xml"))))
 
 ;; Add custom keybindings for `elfeed'.
 (dotfiles/leader
@@ -2445,12 +2433,6 @@ epkgs.password-store
 #+END_SRC
 
 Configure keybindings for passwords behind =SPC p=:
-
-| Key | Description         |
-|-----+---------------------|
-| p   | Copy a password     |
-| r   | Rename a password   |
-| g   | Generate a password |
 
 #+NAME: emacs-pass-elisp
 #+BEGIN_SRC emacs-lisp
