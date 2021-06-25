@@ -1852,7 +1852,7 @@ ERC[fn:45] is a powerful, modular, and extensible IRC client for GNU/Emacs[fn:2]
 #+NAME: emacs-erc-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Configure `erc'.
-(setq erc-autojoin-channels-alist '(("irc.libera.chat" "#emacs" "#nixos" "#systemcrafters"))
+(setq erc-autojoin-channels-alist '(("irc.libera.chat" "#emacs" "#nixos" "#org-mode" "#systemcrafters"))
       erc-track-exclude-types '("JOIN" "NICK" "QUIT" "MODE")
       erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
 
