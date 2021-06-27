@@ -22,7 +22,7 @@ in {
   };
 
   # Enable the NVIDIA drivers.
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
 
   # Configure `offload-mode'.
   hardware.nvidia.prime = {
