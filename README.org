@@ -347,8 +347,10 @@ NixOS[fn:4] typically stores the current machine configuration in =/etc/nixos/co
 
 #+NAME: host-config-wifi
 #+BEGIN_SRC nix
-networking.wireless.networks.MyWiFi_5C1870.pskRaw =
-  "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
+networking.wireless.networks = {
+  MyWiFi_5C1870.pskRaw = "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
+  SM-G975W3034.pskRaw = "74835d96a98ca2c56ffe4eaf92223f8a555168b59ec2bb22b1e46b2a333adc80";
+};
 #+END_SRC
 
 It's helpful to add the machine hostnames to the networking configuration, so I can refer to another host across the network by name. Some devices that can have more than one IP (WIFI / Ethernet) will have the wireless hostname suffixed:
