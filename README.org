@@ -68,7 +68,7 @@ sudo nixos-rebuild switch --rollback
 
 ** Docker Container
 
-It's possible to use parts of this configuration using the container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
+It's possible to use parts of this configuration using a container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
 
 #+BEGIN_SRC conf :tangle Dockerfile
 # Derive from the official image.
@@ -1164,7 +1164,14 @@ in {
   };
 
   # Enable the NVIDIA drivers.
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Fix screen tearing.
+  services.xserver.screenSection = ''
+    Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+    Option         "AllowIndirectGLXProtocol" "off"
+    Option         "TripleBuffer" "on"
+  '';
 
   # Configure `offload-mode'.
   hardware.nvidia.prime = {

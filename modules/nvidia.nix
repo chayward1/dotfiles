@@ -22,7 +22,14 @@ in {
   };
 
   # Enable the NVIDIA drivers.
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Fix screen tearing.
+  services.xserver.screenSection = ''
+    Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+    Option         "AllowIndirectGLXProtocol" "off"
+    Option         "TripleBuffer" "on"
+  '';
 
   # Configure `offload-mode'.
   hardware.nvidia.prime = {
