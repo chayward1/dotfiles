@@ -1758,7 +1758,7 @@ home.file.".xinitrc" = {
 (exwm-randr-enable)
 
 ;; Configure custom hooks.
-(setq display-time-and-date t)
+(setq display-time-day-and-date t)
 (add-hook 'exwm-init-hook
   (lambda ()
     (display-battery-mode +1) ;; Display battery info (if available).
