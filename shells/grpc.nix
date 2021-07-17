@@ -5,7 +5,6 @@ with pkgs;
 mkShell {
   buildInputs = [
     grpc
-    grpc-tools
     grpcui
     grpcurl
   ];
