@@ -93,7 +93,7 @@ in {
     '';
   };
   # Deploy the authinfo file.
-  home.file.".authinfo.gpg".source = ./config/authinfo.gpg;
+  home.file.".authinfo.gpg".source = ../config/authinfo.gpg;
   
   # Deploy the isync configuration file.
   home.file.".mbsyncrc" = {
