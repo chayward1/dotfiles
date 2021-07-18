@@ -533,6 +533,7 @@ This configuration is nearly identical to the default, except for a few key diff
 
 + Enables sound
 + Applies the desired hostname
++ Enables power management daemon
 + It adds support for =UEFI= systems
 + Enables support for wireless networking
 
@@ -555,6 +556,7 @@ This configuration is nearly identical to the default, except for a few key diff
   <<host-config-home>>
   <<host-config-ssh>>
 
+  services.tlp.enable = true;
   services.xserver.dpi = 96;
   services.xserver.libinput.touchpad.tapping = false;
   services.printing.enable = true;
@@ -574,6 +576,7 @@ This configuration is nearly identical to the default, except for a few key diff
 *** Hardware
 
 + Enables sound via PulseAudio
++ Enables powertop via power management
 + Adds support for the NVIDIA Hybrid GPU
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/acernitro/hardware.nix
@@ -611,6 +614,7 @@ This configuration is nearly identical to the default, except for a few key diff
     [ { device = "/dev/disk/by-uuid/bef7bf62-d26f-45b1-a1f8-1227c2f8b26a"; }
     ];
 
+  powerManagement.powertop.enable = true;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }
 #+END_SRC
