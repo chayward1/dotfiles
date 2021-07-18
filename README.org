@@ -2514,6 +2514,10 @@ epkgs.mu4e-alert
 
 #+NAME: emacs-mu4e-config
 #+BEGIN_SRC nix
+# Deploy the authinfo file.
+home.file.".authinfo.gpg".source = ./config/authinfo.gpg;
+
+# Deploy the isync configuration file.
 home.file.".mbsyncrc" = {
   text = ''
     IMAPStore xyz-remote
