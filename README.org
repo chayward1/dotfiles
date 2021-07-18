@@ -502,6 +502,7 @@ acernitro = nixpkgs.lib.nixosSystem {
     <<module-x11>>
     <<module-ssh>>
     <<module-hugo>>
+    <<module-docker>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-nvidia>>
@@ -1092,11 +1093,15 @@ Docker [fn:31] is a set of platform as a service that uses OS level virtualizati
 { config, pkgs, ... }:
 
 {
+  # Enable the docker virutalization platform.
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
     autoPrune.enable = true;
   };
+
+  # Required for the `docker' command.
+  users.users.chris.extraGroups = [ "docker" ];
 }
 #+END_SRC
 

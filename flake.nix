@@ -47,6 +47,7 @@
           ./modules/x11.nix
           ./modules/ssh.nix
           ./modules/hugo.nix
+          ./modules/docker.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           ./modules/nvidia.nix
