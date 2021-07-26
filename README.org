@@ -2840,8 +2840,8 @@ Doom Themes[fn:83] is a theme megapack for GNU/Emacs[fn:2], inspired by communit
 (setq doom-themes-enable-bold t
       doom-themes-enable-italic t)
 
-;; Load the default `doom-* theme.
-(load-theme 'doom-one t)
+;; Load the `doom-nord' and `doom-nord-light' themes.
+(load-theme 'doom-nord-light t)
 (doom-modeline-mode +1)
 
 ;; Load a new theme with <SPC> t t.
