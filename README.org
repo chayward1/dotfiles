@@ -1781,7 +1781,7 @@ home.file.".xinitrc" = {
                 (lambda ()
                 (interactive)
                 (exwm-workspace-switch-create ,i))))
-                (number-sequence 1 9))))
+                (number-sequence 0 9))))
 
 ;; Configure `exwm-randr'.
 (require 'exwm-randr)
