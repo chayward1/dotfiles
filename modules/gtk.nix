@@ -4,7 +4,6 @@
 {
   home.packages = [
     pkgs.nordic
-    pkgs.nordic-polar
     pkgs.arc-icon-theme
     pkgs.lxappearance
   ];
@@ -12,7 +11,6 @@
   home.file.".gtkrc-2.0" = {
     text = ''
       gtk-theme-name="Nordic-polar"
-      # gtk-theme-name="Nordic-darker"
       gtk-icon-theme-name="Arc"
       gtk-font-name="Sans 10"
       gtk-cursor-theme-size=0
