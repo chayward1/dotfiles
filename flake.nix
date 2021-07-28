@@ -47,7 +47,7 @@
           ./modules/x11.nix
           ./modules/ssh.nix
           ./modules/hugo.nix
-          ./modules/steam.nix
+          
           ./modules/docker.nix
           ./modules/flakes.nix
           ./modules/cachix.nix

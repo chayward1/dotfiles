@@ -10,7 +10,8 @@
 
   home.file.".gtkrc-2.0" = {
     text = ''
-      gtk-theme-name="Nordic-Polar"
+      # gtk-theme-name="Nordic-Polar"
+      gtk-theme-name="Nordic-darker"
       gtk-icon-theme-name="Arc"
       gtk-font-name="Sans 10"
       gtk-cursor-theme-size=0
