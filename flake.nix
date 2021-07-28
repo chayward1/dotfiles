@@ -103,26 +103,8 @@
           ./modules/cachix.nix
         ];
       };
-      zero-one = nixpkgs.lib.nixosSystem {
-        system = "armv7l-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/zero-one
-          ./modules/ssh.nix
-          ./modules/flakes.nix
-          ./modules/cachix.nix
-        ];
-      };
-      zero-two = nixpkgs.lib.nixosSystem {
-        system = "armv7l-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/zero-two
-          ./modules/ssh.nix
-          ./modules/flakes.nix
-          ./modules/cachix.nix
-        ];
-      };
+      
+      
       android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
         config = ./hosts/android/nix-on-droid.nix;
       }).activationPackage;

@@ -380,15 +380,9 @@ It's helpful to add the machine hostnames to the networking configuration, so I 
 #+BEGIN_SRC nix
 networking.hosts = {
   "192.168.3.105" = [ "gamingpc" ];
-  "192.168.3.136" = [ "acernitro" ];
-  "192.168.3.163" = [ "acernitro_" ];
+  "192.168.3.163" = [ "acernitro" ];
   "192.168.3.182" = [ "raspberry" ];
-  "192.168.3.123" = [ "raspberry_" ];
   "192.168.3.183" = [ "homecloud" ];
-  # "" = [ "homecloud_" ];
-  # "" = [ "zero-one" ];
-  # "" = [ "zero-two" ];
-  # "" = [ "android" ];
 };
 #+END_SRC
 
@@ -879,40 +873,6 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 
   powerManagement.cpuFreqGovernor = "ondemand";
 }
-#+END_SRC
-
-** TODO Zero-One
-
-TODO: Raspberry Pi Zero/Zero WH
-
-#+NAME: host-zero-one
-#+BEGIN_SRC nix
-zero-one = nixpkgs.lib.nixosSystem {
-  system = "armv7l-linux";
-  specialArgs = { inherit inputs; };
-  modules = [
-    ./hosts/zero-one
-    ./modules/ssh.nix
-    ./modules/flakes.nix
-    ./modules/cachix.nix
-  ];
-};
-#+END_SRC
-
-** TODO Zero-Two
-
-#+NAME: host-zero-two
-#+BEGIN_SRC nix
-zero-two = nixpkgs.lib.nixosSystem {
-  system = "armv7l-linux";
-  specialArgs = { inherit inputs; };
-  modules = [
-    ./hosts/zero-two
-    ./modules/ssh.nix
-    ./modules/flakes.nix
-    ./modules/cachix.nix
-  ];
-};
 #+END_SRC
 
 ** TODO Android
