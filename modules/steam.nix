@@ -6,13 +6,13 @@ let
   mySteamDir = "$XDG_DATA_HOME/steam";
 
   # Custom shim for running steam.
-  mySteam = writeScriptBin "steam" ''
+  mySteam = pkgs.writeScriptBin "steam" ''
     #!${stdenv.shell}
     HOME="${mySteamDir}" exec ${steam}/bin/steam "$@"
   '';
 
   # Run applications using the steam libraries.
-  mySteamRun = writeScriptBin "steam-run" ''
+  mySteamRun = pkgs.writeScriptBin "steam-run" ''
     #!${stdenv.shell}
     HOME="${mySteamDir}" exec ${steam-run-native}/bin/steam-run "$@"
   '';
