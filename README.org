@@ -518,6 +518,7 @@ acernitro = nixpkgs.lib.nixosSystem {
     <<module-x11>>
     <<module-ssh>>
     <<module-hugo>>
+    <<module-steam>>
     <<module-docker>>
     <<module-flakes>>
     <<module-cachix>>
@@ -875,7 +876,7 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 }
 #+END_SRC
 
-** TODO Android
+** Android
 
 This is my Samsung Galaxy S10+[fn:27] running Nix On Droid[fn:10] with the experimental support for Flakes being used to manage the configuration.
 
