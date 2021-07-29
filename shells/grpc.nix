@@ -7,6 +7,7 @@ mkShell {
     grpc
     grpcui
     grpcurl
+    grpc-tools
   ];
   shellHook = ''
   '';
