@@ -1484,6 +1484,7 @@ let
       <<emacs-python-package>>
       <<emacs-rustic-package>>
       <<emacs-plantuml-package>>
+      <<emacs-protobuf-package>>
       <<emacs-swiper-package>>
       <<emacs-desktop-package>>
       <<emacs-doom-themes-package>>
@@ -2695,6 +2696,13 @@ The built in Python Mode[fn:78] has a nice feature set for working with Python[f
 (add-hook 'python-mode-hook
   (lambda ()
     (turn-on-pretty-mode)))
+#+END_SRC
+
+** Protobuf Mode
+
+#+NAME: emacs-protobuf-package
+#+BEGIN_SRC nix
+epkgs.protobuf-mode
 #+END_SRC
 
 ** PlantUML

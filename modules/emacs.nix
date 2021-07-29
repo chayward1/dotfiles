@@ -47,6 +47,7 @@ let
       epkgs.pretty-mode
       epkgs.rustic
       epkgs.plantuml-mode
+      epkgs.protobuf-mode
       epkgs.ivy
       epkgs.counsel
       epkgs.ivy-rich
