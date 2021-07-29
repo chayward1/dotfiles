@@ -24,6 +24,7 @@ let
       epkgs.org-drill
       epkgs.org-pomodoro
       epkgs.writegood-mode
+      epkgs.ob-http
       epkgs.ox-hugo
       epkgs.ox-reveal
       epkgs.password-store

@@ -1463,6 +1463,7 @@ let
       <<emacs-org-drill-package>>
       <<emacs-pomodoro-package>>
       <<emacs-writegood-package>>
+      <<emacs-http-package>>
       <<emacs-hugo-package>>
       <<emacs-reveal-package>>
       <<emacs-pass-package>>
@@ -1534,6 +1535,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-writegood-elisp>>
 <<emacs-aspell-elisp>>
 <<emacs-eww-elisp>>
+<<emacs-http-elisp>>
 <<emacs-hugo-elisp>>
 <<emacs-reveal-elisp>>
 <<emacs-pass-elisp>>
@@ -2336,6 +2338,23 @@ GNU Aspell[fn:66] is a Free and Open Source spell checker designed to replace IS
   "ts" '(flyspell-mode :which-key "Spelling"))
 #+END_SRC
 
+** Http
+
+#+NAME: emacs-http-package
+#+BEGIN_SRC nix
+epkgs.ob-http
+#+END_SRC
+
+It's possible to make HTTP requests from Org Mode buffers using ob-http[fn:67], this relies on Org Babel being present and configured properly.
+
+#+NAME: emacs-http-elisp
+#+BEGIN_SRC emacs-lisp
+;; Required to setup `ob-http'.
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((http . t)))
+#+END_SRC
+
 ** Hugo
 
 #+NAME: emacs-hugo-package
@@ -2343,7 +2362,7 @@ GNU Aspell[fn:66] is a Free and Open Source spell checker designed to replace IS
 epkgs.ox-hugo
 #+END_SRC
 
-Ox-Hugo[fn:67] is an Org-Mode[fn:58] exporter for Hugo[fn:31] compabile markdown. I post nonsense on my Personal Blog[fn:68], and share my notes on various textbooks, articles, and software Here[fn:69].
+Ox-Hugo[fn:68] is an Org-Mode[fn:58] exporter for Hugo[fn:31] compabile markdown. I post nonsense on my Personal Blog[fn:69], and share my notes on various textbooks, articles, and software Here[fn:70].
 
 #+NAME: emacs-hugo-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2403,7 +2422,7 @@ Ox-Hugo[fn:67] is an Org-Mode[fn:58] exporter for Hugo[fn:31] compabile markdown
 epkgs.ox-reveal
 #+END_SRC
 
-Reveal.js[fn:70] is an open source HTML presentation framework. It enables anyone with a web browser to create fully-featured and beautiful presentations for free. Presentations with Reveal.js[fn:70] are built on open web technologies. That means anything you can do on the web, you can do in your presentation. Ox Reveal[fn:71] is an Org Mode[fn:58] export backend.
+Reveal.js[fn:71] is an open source HTML presentation framework. It enables anyone with a web browser to create fully-featured and beautiful presentations for free. Presentations with Reveal.js[fn:71] are built on open web technologies. That means anything you can do on the web, you can do in your presentation. Ox Reveal[fn:72] is an Org Mode[fn:58] export backend.
 
 #+NAME: emacs-reveal-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2443,7 +2462,7 @@ Reveal.js[fn:70] is an open source HTML presentation framework. It enables anyon
 pkgs.pass
 #+END_SRC
 
-With Pass[fn:72], each password lives inside of an encrypted =gpg= file, whose name is the title of the website or resource that requires the password. These encrypted files may be organized into meaningful folder hierarchies, compies from computer to computer, and in general, manipulated using standard command line tools.
+With Pass[fn:73], each password lives inside of an encrypted =gpg= file, whose name is the title of the website or resource that requires the password. These encrypted files may be organized into meaningful folder hierarchies, compies from computer to computer, and in general, manipulated using standard command line tools.
 
 #+NAME: emacs-pass-package
 #+BEGIN_SRC nix
@@ -2569,7 +2588,7 @@ mu index
 epkgs.projectile
 #+END_SRC
 
-Projectile[fn:73] is a project interaction library for GNU/Emacs[fn:2]. Its goal is to provide a nice set of features operating on a project level, without introducing external dependencies.
+Projectile[fn:74] is a project interaction library for GNU/Emacs[fn:2]. Its goal is to provide a nice set of features operating on a project level, without introducing external dependencies.
 
 #+NAME: emacs-projectile-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2586,7 +2605,7 @@ epkgs.lsp-mode
 epkgs.lsp-ui
 #+END_SRC
 
-The Language Server Protocol (LSP)[fn:74] defines the protocol used between an Editor or IDE, and a language server that provides features like:
+The Language Server Protocol (LSP)[fn:75] defines the protocol used between an Editor or IDE, and a language server that provides features like:
 
 + Auto Complete
 + Go To Defintion
@@ -2610,7 +2629,7 @@ The Language Server Protocol (LSP)[fn:74] defines the protocol used between an E
 epkgs.ccls
 #+END_SRC
 
-Emacs CCLS[fn:75] is a client for CCLS, a C/C++/Objective-C language server supporting multi-million line C++ code bases, powered by libclang.
+Emacs CCLS[fn:76] is a client for CCLS, a C/C++/Objective-C language server supporting multi-million line C++ code bases, powered by libclang.
 
 #+NAME: emacs-ccls-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2633,7 +2652,7 @@ Emacs CCLS[fn:75] is a client for CCLS, a C/C++/Objective-C language server supp
 epkgs.company
 #+END_SRC
 
-Company[fn:76] is a text completion framework for GNU/Emacs[fn:2]. The name stands for =Complete Anything=. It uses pluggable back-ends and front-ends to retieve and display completion candidates.
+Company[fn:77] is a text completion framework for GNU/Emacs[fn:2]. The name stands for =Complete Anything=. It uses pluggable back-ends and front-ends to retieve and display completion candidates.
 
 #+NAME: emacs-company-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2652,7 +2671,7 @@ Company[fn:76] is a text completion framework for GNU/Emacs[fn:2]. The name stan
 epkgs.go-mode
 #+END_SRC
 
-Go Mode[fn:77] is a major mode for editing Golang[fn:12] source code in GNU/Emacs[fn:2].
+Go Mode[fn:78] is a major mode for editing Golang[fn:12] source code in GNU/Emacs[fn:2].
 
 #+NAME: emacs-golang-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2672,7 +2691,7 @@ Go Mode[fn:77] is a major mode for editing Golang[fn:12] source code in GNU/Emac
 epkgs.rustic
 #+END_SRC
 
-Rustic[fn:76] is a fork of rust-mode that integrates well with the Language Server Protocol[fn:72]. Include the rust shell before launching GNU/Emacs[fn:2] to use this!
+Rustic[fn:77] is a fork of rust-mode that integrates well with the Language Server Protocol[fn:73]. Include the rust shell before launching GNU/Emacs[fn:2] to use this!
 
 #+NAME: emacs-rustic-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2688,7 +2707,7 @@ Rustic[fn:76] is a fork of rust-mode that integrates well with the Language Serv
 epkgs.pretty-mode
 #+END_SRC
 
-The built in Python Mode[fn:78] has a nice feature set for working with Python[fn:18] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:74] server. These tools are included in the Development Shell[fn:11] for Python[fn:18].
+The built in Python Mode[fn:79] has a nice feature set for working with Python[fn:18] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:75] server. These tools are included in the Development Shell[fn:11] for Python[fn:18].
 
 #+NAME: emacs-python-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2712,14 +2731,14 @@ epkgs.protobuf-mode
 pkgs.plantuml
 #+END_SRC
 
-PlantUML[fn:79] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:79] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
+PlantUML[fn:80] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:80] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
 
 #+NAME: emacs-plantuml-package
 #+BEGIN_SRC nix
 epkgs.plantuml-mode
 #+END_SRC
 
-PlantUML Mode[fn:80] is a major mode for editing PlantUML[fn:79] sources in GNU/Emacs[fn:2].
+PlantUML Mode[fn:81] is a major mode for editing PlantUML[fn:80] sources in GNU/Emacs[fn:2].
 
 #+NAME: emacs-plantuml-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2741,7 +2760,7 @@ epkgs.ivy-posframe
 epkgs.ivy-prescient
 #+END_SRC
 
-Ivy (Swiper)[fn:81] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
+Ivy (Swiper)[fn:82] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
 
 #+NAME: emacs-swiper-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2782,7 +2801,7 @@ It's possible to control the frame opacity in GNU/Emacs[fn:2]. Unlike other tran
 pkgs.brightnessctl
 #+END_SRC
 
-The Desktop Environment[fn:82] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
+The Desktop Environment[fn:83] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
 
 #+NAME: emacs-desktop-package
 #+BEGIN_SRC nix
@@ -2805,7 +2824,7 @@ You can control the brightness, volume, take screenshots, and lock / unlock the 
 epkgs.doom-themes
 #+END_SRC
 
-Doom Themes[fn:83] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
+Doom Themes[fn:84] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
 
 #+NAME: emacs-doom-themes-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2974,36 +2993,38 @@ Doom Modeline[fn:24] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:66] https://aspell.net
 
-[fn:67] https://oxhugo.scripter.co
+[fn:67] https://github.com/zweifisch/ob-http
 
-[fn:68] https://chrishayward.xyz/posts/
+[fn:68] https://oxhugo.scripter.co
 
-[fn:69] https://chrishayward.xyz/notes/
+[fn:69] https://chrishayward.xyz/posts/
 
-[fn:70] https://revealjs.com
+[fn:70] https://chrishayward.xyz/notes/
 
-[fn:71] https://github.com/hexmode/ox-reveal
+[fn:71] https://revealjs.com
 
-[fn:72] https://password-store.org
+[fn:72] https://github.com/hexmode/ox-reveal
 
-[fn:73] https://projectile.mx
+[fn:73] https://password-store.org
 
-[fn:74] https://microsoft.github.io/language-server-protocol
+[fn:74] https://projectile.mx
 
-[fn:75] https://github.com/MaskRay/emacs-ccls
+[fn:75] https://microsoft.github.io/language-server-protocol
 
-[fn:76] https://company-mode.github.io
+[fn:76] https://github.com/MaskRay/emacs-ccls
 
-[fn:77] https://emacswiki.org/emacs/GoMode
+[fn:77] https://company-mode.github.io
 
-[fn:78] https://plantuml.com
+[fn:78] https://emacswiki.org/emacs/GoMode
 
-[fn:79] https://github.com/skuro/plantuml-mode
+[fn:79] https://plantuml.com
 
-[fn:80] https://github.com/abo-abo/swiper
+[fn:80] https://github.com/skuro/plantuml-mode
 
-[fn:81] https://github.com/DamienCassou/desktop-environment
+[fn:81] https://github.com/abo-abo/swiper
 
-[fn:82] https://github.com/hlissner/emacs-doom-themes
+[fn:82] https://github.com/DamienCassou/desktop-environment
 
-[fn:83] https://github.com/seagle0128/doom-modeline
+[fn:83] https://github.com/hlissner/emacs-doom-themes
+
+[fn:84] https://github.com/seagle0128/doom-modeline
