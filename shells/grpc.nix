@@ -7,7 +7,9 @@ mkShell {
     grpc
     grpcui
     grpcurl
-    grpc-tools
+
+    # FIXME: Broken on nixpkgs/unstable.
+    # grpc-tools
   ];
   shellHook = ''
   '';
