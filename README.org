@@ -109,8 +109,6 @@ NixOS[fn:4] is a purely functional Linux distribution built on top of the Nix[fn
       <<host-acernitro>>
       <<host-raspberry>>
       <<host-homecloud>>
-      <<host-zero-one>>
-      <<host-zero-two>>
       <<host-android>>
     };
   };
