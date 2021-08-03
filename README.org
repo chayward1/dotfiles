@@ -70,13 +70,11 @@ sudo nixos-rebuild switch --rollback
 
 It's possible to use parts of this configuration using a container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
 
-#+BEGIN_SRC conf :tangle Dockerfile
+#+BEGIN_SRC conf :tangle Dockerfile :noweb yes
+# <<file-warning>>
+
 # Derive from the official image.
 FROM nixos/nix
-
-# Add the unstable channel.
-RUN nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
-RUN nix-channel --update
 
 # Setup the default environment.
 WORKDIR /etc/dotfiles
