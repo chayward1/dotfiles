@@ -10,7 +10,8 @@
 #+HUGO_SECTION:
 #+HUGO_DRAFT: false
 
-#+HTML: <a href="https://www.gnu.org/software/emacs/emacs.html#Releases"><img src="https://img.shields.io/badge/Emacs-27.1%20%E2%80%93%2028.0.50-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a>
+#+HTML: <a href="https://nixos.org"><img src="https://img.shields.io/badge/NixOS-unstable-blue.svg?style=flat-square&logo=NixOS&logoColor=white"></a>
+#+HTML: <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Emacs-27.1%20%E2%80%93%2028.0.50-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a>
 #+HTML: <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a>
 
 #+NAME: description
