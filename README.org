@@ -1618,6 +1618,9 @@ Emacs[fn:2] has been around since the 1980s, and it's painfully obvious when you
 (setq mouse-wheel-follow-mouse t
       mouse-wheel-progressive-speed t
       mouse-wheel-scroll-amount '(3 ((shift) . 3)))
+
+;; Start in fullscreen/maximized.
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+END_SRC
 
 ** Native Comp
