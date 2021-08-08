@@ -74,7 +74,7 @@ sudo nixos-rebuild switch --rollback
 
 It's possible to use parts of this configuration using a container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
 
-#+BEGIN_SRC conf :tangle Dockerfile :noweb yes
+#+BEGIN_SRC dockerfile :tangle Dockerfile :noweb yes
 # <<file-warning>>
 
 # Derive from the official image.
@@ -2564,6 +2564,8 @@ epkgs.docker
 epkgs.dockerfile-mode
 #+END_SRC
 
+Manage Docker from inside of Emacs using Docker.el[fn:78]. This is a full docker porcelain similar to Magit, allowing complete control of a Docker system. Add syntax highlighting to Dockerfiles using dockerfile-mode[fn:79] from Spotify.
+
 #+NAME: emacs-docker-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Apply custom keybindings.
@@ -2676,7 +2678,7 @@ mu index
 epkgs.projectile
 #+END_SRC
 
-Projectile[fn:78] is a project interaction library for GNU/Emacs[fn:2]. Its goal is to provide a nice set of features operating on a project level, without introducing external dependencies.
+Projectile[fn:80] is a project interaction library for GNU/Emacs[fn:2]. Its goal is to provide a nice set of features operating on a project level, without introducing external dependencies.
 
 #+NAME: emacs-projectile-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2693,7 +2695,7 @@ epkgs.lsp-mode
 epkgs.lsp-ui
 #+END_SRC
 
-The Language Server Protocol (LSP)[fn:79] defines the protocol used between an Editor or IDE, and a language server that provides features like:
+The Language Server Protocol (LSP)[fn:81] defines the protocol used between an Editor or IDE, and a language server that provides features like:
 
 + Auto Complete
 + Go To Defintion
@@ -2717,7 +2719,7 @@ The Language Server Protocol (LSP)[fn:79] defines the protocol used between an E
 epkgs.ccls
 #+END_SRC
 
-Emacs CCLS[fn:80] is a client for CCLS, a C/C++/Objective-C language server supporting multi-million line C++ code bases, powered by libclang.
+Emacs CCLS[fn:82] is a client for CCLS, a C/C++/Objective-C language server supporting multi-million line C++ code bases, powered by libclang.
 
 #+NAME: emacs-ccls-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2740,7 +2742,7 @@ Emacs CCLS[fn:80] is a client for CCLS, a C/C++/Objective-C language server supp
 epkgs.company
 #+END_SRC
 
-Company[fn:81] is a text completion framework for GNU/Emacs[fn:2]. The name stands for =Complete Anything=. It uses pluggable back-ends and front-ends to retieve and display completion candidates.
+Company[fn:83] is a text completion framework for GNU/Emacs[fn:2]. The name stands for =Complete Anything=. It uses pluggable back-ends and front-ends to retieve and display completion candidates.
 
 #+NAME: emacs-company-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2759,7 +2761,7 @@ Company[fn:81] is a text completion framework for GNU/Emacs[fn:2]. The name stan
 epkgs.go-mode
 #+END_SRC
 
-Go Mode[fn:82] is a major mode for editing Golang[fn:12] source code in GNU/Emacs[fn:2].
+Go Mode[fn:84] is a major mode for editing Golang[fn:12] source code in GNU/Emacs[fn:2].
 
 #+NAME: emacs-golang-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2779,7 +2781,7 @@ Go Mode[fn:82] is a major mode for editing Golang[fn:12] source code in GNU/Emac
 epkgs.rustic
 #+END_SRC
 
-Rustic[fn:81] is a fork of rust-mode that integrates well with the Language Server Protocol[fn:77]. Include the rust shell before launching GNU/Emacs[fn:2] to use this!
+Rustic[fn:83] is a fork of rust-mode that integrates well with the Language Server Protocol[fn:77]. Include the rust shell before launching GNU/Emacs[fn:2] to use this!
 
 #+NAME: emacs-rustic-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2795,7 +2797,7 @@ Rustic[fn:81] is a fork of rust-mode that integrates well with the Language Serv
 epkgs.pretty-mode
 #+END_SRC
 
-The built in Python Mode[fn:83] has a nice feature set for working with Python[fn:19] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:79] server. These tools are included in the Development Shell[fn:11] for Python[fn:19].
+The built in Python Mode[fn:85] has a nice feature set for working with Python[fn:19] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:81] server. These tools are included in the Development Shell[fn:11] for Python[fn:19].
 
 #+NAME: emacs-python-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2819,14 +2821,14 @@ epkgs.protobuf-mode
 pkgs.plantuml
 #+END_SRC
 
-PlantUML[fn:84] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:84] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
+PlantUML[fn:86] is an open-source tool allowing users to create diagrams from a plain-text language. Besides various UML diagrams, PlantUML[fn:86] has support for various other software developmented related formats, as well as visualizations of =JSON= and =YAML= files.
 
 #+NAME: emacs-plantuml-package
 #+BEGIN_SRC nix
 epkgs.plantuml-mode
 #+END_SRC
 
-PlantUML Mode[fn:85] is a major mode for editing PlantUML[fn:84] sources in GNU/Emacs[fn:2].
+PlantUML Mode[fn:87] is a major mode for editing PlantUML[fn:86] sources in GNU/Emacs[fn:2].
 
 #+NAME: emacs-plantuml-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2848,7 +2850,7 @@ epkgs.ivy-posframe
 epkgs.ivy-prescient
 #+END_SRC
 
-Ivy (Swiper)[fn:86] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
+Ivy (Swiper)[fn:88] is a generic completion mechanism for GNU/Emacs[fn:2]. While operating similarily to other completion schemes like =icomplete-mode=, it aims to be more efficient, smaller, simpler, and smoother to use, while remaining highly customizable.
 
 #+NAME: emacs-swiper-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2889,7 +2891,7 @@ It's possible to control the frame opacity in GNU/Emacs[fn:2]. Unlike other tran
 pkgs.brightnessctl
 #+END_SRC
 
-The Desktop Environment[fn:87] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
+The Desktop Environment[fn:89] package provides commands and a global minor mode for controlling your GNU/Linux[fn:1] desktop from within GNU/Emacs[fn:2].
 
 #+NAME: emacs-desktop-package
 #+BEGIN_SRC nix
@@ -2912,7 +2914,7 @@ You can control the brightness, volume, take screenshots, and lock / unlock the 
 epkgs.doom-themes
 #+END_SRC
 
-Doom Themes[fn:88] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
+Doom Themes[fn:90] is a theme megapack for GNU/Emacs[fn:2], inspired by community favourites.
 
 #+NAME: emacs-doom-themes-elisp
 #+BEGIN_SRC emacs-lisp
@@ -3103,24 +3105,28 @@ Doom Modeline[fn:26] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:77] https://password-store.org
 
-[fn:78] https://projectile.mx
+[fn:78] https://github.com/Silex/docker.el
 
-[fn:79] https://microsoft.github.io/language-server-protocol
+[fn:79] https://github.com/spotify/dockerfile-mode
 
-[fn:80] https://github.com/MaskRay/emacs-ccls
+[fn:80] https://projectile.mx
 
-[fn:81] https://company-mode.github.io
+[fn:81] https://microsoft.github.io/language-server-protocol
 
-[fn:82] https://emacswiki.org/emacs/GoMode
+[fn:82] https://github.com/MaskRay/emacs-ccls
 
-[fn:83] https://plantuml.com
+[fn:83] https://company-mode.github.io
 
-[fn:84] https://github.com/skuro/plantuml-mode
+[fn:84] https://emacswiki.org/emacs/GoMode
 
-[fn:85] https://github.com/abo-abo/swiper
+[fn:85] https://plantuml.com
 
-[fn:86] https://github.com/DamienCassou/desktop-environment
+[fn:86] https://github.com/skuro/plantuml-mode
 
-[fn:87] https://github.com/hlissner/emacs-doom-themes
+[fn:87] https://github.com/abo-abo/swiper
 
-[fn:88] https://github.com/seagle0128/doom-modeline
+[fn:88] https://github.com/DamienCassou/desktop-environment
+
+[fn:89] https://github.com/hlissner/emacs-doom-themes
+
+[fn:90] https://github.com/seagle0128/doom-modeline
