@@ -28,6 +28,7 @@ let
       epkgs.ox-hugo
       epkgs.ox-reveal
       epkgs.password-store
+      epkgs.docker
       epkgs.mu4e-alert
       epkgs.dired-single
       epkgs.all-the-icons
