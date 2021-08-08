@@ -29,6 +29,7 @@ let
       epkgs.ox-reveal
       epkgs.password-store
       epkgs.docker
+      epkgs.dockerfile-mode
       epkgs.mu4e-alert
       epkgs.dired-single
       epkgs.all-the-icons

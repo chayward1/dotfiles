@@ -2561,14 +2561,15 @@ Configure keybindings for passwords behind =SPC p=:
 #+NAME: emacs-docker-package
 #+BEGIN_SRC nix
 epkgs.docker
+epkgs.dockerfile-mode
 #+END_SRC
 
 #+NAME: emacs-docker-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Apply custom keybindings.
 (dotfiles/leader
-  "k" '(:ignore t :which-key "Containers")
-  "kd" '(docker :which-key "Docker"))
+  "n" '(:ignore t :which-key "Containers")
+  "nd" '(docker :which-key "Docker"))
 #+END_SRC
 
 ** MU4E
