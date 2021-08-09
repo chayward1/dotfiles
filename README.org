@@ -2552,6 +2552,7 @@ Configure keybindings for passwords behind =SPC p=:
 (dotfiles/leader
   "p" '(:ignore t :which-key "Passwords")
   "pp" '(password-store-copy :which-key "Copy")
+  "pe" '(password-store-edit :which-key "Edit")
   "pr" '(password-store-rename :which-key "Rename")
   "pg" '(password-store-generate :which-key "Generate"))
 #+END_SRC
