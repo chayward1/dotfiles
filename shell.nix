@@ -10,6 +10,7 @@ let
 
 in mkShell {
   buildInputs = [
+    vi
     git
   ];
   shellHook = ''
