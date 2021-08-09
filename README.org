@@ -2554,6 +2554,7 @@ Configure keybindings for passwords behind =SPC p=:
   "p" '(:ignore t :which-key "Passwords")
   "pp" '(password-store-copy :which-key "Copy")
   "pe" '(password-store-edit :which-key "Edit")
+  "pi" '(password-store-insert :which-key "Insert")
   "pr" '(password-store-rename :which-key "Rename")
   "pg" '(password-store-generate :which-key "Generate"))
 #+END_SRC
