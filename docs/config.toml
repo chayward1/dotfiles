@@ -30,6 +30,10 @@ pygmentsUseClasses = true
   footerCopyright = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
 
   [[params.social]]
+    name = "paypal"
+    url = "https://paypal.me/chrishaywardxyz"
+
+  [[params.social]]
     name = "github"
     url = "https://github.com/chayward1/"
 
