@@ -33,7 +33,8 @@
   services.printing.enable = true;
 
   fonts.fonts = with pkgs; [
-    iosevka-bin
+    fira-code
+    fira-code-symbols
     emacs-all-the-icons-fonts
   ];
 }

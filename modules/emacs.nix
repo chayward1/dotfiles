@@ -39,6 +39,7 @@ let
       epkgs.vterm
       epkgs.magit
       epkgs.hydra
+      epkgs.fira-code-mode
       epkgs.elfeed
       epkgs.nix-mode
       epkgs.projectile
