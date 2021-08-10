@@ -1002,7 +1002,6 @@ X11, or X[fn:30] is the generic name for the X Window System Display Server. All
 
   fonts.fonts = with pkgs; [
     iosevka-bin
-    fira-code-symbols
     emacs-all-the-icons-fonts
   ];
 }
@@ -2075,7 +2074,6 @@ epkgs.magit
 #+NAME: emacs-fonts-package
 #+BEGIN_SRC nix
 epkgs.hydra
-epkgs.fira-code-mode
 #+END_SRC
 
 #+NAME: emacs-fonts-elisp
@@ -2089,10 +2087,6 @@ epkgs.fira-code-mode
 ;; (set-face-attribute 'default nil :font "Iosevka" :height 96)
 ;; (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 96)
 ;; (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 96)
-
-;; Enable the global minor-mode.
-(require 'fira-code-mode)
-(global-fira-code-mode)
 
 ;; Define a `hydra' function for scaling the text interactively.
 (defhydra hydra-text-scale (:timeout 4)
