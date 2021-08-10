@@ -1001,7 +1001,7 @@ X11, or X[fn:30] is the generic name for the X Window System Display Server. All
   services.printing.enable = true;
 
   fonts.fonts = with pkgs; [
-    fira-code
+    iosevka-bin
     fira-code-symbols
     emacs-all-the-icons-fonts
   ];
@@ -2082,7 +2082,7 @@ epkgs.fira-code-mode
 #+BEGIN_SRC emacs-lisp
 ;; Configure the font when running as `emacs-server'.
 (custom-set-faces
-  '(default ((t (:inherit nil :height 120 :family "Fira Code")))))
+  '(default ((t (:inherit nil :height 120 :family "Iosevka")))))
 
 ;; Set all three of Emacs' font faces.
 ;; NOTE: This only works without `emacs-server'.
