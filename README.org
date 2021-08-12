@@ -566,7 +566,6 @@ acernitro = nixpkgs.lib.nixosSystem {
     <<module-x11>>
     <<module-ssh>>
     <<module-hugo>>
-    <<module-steam>>
     <<module-docker>>
     <<module-flakes>>
     <<module-cachix>>
