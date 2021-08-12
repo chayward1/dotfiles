@@ -43,7 +43,7 @@ pygmentsUseClasses = true
 
   [[params.social]]
     name = "email"
-    url = "mailto:chris@chrishayward.xzy"
+    url = "mailto:chris@chrishayward.xyz"
 
 [privacy]
   [privacy.disqus]
