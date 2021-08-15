@@ -37,4 +37,18 @@ in {
     intelBusId = myIntelBusId;
     nvidiaBusId = myNvidiaBusId;
   };
+
+  # Add OpenGL support.
+  hardware.opengl = {
+    enable = true;
+    driSupport32Bit = true;
+    extraPackages32 = with pkgs; [
+      pkgsi686Linux.libva
+    ];
+  };
+
+  # Add user to video group.
+  users.users.chris = {
+    extraGroups = [ "video" ];
+  };
 }
