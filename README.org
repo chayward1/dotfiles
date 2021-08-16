@@ -1638,6 +1638,22 @@ It's somtimes desirable to have customization that takes effect during Emacs sta
 <<emacs-shell-commands-elisp>>
 #+END_SRC
 
+** Native Comp
+
+#+NAME: emacs-native-comp-package
+#+BEGIN_SRC nix
+pkgs.emacsGcc;
+#+END_SRC
+
+Native Comp, also known as GccEmacs, refers to the ~--with-native-compilation~ configuration option when building GNU/Emacs[fn:2]. It adds support for compiling Emacs Lisp to native code using ~libgccjit~. All of the Emacs Lisp packages shipped with Emacs are native-compiled, providing a noticable performance iomprovement out-of-the-box.
+
+#+NAME: emacs-native-comp-elisp
+#+BEGIN_SRC emacs-lisp
+;; Silence warnings from packages that don't support `native-comp'.
+(setq comp-async-report-warnings-errors nil         ;; Emacs 27.2 ...
+      native-comp-async-report-warnings-errors nil) ;; Emacs 28+  ...
+#+END_SRC
+
 ** Disable UI
 
 Emacs[fn:2] has been around since the 1980s, and it's painfully obvious when you're greeted with the default user interface. Disable some unwanted features to clean it up, and bring the appearance to something closer to a modern editor.
@@ -1660,22 +1676,6 @@ Emacs[fn:2] has been around since the 1980s, and it's painfully obvious when you
 
 ;; Start in fullscreen/maximized.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-#+END_SRC
-
-** Native Comp
-
-#+NAME: emacs-native-comp-package
-#+BEGIN_SRC nix
-pkgs.emacsGcc;
-#+END_SRC
-
-Native Comp, also known as GccEmacs, refers to the ~--with-native-compilation~ configuration option when building GNU/Emacs[fn:2]. It adds support for compiling Emacs Lisp to native code using ~libgccjit~. All of the Emacs Lisp packages shipped with Emacs are native-compiled, providing a noticable performance iomprovement out-of-the-box.
-
-#+NAME: emacs-native-comp-elisp
-#+BEGIN_SRC emacs-lisp
-;; Silence warnings from packages that don't support `native-comp'.
-(setq comp-async-report-warnings-errors nil         ;; Emacs 27.2 ...
-      native-comp-async-report-warnings-errors nil) ;; Emacs 28+  ...
 #+END_SRC
 
 ** Backup Files
