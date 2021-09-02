@@ -14,7 +14,7 @@
 
   networking.wireless.networks = {
     MyWiFi_5C1870 = {
-      priority = 1;
+      priority = 3;
       pskRaw = "409b3c85fef1c5737f284d2f82f20dc6023e41804e862d4fa26265ef8193b326";
     };
     BELL182 = {
@@ -22,7 +22,7 @@
       pskRaw = "8b3c114c695c5013bbcf5fc0af781c7872f95c34e2cceb31afa7bfc1adf66245";
     };
     SM-G975W3034 = {
-      priority = 3;
+      priority = 1;
       pskRaw = "74835d96a98ca2c56ffe4eaf92223f8a555168b59ec2bb22b1e46b2a333adc80";
     };
   };
