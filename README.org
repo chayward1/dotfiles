@@ -2209,7 +2209,6 @@ Org-mode[fn:60] is a document editing and organizing mode, designed for notes, p
 #+NAME: emacs-org-roam-package
 #+BEGIN_SRC nix
 epkgs.org-roam
-epkgs.org-roam-server
 #+END_SRC
 
 Org Roam[fn:61] is a plain-text knowledge management system. It borrows principles from the Zettelkasten method[fn:62], providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using Org Mode[fn:60] for their personal wiki (me). Org Roam Server[fn:63] is a Web application to visualize the Org Roam[fn:61] database. Although it should automatically reload if there's a change in the database, it can be done so manually by clicking the =reload= button on the Web interface.
@@ -2217,102 +2216,102 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 #+NAME: emacs-org-roam-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Setup `org-roam' hooks.
-(add-hook 'after-init-hook
-  (lambda ()
-    (org-roam-mode)
-    (org-roam-server-mode)))
+;; (add-hook 'after-init-hook
+;;   (lambda ()
+;;     (org-roam-mode)
+;;     (org-roam-server-mode)))
 
 ;; Configure `org-roam'.
-(setq org-roam-encrypt-files t
-      org-roam-directory (expand-file-name "/etc/dotfiles")
-      org-roam-capture-templates '()
-      org-roam-dailies-capture-templates '())
+;; (setq org-roam-encrypt-files t
+;;       org-roam-directory (expand-file-name "/etc/dotfiles")
+;;       org-roam-capture-templates '()
+;;       org-roam-dailies-capture-templates '())
 
 ;; Encrypt files with the public key.
-(setq epa-file-select-keys 2
-      epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
-      epa-cache-passphrase-for-symmetric-encryption t)
+;; (setq epa-file-select-keys 2
+;;       epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+;;       epa-cache-passphrase-for-symmetric-encryption t)
 
 ;; Define a new `title-to-slug' function to override the default `org-roam-title-to-slug' function.
 ;; This is done to change the replacement character from "_" to "-".
-(require 'cl-lib)
-(defun dotfiles/title-to-slug (title)
-  "Convert TITLE to a filename-suitable slug."
-  (cl-flet* ((nonspacing-mark-p (char)
-                                (eq 'Mn (get-char-code-property char 'general-category)))
-             (strip-nonspacing-marks (s)
-                                     (apply #'string (seq-remove #'nonspacing-mark-p
-                                                                 (ucs-normalize-NFD-string s))))
-             (cl-replace (title pair)
-                         (replace-regexp-in-string (car pair) (cdr pair) title)))
-    (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-") ;; Convert anything not alphanumeric.
-                    ("--*" . "-")                   ;; Remove sequential dashes.
-                    ("^-" . "")                     ;; Remove starting dashes.
-                    ("-$" . "")))                   ;; Remove ending dashes.
-           (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
-      (downcase slug))))
-(setq org-roam-title-to-slug-function #'dotfiles/title-to-slug)
+;; (require 'cl-lib)
+;; (defun dotfiles/title-to-slug (title)
+;;   "Convert TITLE to a filename-suitable slug."
+;;   (cl-flet* ((nonspacing-mark-p (char)
+;;                                 (eq 'Mn (get-char-code-property char 'general-category)))
+;;              (strip-nonspacing-marks (s)
+;;                                      (apply #'string (seq-remove #'nonspacing-mark-p
+;;                                                                  (ucs-normalize-NFD-string s))))
+;;              (cl-replace (title pair)
+;;                          (replace-regexp-in-string (car pair) (cdr pair) title)))
+;;     (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-") ;; Convert anything not alphanumeric.
+;;                     ("--*" . "-")                   ;; Remove sequential dashes.
+;;                     ("^-" . "")                     ;; Remove starting dashes.
+;;                     ("-$" . "")))                   ;; Remove ending dashes.
+;;            (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+;;       (downcase slug))))
+;; (setq org-roam-title-to-slug-function #'dotfiles/title-to-slug)
 
 ;; Configure capture templates.
 ;; Standard document.
-(add-to-list 'org-roam-capture-templates
-  '("d" "Default" entry (function org-roam-capture--get-point)
-        "%?"
-        :file-name "docs/${slug}"
-        :unnarrowed t
-        :head 
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+EMAIL: chris@chrishayward.xyz
-"))
+;; (add-to-list 'org-roam-capture-templates
+;;   '("d" "Default" entry (function org-roam-capture--get-point)
+;;         "%?"
+;;         :file-name "docs/${slug}"
+;;         :unnarrowed t
+;;         :head 
+;; "
+;; ,#+TITLE: ${title}
+;; ,#+AUTHOR: Christopher James Hayward
+;; ,#+EMAIL: chris@chrishayward.xyz
+;; "))
 
 ;; Course document.
-(add-to-list 'org-roam-capture-templates
-  '("c" "Course" plain (function org-roam-capture--get-point)
-        "%?"
-        :file-name "docs/courses/${slug}"
-        :unnarrowed t
-        :head
-"
-,#+TITLE: ${title}
-,#+SUBTITLE:
-,#+AUTHOR: Christopher James Hayward
-,#+EMAIL: chris@chrishayward.xyz
+;; (add-to-list 'org-roam-capture-templates
+;;   '("c" "Course" plain (function org-roam-capture--get-point)
+;;         "%?"
+;;         :file-name "docs/courses/${slug}"
+;;         :unnarrowed t
+;;         :head
+;; "
+;; ,#+TITLE: ${title}
+;; ,#+SUBTITLE:
+;; ,#+AUTHOR: Christopher James Hayward
+;; ,#+EMAIL: chris@chrishayward.xyz
 
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-"))
+;; ,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+;; ,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+;; "))
 
 ;; Daily notes.
-(add-to-list 'org-roam-dailies-capture-templates
-  '("d" "Default" entry (function org-roam-capture--get-point)
-           "* %?"
-           :file-name "docs/daily/%<%Y-%m-%d>"
-           :head
-"
-,#+TITLE: %<%Y-%m-%d>
-,#+AUTHOR: Christopher James Hayward
+;; (add-to-list 'org-roam-dailies-capture-templates
+;;   '("d" "Default" entry (function org-roam-capture--get-point)
+;;            "* %?"
+;;            :file-name "docs/daily/%<%Y-%m-%d>"
+;;            :head
+;; "
+;; ,#+TITLE: %<%Y-%m-%d>
+;; ,#+AUTHOR: Christopher James Hayward
 
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-"))
+;; ,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+;; ,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+;; "))
 
 ;; Apply custom keybindings.
-(dotfiles/leader
-  "or"  '(:ignore t :which-key "Roam")
-  "ori" '(org-roam-insert :which-key "Insert")
-  "orf" '(org-roam-find-file :which-key "Find")
-  "orc" '(org-roam-capture :which-key "Capture")
-  "orb" '(org-roam-buffer-toggle-display :which-key "Buffer"))
+;; (dotfiles/leader
+;;   "or"  '(:ignore t :which-key "Roam")
+;;   "ori" '(org-roam-insert :which-key "Insert")
+;;   "orf" '(org-roam-find-file :which-key "Find")
+;;   "orc" '(org-roam-capture :which-key "Capture")
+;;   "orb" '(org-roam-buffer-toggle-display :which-key "Buffer"))
 
 ;; Apply custom keybindings for dailies.
-(dotfiles/leader
-  "ord" '(:ignore t :which-key "Dailies")
-  "ordd" '(org-roam-dailies-find-date :which-key "Date")
-  "ordt" '(org-roam-dailies-find-today :which-key "Today")
-  "ordm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-  "ordy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+;; (dotfiles/leader
+;;   "ord" '(:ignore t :which-key "Dailies")
+;;   "ordd" '(org-roam-dailies-find-date :which-key "Date")
+;;   "ordt" '(org-roam-dailies-find-today :which-key "Today")
+;;   "ordm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
+;;   "ordy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
 #+END_SRC
 
 ** Org Drill
