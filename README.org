@@ -2187,6 +2187,10 @@ Org-mode[fn:60] is a document editing and organizing mode, designed for notes, p
   'org-babel-load-languages
   '((C . t)))
 
+;; Log / Clock into property drawers.
+(setq org-log-into-drawer t
+      org-clock-into-drawer t)
+
 ;; TODO: Configure default structure templates.
 ;; (require 'org-tempo)
 
