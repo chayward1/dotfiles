@@ -1813,7 +1813,10 @@ home.file.".xinitrc" = {
 #+NAME: emacs-exwm-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Configure `exwm'.
-(setq exwm-worspace-show-all-buffers t)
+(setq exwm-layout-show-all-buffers t
+      exwm-worspace-show-all-buffers t)
+
+;; Configure input keys.
 (setq exwm-input-prefix-keys
   '(?\M-x
   ?\C-g
