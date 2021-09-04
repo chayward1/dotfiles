@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       e4ad3dd5-0996-45bc-92ab-6bdbf16e4310
+:END:
 #+TITLE: Dotfiles
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
@@ -2218,42 +2221,37 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 
 #+NAME: emacs-org-roam-elisp
 #+BEGIN_SRC emacs-lisp
-;; Setup `org-roam' hooks.
-;; (add-hook 'after-init-hook
-;;   (lambda ()
-;;     (org-roam-mode)
-;;     (org-roam-server-mode)))
+;; Setup `org-roam'.
+(require 'org-roam)
+(add-hook 'after-init-hook
+  (lambda ()
+    (org-roam-setup)))
 
-;; Configure `org-roam'.
-;; (setq org-roam-encrypt-files t
-;;       org-roam-directory (expand-file-name "/etc/dotfiles")
-;;       org-roam-capture-templates '()
-;;       org-roam-dailies-capture-templates '())
+;; Set the roam directory.
+(setq org-roam-directory (expand-file-name "/etc/dotfiles"))
 
 ;; Encrypt files with the public key.
-;; (setq epa-file-select-keys 2
-;;       epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
-;;       epa-cache-passphrase-for-symmetric-encryption t)
+(setq epa-file-select-keys 2
+      epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+      epa-cache-passphrase-for-symmetric-encryption t)
 
-;; Define a new `title-to-slug' function to override the default `org-roam-title-to-slug' function.
-;; This is done to change the replacement character from "_" to "-".
-;; (require 'cl-lib)
-;; (defun dotfiles/title-to-slug (title)
-;;   "Convert TITLE to a filename-suitable slug."
-;;   (cl-flet* ((nonspacing-mark-p (char)
-;;                                 (eq 'Mn (get-char-code-property char 'general-category)))
-;;              (strip-nonspacing-marks (s)
-;;                                      (apply #'string (seq-remove #'nonspacing-mark-p
-;;                                                                  (ucs-normalize-NFD-string s))))
-;;              (cl-replace (title pair)
-;;                          (replace-regexp-in-string (car pair) (cdr pair) title)))
-;;     (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-") ;; Convert anything not alphanumeric.
-;;                     ("--*" . "-")                   ;; Remove sequential dashes.
-;;                     ("^-" . "")                     ;; Remove starting dashes.
-;;                     ("-$" . "")))                   ;; Remove ending dashes.
-;;            (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
-;;       (downcase slug))))
-;; (setq org-roam-title-to-slug-function #'dotfiles/title-to-slug)
+;; Override the default slug method.
+(cl-defmethod org-roam-node-slug ((node org-roam-node))
+  (let ((title (org-roam-node-title node)))
+    (cl-flet* ((nonspacing-mark-p (char)
+				  (memq char org-roam-slug-trim-chars))
+	       (strip-nonspacing-marks (s)
+				       (ucs-normalize-NFC-string
+					(apply #'string (seq-remove #'nonspacing-mark-p
+								    (ucs-normalize-NFD-string s)))))
+	       (cl-replace (title pair)
+			   (replace-regexp-in-string (car pair) (cdr pair) title)))
+      (let* ((pairs `(("[^[:alnum:][:digit:]]" . "-")  
+		      ("--*" . "-")  
+		      ("^-" . "")  
+		      ("-$" . "")))
+	     (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+	(downcase slug)))))
 
 ;; Configure capture templates.
 ;; Standard document.
@@ -2301,20 +2299,20 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 ;; "))
 
 ;; Apply custom keybindings.
-;; (dotfiles/leader
-;;   "or"  '(:ignore t :which-key "Roam")
-;;   "ori" '(org-roam-insert :which-key "Insert")
-;;   "orf" '(org-roam-find-file :which-key "Find")
-;;   "orc" '(org-roam-capture :which-key "Capture")
-;;   "orb" '(org-roam-buffer-toggle-display :which-key "Buffer"))
+(dotfiles/leader
+  "or"  '(:ignore t :which-key "Roam")
+  "ori" '(org-roam-node-insert :which-key "Insert")
+  "orf" '(org-roam-node-find :which-key "Find")
+  "orc" '(org-roam-capture :which-key "Capture")
+  "orb" '(org-roam-buffer-toggle :which-key "Buffer"))
 
 ;; Apply custom keybindings for dailies.
-;; (dotfiles/leader
-;;   "ord" '(:ignore t :which-key "Dailies")
-;;   "ordd" '(org-roam-dailies-find-date :which-key "Date")
-;;   "ordt" '(org-roam-dailies-find-today :which-key "Today")
-;;   "ordm" '(org-roam-dailies-find-tomorrow :which-key "Tomorrow")
-;;   "ordy" '(org-roam-dailies-find-yesterday :which-key "Yesterday"))
+(dotfiles/leader
+  "ord" '(:ignore t :which-key "Dailies")
+  "ordd" '(org-roam-dailies-goto-date :which-key "Date")
+  "ordt" '(org-roam-dailies-goto-today :which-key "Today")
+  "ordm" '(org-roam-dailies-goto-tomorrow :which-key "Tomorrow")
+  "ordy" '(org-roam-dailies-goto-yesterday :which-key "Yesterday"))
 #+END_SRC
 
 ** Org Drill
@@ -2476,48 +2474,48 @@ Ox-Hugo[fn:72] is an Org-Mode[fn:60] exporter for Hugo[fn:33] compabile markdown
 
 ;; Capture templates.
 ;; Personal blog post.
-(add-to-list 'org-roam-capture-templates
-             '("p" "Post" plain (function org-roam-capture--get-point)
-               "%?"
-               :file-name "docs/posts/${slug}"
-               :unnarrowed t
-               :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+DATE: %<%Y-%m-%d>
+;; (add-to-list 'org-roam-capture-templates
+;;              '("p" "Post" plain (function org-roam-capture--get-point)
+;;                "%?"
+;;                :file-name "docs/posts/${slug}"
+;;                :unnarrowed t
+;;                :head
+;; "
+;; #+TITLE: ${title}
+;; #+AUTHOR: Christopher James Hayward
+;; #+DATE: %<%Y-%m-%d>
 
-,#+OPTIONS: num:nil todo:nil tasks:nil
+;; #+OPTIONS: num:nil todo:nil tasks:nil
 
-,#+EXPORT_FILE_NAME: ${slug}
-,#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
+;; #+EXPORT_FILE_NAME: ${slug}
+;; #+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
 
-,#+HUGO_BASE_DIR: ../
-,#+HUGO_AUTO_SET_LASTMOD: t
-,#+HUGO_SECTION: posts
-,#+HUGO_DRAFT: true
-"))
+;; #+HUGO_BASE_DIR: ../
+;; #+HUGO_AUTO_SET_LASTMOD: t
+;; #+HUGO_SECTION: posts
+;; #+HUGO_DRAFT: true
+;; "))
 
 ;; Shared notes.
-(add-to-list 'org-roam-capture-templates
-             '("n" "Notes" plain (function org-roam-capture--get-point)
-                "%?"
-                :file-name "docs/notes/${slug}"
-                :unnarrowed t
-                :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
+;; (add-to-list 'org-roam-capture-templates
+;;              '("n" "Notes" plain (function org-roam-capture--get-point)
+;;                 "%?"
+;;                 :file-name "docs/notes/${slug}"
+;;                 :unnarrowed t
+;;                 :head
+;; "
+;; ,#+TITLE: ${title}
+;; ,#+AUTHOR: Christopher James Hayward
 
-,#+OPTIONS: num:nil todo:nil tasks:nil
-,#+EXPORT_FILE_NAME: ${slug}
-,#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
+;; ,#+OPTIONS: num:nil todo:nil tasks:nil
+;; ,#+EXPORT_FILE_NAME: ${slug}
+;; ,#+ROAM_KEY: https://chrishayward.xyz/notes/${slug}/
 
-,#+HUGO_BASE_DIR: ../
-,#+HUGO_AUTO_SET_LASTMOD: t
-,#+HUGO_SECTION: notes
-,#+HUGO_DRAFT: true
-"))
+;; ,#+HUGO_BASE_DIR: ../
+;; ,#+HUGO_AUTO_SET_LASTMOD: t
+;; ,#+HUGO_SECTION: notes
+;; ,#+HUGO_DRAFT: true
+;; "))
 #+END_SRC
 
 ** Reveal
@@ -2538,26 +2536,26 @@ Reveal.js[fn:75] is an open source HTML presentation framework. It enables anyon
 (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
 
 ;; Create a capture template.
-(add-to-list 'org-roam-capture-templates
-             '("s" "Slides" plain (function org-roam-capture--get-point)
-               "%?"
-               :file-name "docs/slides/${slug}"
-               :unnarrowed t
-               :head
-"
-,#+TITLE: ${title}
-,#+AUTHOR: Christopher James Hayward
-,#+EMAIL: chris@chrishayward.xyz
+;; (add-to-list 'org-roam-capture-templates
+;;              '("s" "Slides" plain (function org-roam-capture--get-point)
+;;                "%?"
+;;                :file-name "docs/slides/${slug}"
+;;                :unnarrowed t
+;;                :head
+;; "
+;; ,#+TITLE: ${title}
+;; ,#+AUTHOR: Christopher James Hayward
+;; ,#+EMAIL: chris@chrishayward.xyz
 
-,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-,#+REVEAL_THEME: serif
+;; ,#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+;; ,#+REVEAL_THEME: serif
 
-,#+EXPORT_FILE_NAME: ${slug}
+;; ,#+EXPORT_FILE_NAME: ${slug}
 
-,#+OPTIONS: reveal_title_slide:nil
-,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
-,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
-"))
+;; ,#+OPTIONS: reveal_title_slide:nil
+;; ,#+OPTIONS: num:nil toc:nil todo:nil tasks:nil tags:nil
+;; ,#+OPTIONS: skip:nil author:nil email:nil creator:nil timestamp:nil
+;; "))
 #+END_SRC
 
 ** Passwords
@@ -3110,7 +3108,7 @@ Doom Modeline[fn:26] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:62] https://zettelkasten.de
 
-[fn:63] https://github.com/org-roam/org-roam-server
+[fn:63] DEFINITION NOT FOUND.
 
 [fn:64] https://orgmode.org/worg/org-contrib/org-drill.html
 
