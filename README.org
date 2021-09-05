@@ -2494,26 +2494,28 @@ Ox-Hugo[fn:72] is an Org-Mode[fn:60] exporter for Hugo[fn:33] compabile markdown
 ;; Configure `ox-hugo' as an `org-mode-export' backend.
 (require 'ox-hugo)
 
+;; Set up the base directory.
+(setq org-hugo-base-dir (expand-file-name "/etc/dotfiles/docs"))
+
 ;; Capture templates.
 ;; Shared content.
-
 (add-to-list 'org-roam-capture-templates
   '("d" "Post" plain "%?"
     :target (file+head "docs/posts/${slug}.org.gpg"
 "
-#+TITLE: ${title}
-#+AUTHOR: Christopher James Hayward
-#+DATE: %<%Y-%m-%d>
+,#+TITLE: ${title}
+,#+AUTHOR: Christopher James Hayward
+,#+DATE: %<%Y-%m-%d>
 
-#+OPTIONS: num:nil todo:nil tasks:nil
+,#+OPTIONS: num:nil todo:nil tasks:nil
 
-#+EXPORT_FILE_NAME: ${slug}
-#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
+,#+EXPORT_FILE_NAME: ${slug}
+,#+ROAM_KEY: https://chrishayward.xyz/posts/${slug}/
 
-#+HUGO_BASE_DIR: ../
-#+HUGO_AUTO_SET_LASTMOD: t
-#+HUGO_SECTION: posts
-#+HUGO_DRAFT: true
+,#+HUGO_BASE_DIR: ../
+,#+HUGO_AUTO_SET_LASTMOD: t
+,#+HUGO_SECTION: posts
+,#+HUGO_DRAFT: true
 "
 )
     :unnarrowed t))
