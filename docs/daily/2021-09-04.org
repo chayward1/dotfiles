@@ -1,8 +1,0 @@
-:PROPERTIES:
-:ID:       d577ea7a-6aea-4e62-a542-7455529d5f2a
-:END:
-#+TITLE: 2021-09-04
-
-* Checking out Org Roam V2
-
-I recently discovered that Org Roam v1 has been deprecated. I have begun researching the process of upgrading from V1 to V2, as the development on V1 has completly stopped. I use the software extensively in my [[id:e4ad3dd5-0996-45bc-92ab-6bdbf16e4310][Dotfiles]] and want to keep up to date with my config.
