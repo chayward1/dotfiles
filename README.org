@@ -2315,9 +2315,9 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
   '("d" "Default" entry "* %?"
     :target (file+head "%<%Y-%m-%d>.org.gpg"
 "
-;; #+TITLE: %<%Y-%m-%d>
-;; #+AUTHOR: Christopher James Hayward
-;; #+EMAIL: chris@chrishayward.xyz
+#+TITLE: %<%Y-%m-%d>
+#+AUTHOR: Christopher James Hayward
+#+EMAIL: chris@chrishayward.xyz
 ")))
 
 ;; Apply custom keybindings.
