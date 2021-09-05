@@ -66,16 +66,11 @@ pygmentsUseClasses = true
 
 [menu]
   [[menu.main]]
-    name = "Posts"
-    url = "posts/"
-    weight = 10
-
-  [[menu.main]]
     name = "Dotfiles"
     url = "dotfiles"
-    weight = 20
+    weight = 10
 
   [[menu.main]]
     name = "Projects"
     url = "https://git.chrishayward.xyz/explore/repos"
-    weight = 30
+    weight = 20
