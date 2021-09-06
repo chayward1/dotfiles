@@ -2215,9 +2215,20 @@ Org-mode[fn:60] is a document editing and organizing mode, designed for notes, p
   "o" '(:ignore t :which-key "Org")
   "oe" '(org-export-dispatch :which-key "Export")
   "ot" '(org-babel-tangle :which-key "Tangle")
-  "oi" '(org-toggle-inline-images :which-key "Images")
   "of" '(:ignore t :which-key "Footnotes")
   "ofn" '(org-footnote-normalize :which-key "Normalize"))
+
+;; Custom bindings for IDs.
+(dotfiles/leader
+  "oi" '(:ignore t :which-key "IDs")
+  "oic" '(org-id-copy :which-key "Copy")
+  "oig" '(org-id-goto :which-key "Goto")
+  "oiu" '(org-id-update-id-locations :which-key "Update")
+  "oii" '(org-id-get-create :which-key "Get / Create"))
+
+;; Custom toggle for inline images.
+(dotfiles/leader
+  "ti" '(org-toggle-inline-images :which-key "Images"))
 #+END_SRC
 
 ** Org Roam
