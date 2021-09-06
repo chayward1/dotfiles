@@ -2188,6 +2188,9 @@ Org-mode[fn:60] is a document editing and organizing mode, designed for notes, p
 ;; Configure the keywords in the TODO -> DONE sequence.
 (setq org-todo-keywords '((sequence "TODO" "START" "WAIT" "DONE")))
 
+;; Track ids globally.
+(setq org-id-track-globally t)
+
 ;; Configure `org-babel' languages.
 (org-babel-do-load-languages
   'org-babel-load-languages
@@ -2196,6 +2199,11 @@ Org-mode[fn:60] is a document editing and organizing mode, designed for notes, p
 ;; Log / Clock into property drawers.
 (setq org-log-into-drawer t
       org-clock-into-drawer t)
+
+;; Encrypt files with the public key.
+(setq epa-file-select-keys 2
+      epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
+      epa-cache-passphrase-for-symmetric-encryption t)
 
 ;; TODO: Configure default structure templates.
 ;; (require 'org-tempo)
@@ -2228,10 +2236,10 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
     (org-roam-setup)))
 
 ;; Silence the migration warnings.
-(setq org-roam-v2-ack t
-      org-id-track-globally t)
+(setq org-roam-v2-ack t)
 
-;; Update ids globally.
+;; Enable completion everywhere.
+(setq org-roam-completion-everywhere t)
 
 ;; Set the roam directories.
 (setq org-roam-directory (expand-file-name "/etc/dotfiles")
