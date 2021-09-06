@@ -1,7 +1,6 @@
 :PROPERTIES:
 :ID:       e4ad3dd5-0996-45bc-92ab-6bdbf16e4310
 :ROAM_REF: https://chrishayward.xyz/dotfiles/
-:ROAM_ALIASES: "https://git.chrishayward.xyz/chris/dotfiles" "https://github.com/chayward1/dotfiles" "https://gitlab.com/chayward1/dotfiles"
 :END:
 #+TITLE: Dotfiles
 #+AUTHOR: Christopher James Hayward
@@ -2216,9 +2215,6 @@ Org-mode[fn:60] is a document editing and organizing mode, designed for notes, p
 #+NAME: emacs-org-roam-package
 #+BEGIN_SRC nix
 epkgs.org-roam
-# epkgs.websocket
-# epkgs.simple-httpd
-# epkgs.org-roam-ui
 #+END_SRC
 
 Org Roam[fn:61] is a plain-text knowledge management system. It borrows principles from the Zettelkasten method[fn:62], providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using Org Mode[fn:60] for their personal wiki (me). Org Roam Server[fn:63] is a Web application to visualize the Org Roam[fn:61] database. Although it should automatically reload if there's a change in the database, it can be done so manually by clicking the =reload= button on the Web interface.
@@ -2242,12 +2238,6 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 ;; Clear the deafult capture templates.
 (setq org-roam-capture-templates '()
       org-roam-dailies-capture-templates '())
-
-;; Configure the user interface.
-;; (setq org-roam-ui-follow t
-;;       org-roam-ui-sync-theme t
-;;       org-roam-ui-open-on-start t
-;;       org-roam-ui-update-on-save t)
 
 ;; Encrypt files with the public key.
 (setq epa-file-select-keys 2
