@@ -2241,11 +2241,6 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 (setq org-roam-capture-templates '()
       org-roam-dailies-capture-templates '())
 
-;; Encrypt files with the public key.
-(setq epa-file-select-keys 2
-      epa-file-encrypt-to "37AB1CB72B741E478CA026D43025DCBD46F81C0F"
-      epa-cache-passphrase-for-symmetric-encryption t)
-
 ;; Override the default slug method.
 (cl-defmethod org-roam-node-slug ((node org-roam-node))
   (let ((title (org-roam-node-title node))
