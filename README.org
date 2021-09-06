@@ -2021,6 +2021,9 @@ All The Icons[fn:53] is a utility package to collect various Icon Fonts and prio
 ;; Setup `all-the-icons-dired'.
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
+;; Disable monochrome icons.
+(setq all-the-icons-dired-monochrome nil)
+
 ;; Display default font ligatures.
 (global-prettify-symbols-mode +1)
 #+END_SRC
