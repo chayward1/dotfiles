@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       e4ad3dd5-0996-45bc-92ab-6bdbf16e4310
-:ROAM_REF: https://chrishayward.xyz/dotfiles/
+:ROAM_REFS: https://chrishayward.xyz/dotfiles/
 :END:
 #+TITLE: Dotfiles
 #+AUTHOR: Christopher James Hayward
@@ -2228,7 +2228,10 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
     (org-roam-setup)))
 
 ;; Silence the migration warnings.
-(setq org-roam-v2-ack t)
+(setq org-roam-v2-ack t
+      org-id-track-globally t)
+
+;; Update ids globally.
 
 ;; Set the roam directories.
 (setq org-roam-directory (expand-file-name "/etc/dotfiles")
