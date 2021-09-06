@@ -1868,10 +1868,12 @@ General[fn:47] provides a more convenient method for binding keys in Emacs[fn:2]
 #+BEGIN_SRC emacs-lisp
 ;; Use <SPC> as a leader key via `general.el'.
 (general-create-definer dotfiles/leader
-  :states '(normal motion)
-  :keymaps 'override
+  :keymaps '(normal insert visual emacs)
   :prefix "SPC"
   :global-prefix "C-SPC")
+
+;; Setup general to work with `evil-mode'.
+(setq general-evil-setup t)
 
 ;; Find files with <SPC> <period> ...
 ;; Switch buffers with <SPC> <comma> ...
@@ -3115,6 +3117,6 @@ Doom Modeline[fn:26] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:88] https://github.com/seagle0128/doom-modeline
 
-[fn:89] https://revealjs.com
+[fn:89] https://github.com/hexmode/ox-reveal
 
-[fn:90] https://github.com/hexmode/ox-reveal
+[fn:90] https://revealjs.com
