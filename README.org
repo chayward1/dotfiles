@@ -2351,8 +2351,7 @@ The way Org Mode[fn:60] works, TODO items, time-stamped items, and tagged headli
 ;; Configure `org-agenda' to use the project files.
 (setq org-agenda-files '("/etc/dotfiles/"
                          "/etc/dotfiles/docs/"
-                         "/etc/dotfiles/docs/daily/"
-                         "/etc/dotfiles/docs/courses/"))
+                         "/etc/dotfiles/docs/daily/"))
 
 ;; Include files encrypted with `gpg'.
 (require 'org)
