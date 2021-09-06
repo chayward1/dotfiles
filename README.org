@@ -2287,7 +2287,7 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 ;; Standard document.
 (add-to-list 'org-roam-capture-templates
   '("d" "Default" plain "%?"
-    :target (file+head "docs/%<%Y%m%d%H%M%S>${slug}.org.gpg"
+    :target (file+head "docs/%<%Y%m%d%H%M%S>-${slug}.org.gpg"
 "
 ,#+TITLE: ${title}
 ,#+AUTHOR: Christopher James Hayward
