@@ -2228,6 +2228,9 @@ Org-mode[fn:60] is a document editing and organizing mode, designed for notes, p
 #+NAME: emacs-org-roam-package
 #+BEGIN_SRC nix
 epkgs.org-roam
+# epkgs.org-roam-ui # TODO: Provide from Github
+epkgs.websocket
+epkgs.simplehttpd
 #+END_SRC
 
 Org Roam[fn:61] is a plain-text knowledge management system. It borrows principles from the Zettelkasten method[fn:62], providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using Org Mode[fn:60] for their personal wiki (me). Org Roam Server[fn:63] is a Web application to visualize the Org Roam[fn:61] database. Although it should automatically reload if there's a change in the database, it can be done so manually by clicking the =reload= button on the Web interface.
@@ -2236,6 +2239,10 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 #+BEGIN_SRC emacs-lisp
 ;; Setup `org-roam'.
 (require 'org-roam)
+
+;; HACK: Set up `org-roam-ui'.
+(add-to-list 'load-path "~/.local/source/org-roam-ui")
+(load-library "org-roam-ui")
 
 ;; Silence the migration warnings.
 (setq org-roam-v2-ack t)

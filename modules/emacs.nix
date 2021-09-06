@@ -20,6 +20,9 @@ let
       # Optional packages.
       epkgs.org
       epkgs.org-roam
+      # epkgs.org-roam-ui # TODO: Provide from Github
+      epkgs.websocket
+      epkgs.simplehttpd
       epkgs.org-drill
       epkgs.org-pomodoro
       epkgs.writegood-mode
