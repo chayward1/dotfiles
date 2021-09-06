@@ -2333,6 +2333,11 @@ Org Drill[fn:64] is an extension for Org Mode[fn:60] that uses a spaced repition
 
 #+NAME: emacs-org-drill-elisp
 #+BEGIN_SRC emacs-lisp
+;; Exclude :drill: items from `org-roam'.
+(setq org-roam-db-node-include-function
+  (defun dotfiles/org-roam-include ()
+    (not (member "drill" (org-get-tags)))))
+
 ;; Configure keybindings for `org-drill'.
 (dotfiles/leader
   "od" '(:ignore t :which-key "Drill")
