@@ -2233,9 +2233,6 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 #+BEGIN_SRC emacs-lisp
 ;; Setup `org-roam'.
 (require 'org-roam)
-(add-hook 'after-init-hook
-  (lambda ()
-    (org-roam-setup)))
 
 ;; Silence the migration warnings.
 (setq org-roam-v2-ack t)
@@ -2312,6 +2309,9 @@ Org Roam[fn:61] is a plain-text knowledge management system. It borrows principl
 ,#+AUTHOR: Christopher James Hayward
 ,#+EMAIL: chris@chrishayward.xyz
 ")))
+
+;; Run the setup command.
+(org-roam-setup)
 
 ;; Apply custom keybindings.
 (dotfiles/leader
