@@ -2359,10 +2359,10 @@ Org Drill[fn:64] is an extension for Org Mode[fn:60] that uses a spaced repition
 
 ;; Configure keybindings for `org-drill'.
 (dotfiles/leader
-  "ol" '(:ignore t :which-key "Drill")
-  "old" '(org-drill :which-key "Drill")
-  "olc" '(org-drill-cram :which-key "Cram")
-  "olr" '(org-drill-resume :which-key "Resume"))
+  "od" '(:ignore t :which-key "Drill")
+  "odd" '(org-drill :which-key "Drill")
+  "odc" '(org-drill-cram :which-key "Cram")
+  "odr" '(org-drill-resume :which-key "Resume"))
 #+END_SRC
 
 ** Org Agenda
