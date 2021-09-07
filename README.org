@@ -55,11 +55,14 @@ This file is controlled by /etc/dotfiles/README.org
 
 The ~nixos-rebuild~ command updates the system so that it corresponds to the configuration specified in the module. It builds the new system in =/nix/store/=, runs the activation scripts, and restarts and system services (if needed). The command has one required argument, which specifies the desired operation:
 
-+ boot :: Build the new configuration and make it the boot default, without activation
-+ test :: Build and activate the new configuration, without adding it to the boot menu
-+ switch :: Build and activate the new configuration, making it the new boot default
-+ build :: Build the new configuration, without activation, nor adding it to the boot menu
-+ build-vm :: Build a script that starts a virtual machine with the desired configuration
+#+NAME: rebuild-command-table
+| Command  | Description                                                                     |
+|----------+---------------------------------------------------------------------------------|
+| boot     | Build the new configuration and make it the boot default, without activation    |
+| test     | Build and activate the new configuration, without adding it to the boot menu    |
+| switch   | Build and activate the new configuration, making it the new boot default        |
+| build    | Build the new configuration, without activation, nor adding it to the boot menu |
+| build-vm | Build a script that starts a virtual machine with the desired configuration     |
 
 #+BEGIN_SRC shell
 # Build and activate a new configuration.
