@@ -78,7 +78,9 @@ sudo nixos-rebuild switch --rollback
 
 ** Docker Container
 
-It's possible to use parts of this configuration using a container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
+It's possible to use parts of this configuration using a Docker[fn:4] container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
+
+Install from the command line: ~docker pull ghcr.io/chayward1/dotfiles:main~
 
 #+BEGIN_SRC dockerfile :tangle Dockerfile :noweb yes
 # <<file-warning>>
@@ -96,7 +98,7 @@ RUN nix-shell /etc/dotfiles/shell.nix
 
 * Operating System
 
-NixOS[fn:4] is a purely functional Linux distribution built on top of the Nix[fn:5] package manager. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. NixOS[fn:4] also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
+NixOS[fn:5] is a purely functional Linux distribution built on top of the Nix[fn:6] package manager. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. NixOS[fn:5] also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
 
 #+BEGIN_SRC nix :noweb yes :tangle flake.nix
 # <<file-warning>>
@@ -125,7 +127,7 @@ NixOS[fn:4] is a purely functional Linux distribution built on top of the Nix[fn
 
 ** Nixpkgs
 
-Nixpkgs[fn:6] is a collection of over 60,000 software packages that can be installed with the Nix[fn:5] package manager. Two main branches are offered:
+Nixpkgs[fn:7] is a collection of over 60,000 software packages that can be installed with the Nix[fn:6] package manager. Two main branches are offered:
 
 1) The current stable release
 2) The Unstable branch following the latest development
@@ -138,7 +140,7 @@ nixpkgs-unstable.url = "nixpkgs/master";
 
 ** Home Manager
 
-Home Manager[fn:7] provides a basic system for managing user environments using the Nix[fn:5] package manager together with the Nix libraries found in Nixpkgs[fn:6]. It allows declarative configuration of user specific (non-global) packages and files.
+Home Manager[fn:8] provides a basic system for managing user environments using the Nix[fn:6] package manager together with the Nix libraries found in Nixpkgs[fn:7]. It allows declarative configuration of user specific (non-global) packages and files.
 
 #+NAME: os-home-manager
 #+BEGIN_SRC nix
@@ -148,7 +150,7 @@ home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
 ** Emacs Overlay
 
-Adding the Emacs Overlay[fn:8] extends the GNU/Emacs[fn:2] package set to contain the latest versions, and daily generations from popular package sources, including the needed dependencies to run GNU/Emacs[fn:2] as a Window Manager.
+Adding the Emacs Overlay[fn:9] extends the GNU/Emacs[fn:2] package set to contain the latest versions, and daily generations from popular package sources, including the needed dependencies to run GNU/Emacs[fn:2] as a Window Manager.
 
 #+NAME: os-emacs-overlay
 #+BEGIN_SRC nix
@@ -157,7 +159,7 @@ emacs-overlay.url = "github:nix-community/emacs-overlay";
 
 ** NixOS Hardware
 
-NixOS Hardware[fn:9] is a collection of NixOS[fn:4] modules covering specific hardware quirks. Unlike the channel, this will update the git repository on a rebuild. However, it's easy to pin particular revisions for more stability.
+NixOS Hardware[fn:10] is a collection of NixOS[fn:5] modules covering specific hardware quirks. Unlike the channel, this will update the git repository on a rebuild. However, it's easy to pin particular revisions for more stability.
 
 #+NAME: os-nixos-hardware
 #+BEGIN_SRC nix
@@ -166,7 +168,7 @@ nixos-hardware.url = "github:nixos/nixos-hardware";
 
 ** Nix On Droid
 
-Nix On Droid[fn:10] is a deployment of the Nix[fn:5] Package Manager on Android, in a single-click installable package. It does not require =root=, user namespace support, or disabling SELinux, but relies on =proot=. It has no relation to the Termux distribution.
+Nix On Droid[fn:11] is a deployment of the Nix[fn:6] Package Manager on Android, in a single-click installable package. It does not require =root=, user namespace support, or disabling SELinux, but relies on =proot=. It has no relation to the Termux distribution.
 
 #+NAME: os-nix-on-droid
 #+BEGIN_SRC nix
@@ -176,7 +178,7 @@ nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
 
 * Development Shells
 
-The command ~nix-shell~[fn:11] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
+The command ~nix-shell~[fn:12] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
 
 Import this shell with ~nix-shell /etc/dotfiles/shell.nix~.
 
@@ -204,7 +206,7 @@ in mkShell {
 
 ** Go
 
-Go[fn:12] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
+Go[fn:13] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/go.nix~
 
@@ -232,7 +234,7 @@ mkShell {
 
 ** Rust
 
-Rust[fn:13] is a multi-paradigm programming language designed for performance and safety, especially safe concurrency. It is syntactically similar to C++, but can garantee memory safety by using a borrow checker to validate references. Rust[fn:13] achieves memory safety /without/ garbage collection, and reference counting is optional.
+Rust[fn:14] is a multi-paradigm programming language designed for performance and safety, especially safe concurrency. It is syntactically similar to C++, but can garantee memory safety by using a borrow checker to validate references. Rust[fn:14] achieves memory safety /without/ garbage collection, and reference counting is optional.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/rust.nix~.
 
@@ -255,7 +257,7 @@ mkShell {
 
 ** Node
 
-Node.js[fn:14] is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine, and executes JavaScript code outside of a web browser. Node.js[fn:14] lets developers user JavaScript to write command line tools, and for server-side scripting to produce dynamic web page content.
+Node.js[fn:15] is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine, and executes JavaScript code outside of a web browser. Node.js[fn:15] lets developers user JavaScript to write command line tools, and for server-side scripting to produce dynamic web page content.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/node.nix~.
 
@@ -280,7 +282,7 @@ mkShell {
 
 ** Java
 
-OpenJDK[fn:15] is a free and open-source implementation of the Java Platform, Standard Edition. It is the result of an effort Sun Microsystems began in 2006. The implementation is licensed under the GNU General Public License Version 2 with a linking exception.
+OpenJDK[fn:16] is a free and open-source implementation of the Java Platform, Standard Edition. It is the result of an effort Sun Microsystems began in 2006. The implementation is licensed under the GNU General Public License Version 2 with a linking exception.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/java.nix~.
 
@@ -302,7 +304,7 @@ mkShell {
 
 ** gRPC
 
-gRPC[fn:16] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
+gRPC[fn:17] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/grpc.nix~.
 
@@ -327,7 +329,7 @@ mkShell {
 
 ** C/C++
 
-C[fn:17] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. C++[fn:18] is a general-purpose programming language created as an extension of the C[fn:17] programming language.
+C[fn:18] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. C++[fn:19] is a general-purpose programming language created as an extension of the C[fn:18] programming language.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/cc.nix~.
 
@@ -351,7 +353,7 @@ mkShell {
 
 ** Python
 
-Python[fn:19] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
+Python[fn:20] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/python.nix~
 
@@ -375,7 +377,7 @@ mkShell {
 
 ** Docker
 
-Compose[fn:20] is a tool for defining and running multi-container Docker[fn:21] applications. With Compose[fn:20], you use a YAML file to configure your application services. Then, with a single command, you create and start all of the services from your configuration.
+Compose[fn:21] is a tool for defining and running multi-container Docker[fn:4] applications. With Compose[fn:21], you use a YAML file to configure your application services. Then, with a single command, you create and start all of the services from your configuration.
 
 Machine[fn:22] is a tool that lets you install Docker Engine on virtual hosts, and manage the hosts with ~docker-machine~ commands. You can use Machine[fn:22] to create hosts on your local box, company network, data center, or on any cloud provider.
 
@@ -418,7 +420,7 @@ mkShell {
 
 * Host Configurations
 
-NixOS[fn:4] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial. It also makes it easier to share common configurations amongst all of the hosts, such as with pre-configured wireless networking:
+NixOS[fn:5] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial. It also makes it easier to share common configurations amongst all of the hosts, such as with pre-configured wireless networking:
 
 #+NAME: host-config-wifi
 #+BEGIN_SRC nix
@@ -495,7 +497,7 @@ Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#nixo
 
 *** Configuration
 
-This is a basic default configuration that specified the indended default configuration of the system. Because NixOS[fn:4] has a declarative configuration model, you can create or edit a description of the desired configuration, and update it from one file.
+This is a basic default configuration that specified the indended default configuration of the system. Because NixOS[fn:5] has a declarative configuration model, you can create or edit a description of the desired configuration, and update it from one file.
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/nixos/configuration.nix
 # <<file-warning>>
@@ -526,7 +528,7 @@ This is a basic default configuration that specified the indended default config
 
 *** Hardware
 
-The file system for this host is a single 24GB QCOW file, a format for disk images used by QEMU[fn:24]. The file can be recreated easily by following the steps listed in the NixOS[fn:4] installation manual, specifically the section on disk formatting.
+The file system for this host is a single 24GB QCOW file, a format for disk images used by QEMU[fn:24]. The file can be recreated easily by following the steps listed in the NixOS[fn:5] installation manual, specifically the section on disk formatting.
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/nixos/hardware.nix
 # <<file-warning>>
@@ -826,7 +828,7 @@ This section is very much a work in progress. I have struggled to get this devic
 
 ** Homecloud
 
-The Raspberry Pi Model B-8GB[fn:28] is the latest product in the popular Raspberry Pi range of computers. It offers groundbreaking increases in processor speed, multimedia performance, memory, and connectivity compared to the prior generation. On NixOS[fn:4], the Raspberry Pi family is /only/ supported on the =AArch64= platform, although there is community support for =armv6l= and =armv7l=.
+The Raspberry Pi Model B-8GB[fn:28] is the latest product in the popular Raspberry Pi range of computers. It offers groundbreaking increases in processor speed, multimedia performance, memory, and connectivity compared to the prior generation. On NixOS[fn:5], the Raspberry Pi family is /only/ supported on the =AArch64= platform, although there is community support for =armv6l= and =armv7l=.
 
 #+NAME: host-homecloud
 #+BEGIN_SRC nix :noweb yes
@@ -941,7 +943,7 @@ Deploy this configuration with ~sudo nixos-rebuild switch --flake /etc/dotfiles/
 
 ** Android
 
-This is my Samsung Galaxy S10+[fn:29] running Nix On Droid[fn:10] with the experimental support for Flakes being used to manage the configuration.
+This is my Samsung Galaxy S10+[fn:29] running Nix On Droid[fn:11] with the experimental support for Flakes being used to manage the configuration.
 
 #+NAME: host-android
 #+BEGIN_SRC nix
@@ -969,7 +971,7 @@ Build the activation package with ~nix build .#android --impure~, and activate i
 
 * Module Definitions
 
-Modules are files combined by NixOS[fn:4] to produce the full system configuration. Modules wre introduced to allow extending NixOS[fn:4] without modifying its source code. They also allow splitting up =configuration.nix=, making the system configuration easier to maintain and use.
+Modules are files combined by NixOS[fn:5] to produce the full system configuration. Modules wre introduced to allow extending NixOS[fn:5] without modifying its source code. They also allow splitting up =configuration.nix=, making the system configuration easier to maintain and use.
 
 ** X11
 
@@ -1082,7 +1084,7 @@ in {
 ./modules/flakes.nix
 #+END_SRC
 
-Nix Flakes[fn:34] are an upcoming feature of the Nix package manager[fn:5]. They allow you to specify your codes dependencies in a declarative way, simply by listing them inside of a ~flake.nix~ file. Each dependency is then pinned to a specific git-hash. Flakes[fn:34] replace the =nix-channels= command and things like ~builtins.fetchGit~, keeping dependencies at the top of the tree, and channels always in sync. Currently, Flakes[fn:34] are not available unless explicitly enabled.
+Nix Flakes[fn:34] are an upcoming feature of the Nix package manager[fn:6]. They allow you to specify your codes dependencies in a declarative way, simply by listing them inside of a ~flake.nix~ file. Each dependency is then pinned to a specific git-hash. Flakes[fn:34] replace the =nix-channels= command and things like ~builtins.fetchGit~, keeping dependencies at the top of the tree, and channels always in sync. Currently, Flakes[fn:34] are not available unless explicitly enabled.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/flakes.nix
 # <<file-warning>>
@@ -1110,7 +1112,7 @@ Nix Flakes[fn:34] are an upcoming feature of the Nix package manager[fn:5]. They
 ./modules/cachix.nix
 #+END_SRC
 
-Cachix[fn:35] is a Command line client for Nix[fn:5] binary cache hosting. This allows downloading and usage of pre-compiled binaries for applications on /nearly/ every available system architecture. This speeds up the time it takes to rebuild configurations.
+Cachix[fn:35] is a Command line client for Nix[fn:6] binary cache hosting. This allows downloading and usage of pre-compiled binaries for applications on /nearly/ every available system architecture. This speeds up the time it takes to rebuild configurations.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/cachix.nix
 # <<file-warning>>
@@ -1135,7 +1137,7 @@ Cachix[fn:35] is a Command line client for Nix[fn:5] binary cache hosting. This 
 ./modules/docker.nix
 #+END_SRC
 
-Docker [fn:21] is a set of platform as a service that uses OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuration files; they can communicate with each other through well-defined channels.
+Docker [fn:4] is a set of platform as a service that uses OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuration files; they can communicate with each other through well-defined channels.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/docker.nix
 { config, pkgs, ... }:
@@ -1338,7 +1340,7 @@ The Teamviewer[fn:40] remote connectivity cloud platform enables secure remote a
 
 ** Home Manager
 
-Home Manager[fn:7] includes a =flake.nix= file for compatibility with Nix Flakes, a feature utilized heavily in this project. When using flakes, switching to a new configuration is done /only/ for the entire system, using the command ~nixos-rebuild switch --flake <path>~, instead of ~nixos-rebuild~, and ~home-manager~ seperately.
+Home Manager[fn:8] includes a =flake.nix= file for compatibility with Nix Flakes, a feature utilized heavily in this project. When using flakes, switching to a new configuration is done /only/ for the entire system, using the command ~nixos-rebuild switch --flake <path>~, instead of ~nixos-rebuild~, and ~home-manager~ seperately.
 
 #+NAME: module-home-manager
 #+BEGIN_SRC nix :noweb yes
@@ -1733,7 +1735,7 @@ Define some methods for interaction between GNU/Emacs[fn:2], and the systems und
 pkgs.nixfmt
 #+END_SRC
 
-Nix-mode[fn:45] is an Emacs[fn:2] major mode for editing Nix[fn:5] expressions. This provides basic handling of =.nix= files. Syntax highlighting and indentation support using =SMIE= are provided.
+Nix-mode[fn:45] is an Emacs[fn:2] major mode for editing Nix[fn:6] expressions. This provides basic handling of =.nix= files. Syntax highlighting and indentation support using =SMIE= are provided.
 
 #+NAME: emacs-nix-mode-package
 #+BEGIN_SRC nix
@@ -2769,7 +2771,7 @@ Company[fn:78] is a text completion framework for GNU/Emacs[fn:2]. The name stan
 epkgs.go-mode
 #+END_SRC
 
-Go Mode[fn:79] is a major mode for editing Golang[fn:12] source code in GNU/Emacs[fn:2].
+Go Mode[fn:79] is a major mode for editing Golang[fn:13] source code in GNU/Emacs[fn:2].
 
 #+NAME: emacs-golang-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2805,7 +2807,7 @@ Rustic[fn:78] is a fork of rust-mode that integrates well with the Language Serv
 epkgs.pretty-mode
 #+END_SRC
 
-The built in Python Mode[fn:80] has a nice feature set for working with Python[fn:19] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:76] server. These tools are included in the Development Shell[fn:11] for Python[fn:19].
+The built in Python Mode[fn:80] has a nice feature set for working with Python[fn:20] code in GNU/Emacs[fn:2]. It is complimented with the addition of an LSP[fn:76] server. These tools are included in the Development Shell[fn:12] for Python[fn:20].
 
 #+NAME: emacs-python-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2965,41 +2967,41 @@ Doom Modeline[fn:85] is a fancy and fast modeline inspired by minimalism design.
 
 [fn:3] https://literateprogramming.com/knuthweb.pdf
 
-[fn:4] https://nixos.org/manual/nixos/stable
+[fn:4] https://docker.org
 
-[fn:5] https://nixos.org/manual/nix/stable
+[fn:5] https://nixos.org/manual/nixos/stable
 
-[fn:6] https://nixos.org/manual/nixpkgs/stable
+[fn:6] https://nixos.org/manual/nix/stable
 
-[fn:7] https://github.com/nix-community/home-manager
+[fn:7] https://nixos.org/manual/nixpkgs/stable
 
-[fn:8] https://github.com/nix-community/emacs-overlay
+[fn:8] https://github.com/nix-community/home-manager
 
-[fn:9] https://github.com/nixos/nixos-hardware
+[fn:9] https://github.com/nix-community/emacs-overlay
 
-[fn:10] https://github.com/t184256/nix-on-droid
+[fn:10] https://github.com/nixos/nixos-hardware
 
-[fn:11] https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html
+[fn:11] https://github.com/t184256/nix-on-droid
 
-[fn:12] https://golang.org
+[fn:12] https://nixos.org/manual/nix/unstable/command-ref/nix-shell.html
 
-[fn:13] https://rust-lang.org
+[fn:13] https://golang.org
 
-[fn:14] https://nodejs.org
+[fn:14] https://rust-lang.org
 
-[fn:15] https://openjdk.java.net
+[fn:15] https://nodejs.org
 
-[fn:16] https://grpc.io
+[fn:16] https://openjdk.java.net
 
-[fn:17] https://iso.org/standard/74528.html
+[fn:17] https://grpc.io
 
-[fn:18] https://en.wikipedia.org/wiki/C++/
+[fn:18] https://iso.org/standard/74528.html
 
-[fn:19] https://python.org
+[fn:19] https://en.wikipedia.org/wiki/C++/
 
-[fn:20] https://docs.docker.com/compose/
+[fn:20] https://python.org
 
-[fn:21] https://docker.org
+[fn:21] https://docs.docker.com/compose/
 
 [fn:22] https://docs.docker.com/machine/
 
