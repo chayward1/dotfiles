@@ -35,7 +35,7 @@ Built for Life, Liberty, and the Open Road.
 
 * Introduction
 
-This is my personal configuration(s) for GNU/Linux[fn:1] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with GNU/Emacs[fn:2], leveraging its capabilities for Literate Programming[fn:3], a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.
+This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with [[https://gnu.org/software/emacs/][GNU/Emacs]], leveraging its capabilities for [[https://doi.org/10.1093/comjnl/27.2.97][Literate Programming]], a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.
 
 #+NAME: file-warning
 #+BEGIN_SRC text
@@ -100,7 +100,7 @@ RUN nix-shell /etc/dotfiles/shell.nix
 
 * Operating System
 
-NixOS[fn:5] is a purely functional Linux distribution built on top of the Nix[fn:6] package manager. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. NixOS[fn:5] also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
+[[https://nixos.org][NixOS]] is a purely functional Linux distribution built on top of the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. NixOS also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
 
 #+BEGIN_SRC nix :noweb yes :tangle flake.nix
 # <<file-warning>>
@@ -129,7 +129,7 @@ NixOS[fn:5] is a purely functional Linux distribution built on top of the Nix[fn
 
 ** Nixpkgs
 
-Nixpkgs[fn:7] is a collection of over 60,000 software packages that can be installed with the Nix[fn:6] package manager. Two main branches are offered:
+[[https://nixos.org/manual/nixpkgs/stable][Nixpkgs]] is a collection of over 60,000 software packages that can be installed with the Nix package manager. Two main branches are offered:
 
 1) The current stable release
 2) The Unstable branch following the latest development
