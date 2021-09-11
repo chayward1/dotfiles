@@ -80,7 +80,7 @@ sudo nixos-rebuild switch --rollback
 
 ** Docker Container
 
-It's possible to use parts of this configuration using a Docker[fn:4] container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
+It's possible to use parts of this configuration using a [[https://docker.org][Docker]] container. By default, sandboxing is turned /off/ inside of the container, even though it's enabled in new installations. This can lead to differences between derivations built inside containers, versus those built without any containerization. This is especially true if a derivation relies on sandboxing to block sideloading of dependencies.
 
 Install from the command line: ~docker pull ghcr.io/chayward1/dotfiles:main~
 
@@ -1139,7 +1139,7 @@ Cachix[fn:35] is a Command line client for Nix[fn:6] binary cache hosting. This 
 ./modules/docker.nix
 #+END_SRC
 
-Docker [fn:4] is a set of platform as a service that uses OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuration files; they can communicate with each other through well-defined channels.
+[[https://docker.org][Docker]] is a set of platform as a service tools that use OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuration files; they can communicate with each other through well-defined channels.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/docker.nix
 { config, pkgs, ... }:
