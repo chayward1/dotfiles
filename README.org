@@ -44,8 +44,8 @@ This file is controlled by /etc/dotfiles/README.org
 
 ** Getting Started
 
-1) Download the latest version of NixOS https://nixos.org/download.html
-2) Partition drives and mount the file system https://nixos.org/manual/nixos/stable/#sec-installation-partitioning
+1) [[https://nixos.org/download.html][Download the latest version of NixOS]]
+2) [[https://nixos.org/manual/nixos/stable/#sec-installation-partitioning][Partition your drives and mount the file system]]
 3) Clone the project to =/mnt/etc/dotfiles= ~git clone git@git.chrishayward.xyz:chris/dotfiles /mnt/etc/dotfiles~
 4) Load the default shell environment ~nix-shell /mnt/etc/dotfiles~
 5) Install the default system ~sudo nixos-install --flake /mnt/etc/dotfiles#nixos~
@@ -100,7 +100,7 @@ RUN nix-shell /etc/dotfiles/shell.nix
 
 * Operating System
 
-[[https://nixos.org][NixOS]] is a purely functional Linux distribution built on top of the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. NixOS also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
+[[https://nixos.org][NixOS]] is a purely functional Linux distribution built on top of the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. [[https://nixos.org][NixOS]] also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
 
 #+BEGIN_SRC nix :noweb yes :tangle flake.nix
 # <<file-warning>>
@@ -129,7 +129,7 @@ RUN nix-shell /etc/dotfiles/shell.nix
 
 ** Nixpkgs
 
-[[https://nixos.org/manual/nixpkgs/stable][Nixpkgs]] is a collection of over 60,000 software packages that can be installed with the Nix package manager. Two main branches are offered:
+[[https://nixos.org/manual/nixpkgs/stable][Nixpkgs]] is a collection of over 60,000 software packages that can be installed with the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. Two main branches are offered:
 
 1) The current stable release
 2) The Unstable branch following the latest development
@@ -142,7 +142,7 @@ nixpkgs-unstable.url = "nixpkgs/master";
 
 ** Home Manager
 
-Home Manager[fn:8] provides a basic system for managing user environments using the Nix[fn:6] package manager together with the Nix libraries found in Nixpkgs[fn:7]. It allows declarative configuration of user specific (non-global) packages and files.
+[[https://nixos.wiki/wiki/Home_Manager][Home Manager]] provides a basic system for managing user environments using the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]] together with the Nix libraries found in [[https://nixos.org/manual/nixpkgs/stable][Nixpkgs]]. It allows declarative configuration of user specific (non-global) packages and files.
 
 #+NAME: os-home-manager
 #+BEGIN_SRC nix
