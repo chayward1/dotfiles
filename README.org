@@ -1762,7 +1762,8 @@ The next time Emacs[fn:2] is started, it will come up in /normal state/, denoted
 #+BEGIN_SRC emacs-lisp
 ;; Enable the Extensible VI Layer for Emacs.
 (setq evil-want-integration t   ;; Required for `evil-collection.'
-      evil-want-keybinding nil) ;; Same as above.
+      evil-want-keybinding nil  ;; Same as above.
+      evil-want-C-i-jump nil)   ;; Disable jumping in terminal.
 (evil-mode +1)
 
 ;; Configure `evil-collection'.
@@ -1773,6 +1774,9 @@ The next time Emacs[fn:2] is started, it will come up in /normal state/, denoted
 
 ;; Configure `evil-nerd-commenter'.
 (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
+
+;; Invoke `org-cycle' in normal mode inside of `org-mode' buffers.
+(evil-define-key 'normal 'org-mode-map (kbd "<tab>") #'org-cycle)
 #+END_SRC
 
 ** EXWM
