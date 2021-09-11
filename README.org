@@ -180,7 +180,7 @@ nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
 
 * Development Shells
 
-The command ~nix-shell~[fn:7] will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
+The command ~nix-shell~ will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
 
 Import this shell with ~nix-shell /etc/dotfiles/shell.nix~.
 
