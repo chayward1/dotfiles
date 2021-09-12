@@ -152,7 +152,7 @@ home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
 ** Emacs Overlay
 
-Adding the Emacs Overlay[fn:1] extends the GNU/Emacs[fn:2] package set to contain the latest versions, and daily generations from popular package sources, including the needed dependencies to run GNU/Emacs[fn:2] as a Window Manager.
+Adding the [[https://github.com/nix-community/emacs-overlay][Emacs Overlay]] extends the [[https://gnu.org/software/emacs/][GNU/Emacs]] package set to contain the latest versions, and daily generations from popular package sources, including the needed dependencies to run Emacs as a Window Manager.
 
 #+NAME: os-emacs-overlay
 #+BEGIN_SRC nix
@@ -161,7 +161,7 @@ emacs-overlay.url = "github:nix-community/emacs-overlay";
 
 ** NixOS Hardware
 
-NixOS Hardware[fn:3] is a collection of NixOS[fn:4] modules covering specific hardware quirks. Unlike the channel, this will update the git repository on a rebuild. However, it's easy to pin particular revisions for more stability.
+[[https://github.com/nixos/nixos-hardware][NixOS Hardware]] is a collection of [[https://nixos.org][NixOS]] modules covering specific hardware quirks. Unlike the channel, this will update the git repository on a rebuild. However, it's easy to pin particular revisions for more stability.
 
 #+NAME: os-nixos-hardware
 #+BEGIN_SRC nix
@@ -170,7 +170,7 @@ nixos-hardware.url = "github:nixos/nixos-hardware";
 
 ** Nix On Droid
 
-Nix On Droid[fn:5] is a deployment of the Nix[fn:6] Package Manager on Android, in a single-click installable package. It does not require =root=, user namespace support, or disabling SELinux, but relies on =proot=. It has no relation to the Termux distribution.
+[[https://github.com/t184256/nix-on-droid][Nix On Droid]] is a deployment of the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]] on Android, in a single-click installable package. It does not require =root=, user namespace support, or disabling SELinux, but relies on =proot=. It has no relation to the Termux distribution.
 
 #+NAME: os-nix-on-droid
 #+BEGIN_SRC nix
