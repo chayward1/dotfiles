@@ -2253,6 +2253,11 @@ Org Roam[fn:31] is a plain-text knowledge management system. It borrows principl
 ;; Setup `org-roam'.
 (require 'org-roam)
 
+;; Enable `visual-line-mode' in `org-roam' buffer.
+(add-hook 'org-roam-mode-hook
+	  (lambda ()
+	    (visual-line-mode +1)))
+
 ;; HACK: Set up `org-roam-ui'.
 (add-to-list 'load-path "~/.local/source/org-roam-ui")
 (load-library "org-roam-ui")
