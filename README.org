@@ -844,6 +844,7 @@ homecloud = nixpkgs.lib.nixosSystem {
     <<module-ssh>>
     <<module-flakes>>
     <<module-cachix>>
+    <<module-jellyfin>>
   ];
 };
 #+END_SRC
@@ -2244,6 +2245,9 @@ epkgs.org-roam
 # epkgs.org-roam-ui # TODO: Provide from Github
 epkgs.websocket
 epkgs.simple-httpd
+epkgs.org-ref
+epkgs.bibtex-completion
+epkgs.org-roam-bibtex
 #+END_SRC
 
 [[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system. It borrows principles from the [[https://zettelkasten.de][Zettelkasten]] method, providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using [[https://orgmode.org][Org Mode]] for their personal wiki.
@@ -2343,9 +2347,6 @@ epkgs.simple-httpd
 ,#+EMAIL: chris@chrishayward.xyz
 ")))
 
-;; Run the setup command.
-(org-roam-setup)
-
 ;; Apply custom keybindings.
 (dotfiles/leader
   "or"  '(:ignore t :which-key "Roam")
@@ -2361,6 +2362,21 @@ epkgs.simple-httpd
   "ordt" '(org-roam-dailies-goto-today :which-key "Today")
   "ordm" '(org-roam-dailies-goto-tomorrow :which-key "Tomorrow")
   "ordy" '(org-roam-dailies-goto-yesterday :which-key "Yesterday"))
+
+;; Run the setup command.
+(org-roam-setup)
+
+;; Setup `org-roam-bibtex'.
+(require 'org-ref)
+(require 'org-roam-bibtex)
+
+;; Apply custom keybindings.
+(dotfiles/leader
+  "orn" '(orb-note-actions :which-key "Notes")
+  "orl" '(orb-inset-link :which-key "Links"))
+
+;; Start `org-roam-bibtex'.
+(org-roam-bibtex-mode)
 #+END_SRC
 
 ** Org Drill
@@ -2869,6 +2885,7 @@ epkgs.plantuml-mode
 epkgs.ivy
 epkgs.counsel
 epkgs.ivy-rich
+epkgs.ivy-bibtex
 epkgs.ivy-posframe
 epkgs.ivy-prescient
 #+END_SRC

@@ -101,6 +101,7 @@
           ./modules/ssh.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
+          ./modules/jellyfin.nix
         ];
       };
       android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
