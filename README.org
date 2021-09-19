@@ -2148,7 +2148,7 @@ epkgs.hydra
 #+BEGIN_SRC emacs-lisp
 ;; Configure the font when running as `emacs-server'.
 (custom-set-faces
-  '(default ((t (:inherit nil :height 96 :family "Iosevka")))))
+  '(default ((t (:inherit nil :height 120 :family "Iosevka")))))
 
 ;; Set all three of Emacs' font faces.
 ;; NOTE: This only works without `emacs-server'.
