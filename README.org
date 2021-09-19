@@ -1654,6 +1654,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-vterm-elisp>>
 <<emacs-magit-elisp>>
 <<emacs-fonts-elisp>>
+<<emacs-frames-elisp>>
 <<emacs-elfeed-elisp>>
 <<emacs-projectile-elisp>>
 <<emacs-lsp-elisp>>
@@ -1933,20 +1934,6 @@ epkgs.general
 ;; Add keybindings for toggles / tweaks.
 (dotfiles/leader
   "t" '(:ignore t :which-key "Toggle / Tweak"))
-
-;; Add keybindings for working with frames to replace
-;; the C-x <num> <num> method of bindings, which is awful.
-(dotfiles/leader
-  "w" '(:ignore t :which-key "Windows")
-  "ww" '(window-swap-states :which-key "Swap")
-  "wc" '(delete-window :which-key "Close")
-  "wh" '(windmove-left :which-key "Left")
-  "wj" '(windmove-down :which-key "Down")
-  "wk" '(windmove-up :which-key "Up")
-  "wl" '(windmove-right :which-key "Right")
-  "ws" '(:ignore t :which-key "Split")
-  "wsj" '(split-window-below :which-key "Below")
-  "wsl" '(split-window-right :which-key "Right"))
 #+END_SRC
 
 ** Which Key
@@ -2158,7 +2145,7 @@ epkgs.hydra
 
 ;; Define a `hydra' function for scaling the text interactively.
 (defhydra hydra-text-scale (:timeout 4)
-  "Scale text"
+  "Scale the text in the current buffer."
   ("j" text-scale-decrease "Decrease")
   ("k" text-scale-increase "Increase")
   ("f" nil "Finished" :exit t))
@@ -2166,6 +2153,37 @@ epkgs.hydra
 ;; Create keybinding for calling the function.
 (dotfiles/leader
   "tf" '(hydra-text-scale/body :which-key "Font"))
+#+END_SRC
+
+** Frames
+
+Sometimes it's useful to resize the current frame without using the mouse (always). The default behaviour when calling ~shrink-window~ and ~enlarge-window~ only changes the size by a small margin. I solved this problem with the same method used for scaling text:
+
+#+NAME: emacs-frames-elisp
+#+BEGIN_SRC emacs-lisp
+;; Define a `hydra' function for resizing the current frame.
+(defhydra hydra-resize-frame (:timeout 4)
+  "Scale the current frame."
+  ("h" shrink-window-horizontally "Left")
+  ("j" enlarge-window "Down")
+  ("k" shrink-window "Up")
+  ("l" enlarge-window-horizontally "Right")
+  ("f" nil "Finished" :exit t))
+
+;; Add keybindings for working with frames to replace
+;; the C-x <num> <num> method of bindings, which is awful.
+(dotfiles/leader
+  "w" '(:ignore t :which-key "Windows")
+  "ww" '(window-swap-states :which-key "Swap")
+  "wc" '(delete-window :which-key "Close")
+  "wh" '(windmove-left :which-key "Left")
+  "wj" '(windmove-down :which-key "Down")
+  "wk" '(windmove-up :which-key "Up")
+  "wl" '(windmove-right :which-key "Right")
+  "ws" '(:ignore t :which-key "Split")
+  "wsj" '(split-window-below :which-key "Below")
+  "wsl" '(split-window-right :which-key "Right")
+  "wr" '(hydra-resize-frame/body :which-key "Resize"))
 #+END_SRC
 
 ** Elfeed
