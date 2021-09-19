@@ -6,6 +6,8 @@
 #+AUTHOR: Christopher James Hayward
 #+EMAIL: chris@chrishayward.xyz
 
+#+STARTUP: overview
+
 #+EXPORT_FILE_NAME: dotfiles
 
 #+HUGO_BASE_DIR: docs
@@ -48,7 +50,7 @@ This file is controlled by /etc/dotfiles/README.org
 2) [[https://nixos.org/manual/nixos/stable/#sec-installation-partitioning][Partition your drives and mount the file system]]
 3) Clone the project  ~git clone git@git.chrishayward.xyz:chris/dotfiles /mnt/etc/dotfiles~
 4) Load the default shell ~nix-shell /mnt/etc/dotfiles~
-5) Install the system ~sudo nixos-install --flake /mnt/etc/dotfiles#nixos~
+5) Install the system ~sudo nixos-install --impure --flake /mnt/etc/dotfiles#nixos~
 6) Reboot, login and start a graphical system ~startx~
 
 ** Making Changes
@@ -2275,6 +2277,9 @@ epkgs.org-roam-bibtex
 ;; Setup `org-roam'.
 (require 'org-roam)
 
+;; Silence the migration warnings.
+(setq org-roam-v2-ack t)
+
 ;; Enable `visual-line-mode' in `org-roam' buffer.
 (add-hook 'org-roam-mode-hook
 	  (lambda ()
@@ -2288,9 +2293,6 @@ epkgs.org-roam-bibtex
       org-roam-ui-open-on-start t
       org-roam-ui-update-on-save t
       org-roam-ui-browser-function #'browse-url-firefox)
-
-;; Silence the migration warnings.
-(setq org-roam-v2-ack t)
 
 ;; Enable completion everywhere.
 (setq org-roam-completion-everywhere t)
@@ -2387,6 +2389,23 @@ epkgs.org-roam-bibtex
 ;; Setup `org-roam-bibtex'.
 (require 'org-ref)
 (require 'org-roam-bibtex)
+
+;; Define the default bibliography.
+(defvar dotfiles/bibliography
+  "/etc/dotfiles/docs/references.bib"
+  "Default bibliography for referencing.")
+
+;; Configure reftex to use the default bibliography.
+(setq reftex-default-bibliography dotfiles/bibliography)
+
+;; Configure `org-ref'.
+(setq org-ref-ivy-cite t
+      org-ref-default-bibliography dotfiles/bibliography
+      org-ref-notes-directory "/etc/dotfiles/docs/")
+
+;; Configure `bibtex-completion' to work with `ivy-bibtex'
+(setq bibtex-completion-bibliography dotfiles/bibliography
+      bibtex-completion-notes-path "/etc/dotfiles/docs/")
 
 ;; Apply custom keybindings.
 (dotfiles/leader
