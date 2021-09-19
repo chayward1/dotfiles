@@ -1236,6 +1236,9 @@ in {
     Option "TripleBuffer" "on"
   '';
 
+  # Fix graphical corruption on suspend.
+  hardware.nvidia.powerManagement.enable = true;
+  
   # Configure `offload-mode'.
   hardware.nvidia.prime = {
     offload.enable = true;
@@ -1253,6 +1256,15 @@ in {
       intel-media-driver
       vaapiIntel
     ];
+  };
+
+  # Create an external display setup.
+  specialisation = {
+    external-display.configuration = {
+      system.nixos.tags = [ "external-display" ];
+      hardware.nvidia.prime.offload.enable = lib.mkForce false;
+      hardware.nvidia.powerManagement.enable = lib.mkForce false;
+    };
   };
 
   # Add user to video group.
@@ -2969,6 +2981,23 @@ epkgs.doom-themes
 ;; (load-theme 'doom-nord-light t)
 (load-theme 'doom-nord t)
 (doom-modeline-mode +1)
+
+;; Define a method for returning information about the current theme.
+;; This is based off the function `org-roam-ui-get-theme'.
+(defun dotfiles/theme ()
+  "Return information about the current theme."
+  (list `(bg . ,(face-background hl-line-face))
+        `(bg-alt . ,(face-background 'default))
+        `(fg . ,(face-foreground 'default))
+        `(fg-alt . ,(face-foreground font-lock-comment-face))
+        `(red . ,(face-foreground 'error))
+        `(orange . ,(face-foreground 'warning))
+        `(yellow . ,(face-foreground font-lock-builtin-face))
+        `(green . ,(face-foreground 'success))
+        `(cyan . ,(face-foreground font-lock-constant-face))
+        `(blue . ,(face-foreground font-lock-keyword-face))
+        `(violet . ,(face-foreground font-lock-constant-face))
+        `(magenta . ,(face-foreground font-lock-preprocessor-face))))
 
 ;; Load a new theme with <SPC> t t.
 (dotfiles/leader

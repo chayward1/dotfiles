@@ -31,6 +31,9 @@ in {
     Option "TripleBuffer" "on"
   '';
 
+  # Fix graphical corruption on suspend.
+  hardware.nvidia.powerManagement.enable = true;
+  
   # Configure `offload-mode'.
   hardware.nvidia.prime = {
     offload.enable = true;
@@ -48,6 +51,15 @@ in {
       intel-media-driver
       vaapiIntel
     ];
+  };
+
+  # Create an external display setup.
+  specialisation = {
+    external-display.configuration = {
+      system.nixos.tags = [ "external-display" ];
+      hardware.nvidia.prime.offload.enable = lib.mkForce false;
+      hardware.nvidia.powerManagement.enable = lib.mkForce false;
+    };
   };
 
   # Add user to video group.
