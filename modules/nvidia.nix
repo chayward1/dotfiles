@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
 let
   myIntelBusId = "PCI:0:2:0";
@@ -12,6 +12,9 @@ let
   '';
 
 in {
+  # Blacklist the open source driver.
+  boot.blacklistedKernelModules = [ "nouveau" ];
+  
   # Add the offload script to the $PATH.
   environment.systemPackages = [ myNvidiaOffload ];
 

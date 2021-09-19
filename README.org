@@ -1203,7 +1203,7 @@ This reveals the information needed, which is the information about the two disp
 + NVIDIA GP107M :: This is the /mobile/ version of the GTX 1050ti
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/nvidia.nix
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
 let
   myIntelBusId = "PCI:0:2:0";
@@ -1217,6 +1217,9 @@ let
   '';
 
 in {
+  # Blacklist the open source driver.
+  boot.blacklistedKernelModules = [ "nouveau" ];
+  
   # Add the offload script to the $PATH.
   environment.systemPackages = [ myNvidiaOffload ];
 
