@@ -2923,8 +2923,8 @@ It's possible to control the frame opacity in [[https://gnu.org/software/emacs/]
 #+NAME: emacs-transparency-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Configure the default frame transparency.
-(set-frame-parameter (selected-frame) 'alpha '(85 . 95))
-(add-to-list 'default-frame-alist '(alpha . (85 . 95)))
+(set-frame-parameter (selected-frame) 'alpha '(95 . 95))
+(add-to-list 'default-frame-alist '(alpha . (95 . 95)))
 #+END_SRC
 
 ** Desktop Environment
