@@ -23,9 +23,6 @@ let
       # epkgs.org-roam-ui # TODO: Provide from Github
       epkgs.websocket
       epkgs.simple-httpd
-      epkgs.org-ref
-      epkgs.bibtex-completion
-      epkgs.org-roam-bibtex
       epkgs.org-drill
       epkgs.org-pomodoro
       epkgs.writegood-mode

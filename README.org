@@ -2283,9 +2283,6 @@ epkgs.org-roam
 # epkgs.org-roam-ui # TODO: Provide from Github
 epkgs.websocket
 epkgs.simple-httpd
-epkgs.org-ref
-epkgs.bibtex-completion
-epkgs.org-roam-bibtex
 #+END_SRC
 
 [[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system. It borrows principles from the [[https://zettelkasten.de][Zettelkasten]] method, providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using [[https://orgmode.org][Org Mode]] for their personal wiki.
@@ -2403,35 +2400,6 @@ epkgs.org-roam-bibtex
 
 ;; Run the setup command.
 (org-roam-setup)
-
-;; Setup `org-roam-bibtex'.
-(require 'org-ref)
-(require 'org-roam-bibtex)
-
-;; Define the default bibliography.
-(defvar dotfiles/bibliography
-  "/etc/dotfiles/docs/references.bib"
-  "Default bibliography for referencing.")
-
-;; Configure reftex to use the default bibliography.
-(setq reftex-default-bibliography dotfiles/bibliography)
-
-;; Configure `org-ref'.
-(setq org-ref-ivy-cite t
-      org-ref-default-bibliography dotfiles/bibliography
-      org-ref-notes-directory "/etc/dotfiles/docs/")
-
-;; Configure `bibtex-completion' to work with `ivy-bibtex'
-(setq bibtex-completion-bibliography dotfiles/bibliography
-      bibtex-completion-notes-path "/etc/dotfiles/docs/")
-
-;; Apply custom keybindings.
-(dotfiles/leader
-  "orn" '(orb-note-actions :which-key "Notes")
-  "orl" '(orb-inset-link :which-key "Links"))
-
-;; Start `org-roam-bibtex'.
-(org-roam-bibtex-mode)
 #+END_SRC
 
 ** Org Drill
