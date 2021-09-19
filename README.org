@@ -558,7 +558,7 @@ The file system for this host is a single 24GB =QCOW= file, a format for disk im
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-label/swap"; };
+    [ { device = "/dev/disk/by-label/swap"; }
     ];
 }
 #+END_SRC
