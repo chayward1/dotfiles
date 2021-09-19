@@ -16,11 +16,11 @@
   boot.loader.grub.device = "/dev/sda";
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fddc37ff-a442-41fa-afc4-abf878be7c5a";
+    { # device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/5fc0e3df-e796-4fe2-8482-c6acaed9d36f"; }
+    [ { device = "/dev/disk/by-label/swap"; }
     ];
 }
