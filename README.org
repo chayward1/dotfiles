@@ -2152,9 +2152,9 @@ epkgs.hydra
 
 ;; Set all three of Emacs' font faces.
 ;; NOTE: This only works without `emacs-server'.
-;; (set-face-attribute 'default nil :font "Iosevka" :height 96)
-;; (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 96)
-;; (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 96)
+(set-face-attribute 'default nil :font "Iosevka" :height 120)
+(set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 120)
+(set-face-attribute 'variable-pitch nil :font "Iosevka" :height 120)
 
 ;; Define a `hydra' function for scaling the text interactively.
 (defhydra hydra-text-scale (:timeout 4)
