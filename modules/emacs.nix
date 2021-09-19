@@ -79,7 +79,7 @@ in {
     pkgs.aspellDicts.en
     pkgs.aspellDicts.en-science
     pkgs.aspellDicts.en-computers
-    pkgs.texlive.combined.scheme-full
+    # pkgs.texlive.combined.scheme-full
     pkgs.brightnessctl
     pkgs.plantuml
     pkgs.nixfmt

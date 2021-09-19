@@ -2521,7 +2521,7 @@ pkgs.aspellDicts.en-computers
 
 #+NAME: emacs-texlive-extras
 #+BEGIN_SRC nix
-pkgs.texlive.combined.scheme-full
+# pkgs.texlive.combined.scheme-full
 #+END_SRC
 
 ** Http
