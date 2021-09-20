@@ -2283,8 +2283,8 @@ epkgs.org
 #+BEGIN_SRC nix
 epkgs.org-roam
 # epkgs.org-roam-ui # TODO: Provide from Github
-# epkgs.websocket
-# epkgs.simple-httpd
+epkgs.websocket
+epkgs.simple-httpd
 #+END_SRC
 
 [[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system. It borrows principles from the [[https://zettelkasten.de][Zettelkasten]] method, providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using [[https://orgmode.org][Org Mode]] for their personal wiki.
@@ -2303,13 +2303,13 @@ epkgs.org-roam
 	    (visual-line-mode +1)))
 
 ;; HACK: Set up `org-roam-ui'.
-;; (add-to-list 'load-path "~/.local/source/org-roam-ui")
-;; (load-library "org-roam-ui")
-;; (setq org-roam-ui-follow t
-;;       org-roam-ui-sync-theme t
-;;       org-roam-ui-open-on-start t
-;;       org-roam-ui-update-on-save t
-;;       org-roam-ui-browser-function #'browse-url-firefox)
+(add-to-list 'load-path "~/.local/source/org-roam-ui")
+(load-library "org-roam-ui")
+(setq org-roam-ui-follow t
+      org-roam-ui-sync-theme t
+      org-roam-ui-open-on-start t
+      org-roam-ui-update-on-save t
+      org-roam-ui-browser-function #'browse-url-firefox)
 
 ;; Enable completion everywhere.
 (setq org-roam-completion-everywhere t)
