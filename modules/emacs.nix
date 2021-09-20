@@ -21,8 +21,8 @@ let
       epkgs.org
       epkgs.org-roam
       # epkgs.org-roam-ui # TODO: Provide from Github
-      epkgs.websocket
-      epkgs.simple-httpd
+      # epkgs.websocket
+      # epkgs.simple-httpd
       epkgs.org-drill
       epkgs.org-pomodoro
       epkgs.writegood-mode
@@ -36,6 +36,7 @@ let
       epkgs.dired-single
       epkgs.all-the-icons
       epkgs.all-the-icons-dired
+      epkgs.all-the-icons-ivy-rich
       epkgs.emojify
       epkgs.eshell-prompt-extras
       epkgs.vterm
@@ -56,7 +57,6 @@ let
       epkgs.ivy
       epkgs.counsel
       epkgs.ivy-rich
-      epkgs.ivy-bibtex
       epkgs.ivy-posframe
       epkgs.ivy-prescient
       epkgs.desktop-environment
