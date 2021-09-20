@@ -1851,7 +1851,8 @@ home.file.".xinitrc" = {
 #+NAME: emacs-exwm-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Configure `exwm'.
-(setq exwm-layout-show-all-buffers t
+(setq exwm-workspace-number 5
+      exwm-layout-show-all-buffers t
       exwm-worspace-show-all-buffers t)
 
 ;; Configure input keys.
@@ -2033,6 +2034,7 @@ epkgs.dired-single
 #+BEGIN_SRC nix
 epkgs.all-the-icons
 epkgs.all-the-icons-dired
+epkgs.all-the-icons-ivy-rich
 #+END_SRC
 
 [[https://github.com/domtronn/all-the-icons.el][All The Icons]] is a utility package to collect various Icon Fonts and prioritize them within [[https://gnu.org/software/emacs/][GNU/Emacs]].
@@ -2281,8 +2283,8 @@ epkgs.org
 #+BEGIN_SRC nix
 epkgs.org-roam
 # epkgs.org-roam-ui # TODO: Provide from Github
-epkgs.websocket
-epkgs.simple-httpd
+# epkgs.websocket
+# epkgs.simple-httpd
 #+END_SRC
 
 [[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system. It borrows principles from the [[https://zettelkasten.de][Zettelkasten]] method, providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using [[https://orgmode.org][Org Mode]] for their personal wiki.
@@ -2301,13 +2303,13 @@ epkgs.simple-httpd
 	    (visual-line-mode +1)))
 
 ;; HACK: Set up `org-roam-ui'.
-(add-to-list 'load-path "~/.local/source/org-roam-ui")
-(load-library "org-roam-ui")
-(setq org-roam-ui-follow t
-      org-roam-ui-sync-theme t
-      org-roam-ui-open-on-start t
-      org-roam-ui-update-on-save t
-      org-roam-ui-browser-function #'browse-url-firefox)
+;; (add-to-list 'load-path "~/.local/source/org-roam-ui")
+;; (load-library "org-roam-ui")
+;; (setq org-roam-ui-follow t
+;;       org-roam-ui-sync-theme t
+;;       org-roam-ui-open-on-start t
+;;       org-roam-ui-update-on-save t
+;;       org-roam-ui-browser-function #'browse-url-firefox)
 
 ;; Enable completion everywhere.
 (setq org-roam-completion-everywhere t)
@@ -2908,7 +2910,6 @@ epkgs.plantuml-mode
 epkgs.ivy
 epkgs.counsel
 epkgs.ivy-rich
-epkgs.ivy-bibtex
 epkgs.ivy-posframe
 epkgs.ivy-prescient
 #+END_SRC
@@ -2988,7 +2989,6 @@ epkgs.doom-themes
 ;; Load the `doom-nord' and `doom-nord-light' themes.
 ;; (load-theme 'doom-nord-light t)
 (load-theme 'doom-nord t)
-(doom-modeline-mode +1)
 
 ;; Define a method for returning information about the current theme.
 ;; This is based off the function `org-roam-ui-get-theme'.
@@ -3023,10 +3023,60 @@ epkgs.doom-modeline
 
 #+NAME: emacs-doom-modeline-elisp
 #+BEGIN_SRC emacs-lisp
-;; Add the `doom-modeline' after initialization.
-(add-hook 'after-init-hook 'doom-modeline-mode)
+;; Configure `doom-modeline'.
+(require 'doom-modeline)
 (setq doom-modeline-height 16
       doom-modeline-icon t)
+
+;; Launch after initialization.
+(add-hook 'after-init-hook 'doom-modeline-mode)
+
+;; Define a modeline segment to show the workspace information.
+(doom-modeline-def-segment dotfiles/workspaces
+  (exwm-workspace--update-switch-history)
+  (concat
+   (doom-modeline-spc)
+   (elt (let* ((num (exwm-workspace--count))
+               (sequence (number-sequence 0 (1- num)))
+               (not-empty (make-vector num nil)))
+	  (dolist (i exwm--id-buffer-alist)
+            (with-current-buffer (cdr i)
+              (when exwm--frame
+		(setf (aref not-empty
+                            (exwm-workspace--position exwm--frame))
+                      t))))
+	  (mapcar
+           (lambda (i)
+             (mapconcat
+              (lambda (j)
+		(format (if (= i j) "[%s]" " %s ")
+			(propertize
+			 (apply exwm-workspace-index-map (list j))
+			 'face
+			 (cond ((frame-parameter (elt exwm-workspace--list j)
+						 'exwm-urgency)
+				'(:inherit warning :weight bold))
+                               ((= i j) '(:inherit underline :weight bold))
+                               ((aref not-empty j) '(:inherit success :weight bold))
+                               (t `((:foreground ,(face-foreground 'mode-line-inactive))))))))
+              sequence ""))
+           sequence))
+	(exwm-workspace--position (selected-frame)))))
+
+;; Define a custom modeline to override the default.
+(doom-modeline-def-modeline 'dotfiles/modeline
+  '(bar workspace-name dotfiles/workspaces window-number modals matches buffer-info remote-host buffer-position word-count parrot selection-info)
+  '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs checker))
+
+;; Define a method to load the modeline.
+(defun dotfiles/load-modeline ()
+  "Load the default modeline."
+  (doom-modeline-set-modeline 'dotfiles/modeline 'default))
+
+;; Enable `doom-modeline'.
+(add-hook 'doom-modeline-mode-hook 'dotfiles/load-modeline)
+(doom-modeline-mode +1)
+(doom-modeline-set-modeline 'dotfiles/modeline 'default)
 #+END_SRC
 
 * Footnotes
