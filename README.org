@@ -1563,6 +1563,7 @@ let
       # Optional packages.
       <<emacs-org-package>>
       <<emacs-org-roam-package>>
+      <<emacs-org-roam-ui-package>>
       <<emacs-org-drill-package>>
       <<emacs-pomodoro-package>>
       <<emacs-writegood-package>>
@@ -1634,6 +1635,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 ;; Optional inputs.
 <<emacs-org-elisp>>
 <<emacs-org-roam-elisp>>
+<<emacs-org-roam-ui-elisp>>
 <<emacs-org-drill-elisp>>
 <<emacs-org-agenda-elisp>>
 <<emacs-pomodoro-elisp>>
@@ -2282,9 +2284,6 @@ epkgs.org
 #+NAME: emacs-org-roam-package
 #+BEGIN_SRC nix
 epkgs.org-roam
-# epkgs.org-roam-ui # TODO: Provide from Github
-epkgs.websocket
-epkgs.simple-httpd
 #+END_SRC
 
 [[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system. It borrows principles from the [[https://zettelkasten.de][Zettelkasten]] method, providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using [[https://orgmode.org][Org Mode]] for their personal wiki.
@@ -2301,15 +2300,6 @@ epkgs.simple-httpd
 (add-hook 'org-roam-mode-hook
 	  (lambda ()
 	    (visual-line-mode +1)))
-
-;; HACK: Set up `org-roam-ui'.
-(add-to-list 'load-path "~/.local/source/org-roam-ui")
-(load-library "org-roam-ui")
-(setq org-roam-ui-follow t
-      org-roam-ui-sync-theme t
-      org-roam-ui-open-on-start t
-      org-roam-ui-update-on-save t
-      org-roam-ui-browser-function #'browse-url-firefox)
 
 ;; Enable completion everywhere.
 (setq org-roam-completion-everywhere t)
@@ -2402,6 +2392,39 @@ epkgs.simple-httpd
 
 ;; Run the setup command.
 (org-roam-setup)
+#+END_SRC
+
+** Org Roam UI
+
+NOTE: This currently requires the repository cloned to =$HOME/.local/source/org-roam-ui/= until it's added to one of the [[https://gnu.org/software/emacs/][Emacs]] package repositories. 
+
+#+NAME: emacs-org-roam-ui-package
+#+BEGIN_SRC nix
+# epkgs.org-roam-ui # TODO: Provide from Github
+epkgs.websocket
+epkgs.simple-httpd
+#+END_SRC
+
+[[https://github.com/org-roam/org-roam-ui][Org Roam UI]] is a graphical frontend for exploring your [[https://github.com/org-roam/org-roam][Org Roam]] [[https://zettelkasten.de][Zettelkasten]]. It's meant as a successor to [[https://github.com/org-roam/org-roam-server][Org Roam Server]] that extends functionality of Org Roam with a web application that runs side-by-side with [[https://gnu.org/software/emacs/][Emacs]].
+
+#+NAME: emacs-org-roam-ui-elisp
+#+BEGIN_SRC emacs-lisp
+;; HACK: Set up `org-roam-ui'.
+(add-to-list 'load-path "~/.local/source/org-roam-ui")
+(load-library "org-roam-ui")
+
+;; Configure `org-roam-ui'.
+(setq org-roam-ui-follow t
+      org-roam-ui-sync-theme t
+      org-roam-ui-open-on-start t
+      org-roam-ui-update-on-save t
+      org-roam-ui-browser-function #'browse-url-firefox)
+
+;; Configure keybindings.
+(dotfiles/leader
+  "oru" '(:ignore t :which-key "UI")
+  "oruu" '(org-roam-ui-mode :which-key "Toggle UI")
+  "orut" '(orui-sync-theme :which-key "Sync Theme"))
 #+END_SRC
 
 ** Org Drill
