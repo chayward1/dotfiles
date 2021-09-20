@@ -21,8 +21,8 @@ let
       epkgs.org
       epkgs.org-roam
       # epkgs.org-roam-ui # TODO: Provide from Github
-      # epkgs.websocket
-      # epkgs.simple-httpd
+      epkgs.websocket
+      epkgs.simple-httpd
       epkgs.org-drill
       epkgs.org-pomodoro
       epkgs.writegood-mode
