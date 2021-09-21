@@ -2184,8 +2184,8 @@ epkgs.hydra
 ;; Define a `hydra' function for scaling the text interactively.
 (defhydra hydra-text-scale (:timeout 4)
   "Scale the text in the current buffer."
-  ("j" text-scale-decrease "Decrease")
-  ("k" text-scale-increase "Increase")
+  ("k" text-scale-decrease "Decrease")
+  ("j" text-scale-increase "Increase")
   ("f" nil "Finished" :exit t))
 
 ;; Create keybinding for calling the function.
