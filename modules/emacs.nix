@@ -80,6 +80,9 @@ in {
     pkgs.brightnessctl
     pkgs.plantuml
     pkgs.nixfmt
+    (pkgs.writeShellScriptBin "dotfiles-theme" ''
+      ${myEmacs}/bin/emacsclient --no-wait --eval '(json-encode (dotfiles/theme))' | sed "s/\\\\//g" | sed -e 's/^"//' -e 's/"$//'
+    '')
   ];
 
   programs.emacs = {

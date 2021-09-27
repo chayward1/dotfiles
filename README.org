@@ -1,4 +1,4 @@
-:PROPERTIES:
+:iROPERTIES:
 :ID:       e4ad3dd5-0996-45bc-92ab-6bdbf16e4310
 :ROAM_REFS: https://chrishayward.xyz/dotfiles/
 :END:
@@ -1642,6 +1642,7 @@ in {
     <<emacs-desktop-extras>>
     <<emacs-plantuml-extras>>
     <<emacs-nix-mode-extras>>
+    <<emacs-doom-themes-extras>>
   ];
 
   programs.emacs = {
@@ -3067,6 +3068,32 @@ epkgs.doom-themes
 ;; Load a new theme with <SPC> t t.
 (dotfiles/leader
   "tt" '(counsel-load-theme :which-key "Theme"))
+#+END_SRC
+
+Create a shell command that returns a JSON string of the current theme in the following format:
+
+#+BEGIN_SRC json
+{
+  "bg": "#272C36",
+  "bg-alt": "#2E3440",
+  "fg": "#ECEFF4",
+  "fg-alt": "#6f7787",
+  "red": "#BF616A",
+  "orange": "#EBCB8B",
+  "yellow": "#81A1C1",
+  "green": "#A3BE8C",
+  "cyan": "#81A1C1",
+  "blue": "#81A1C1",
+  "violet": "#81A1C1",
+  "magenta": "#81A1C1"
+}
+#+END_SRC
+
+#+NAME: emacs-doom-themes-extras
+#+BEGIN_SRC nix
+(pkgs.writeShellScriptBin "dotfiles-theme" ''
+  ${myEmacs}/bin/emacsclient --no-wait --eval '(json-encode (dotfiles/theme))' | sed "s/\\\\//g" | sed -e 's/^"//' -e 's/"$//'
+'')
 #+END_SRC
 
 ** Doom Modeline
