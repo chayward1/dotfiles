@@ -1,4 +1,4 @@
-:iROPERTIES:
+:PROPERTIES:
 :ID:       e4ad3dd5-0996-45bc-92ab-6bdbf16e4310
 :ROAM_REFS: https://chrishayward.xyz/dotfiles/
 :END:
