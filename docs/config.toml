@@ -63,14 +63,3 @@ pygmentsUseClasses = true
 
   [privacy.youtube]
     disable = true
-
-[menu]
-  [[menu.main]]
-    name = "Dotfiles"
-    url = "dotfiles"
-    weight = 10
-
-  [[menu.main]]
-    name = "Projects"
-    url = "https://git.chrishayward.xyz/explore/repos"
-    weight = 20

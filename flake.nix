@@ -22,6 +22,7 @@
           ./hosts/nixos
           ./modules/x11.nix
           ./modules/ssh.nix
+          ./modules/hugo.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           inputs.home-manager.nixosModules.home-manager {

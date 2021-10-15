@@ -480,6 +480,7 @@ nixos = nixpkgs.lib.nixosSystem {
     ./hosts/nixos
     <<module-x11>>
     <<module-ssh>>
+    <<module-hugo>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-home-manager>>
