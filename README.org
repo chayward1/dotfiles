@@ -1160,6 +1160,7 @@ It's somtimes desirable to have customization that takes effect during Emacs sta
 <<emacs-native-comp-elisp>>
 <<emacs-backup-files-elisp>>
 <<emacs-shell-commands-elisp>>
+<<emacs-improved-prompts>>
 #+END_SRC
 
 ** Native Comp
@@ -1232,6 +1233,15 @@ Define some methods for interaction between [[https://gnu.org/software/emacs/][G
 (defun dotfiles/run-in-background (cmd)
   (let ((command-parts (split-string cmd "[ ]+")))
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+#+END_SRC
+
+** Improved prompts
+
+By default Emacs will ask you to enter 'Yes' or 'No' instead of 'Y' or 'N'. This is a relatively conservative design decision, based on the fact that certain prompts may be important enough to warrant typing three characters.
+
+#+NAME: emacs-improved-prompts
+#+BEGIN_SRC emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
 ** Nix Mode
