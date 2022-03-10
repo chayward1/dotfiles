@@ -1128,12 +1128,14 @@ in {
 
 {
   nix = {
-    binaryCaches = [
-      "https://nix-community.cachix.org"
-    ];
-    binaryCachePublicKeys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
+    settings = {
+      substituters = [
+        "https://nix-community.cachix.org"
+      ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+    };
   };
 }
 #+END_SRC
@@ -2162,6 +2164,12 @@ epkgs.magit
   "gc" '(magit-clone :which-key "Clone")
   "gf" '(magit-fetch :which-key "Fetch")
   "gp" '(magit-pull :which-key "Pull"))
+
+;; Don't let `evil-jumper' override the <TAB> key.
+(add-hook 'magit-mode-hook
+	  (lambda ()
+	    (when evil-jumper-mode
+	      (evil-jumper-mode -1))))
 #+END_SRC
 
 ** Hydra
