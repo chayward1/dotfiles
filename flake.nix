@@ -40,6 +40,8 @@
           }
         ];
       };
+    };
+    nixOnDroidConfigurations = {
       android = {
         device = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
           config = ./hosts/android/nix-on-droid.nix;

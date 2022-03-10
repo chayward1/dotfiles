@@ -120,6 +120,8 @@ RUN nix-shell /etc/dotfiles/shell.nix
   outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, ... }: {
     nixosConfigurations = {
       <<host-default>>
+    };
+    nixOnDroidConfigurations = {
       <<host-android>>
     };
   };
