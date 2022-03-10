@@ -828,6 +828,13 @@ inputs.home-manager.nixosModules.home-manager {
 }
 #+END_SRC
 
+Certain modules have to be included within home manager or they will not function correctly.
+
+#+NAME: home-manager-warning
+#+BEGIN_SRC text
+This module MUST be included within home manager
+#+END_SRC
+
 *** Git
 
 #+NAME: module-git
@@ -839,6 +846,7 @@ inputs.home-manager.nixosModules.home-manager {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/git.nix
 # <<file-warning>>
+# <<home-manager-warning>>
 { pkgs, ... }:
 
 let
@@ -879,6 +887,7 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/gpg.nix
 # <<file-warning>>
+# <<home-manager-warning>>
 { pkgs, ... }:
 
 {
@@ -907,6 +916,7 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/vim.nix
 # <<file-warning>>
+# <<home-manager-warning>>
 { pkgs, ... }:
 
 {
@@ -942,6 +952,7 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/gtk.nix
 # <<file-warning>>
+# <<home-manager-warning>>
 { pkgs, ... }:
 
 {
@@ -1023,6 +1034,7 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/emacs.nix
 # <<file-warning>>
+# <<home-manager-warning>>
 { pkgs, ... }:
 
 let
