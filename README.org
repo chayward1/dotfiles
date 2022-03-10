@@ -7,6 +7,7 @@
 #+EMAIL: chris@chrishayward.xyz
 
 #+STARTUP: overview
+#+STARTUP: hideblocks
 
 #+EXPORT_FILE_NAME: dotfiles
 
@@ -1723,6 +1724,7 @@ epkgs.org
 ;; Configure `org-mode' source blocks.
 (setq org-src-fontify-natively t      ;; Make source blocks prettier.
       org-src-tab-acts-natively t     ;; Use TAB indents within source blocks.
+      org-hide-emphasis-markers t     ;; Don't show emphasis markup.
       org-src-preserve-indentation t  ;; Stop `org-mode' from formatting blocks.
       org-confirm-babel-evaluate nil) ;; Don't ask for confirmation to evaluate blocks.
 
