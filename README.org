@@ -367,11 +367,11 @@ Import this shell with ~nix-shell /etc/dotfiles/shells/python.nix~
 with pkgs;
 mkShell {
   buildInputs = [
-    python38Packages.pip
-    python38Packages.pip-tools
-    python38Packages.pyls-mypy
-    python38Packages.pyls-isort
-    python38Packages.pyls-black
+    python310Packages.pip
+    python310Packages.pip-tools
+    python310Packages.python-lsp-black
+    python310Packages.python-lsp-server
+    python310Packages.python-lsp-jsonrpc
   ];
   shellHook = ''
   '';
