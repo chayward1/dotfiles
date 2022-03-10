@@ -2608,14 +2608,14 @@ epkgs.doom-modeline
 
 ** Emacs Dashboard
 
-#+NAME emacs-dashboard-package
+#+NAME: emacs-dashboard-package
 #+BEGIN_SRC nix
 epkgs.emacs-dashboard
 #+END_SRC
 
 [[https:github.com/emacs-dashboard/emacs-dashboard][Emacs Dashboard]] is an extensible dashboard display for emacs that shows widgets containing the most relevant information to the user, and is a highly configurable splashscreen for Emacs.
 
-#+NAME emacs-dashboard-elisp
+#+NAME: emacs-dashboard-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Setup `emacs-dashboard'.
 (require 'dashboard)
