@@ -40,71 +40,9 @@
           }
         ];
       };
-      acernitro = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/acernitro
-          ./modules/x11.nix
-          ./modules/ssh.nix
-          ./modules/hugo.nix
-          ./modules/docker.nix
-          ./modules/flakes.nix
-          ./modules/cachix.nix
-          ./modules/nvidia.nix
-          ./modules/firefox.nix
-          ./modules/moonlight.nix
-          ./modules/teamviewer.nix
-          inputs.home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.chris = {
-              imports = [
-                ./modules/git.nix
-                ./modules/gpg.nix
-                ./modules/vim.nix
-                ./modules/gtk.nix
-                ./modules/emacs.nix
-              ];
-            };
-          }
-        ];
-      };
-      raspberry = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/raspberry
-          ./modules/x11.nix
-          ./modules/ssh.nix
-          ./modules/flakes.nix
-          ./modules/cachix.nix
-          inputs.home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.chris = {
-              imports = [
-                ./modules/git.nix
-                ./modules/gpg.nix
-                ./modules/vim.nix
-                ./modules/gtk.nix
-                ./modules/emacs.nix
-              ];
-            };
-          }
-        ];
-      };
-      homecloud = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/homecloud
-          ./modules/ssh.nix
-          ./modules/flakes.nix
-          ./modules/cachix.nix
-          ./modules/jellyfin.nix
-        ];
-      };
+      
+      
+      
       android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
         config = ./hosts/android/nix-on-droid.nix;
       }).activationPackage;
