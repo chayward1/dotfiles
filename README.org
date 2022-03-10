@@ -2436,7 +2436,7 @@ NOTE: This currently requires the repository cloned to =$HOME/.local/source/org-
 
 #+NAME: emacs-org-roam-ui-package
 #+BEGIN_SRC nix
-# epkgs.org-roam-ui # TODO: Provide from Github
+epkgs.org-roam-ui
 epkgs.websocket
 epkgs.simple-httpd
 #+END_SRC
@@ -2446,7 +2446,7 @@ epkgs.simple-httpd
 #+NAME: emacs-org-roam-ui-elisp
 #+BEGIN_SRC emacs-lisp
 ;; HACK: Set up `org-roam-ui'.
-(add-to-list 'load-path "~/.local/source/org-roam-ui")
+;; (add-to-list 'load-path "~/.local/source/org-roam-ui")
 (load-library "org-roam-ui")
 
 ;; Configure `org-roam-ui'.
