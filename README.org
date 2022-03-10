@@ -34,8 +34,6 @@ Built for Life, Liberty, and the Open Road.
 + 100% Immutable
 + 100% Declarative
 + 100% Reproducible
-
-#+TOC: headlines N
   
 * Introduction
 
