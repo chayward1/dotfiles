@@ -120,9 +120,6 @@ RUN nix-shell /etc/dotfiles/shell.nix
   outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, ... }: {
     nixosConfigurations = {
       <<host-default>>
-      <<host-acernitro>>
-      <<host-raspberry>>
-      <<host-homecloud>>
       <<host-android>>
     };
   };
