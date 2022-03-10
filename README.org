@@ -569,12 +569,16 @@ This is my [[https://samsung.com/us/mobile/galaxy-s10/buy/][Samsung Galaxy S10+]
 
 #+NAME: host-android
 #+BEGIN_SRC nix
-android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
-  config = ./hosts/android/nix-on-droid.nix;
-}).activationPackage;
+android = {
+  device = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+    config = ./hosts/android/nix-on-droid.nix;
+    system = "aarch64-linux";
+    specialArgs = { inherit inputs; };
+  };
+};
 #+END_SRC
 
-Build the activation package with ~nix build .#android --impure~, and activate it with =result/activate=.
+Build and activate the configuration with ~nix-on-droid switch --flake .#android~. Currently this cannot be built with a pure flake because of hardcoded store paths for =proot=. Every evaluation will be executed with the =--impure= flag.
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/android/nix-on-droid.nix
 # <<file-warning>>

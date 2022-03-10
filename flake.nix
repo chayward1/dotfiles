@@ -40,9 +40,13 @@
           }
         ];
       };
-      android = (inputs.nix-on-droid.lib.aarch64-linux.nix-on-droid {
-        config = ./hosts/android/nix-on-droid.nix;
-      }).activationPackage;
+      android = {
+        device = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          config = ./hosts/android/nix-on-droid.nix;
+          system = "aarch64-linux";
+          specialArgs = { inherit inputs; };
+        };
+      };
     };
   };
 }
