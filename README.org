@@ -35,6 +35,8 @@ Built for Life, Liberty, and the Open Road.
 + 100% Declarative
 + 100% Reproducible
 
+#+TOC: headlines N
+  
 * Introduction
 
 This is my personal configuration for [[https://linux.org][GNU/Linux]] systems. It enables a consistent experience and computing environment across all of my machines. This project is written with [[https://gnu.org/software/emacs/][GNU/Emacs]], leveraging its capabilities for [[https://doi.org/10.1093/comjnl/27.2.97][Literate Programming]], a technique where programs are written in a natural language, such as English, interspersed with snippets of code to describe a software project.
