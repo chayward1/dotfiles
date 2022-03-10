@@ -1241,6 +1241,7 @@ By default Emacs will ask you to enter 'Yes' or 'No' instead of 'Y' or 'N'. This
 
 #+NAME: emacs-improved-prompts
 #+BEGIN_SRC emacs-lisp
+;; Use 'y' and 'n' instead of 'yes' and 'no'.
 (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
