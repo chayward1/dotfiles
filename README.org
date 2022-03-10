@@ -2164,12 +2164,6 @@ epkgs.magit
   "gc" '(magit-clone :which-key "Clone")
   "gf" '(magit-fetch :which-key "Fetch")
   "gp" '(magit-pull :which-key "Pull"))
-
-;; Don't let `evil-jumper' override the <TAB> key.
-(add-hook 'magit-mode-hook
-	  (lambda ()
-	    (when evil-jumper-mode
-	      (evil-jumper-mode -1))))
 #+END_SRC
 
 ** Hydra
