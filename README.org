@@ -2434,8 +2434,6 @@ epkgs.org-roam
 
 ** Org Roam UI
 
-NOTE: This currently requires the repository cloned to =$HOME/.local/source/org-roam-ui/= until it's added to one of the [[https://gnu.org/software/emacs/][Emacs]] package repositories. 
-
 #+NAME: emacs-org-roam-ui-package
 #+BEGIN_SRC nix
 epkgs.org-roam-ui
