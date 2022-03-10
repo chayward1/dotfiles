@@ -1250,9 +1250,10 @@ By default Emacs will ask you to enter 'Yes' or 'No' instead of 'Y' or 'N'. This
 #+NAME: emacs-nix-mode-extras
 #+BEGIN_SRC nix
 pkgs.nixfmt
+pkgs.rnix-lsp
 #+END_SRC
 
-[[https://github.com/nixos/nix-mode][Nix Mode]] is an [[https://gnu.org/software/emacs/][Emacs]] major mode for editing [[https://nixos.org/manual/nix/stable/][Nix]] expressions. This provides basic handling of =.nix= files. Syntax highlighting and indentation support using =SMIE= are provided.
+[[https://github.com/nixos/nix-mode][Nix Mode]] is an [[https://gnu.org/software/emacs/][Emacs]] major mode for editing [[https://nixos.org/manual/nix/stable/][Nix]] expressions. This provides basic handling of =.nix= files. Syntax highlighting and indentation support using =SMIE= are provided. [[https:github.com/nix-community/rnix-lsp][rnix-lsp]] is a work-in-progress language server for Nix with syntax checking and basic completion.
 
 #+NAME: emacs-nix-mode-package
 #+BEGIN_SRC nix
