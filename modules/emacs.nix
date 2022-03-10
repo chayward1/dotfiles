@@ -62,6 +62,7 @@ let
       epkgs.desktop-environment
       epkgs.doom-themes
       epkgs.doom-modeline
+      
     ];
   };
 
