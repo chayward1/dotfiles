@@ -62,7 +62,8 @@ let
       epkgs.ivy-rich
       epkgs.ivy-posframe
       epkgs.ivy-prescient
-      epkgs.pulsar
+      # TODO: Add from package repository.
+      # epkgs.pulsar
       epkgs.desktop-environment
       epkgs.doom-themes
       epkgs.doom-modeline
