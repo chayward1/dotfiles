@@ -1082,7 +1082,6 @@ let
 
       # User interface packages.
       <<emacs-swiper-package>>
-      <<emacs-pulsar-package>>
       <<emacs-desktop-package>>
       <<emacs-doom-themes-package>>
       <<emacs-doom-modeline-package>>
@@ -1161,7 +1160,6 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 
 ;; User interface.
 <<emacs-swiper-elisp>>
-<<emacs-pulsar-elisp>>
 <<emacs-transparency-elisp>>
 <<emacs-doom-themes-elisp>>
 <<emacs-doom-modeline-elisp>>
@@ -2462,28 +2460,6 @@ epkgs.ivy-prescient
 ;; Configure `ivy-prescient'.
 (setq ivy-prescient-enable-filtering nil)
 (ivy-prescient-mode +1)
-#+END_SRC
-
-** Pulsar
-
-#+NAME: emacs-pulsar-package
-#+BEGIN_SRC nix
-# TODO: Add from package repository.
-# epkgs.pulsar
-#+END_SRC
-
-[[https://protesilaos.com/emacs/pulsar][Pulsar]] is a simple package that temporarily highlights the current line after a given function is invoked. It's built on the =pulse.el= library which is included with core [[https://gnu.org/software/emacs/][GNU/Emacs]].
-
-*NOTE:* At the moment the package is not available in any of the package repositories, and as such must be added manually. The configuration expects the project to reside in =$HOME/.local/source/pulsar=. Clone it with the following command: ~git clone https://gitlab.com/protesilaos/pulsar.git $HOME/.local/source/pulsar~.
-
-#+NAME: emacs-pulsar-elisp
-#+BEGIN_SRC emacs-lisp
-;; Required for local repository.
-(add-to-list 'load-path "~/.local/source/pulsar")
-
-;; Configure `pulsar'.
-(require 'pulsar)
-(pulsar-setup)
 #+END_SRC
 
 ** Transparency
