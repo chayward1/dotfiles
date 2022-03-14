@@ -1079,7 +1079,10 @@ let
       <<emacs-rustic-package>>
       <<emacs-plantuml-package>>
       <<emacs-protobuf-package>>
+
+      # User interface packages.
       <<emacs-swiper-package>>
+      <<emacs-pulsar-package>>
       <<emacs-desktop-package>>
       <<emacs-doom-themes-package>>
       <<emacs-doom-modeline-package>>
@@ -1158,6 +1161,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 
 ;; User interface.
 <<emacs-swiper-elisp>>
+<<emacs-pulsar-elisp>>
 <<emacs-transparency-elisp>>
 <<emacs-doom-themes-elisp>>
 <<emacs-doom-modeline-elisp>>
@@ -2458,6 +2462,21 @@ epkgs.ivy-prescient
 ;; Configure `ivy-prescient'.
 (setq ivy-prescient-enable-filtering nil)
 (ivy-prescient-mode +1)
+#+END_SRC
+
+** Pulsar
+
+#+NAME: emacs-pulsar-package
+#+BEGIN_SRC nix
+epkgs.pulsar
+#+END_SRC
+
+[[https://protesilaos.com/emacs/pulsar][Pulsar]] is a simple package that temporarily highlights the current line after a given function is invoked. It's built on the =pulse.el= library which is included with core [[https://gnu.org/software/emacs/][GNU/Emacs]].
+
+#+NAME: emacs-pulsar-elisp
+#+BEGIN_SRC emacs-lisp
+(require 'pulsar)
+(pulsar-setup
 #+END_SRC
 
 ** Transparency

@@ -55,11 +55,14 @@ let
       epkgs.rustic
       epkgs.plantuml-mode
       epkgs.protobuf-mode
+
+      # User interface packages.
       epkgs.ivy
       epkgs.counsel
       epkgs.ivy-rich
       epkgs.ivy-posframe
       epkgs.ivy-prescient
+      epkgs.pulsar
       epkgs.desktop-environment
       epkgs.doom-themes
       epkgs.doom-modeline
