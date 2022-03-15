@@ -63,3 +63,13 @@ pygmentsUseClasses = true
 
   [privacy.youtube]
     disable = true
+
+[menu]
+  [[menu.main]]
+    identifier = "dotfiles"
+    name = "Dotfiles"
+    url = "/dotfiles"
+  [[menu.main]]
+    identifier = "projects"
+    name = "Projects"
+    url = "https://git.chrishayward.xyz"
