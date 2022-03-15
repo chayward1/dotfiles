@@ -481,6 +481,7 @@ nixos = nixpkgs.lib.nixosSystem {
     <<module-hugo>>
     <<module-flakes>>
     <<module-cachix>>
+    <<module-firefox>>
     <<module-home-manager>>
   ];
 };
@@ -795,12 +796,17 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/firefox.nix
 # <<file-warning>>
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
-{
+let
+  myFirefox = pkgs.writeShellScriptBin "firefox" ''
+    HOME=~/.local/share/mozilla ${pkgs.firefox-bin}/bin/firefox
+  '';
+
+in {
   # NOTE: Use the binary until module is developed.
   environment.systemPackages = [
-    pkgs.firefox-bin 
+    myFirefox
   ];
 }
 #+END_SRC
