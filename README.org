@@ -1532,8 +1532,6 @@ epkgs.dired-single
   "h" 'dired-single-up-directory
   "l" 'dired-single-buffer)
 
-;; Setup `all-the-icons' and the `dired' extension.
-
 ;; Configure keybindings for `dired'.
 (dotfiles/leader
   "d" '(dired-jump :which-key "Dired"))
