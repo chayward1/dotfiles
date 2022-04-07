@@ -1717,9 +1717,9 @@ epkgs.elfeed
 
 ;; Add custom keybindings for `elfeed'.
 (dotfiles/leader
-  "l" '(:ignore t :which-key "Elfeed")
-  "ll" '(elfeed :which-key "Open")
-  "lu" '(elfeed-update :which-key "Update"))
+  "f" '(:ignore t :which-key "Elfeed")
+  "fl" '(elfeed :which-key "Open")
+  "fu" '(elfeed-update :which-key "Update"))
 #+END_SRC
 
 ** Org Mode
@@ -2299,6 +2299,10 @@ The [[https://microsoft.github.io/language-server-protocol][Language Server Prot
 ;; Configure `lsp-ui'.
 (setq lsp-ui-doc-position 'at-point
       lsp-ui-doc-delay 0.5)
+
+;; Add custom keybindings for `lsp'.
+(dotfiles/leader
+  "l" '(lsp :which-key "LSP"))
 #+END_SRC
 
 ** CCLS
