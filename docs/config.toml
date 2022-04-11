@@ -1,49 +1,45 @@
-baseURL = "https://chrishayward.xyz/"
-theme = "hello-friend-ng"
-
+title                  = "Chris Hayward"
+copyright              = "Licensed under Attribution 4.0 International (CC BY 4.0)"
+baseURL                = "https://chrishayward.xyz/"
+theme                  = "hello-friend-ng"
+languageCode           = "en-us"
 defaultContentLanguage = "en"
-languageCode = "en-us"
-
-title = "Chris Hayward"
-copyright = "Licensed under Attribution 4.0 International (CC BY 4.0)"
-
-pygmentsCodefences = true
-pygmentsUseClasses = true
+pygmentsCodefences     = true
+pygmentsUseClasses     = true
 
 [Author]
   name = "Christopher James Hayward"
 
 [blackfriday]
-  nofollowLinks = true
+  nofollowLinks   = true
   noreferrerlinks = true
 
 [taxonomies]
   tag = "tags"
 
 [params]
-  dateform = "Jan 2, 2006"
-  dateformShort = "Jan 2"
-  dateformNum = "2006-01-02"
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04 -0700"
-
-  homeSubtitle = "Airplanes, Linux, and Metalcore"
+  homeSubtitle    = "Airplanes, Linux, and Metalcore"
   footerCopyright = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
 
   [[params.social]]
     name = "paypal"
-    url = "https://paypal.me/chrishaywardxyz"
+    url  = "https://paypal.me/chrishaywardxyz"
 
   [[params.social]]
     name = "github"
-    url = "https://github.com/chayward1/"
+    url  = "https://github.com/chayward1/"
 
   [[params.social]]
     name = "gitlab"
-    url = "https://gitlab.com/chayward1/"
+    url  = "https://gitlab.com/chayward1/"
 
   [[params.social]]
     name = "email"
-    url = "mailto:chris@chrishayward.xyz"
+    url  = "mailto:chris@chrishayward.xyz"
 
 [privacy]
   [privacy.disqus]
@@ -67,13 +63,13 @@ pygmentsUseClasses = true
 [menu]
   [[menu.main]]
     identifier = "cloud"
-    name = "Cloud"
-    url = "https://cloud.chrishayward.xyz"
+    name       = "Cloud"
+    url        = "https://cloud.chrishayward.xyz"
   [[menu.main]]
     identifier = "dotfiles"
-    name = "Dotfiles"
-    url = "/dotfiles"
+    name       = "Dotfiles"
+    url        = "/dotfiles"
   [[menu.main]]
     identifier = "projects"
-    name = "Projects"
-    url = "https://git.chrishayward.xyz"
+    name       = "Projects"
+    url        = "https://git.chrishayward.xyz"
