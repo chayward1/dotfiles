@@ -2634,7 +2634,7 @@ epkgs.doom-modeline
 
 * Website Configuration
 
-My [[https://chrishayward.xyz][personal website]] is a static HTML page written with [[https://gohugo.io][Hugo]], and is fully integrated into this configuration. It uses the ~config.toml~, ~config.yaml~, or ~config.json~ file (found in the sites root directory) as the default site config.
+My [[https://chrishayward.xyz][personal website]] is a static HTML page written with [[https://gohugo.io][Hugo]], and is fully integrated into this configuration. It uses the ~config.toml~, ~config.yaml~, or ~config.json~ file (found in the sites root directory) as the default site config. Working with this requires the module to be enabled.
 
 #+BEGIN_SRC conf :noweb yes :tangle docs/config.toml
 # <<file-warning>>
