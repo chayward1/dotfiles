@@ -2632,9 +2632,7 @@ epkgs.doom-modeline
 
 * Website Configuration
 
-My [[https://chrishayward.xyz][personal website]] is a static HTML page written with [[https://gohugo.io][Hugo]], and is fully integrated into this configuration.
-
-It uses the ~config.toml~, ~config.yaml~, or ~config.json~ file (found in the sites root directory) as the default site config.
+My [[https://chrishayward.xyz][personal website]] is a static HTML page written with [[https://gohugo.io][Hugo]], and is fully integrated into this configuration. It uses the ~config.toml~, ~config.yaml~, or ~config.json~ file (found in the sites root directory) as the default site config.
 
 #+BEGIN_SRC conf :noweb yes :tangle docs/config.toml
 # <<file-warning>>
@@ -2654,9 +2652,7 @@ pygmentsUseClasses     = true
 
 ** Params
 
-Dates are important in [[https://gohugo.io][Hugo]], and they configure how dates are assigned and displayed in your content pages.
-
-Themes are also able to extract information from the configuration to display, including social media icons, subtitles, and footer sections.
+Dates are important in [[https://gohugo.io][Hugo]], and they configure how dates are assigned and displayed in your content pages. Themes are also able to extract information from the configuration to display, including social media icons, subtitles, and footer sections.
 
 #+NAME: website-params
 #+BEGIN_SRC conf
