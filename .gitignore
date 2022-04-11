@@ -7,4 +7,4 @@ docs/static
 docs/public
 docs/content
 docs/resources/_gen
-docs/.hugo-build.lock
+docs/.hugo_build.lock
