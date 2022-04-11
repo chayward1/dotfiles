@@ -66,6 +66,10 @@ pygmentsUseClasses = true
 
 [menu]
   [[menu.main]]
+    identifier = "cloud"
+    name = "Cloud"
+    url = "https://cloud.chrishayward.xyz"
+  [[menu.main]]
     identifier = "dotfiles"
     name = "Dotfiles"
     url = "/dotfiles"
