@@ -2,13 +2,15 @@
 { config, pkgs, ... }:
 
 let
-  myUpdateSite = pkgs.writeShellScriptBin "update-site" ''
-    rsync -aP /etc/dotfiles/docs/public/ ubuntu@chrishayward.xyz:/var/www/chrishayward
+  mySiteDir = "/etc/dotfiles/docs/public/";
+  mySiteTgt = "unbuntu@chrishayward.xyz:/var/www/wedding";
+  mySiteUpdate = pkgs.writeShellScriptBin "my-site-update" ''
+    ${pkgs.rsync}/bin/rsync -aP ${mySiteDir} ${mySiteTgt}
   '';
 
 in {
   environment.systemPackages = [
     pkgs.hugo
-    myUpdateSite
+    mySiteUpdate
   ];
 }
