@@ -2302,7 +2302,7 @@ The [[https://microsoft.github.io/language-server-protocol][Language Server Prot
 
 ;; Add custom keybindings for `lsp'.
 (dotfiles/leader
-  "l" '(lsp :which-key "LSP"))
+  "tl" '(lsp :which-key "LSP"))
 #+END_SRC
 
 ** CCLS
