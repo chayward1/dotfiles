@@ -1,3 +1,4 @@
+# This file is controlled by /etc/dotfiles/README.org
 title                  = "Chris Hayward"
 copyright              = "Licensed under Attribution 4.0 International (CC BY 4.0)"
 baseURL                = "https://chrishayward.xyz/"
@@ -7,21 +8,12 @@ defaultContentLanguage = "en"
 pygmentsCodefences     = true
 pygmentsUseClasses     = true
 
-[Author]
-  name = "Christopher James Hayward"
-
-[blackfriday]
-  nofollowLinks   = true
-  noreferrerlinks = true
-
-[taxonomies]
-  tag = "tags"
-
 [params]
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
   dateformNum     = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04 -0700"
+  authorName      = "Christopher James Hayward"
   homeSubtitle    = "Airplanes, Linux, and Metalcore"
   footerCopyright = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
 
@@ -40,7 +32,6 @@ pygmentsUseClasses     = true
   [[params.social]]
     name = "email"
     url  = "mailto:chris@chrishayward.xyz"
-
 [privacy]
   [privacy.disqus]
     disable = true
@@ -59,7 +50,6 @@ pygmentsUseClasses     = true
 
   [privacy.youtube]
     disable = true
-
 [menu]
   [[menu.main]]
     identifier = "cloud"

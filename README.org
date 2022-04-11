@@ -2630,4 +2630,107 @@ epkgs.doom-modeline
 (doom-modeline-set-modeline 'dotfiles/modeline 'default)
 #+END_SRC
 
+* Website Configuration
+
+My [[https://chrishayward.xyz][personal website]] is a static HTML page written with [[https://gohugo.io][Hugo]], and is fully integrated into this configuration.
+
+It uses the ~config.toml~, ~config.yaml~, or ~config.json~ file (found in the sites root directory) as the default site config.
+
+#+BEGIN_SRC conf :noweb yes :tangle docs/config.toml
+# <<file-warning>>
+title                  = "Chris Hayward"
+copyright              = "Licensed under Attribution 4.0 International (CC BY 4.0)"
+baseURL                = "https://chrishayward.xyz/"
+theme                  = "hello-friend-ng"
+languageCode           = "en-us"
+defaultContentLanguage = "en"
+pygmentsCodefences     = true
+pygmentsUseClasses     = true
+
+<<website-params>>
+<<website-privacy>>
+<<website-layout>>
+#+END_SRC
+
+** Params
+
+Dates are important in [[https://gohugo.io][Hugo]], and they configure how dates are assigned and displayed in your content pages.
+
+Themes are also able to extract information from the configuration to display, including social media icons, subtitles, and footer sections.
+
+#+NAME: website-params
+#+BEGIN_SRC conf
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04 -0700"
+  authorName      = "Christopher James Hayward"
+  homeSubtitle    = "Airplanes, Linux, and Metalcore"
+  footerCopyright = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
+
+  [[params.social]]
+    name = "paypal"
+    url  = "https://paypal.me/chrishaywardxyz"
+
+  [[params.social]]
+    name = "github"
+    url  = "https://github.com/chayward1/"
+
+  [[params.social]]
+    name = "gitlab"
+    url  = "https://gitlab.com/chayward1/"
+
+  [[params.social]]
+    name = "email"
+    url  = "mailto:chris@chrishayward.xyz"
+#+END_SRC
+
+** Privacy
+
+I do not use any analytics or tracking in my website. Depending on the theme selected, some of these features may be enabled. I opt to override those settings here to make sure no unwanted trackers are loaded.
+
+#+NAME: website-privacy
+#+BEGIN_SRC conf
+[privacy]
+  [privacy.disqus]
+    disable = true
+
+  [privacy.googleAnalytics]
+    disable = true
+    
+  [privacy.instagram]
+    disable = true
+
+  [privacy.twitter]
+    disable = true
+
+  [privacy.vimeo]
+    disable = true
+
+  [privacy.youtube]
+    disable = true
+#+END_SRC
+
+** Layout
+
+Individual pages can be configured here to define the layout of the page. This is where quick links can be configured, and other sections such as blog posts, an about section, or a contact page can be added.
+
+#+NAME: website-layout
+#+BEGIN_SRC conf
+[menu]
+  [[menu.main]]
+    identifier = "cloud"
+    name       = "Cloud"
+    url        = "https://cloud.chrishayward.xyz"
+  [[menu.main]]
+    identifier = "dotfiles"
+    name       = "Dotfiles"
+    url        = "/dotfiles"
+  [[menu.main]]
+    identifier = "projects"
+    name       = "Projects"
+    url        = "https://git.chrishayward.xyz"
+#+END_SRC
+
 * Footnotes
