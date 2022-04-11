@@ -1057,7 +1057,6 @@ let
       <<emacs-writegood-package>>
       <<emacs-http-package>>
       <<emacs-hugo-package>>
-      <<emacs-reveal-package>>
       <<emacs-pass-package>>
       <<emacs-docker-package>>
       <<emacs-mu4e-package>>
@@ -1135,7 +1134,6 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-eww-elisp>>
 <<emacs-http-elisp>>
 <<emacs-hugo-elisp>>
-<<emacs-reveal-elisp>>
 <<emacs-pass-elisp>>
 <<emacs-docker-elisp>>
 <<emacs-erc-elisp>>

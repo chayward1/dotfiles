@@ -29,7 +29,6 @@ let
       epkgs.writegood-mode
       epkgs.ob-http
       epkgs.ox-hugo
-      
       epkgs.password-store
       epkgs.docker
       epkgs.dockerfile-mode
