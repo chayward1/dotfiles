@@ -1207,7 +1207,7 @@ It's somtimes desirable to have customization that takes effect during Emacs sta
 
 #+NAME: emacs-native-comp-package
 #+BEGIN_SRC nix
-pkgs.emacsGcc;
+pkgs.emacsNativeComp;
 #+END_SRC
 
 Native Comp, also known as GccEmacs, refers to the ~--with-native-compilation~ configuration option when building [[https://gnu.org/software/emacs/][GNU/Emacs]]. It adds support for compiling [[https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html][Emacs Lisp]] to native code using ~libgccjit~. All of the Emacs Lisp packages shipped with Emacs are native-compiled, providing a noticable performance iomprovement out-of-the-box.

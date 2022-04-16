@@ -5,7 +5,7 @@
 let
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
     config = ../README.org;
-    package = pkgs.emacsGcc;
+    package = pkgs.emacsNativeComp;
     alwaysEnsure = true;
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
