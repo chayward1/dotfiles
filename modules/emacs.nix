@@ -52,6 +52,8 @@ let
       epkgs.go-mode
       epkgs.pretty-mode
       epkgs.rustic
+      epkgs.clojure-mode
+      epkgs.cider
       epkgs.plantuml-mode
       epkgs.protobuf-mode
 
