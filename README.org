@@ -1111,9 +1111,10 @@ let
       <<emacs-golang-package>>
       <<emacs-python-package>>
       <<emacs-rustic-package>>
+      <<emacs-protobuf-package>>
+      <<emacs-typescript-package>>
       <<emacs-clojure-package>>
       <<emacs-plantuml-package>>
-      <<emacs-protobuf-package>>
 
       # User interface packages.
       <<emacs-swiper-package>>
@@ -2438,6 +2439,13 @@ The built in [[https://emacswiki.org/emacs/PythonProgrammingInEmacs][Python Mode
 #+NAME: emacs-protobuf-package
 #+BEGIN_SRC nix
 epkgs.protobuf-mode
+#+END_SRC
+
+** Typescript Mode
+
+#+NAME: emacs-typescript-package
+#+BEGIN_SRC nix
+epkgs.typescript-mode
 #+END_SRC
 
 ** Clojure Environment

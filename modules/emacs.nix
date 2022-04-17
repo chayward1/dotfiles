@@ -52,10 +52,11 @@ let
       epkgs.go-mode
       epkgs.pretty-mode
       epkgs.rustic
+      epkgs.protobuf-mode
+      epkgs.typescript-mode
       epkgs.clojure-mode
       epkgs.cider
       epkgs.plantuml-mode
-      epkgs.protobuf-mode
 
       # User interface packages.
       epkgs.ivy
