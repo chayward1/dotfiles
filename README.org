@@ -1142,7 +1142,7 @@ in {
 
 When Emacs is started, it normally tries to load a Lisp program from an ititialization file, or /init/ file. This file, if it exists, specifies how to initialize and configure Emacs. 
 
-#+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.emacs.d/init.el
+#+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.config/emacs/init.el
 ;; <<file-warning>>
 
 ;; Required inputs.
@@ -1195,7 +1195,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 
 It's somtimes desirable to have customization that takes effect during Emacs startup earlier than the normal init file. Place these configurations in =~/.emacs.d/early-init.el=. Most customizations should be put in the normal init file =~/.emacs.d/init.el=.
 
-#+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.emacs.d/early-init.el
+#+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.config/emacs/early-init.el
 ;; <<file-warning>>
 <<emacs-disable-ui-elisp>>
 <<emacs-native-comp-elisp>>
