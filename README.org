@@ -423,18 +423,25 @@ mkShell {
 
 ** Clojure
 
-[[https://clojure.org][Clojure]] is a dynamic and functional dialect of the Lisp programming language on the Java platform. Like other dialects, Clojure treats code as data and has a Lisp macro system. The current development process is community driven.
+[[https://clojure.org][Clojure]] is a dynamic and functional dialect of the Lisp programming language on the Java platform. Like other dialects, Clojure treats code as data and has a Lisp macro system. The current development process is community driven. Unfortunately the tooling does not comply with the XDG directory specification, so we bring it into the modern age kicking and screaming with a custom shell script binary.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/clojure.nix~.
+
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/clojure.nix
 # <<file-warning>>
 { pkgs ? import <nixpkgs> { } }:
 
 with pkgs;
-mkShell {
+
+let
+  myLein = pkgs.writeShellScriptBin "lein" ''
+    HOME=~/.local/share/lein ${pkgs.leiningen}/bin/lein
+  '';
+
+in mkShell {
   buildInputs = [
-    leiningen
+    myLein
   ];
   shellHook = ''
   '';
@@ -1527,7 +1534,7 @@ epkgs.which-key
   (erc-tls :server "irc.libera.chat"
            :port 6697
            :nick "megaphone"
-           :password (password-store-get "megaphone@libera.chat")
+           :password (password-store-get "libera.chat/megaphone")
            :full-name "Chris Hayward"))
 
 ;; Configure keybindings.

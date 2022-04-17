@@ -2,9 +2,15 @@
 { pkgs ? import <nixpkgs> { } }:
 
 with pkgs;
-mkShell {
+
+let
+  myLein = pkgs.writeShellScriptBin "lein" ''
+    HOME=~/.local/share/lein ${pkgs.leiningen}/bin/lein
+  '';
+
+in mkShell {
   buildInputs = [
-    leiningen
+    myLein
   ];
   shellHook = ''
   '';
