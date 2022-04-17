@@ -283,6 +283,7 @@ mkShell {
 #+END_SRC
 
 ** Java
+
 [[https://openjdk.java.net][OpenJDK]] is a free and open-source implementation of the [[https://en.wikipedia.org/wiki/Java_(software_platform)][Java]] Platform, Standard Edition. It is the result of an effort Sun Microsystems began in 2006. The implementation is licensed under the GNU General Public License Version 2 with a linking exception.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/java.nix~.
