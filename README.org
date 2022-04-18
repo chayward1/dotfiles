@@ -2472,9 +2472,7 @@ epkgs.clojure-mode
 epkgs.cider
 #+END_SRC
 
-[[https://github.com/clojure-emacs/clojure-mode][Clojure Mode]] is an Emacs major mode that provides font-lock (syntax highlighting), indentation, navigation, and refactoring support for the [[https://clojure.org][Clojure]] programming language.
-
-https://github.com/clojure-emacs/cider extends Emacs with support for interactive programming in Clojure. The features are centered around =cider-mode=, adding a running process for compilation, code completion, debugging, definition and documentation lookup, running tests, and more.
+[[https://github.com/clojure-emacs/clojure-mode][Clojure Mode]] is an Emacs major mode that provides font-lock (syntax highlighting), indentation, navigation, and refactoring support for the [[https://clojure.org][Clojure]] programming language. [[https://github.com/clojure-emacs/cider][Cider]] extends Emacs with support for interactive programming in Clojure. The features are centered around =cider-mode=, adding a running process for compilation, code completion, debugging, definition and documentation lookup, running tests, and more.
 
 #+NAME: emacs-clojure-elisp
 #+BEGIN_SRC emacs-lisp
