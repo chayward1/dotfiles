@@ -77,6 +77,13 @@ in {
     pkgs.pass
     pkgs.mu
     pkgs.isync
+    (pkgs.writeShellScriptBin "mail-init" ''
+      ${pkgs.mu} init --maildir="~/.cache/mail" --my-address="chris@chrishayward.xyz"
+      ${pkgs.mu} index
+    '')
+    (pkgs.writeShellScriptBin "mail-sync" ''
+      ${pkgs.isync}/bin/mbsync -a
+    '')
     pkgs.aspell
     pkgs.aspellDicts.en
     pkgs.aspellDicts.en-science

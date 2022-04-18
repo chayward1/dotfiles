@@ -2203,12 +2203,32 @@ Manage Docker from inside of Emacs using [[https://github.com/Silex/docker.el][D
 #+BEGIN_SRC nix
 pkgs.mu
 pkgs.isync
+(pkgs.writeShellScriptBin "mail-init" ''
+  ${pkgs.mu} init --maildir="~/.cache/mail" --my-address="chris@chrishayward.xyz"
+  ${pkgs.mu} index
+'')
+(pkgs.writeShellScriptBin "mail-sync" ''
+  ${pkgs.isync}/bin/mbsync -a
+'')
 #+END_SRC
+
+[[https://github.com/djcb/mu][MU]] is a tool for dealing with email messages stored in the Maildir-format. Its purpose is to help quickly find the messages needed, and allows users to view messages, extract attachments, create new maildirs, and much more. It's written in C and C++, and includes extensions for Emacs (MU4E) and guile scheme.
 
 #+NAME: emacs-mu4e-package
 #+BEGIN_SRC nix
 epkgs.mu4e-alert
 #+END_SRC
+
+[[https://emacswiki.org/emacs/mu4e][MU4E]] is an email client for Emacs. It's based on the mu email indexer / searcher.
+
++ Fully search based: no folders, only queries
++ Fully documented, with example configurations
++ User-interface optimized for speed, with quick keystrokes for common actions
++ Asynchronous; heavy actions do not block Emacs
++ Support for non-English languages
++ Support for signing and encryption
++ Address auto-completion based on existing messages
++ Extensibile with existing code and snippets
 
 #+NAME: emacs-mu4e-config
 #+BEGIN_SRC nix
@@ -2240,11 +2260,7 @@ home.file.".mbsyncrc" = {
 };
 #+END_SRC
 
-#+BEGIN_SRC sh
-mbsync -a
-mu init --maildir="~/.cache/mail" --my-address="chris@chrishayward.xyz"
-mu index
-#+END_SRC
+Before using the software inside of Emacs, the maildir must be created in the local filesystem, and indexed. This is done with a single custom shell script binary ~mail-init~ which wraps the underlying mu commands. The emacs extension is shipped with the mu mail indexer. To utilize it, it must be added to the load path inside of Emacs.
 
 #+NAME: emacs-mu4e-elisp
 #+BEGIN_SRC emacs-lisp
@@ -2255,7 +2271,7 @@ mu index
 ;; Confiugure `mu4e'.
 (setq mu4e-maildir "~/.cache/mail"
       mu4e-update-interval (* 5 60)
-      mu4e-get-mail-command "mbsync -a"
+      mu4e-get-mail-command "mail-sync"
       mu4e-compose-format-flowed t
       mu4e-change-filenames-when-moving t
       mu4e-compose-signature (concat "Chris Hayward\n"
