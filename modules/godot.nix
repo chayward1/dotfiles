@@ -3,9 +3,10 @@
 
 {
   environment.systemPackages = [
-    tiled
-    godot
-    godot-server
-    godot-headless
+    pkgs.tiled
+    pkgs.godot
+    pkgs.godot-server
+    pkgs.godot-headless
+    pkgs.python310Packages.gdtoolkit
   ];
 }
