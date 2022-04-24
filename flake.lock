@@ -30,6 +30,21 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "locked": {
+        "lastModified": 1649676176,
+        "narHash": "sha256-OWKJratjt2RW151VUlJPRALb7OU2S5s+f0vLj4o1bHM=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "a4b154ebbdc88c8498a5c7b01589addc9e9cb678",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -73,7 +88,7 @@
     },
     "nix-on-droid": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "flake-utils": "flake-utils_2",
         "home-manager": "home-manager_2",
         "nixpkgs": [
           "nixpkgs"
@@ -142,6 +157,7 @@
     "root": {
       "inputs": {
         "emacs-overlay": "emacs-overlay",
+        "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "nix-on-droid": "nix-on-droid",
         "nixos-hardware": "nixos-hardware",

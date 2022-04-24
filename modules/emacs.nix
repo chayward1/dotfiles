@@ -48,6 +48,7 @@ let
       epkgs.lsp-mode
       epkgs.lsp-ui
       epkgs.company
+      epkgs.gdscript-mode
       epkgs.ccls
       epkgs.go-mode
       epkgs.pretty-mode

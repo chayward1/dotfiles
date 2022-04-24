@@ -24,6 +24,7 @@
           ./modules/x11.nix
           ./modules/ssh.nix
           ./modules/hugo.nix
+          ./modules/godot.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           ./modules/firefox.nix

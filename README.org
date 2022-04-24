@@ -502,6 +502,7 @@ nixos = nixpkgs.lib.nixosSystem {
     <<module-x11>>
     <<module-ssh>>
     <<module-hugo>>
+    <<module-godot>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-firefox>>
@@ -729,6 +730,29 @@ in {
   environment.systemPackages = [
     mySiteBuild
     mySiteUpdate
+  ];
+}
+#+END_SRC
+
+** Godot
+
+#+NAME: module-godot
+#+BEGIN_SRC nix
+./modules/godot.nix
+#+END_SRC
+
+[[https://godotengine.org][Godot]] is a cross-platform, free and open-source game engine released under the MIT license. It provides a huge set of common tools, so you can focus on making your game without reinventing the wheel. It's completely free and open-source, no strings attached, no royalties. The game belongs to the creator down to each line of the engine code.
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/godot.nix
+# <<file-warning>>
+{ config, pkgs, ... }:
+
+{
+  environment.systemPackages = [
+    tiled
+    godot
+    godot-server
+    godot-headless
   ];
 }
 #+END_SRC
@@ -1108,6 +1132,7 @@ let
       <<emacs-projectile-package>>
       <<emacs-lsp-package>>
       <<emacs-company-package>>
+      <<emacs-gdscript-package>>
       <<emacs-ccls-package>>
       <<emacs-golang-package>>
       <<emacs-python-package>>
@@ -1188,6 +1213,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-projectile-elisp>>
 <<emacs-lsp-elisp>>
 <<emacs-company-elisp>>
+<<emacs-gdscript-elisp>>
 <<emacs-golang-elisp>>
 <<emacs-python-elisp>>
 <<emacs-rustic-elisp>>
@@ -2353,7 +2379,8 @@ The [[https://microsoft.github.io/language-server-protocol][Language Server Prot
 
 ;; Add custom keybindings for `lsp'.
 (dotfiles/leader
-  "tl" '(lsp :which-key "LSP"))
+  "l" '(:ignore t :which-key "LSP")
+  "ll" '(lsp :which-key "LSP"))
 #+END_SRC
 
 ** CCLS
@@ -2396,6 +2423,48 @@ epkgs.company
 
 ;; Enable it globally.
 (global-company-mode +1)
+#+END_SRC
+
+** GDScript Mode
+
+#+NAME: emacs-gdscript-package
+#+BEGIN_SRC nix
+epkgs.gdscript-mode
+#+END_SRC
+
+https://github.com/godotengine/emacs-gdscript-mode is an Emacs package to get GDScript support and syntax highlighting. Some of its features include:
+
++ Syntax highlighting
++ Code folding
++ Debugger support
++ Support for scenes and script files
++ Comment wrapping
++ Indentation
++ Automatic parsing
++ Code formatting
+
+#+NAME: emacs-gdscript-elisp
+#+BEGIN_SRC emacs-lisp
+(require 'gdscript-mode)
+
+;; Silence lsp warnings for gdscript.
+(defun lsp--gdscript-ignore-errors (original-function &rest args)
+  "Ignore the error message resulting from Godot not replying to the `JSONRPC' request."
+  (if (string-equal major-mode "gdscript-mode")
+      (let ((json-data (nth 0 args)))
+	(if (and (string= (gethash "jsonrpc" json-data "") "2.0")
+		 (not (gethash "id" json-data nil))
+		 (not (gethash "method" json-data nil)))
+	    nil; (message "Method not found")
+	  (apply original-function args)))
+    (apply original-function args)))
+
+;; Run the function around `lsp--get-message-type' to suppress warnings.
+(advice-add #'lsp--get-message-type :around #'lsp--gdscript-ignore-errors)
+
+;; Add custom keybinds.
+(dotfiles/leader
+  "lg" '(gdscript-hydra-show :which-key "GDScript"))
 #+END_SRC
 
 ** Go Mode
