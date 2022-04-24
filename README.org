@@ -111,7 +111,8 @@ RUN nix-shell /etc/dotfiles/shell.nix
   description = "<<description>>";
 
   inputs = {
-    <<os-nixpkgs>> 
+    <<os-nixpkgs>>
+    flake-utils.url = "github:numtide/flake-utils";
     <<os-home-manager>>
     <<os-emacs-overlay>>
     <<os-nixos-hardware>>
@@ -718,7 +719,7 @@ let
   mySiteDir = "/etc/dotfiles/docs/public/";
   mySiteTgt = "ubuntu@chrishayward.xyz:/var/www/wedding";
   mySiteBuild = pkgs.writeShellScriptBin "my-site-build" ''
-    pushd ${mySiteDir}../ && ${pkgs.hugo}/bin/hugo -v && popd
+    pushd ${mySiteDir}../ && ${pkgs.hugo}/bin/hugo -v ; popd
   '';
   mySiteUpdate = pkgs.writeShellScriptBin "my-site-update" ''
     ${pkgs.rsync}/bin/rsync -aP ${mySiteDir} ${mySiteTgt}
