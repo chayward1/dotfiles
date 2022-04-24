@@ -112,7 +112,6 @@ RUN nix-shell /etc/dotfiles/shell.nix
 
   inputs = {
     <<os-nixpkgs>>
-    flake-utils.url = "github:numtide/flake-utils";
     <<os-home-manager>>
     <<os-emacs-overlay>>
     <<os-nixos-hardware>>
@@ -749,10 +748,11 @@ in {
 
 {
   environment.systemPackages = [
-    tiled
-    godot
-    godot-server
-    godot-headless
+    pkgs.tiled
+    pkgs.godot
+    pkgs.godot-server
+    pkgs.godot-headless
+    pkgs.python310Packages.gdtoolkit
   ];
 }
 #+END_SRC
