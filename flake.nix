@@ -9,8 +9,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    nix-on-droid.url = "github:t184256/nix-on-droid/master";
-    nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, ... }: {
@@ -41,15 +39,6 @@
             };
           }
         ];
-      };
-    };
-    nixOnDroidConfigurations = {
-      android = {
-        device = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-          config = ./hosts/android/nix-on-droid.nix;
-          system = "aarch64-linux";
-          specialArgs = { inherit inputs; };
-        };
       };
     };
   };

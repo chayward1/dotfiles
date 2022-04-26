@@ -115,15 +115,11 @@ RUN nix-shell /etc/dotfiles/shell.nix
     <<os-home-manager>>
     <<os-emacs-overlay>>
     <<os-nixos-hardware>>
-    <<os-nix-on-droid>>
   };
 
   outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, ... }: {
     nixosConfigurations = {
       <<host-default>>
-    };
-    nixOnDroidConfigurations = {
-      <<host-android>>
     };
   };
 }
@@ -168,16 +164,6 @@ emacs-overlay.url = "github:nix-community/emacs-overlay";
 #+NAME: os-nixos-hardware
 #+BEGIN_SRC nix
 nixos-hardware.url = "github:nixos/nixos-hardware";
-#+END_SRC
-
-** Nix On Droid
-
-[[https://github.com/t184256/nix-on-droid][Nix On Droid]] is a deployment of the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]] on [[https://android.com][Android]], in a single-click installable package. It does not require =root=, user namespace support, or disabling SELinux, but relies on =proot=. It has no relation to the Termux distribution.
-
-#+NAME: os-nix-on-droid
-#+BEGIN_SRC nix
-nix-on-droid.url = "github:t184256/nix-on-droid/master";
-nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
 #+END_SRC
 
 * Development Shells
@@ -585,38 +571,6 @@ The file system for this host is a single 24GB =QCOW= file, a format for disk im
   swapDevices =
     [ { device = "/dev/disk/by-label/swap"; }
     ];
-}
-#+END_SRC
-
-** Android
-
-This is my [[https://samsung.com/us/mobile/galaxy-s10/buy/][Samsung Galaxy S10+]] running [[https://github.com/t184256/nix-on-droid][Nix On Droid]] with the experimental support for [[https://nixos.wiki/wiki/Flakes][Flakes]] being used to manage the configuration.
-
-#+NAME: host-android
-#+BEGIN_SRC nix
-android = {
-  device = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-    config = ./hosts/android/nix-on-droid.nix;
-    system = "aarch64-linux";
-    specialArgs = { inherit inputs; };
-  };
-};
-#+END_SRC
-
-Build and activate the configuration with ~nix-on-droid switch --flake .#android~. Currently this cannot be built with a pure flake because of hardcoded store paths for =proot=. Every evaluation will be executed with the =--impure= flag.
-
-#+BEGIN_SRC nix :noweb yes :tangle hosts/android/nix-on-droid.nix
-# <<file-warning>>
-{ pkgs, ... }:
-
-{
-  environment.packages = [
-    pkgs.git
-    pkgs.vim
-    pkgs.pass
-    pkgs.gnupg
-    pkgs.openssh
-  ];
 }
 #+END_SRC
 
