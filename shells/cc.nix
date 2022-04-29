@@ -7,6 +7,7 @@ mkShell {
     gdb
     ccls
     cmake
+    boost
     gnumake
     gcc-unwrapped
   ];
