@@ -201,6 +201,11 @@ in mkShell {
 
 ** Go
 
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/golang.png]]
+
 [[https://golang.org][Go]] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/go.nix~
