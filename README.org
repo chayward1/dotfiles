@@ -1813,6 +1813,9 @@ epkgs.org
 ;; TODO: Configure default structure templates.
 ;; (require 'org-tempo)
 
+;; Don't use native image sizes in previews.
+(setq org-image-actual-width nil)
+
 ;; Apply custom keybindings.
 (dotfiles/leader
   "o" '(:ignore t :which-key "Org")
