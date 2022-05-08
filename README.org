@@ -1021,7 +1021,7 @@ in {
 }
 #+END_SRC
 
-* Emacs Configuration
+** Emacs Configuration
 
 #+ATTR_ORG: :width 800px
 #+ATTR_HTML: :width 800px
@@ -1188,7 +1188,7 @@ It's somtimes desirable to have customization that takes effect during Emacs sta
 <<emacs-improved-prompts>>
 #+END_SRC
 
-** Native Comp
+*** Native Comp
 
 #+NAME: emacs-native-comp-package
 #+BEGIN_SRC nix
@@ -1204,7 +1204,7 @@ Native Comp, also known as GccEmacs, refers to the ~--with-native-compilation~ c
       native-comp-async-report-warnings-errors nil) ;; Emacs 28+  ...
 #+END_SRC
 
-** Disable UI
+*** Disable UI
 
 [[https://gnu.org/software/emacs/][Emacs]] has been around since the 1980s, and it's painfully obvious when you're greeted with the default user interface. Disable some unwanted features to clean it up, and bring the appearance to something closer to a modern editor.
 
@@ -1228,7 +1228,7 @@ Native Comp, also known as GccEmacs, refers to the ~--with-native-compilation~ c
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+END_SRC
 
-** Backup Files
+*** Backup Files
 
 [[https://gnu.org/software/emacs/][Emacs]] makes a backup for a file only the first time the file is saved from a buffer. No matter how many times the file is subsequently written to, the backup remains unchanged. For files managed by a version control system, backup files are redundant since the previous versions are already stored.
 
@@ -1239,7 +1239,7 @@ Native Comp, also known as GccEmacs, refers to the ~--with-native-compilation~ c
       create-lockfiles nil)
 #+END_SRC
 
-** Shell Commands
+*** Shell Commands
 
 Define some methods for interaction between [[https://gnu.org/software/emacs/][GNU/Emacs]], and the systems underyling shell:
 
@@ -1260,7 +1260,7 @@ Define some methods for interaction between [[https://gnu.org/software/emacs/][G
     (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
 #+END_SRC
 
-** Improved prompts
+*** Improved prompts
 
 By default Emacs will ask you to enter 'Yes' or 'No' instead of 'Y' or 'N'. This is a relatively conservative design decision, based on the fact that certain prompts may be important enough to warrant typing three characters.
 
@@ -1270,7 +1270,7 @@ By default Emacs will ask you to enter 'Yes' or 'No' instead of 'Y' or 'N'. This
 (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
-** Nix Mode
+*** Nix Mode
 
 #+NAME: emacs-nix-mode-extras
 #+BEGIN_SRC nix
@@ -1285,7 +1285,7 @@ pkgs.rnix-lsp
 epkgs.nix-mode
 #+END_SRC
 
-** Evil Mode
+*** Evil Mode
 
 [[https://evil.readthedocs.io/en/latest/overview.html][Evil Mode]] is an extensible VI layer for [[https://gnu.org/software/emacs/][GNU/Emacs]]. It emulates the main features of [[https://neovim.io][Vim]], transforming GNU/Emacs into a modal editor.
 
@@ -1320,7 +1320,7 @@ The next time [[https://gnu.org/software/emacs/][Emacs]] is started, it will com
 (evil-define-key 'normal 'org-mode-map (kbd "<tab>") #'org-cycle)
 #+END_SRC
 
-** EXWM
+*** EXWM
 
 #+NAME: emacs-exwm-package
 #+BEGIN_SRC nix
@@ -1408,7 +1408,7 @@ home.file.".xinitrc" = {
     (dotfiles/run-in-background "autorandr --change --force"))) ;; Swap to the next screen config.
 #+END_SRC
 
-** General
+*** General
 
 #+NAME: emacs-general-package
 #+BEGIN_SRC nix
@@ -1454,7 +1454,7 @@ epkgs.general
   "t" '(:ignore t :which-key "Toggle / Tweak"))
 #+END_SRC
 
-** Which Key
+*** Which Key
 
 [[https://github.com/justbur/emacs-which-key][Which Key]] is an [[https://gnu.org/software/emacs/][Emacs]] minor mode that displays the key bindings following your currently entered incomplete command (prefix) in a popup or mini-buffer.
 
@@ -1471,7 +1471,7 @@ epkgs.which-key
 (which-key-mode +1)
 #+END_SRC
 
-** EWW
+*** EWW
 
 [[https://emacswiki.org/emacs/eww][Emacs Web Wowser (EWW)]] is a Web browser written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html][Emacs Lisp]] based on the ~shr.el~ library. It's my primary browser when it comes to text-based browsing.
 
@@ -1488,7 +1488,7 @@ epkgs.which-key
       shr-use-colors nil)
 #+END_SRC
 
-** ERC
+*** ERC
 
 [[https://gnu.org/software/emacs/erc.html][ERC]] is a powerful, modular, and extensible IRC client for [[https://gnu.org/software/emacs/][GNU/Emacs]]. It's part of the GNU project, and included in Emacs.
 
@@ -1519,7 +1519,7 @@ epkgs.which-key
   "i" '(dotfiles/erc-connect :which-key "Chat"))
 #+END_SRC
 
-** Dired
+*** Dired
 
 #+NAME: emacs-dired-package
 #+BEGIN_SRC nix
@@ -1543,7 +1543,7 @@ epkgs.dired-single
   "d" '(dired-jump :which-key "Dired"))
 #+END_SRC
 
-** Icons
+*** Icons
 
 #+NAME: emacs-icons-package
 #+BEGIN_SRC nix
@@ -1566,7 +1566,7 @@ epkgs.all-the-icons-ivy-rich
 (global-prettify-symbols-mode +1)
 #+END_SRC
 
-** Emojis
+*** Emojis
 
 #+NAME: emacs-emoji-package
 #+BEGIN_SRC nix
@@ -1581,7 +1581,7 @@ epkgs.emojify
 (add-hook 'after-init-hook 'global-emojify-mode)
 #+END_SRC
 
-** EShell
+*** EShell
 
 #+NAME: emacs-eshell-package
 #+BEGIN_SRC nix
@@ -1605,7 +1605,7 @@ epkgs.eshell-prompt-extras
   "e" '(eshell :which-key "EShell"))
 #+END_SRC
 
-** VTerm
+*** VTerm
 
 [[https://github.com/akermu/emacs-libvterm][Emacs Libvterm (VTerm)]] is a fully-fledged terminal emulator inside [[https://gnu.org/software/emacs/][GNU/Emacs]] based on [[https://github.com/neovim/libvterm][Libvterm]], a blazing fast C library used in [[https://neovim.io][Neovim]]. As a result of using compiled code (instead of [[https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html][Emacs Lisp]]), VTerm is capable, fast, and it can seamlessly handle large outputs.
 
@@ -1621,7 +1621,7 @@ epkgs.vterm
   "v" '(vterm :which-key "VTerm"))
 #+END_SRC
 
-** Magit
+*** Magit
  
 [[https://magit.vc][Magit]] is an interface to the [[https://git-scm.com][Git]] version control system, implemented as a [[https://gnu.org/software/emacs/][GNU/Emacs]] package written in [[https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html][Emacs Lisp]]. It fills the glaring gap between the Git command line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks within a few mnemonic key presses.
 
@@ -1641,7 +1641,7 @@ epkgs.magit
   "gp" '(magit-pull :which-key "Pull"))
 #+END_SRC
 
-** Hydra
+*** Hydra
 
 #+NAME: emacs-hydra-package
 #+BEGIN_SRC nix
@@ -1650,7 +1650,7 @@ epkgs.hydra
 
 [[https://github.com/abo-abo/hydra][Hydra]] allows you to create keymaps for related commands, with the ability to easily repeat commands using a single keystroke.
 
-** Fonts
+*** Fonts
 
 [[https://typeof.net/Iosevka][Iosevka]] is an open-source, sans-serif + slab-serif, monospace + quasi-proportional typeface family, designed for writing code, using in terminals, and preparing technical documents. Configure it as the default font face inside of [[https://gnu.org/software/emacs/][Emacs]] and define a [[https://github.com/abo-abo/hydra][Hydra]] command for quickly scaling text.
 
@@ -1672,7 +1672,7 @@ epkgs.hydra
   "tf" '(hydra-text-scale/body :which-key "Font"))
 #+END_SRC
 
-** Frames
+*** Frames
 
 Sometimes it's useful to resize the current frame without using the mouse (always). The default behaviour when calling ~shrink-window~ and ~enlarge-window~ only changes the size by a small margin. I solved this problem with the same method used for scaling text:
 
@@ -1703,7 +1703,7 @@ Sometimes it's useful to resize the current frame without using the mouse (alway
   "wr" '(hydra-resize-frame/body :which-key "Resize"))
 #+END_SRC
 
-** Elfeed
+*** Elfeed
 
 #+NAME: emacs-elfeed-package
 #+BEGIN_SRC nix
@@ -1732,7 +1732,7 @@ epkgs.elfeed
   "fu" '(elfeed-update :which-key "Update"))
 #+END_SRC
 
-** Org Mode
+*** Org Mode
 
 #+NAME: emacs-org-package
 #+BEGIN_SRC nix
@@ -1793,7 +1793,7 @@ epkgs.org
   "ofn" '(org-footnote-normalize :which-key "Normalize"))
 #+END_SRC
 
-** Org Roam
+*** Org Roam
 
 #+NAME: emacs-org-roam-package
 #+BEGIN_SRC nix
@@ -1908,7 +1908,7 @@ epkgs.org-roam
 (org-roam-setup)
 #+END_SRC
 
-** Org Roam UI
+*** Org Roam UI
 
 #+NAME: emacs-org-roam-ui-package
 #+BEGIN_SRC nix
@@ -1939,7 +1939,7 @@ epkgs.simple-httpd
   "orut" '(org-roam-ui-sync-theme :which-key "Sync Theme"))
 #+END_SRC
 
-** Org Drill
+*** Org Drill
 
 #+NAME: emacs-org-drill-package
 #+BEGIN_SRC nix
@@ -1963,7 +1963,7 @@ epkgs.org-drill
   "odr" '(org-drill-resume :which-key "Resume"))
 #+END_SRC
 
-** Org Agenda
+*** Org Agenda
 
 The way [[https://orgmode.org][Org Mode]] works, TODO items, time-stamped items, and tagged headlines can be scattered throughout a file, or even a number of files. To get an overview of open action items, or of events that are important for a particular date, this information must be collected, sorted, and displayed in an organized way.
 
@@ -1986,7 +1986,7 @@ The way [[https://orgmode.org][Org Mode]] works, TODO items, time-stamped items,
   "oa" '(org-agenda :which-key "Agenda"))
 #+END_SRC
 
-** Org Pomodoro
+*** Org Pomodoro
 
 #+NAME: emacs-pomodoro-package
 #+BEGIN_SRC nix
@@ -2006,7 +2006,7 @@ epkgs.org-pomodoro
   "op" '(org-pomodoro :which-key "Pomodoro"))
 #+END_SRC
 
-** Writegood Mode
+*** Writegood Mode
 
 #+NAME: emacs-writegood-package
 #+BEGIN_SRC nix
@@ -2026,7 +2026,7 @@ epkgs.writegood-mode
   "tg" '(writegood-mode :which-key "Grammar"))
 #+END_SRC
 
-** Aspell
+*** Aspell
 
 #+NAME: emacs-aspell-extras
 #+BEGIN_SRC nix
@@ -2049,7 +2049,7 @@ pkgs.aspellDicts.en-computers
   "ts" '(flyspell-mode :which-key "Spelling"))
 #+END_SRC
 
-** TexLive
+*** TexLive
 
 [[https://wikipedia.org/wiki/Tex_Live][TeX Live]] is a free software distributution for the TeX typesetting system that includes major TeX-related programs, macro packages, and fonts. Since TeX Live consists of /thousands/ of packages, to make managing it easier, NixOS replicates the organization of Tex Live into /schemes/ and /collections/:
 
@@ -2066,7 +2066,7 @@ pkgs.aspellDicts.en-computers
 # pkgs.texlive.combined.scheme-full
 #+END_SRC
 
-** Http
+*** Http
 
 #+NAME: emacs-http-package
 #+BEGIN_SRC nix
@@ -2083,7 +2083,7 @@ It's possible to make HTTP requests from Org Mode buffers using [[https://github
   '((http . t)))
 #+END_SRC
 
-** Hugo
+*** Hugo
 
 #+NAME: emacs-hugo-package
 #+BEGIN_SRC nix
@@ -2124,7 +2124,7 @@ epkgs.ox-hugo
 ;;     :unnarrowed t))
 #+END_SRC
 
-** Passwords
+*** Passwords
 
 #+NAME: emacs-pass-extras
 #+BEGIN_SRC nix
@@ -2155,7 +2155,7 @@ Configure keybindings for passwords behind =SPC p=:
   "pg" '(password-store-generate :which-key "Generate"))
 #+END_SRC
 
-** Docker
+*** Docker
 
 #+NAME: emacs-docker-package
 #+BEGIN_SRC nix
@@ -2173,7 +2173,7 @@ Manage Docker from inside of Emacs using [[https://github.com/Silex/docker.el][D
   "nd" '(docker :which-key "Docker"))
 #+END_SRC
 
-** MU4E
+*** MU4E
 
 #+NAME: emacs-mu4e-extras
 #+BEGIN_SRC nix
@@ -2286,7 +2286,7 @@ Before using the software inside of Emacs, the maildir must be created in the lo
   "m" '(mu4e :which-key "Mail"))
 #+END_SRC
 
-** Projectile
+*** Projectile
 
 #+NAME: emacs-projectile-package
 #+BEGIN_SRC nix
@@ -2302,7 +2302,7 @@ epkgs.projectile
 (projectile-mode +1)
 #+END_SRC
 
-** LSP Mode
+*** LSP Mode
 
 #+NAME: emacs-lsp-package
 #+BEGIN_SRC nix
@@ -2332,7 +2332,7 @@ The [[https://microsoft.github.io/language-server-protocol][Language Server Prot
   "ll" '(lsp :which-key "LSP"))
 #+END_SRC
 
-** CCLS
+*** CCLS
 
 #+NAME: emacs-ccls-package
 #+BEGIN_SRC nix
@@ -2355,7 +2355,7 @@ epkgs.ccls
 (add-hook 'cuda-mode-hook 'dotfiles/ccls-hook)
 #+END_SRC
 
-** Company Mode
+*** Company Mode
 
 #+NAME: emacs-company-package
 #+BEGIN_SRC nix
@@ -2374,7 +2374,7 @@ epkgs.company
 (global-company-mode +1)
 #+END_SRC
 
-** GDScript Mode
+*** GDScript Mode
 
 #+NAME: emacs-gdscript-package
 #+BEGIN_SRC nix
@@ -2416,7 +2416,7 @@ https://github.com/godotengine/emacs-gdscript-mode is an Emacs package to get GD
   "lg" '(gdscript-hydra-show :which-key "GDScript"))
 #+END_SRC
 
-** Go Mode
+*** Go Mode
 
 #+NAME: emacs-golang-package
 #+BEGIN_SRC nix
@@ -2436,7 +2436,7 @@ epkgs.go-mode
 (add-hook 'go-mode-hook #'dotfiles/go-hook)
 #+END_SRC
 
-** Rustic
+*** Rustic
 
 #+NAME: emacs-rustic-package
 #+BEGIN_SRC nix
@@ -2452,7 +2452,7 @@ Rustic is a fork of Rust Mode that integrates well with the [[https://microsoft.
       rustic-lsp-server 'rls)
 #+END_SRC
 
-** Python Mode
+*** Python Mode
 
 #+NAME: emacs-python-package
 #+BEGIN_SRC nix
@@ -2469,21 +2469,21 @@ The built in [[https://emacswiki.org/emacs/PythonProgrammingInEmacs][Python Mode
     (turn-on-pretty-mode)))
 #+END_SRC
 
-** Protobuf Mode
+*** Protobuf Mode
 
 #+NAME: emacs-protobuf-package
 #+BEGIN_SRC nix
 epkgs.protobuf-mode
 #+END_SRC
 
-** Typescript Mode
+*** Typescript Mode
 
 #+NAME: emacs-typescript-package
 #+BEGIN_SRC nix
 epkgs.typescript-mode
 #+END_SRC
 
-** PlantUML
+*** PlantUML
 
 #+NAME: emacs-plantuml-extras
 #+BEGIN_SRC nix
@@ -2508,7 +2508,7 @@ epkgs.plantuml-mode
       org-plantuml-exec-mode 'plantuml)
 #+END_SRC
 
-** Swiper
+*** Swiper
 
 #+NAME: emacs-swiper-package
 #+BEGIN_SRC nix
@@ -2542,7 +2542,7 @@ epkgs.ivy-prescient
 (ivy-prescient-mode +1)
 #+END_SRC
 
-** Transparency
+*** Transparency
 
 It's possible to control the frame opacity in [[https://gnu.org/software/emacs/][GNU/Emacs]]. Unlike other transparency hacks, it's not merely showing the desktop background image, but is true transparency -- you can see other windows behind the Emacs window.
 
@@ -2553,7 +2553,7 @@ It's possible to control the frame opacity in [[https://gnu.org/software/emacs/]
 (add-to-list 'default-frame-alist '(alpha . (95 . 95)))
 #+END_SRC
 
-** Desktop Environment
+*** Desktop Environment
 
 #+NAME: emacs-desktop-extras
 #+BEGIN_SRC nix
@@ -2576,7 +2576,7 @@ You can control the brightness, volume, take screenshots, and lock / unlock the 
 (desktop-environment-mode +1)
 #+END_SRC
 
-** Doom Themes
+*** Doom Themes
 
 #+NAME: emacs-doom-themes-package
 #+BEGIN_SRC nix
@@ -2643,7 +2643,7 @@ Create a shell command that returns a JSON string of the current theme in the fo
 '')
 #+END_SRC
 
-** Doom Modeline
+*** Doom Modeline
 
 #+NAME: emacs-doom-modeline-package
 #+BEGIN_SRC nix
@@ -2710,7 +2710,7 @@ epkgs.doom-modeline
 (doom-modeline-set-modeline 'dotfiles/modeline 'default)
 #+END_SRC
 
-* Website Configuration
+** Website Configuration
 
 #+ATTR_ORG: :width 800px
 #+ATTR_HTML: :width 800px
@@ -2735,7 +2735,7 @@ pygmentsUseClasses     = true
 <<website-layout>>
 #+END_SRC
 
-** Params
+*** Params
 
 Dates are important in [[https://gohugo.io][Hugo]], and they configure how dates are assigned and displayed in your content pages. Themes are also able to extract information from the configuration to display, including social media icons, subtitles, and footer sections.
 
@@ -2767,7 +2767,7 @@ Dates are important in [[https://gohugo.io][Hugo]], and they configure how dates
     url  = "mailto:chris@chrishayward.xyz"
 #+END_SRC
 
-** Privacy
+*** Privacy
 
 I do not use any analytics or tracking in my website. Depending on the theme selected, some of these features may be enabled. I opt to override those settings here to make sure no unwanted trackers are loaded.
 
@@ -2793,7 +2793,7 @@ I do not use any analytics or tracking in my website. Depending on the theme sel
     disable = true
 #+END_SRC
 
-** Layout
+*** Layout
 
 Individual pages can be configured here to define the layout of the page. This is where quick links can be configured, and other sections such as blog posts, an about section, or a contact page can be added.
 
