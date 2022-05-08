@@ -290,6 +290,11 @@ mkShell {
 
 ** Java
 
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/java.png]]
+
 [[https://openjdk.java.net][OpenJDK]] is a free and open-source implementation of the [[https://en.wikipedia.org/wiki/Java_(software_platform)][Java]] Platform, Standard Edition. It is the result of an effort Sun Microsystems began in 2006. The implementation is licensed under the GNU General Public License Version 2 with a linking exception.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/java.nix~.
@@ -311,6 +316,11 @@ mkShell {
 #+END_SRC
 
 ** gRPC
+
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/grpc.png]]
 
 [[https://grpc.io][gRPC]] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
 
@@ -334,6 +344,11 @@ mkShell {
 #+END_SRC
 
 ** C/C++
+
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/cc.png]]
 
 [[https://iso.org/standard/74528.html][C]] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. [[https://en.wikipedia.org/wiki/C++/][C++]] is a general-purpose programming language created as an extension of the C programming language.
 
@@ -361,6 +376,11 @@ mkShell {
 
 ** Python
 
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/python.png]]
+
 [[https://python.org][Python]] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/python.nix~
@@ -384,6 +404,11 @@ mkShell {
 #+END_SRC
 
 ** Docker
+
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/docker.png]]
 
 [[https://docker.org][Docker]] is a set of platform as a service tools that use OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuratuion files.
 
@@ -409,6 +434,11 @@ mkShell {
 #+END_SRC
 
 ** Heroku
+
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/heroku.png]]
 
 [[https://heroku.com][Heroku]] is a cloud platform as a service supporting several programming languages. One of the first cloud platforms, Heroku has been in development since June 2007, when it supported only the Ruby programming language. It now supports Java, Node.js, Scala, Clojure, Python, PHP, and Go.
 
