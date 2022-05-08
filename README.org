@@ -1035,6 +1035,9 @@ in {
 
 * Emacs Configuration
 
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
 [[./docs/images/emacs.png]]
 
 #+NAME: module-emacs
