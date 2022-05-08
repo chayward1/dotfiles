@@ -428,33 +428,6 @@ mkShell {
 }
 #+END_SRC
 
-** Clojure
-
-[[https://clojure.org][Clojure]] is a dynamic and functional dialect of the Lisp programming language on the Java platform. Like other dialects, Clojure treats code as data and has a Lisp macro system. The current development process is community driven. Unfortunately the tooling does not comply with the XDG directory specification, so we bring it into the modern age kicking and screaming with a custom shell script binary.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/clojure.nix~.
-
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/clojure.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-
-let
-  myLein = pkgs.writeShellScriptBin "lein" ''
-    HOME=~/.local/share/lein ${pkgs.leiningen}/bin/lein
-  '';
-
-in mkShell {
-  buildInputs = [
-    myLein
-  ];
-  shellHook = ''
-  '';
-}
-#+END_SRC
-
 * Host Configurations
 
 [[https://nixos.org/][NixOS]] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial. It also makes it easier to share common configurations amongst all of the hosts, such as with pre-configured wireless networking:
@@ -1117,7 +1090,6 @@ let
       <<emacs-rustic-package>>
       <<emacs-protobuf-package>>
       <<emacs-typescript-package>>
-      <<emacs-clojure-package>>
       <<emacs-plantuml-package>>
 
       # User interface packages.
@@ -1195,7 +1167,6 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-golang-elisp>>
 <<emacs-python-elisp>>
 <<emacs-rustic-elisp>>
-<<emacs-clojure-elisp>>
 <<emacs-plantuml-elisp>>
 <<emacs-desktop-elisp>>
 
@@ -2510,24 +2481,6 @@ epkgs.protobuf-mode
 #+NAME: emacs-typescript-package
 #+BEGIN_SRC nix
 epkgs.typescript-mode
-#+END_SRC
-
-** Clojure Environment
-
-#+NAME: emacs-clojure-package
-#+BEGIN_SRC nix
-epkgs.clojure-mode
-epkgs.cider
-#+END_SRC
-
-[[https://github.com/clojure-emacs/clojure-mode][Clojure Mode]] is an Emacs major mode that provides font-lock (syntax highlighting), indentation, navigation, and refactoring support for the [[https://clojure.org][Clojure]] programming language. [[https://github.com/clojure-emacs/cider][Cider]] extends Emacs with support for interactive programming in Clojure. The features are centered around =cider-mode=, adding a running process for compilation, code completion, debugging, definition and documentation lookup, running tests, and more.
-
-#+NAME: emacs-clojure-elisp
-#+BEGIN_SRC emacs-lisp
-;; Configure `clojure-mode' and `cider'.
-(add-hook 'clojure-mode-hook 'lsp)
-(add-hook 'clojurescript-mode-hook 'lsp)
-(add-hook 'clojurec-mode-hook 'lso)
 #+END_SRC
 
 ** PlantUML
