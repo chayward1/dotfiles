@@ -55,8 +55,6 @@ let
       epkgs.rustic
       epkgs.protobuf-mode
       epkgs.typescript-mode
-      epkgs.clojure-mode
-      epkgs.cider
       epkgs.plantuml-mode
 
       # User interface packages.
