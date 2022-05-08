@@ -103,6 +103,11 @@ RUN nix-shell /etc/dotfiles/shell.nix
 
 * Operating System
 
+#+ATTR_ORG: :width 200px
+#+ATTR_HTML: :width 200px
+#+ATTR_LATEX: :width 200px
+[[./docs/images/nixos.png]]
+
 [[https://nixos.org][NixOS]] is a purely functional Linux distribution built on top of the [[https://nixos.org/manual/nix/stable/Nix][Nix Package Manager]]. It uses a declarative configuration language to define entire computer systems, and allows reliable system upgrades and rollbacks. [[https://nixos.org][NixOS]] also has tool dedicated to DevOps and deployment tasks, and makes it trivial to share development environments.
 
 #+BEGIN_SRC nix :noweb yes :tangle flake.nix
