@@ -1927,6 +1927,7 @@ epkgs.org-roam
   "ori" '(org-roam-node-insert :which-key "Insert")
   "orf" '(org-roam-node-find :which-key "Find")
   "orc" '(org-roam-capture :which-key "Capture")
+  "org" '(org-id-get-create :which-key "Get/Create")
   "orb" '(org-roam-buffer-toggle :which-key "Buffer"))
 
 ;; Apply custom keybindings for dailies.
