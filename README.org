@@ -232,6 +232,11 @@ mkShell {
 
 ** Rust
 
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/rust.png]]
+
 [[https://rust-lang.org/][Rust]] is a multi-paradigm programming language designed for performance and safety, especially safe concurrency. It is syntactically similar to C++, but can garantee memory safety by using a borrow checker to validate references. Rust achieves memory safety /without/ garbage collection, and reference counting is optional.
 
 Import this shell with ~nix-shell /etc/dotfiles/shells/rust.nix~.
@@ -254,6 +259,11 @@ mkShell {
 #+END_SRC
 
 ** Node
+
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
+[[./docs/images/node.png]]
 
 [[https://nodejs.org][NodeJS]] is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine, and executes JavaScript code outside of a web browser. NodeJS lets developers user JavaScript to write command line tools, and for server-side scripting to produce dynamic web page content.
 
