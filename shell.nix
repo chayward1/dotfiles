@@ -4,16 +4,16 @@
 with pkgs;
 
 let
-  nixBin = writeShellScriptBin "nix" ''
+  myNix = writeShellScriptBin "nix" ''
     exec ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
   '';
 
 in mkShell {
   buildInputs = [
     git
+    myNix
   ];
   shellHook = ''
-    export FLAKE="$(pwd)"
-    export PATH="$FLAKE/bin:${nixBin}/bin:$PATH"
+    export DOTFILES="$(pwd)"
   '';
 }
