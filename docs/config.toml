@@ -6,16 +6,18 @@ theme                  = "hello-friend-ng"
 languageCode           = "en-us"
 defaultContentLanguage = "en"
 pygmentsCodefences     = true
-pygmentsUseClasses     = true
+pygmentsUseClasses     = false
+pygmentsStyle          = "dracula"
 
 [params]
-  dateform        = "Jan 2, 2006"
-  dateformShort   = "Jan 2"
-  dateformNum     = "2006-01-02"
-  dateformNumTime = "2006-01-02 15:04 -0700"
-  authorName      = "Christopher James Hayward"
-  homeSubtitle    = "Airplanes, Linux, and Metalcore"
-  footerCopyright = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
+  dateform          = "Jan 2, 2006"
+  dateformShort     = "Jan 2"
+  dateformNum       = "2006-01-02"
+  dateformNumTime   = "2006-01-02 15:04 -0700"
+  authorName        = "Christopher James Hayward"
+  homeSubtitle      = "Airplanes, Linux, and Metalcore"
+  footerCopyright   = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
+  enableThemeToggle = true
 
   [[params.social]]
     name = "paypal"

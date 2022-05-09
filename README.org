@@ -25,9 +25,9 @@
 Immutable NixOS dotfiles.
 #+END_SRC
 
-#+ATTR_ORG: :width 400px
-#+ATTR_HTML: :width 400px
-#+ATTR_LATEX: :width 400px
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
 [[./docs/images/desktop.png]]
 
 Built for Life, Liberty, and the Open Road.
@@ -1055,9 +1055,9 @@ in {
 
 ** Emacs Configuration
 
-#+ATTR_ORG: :width 400px
-#+ATTR_HTML: :width 400px
-#+ATTR_LATEX: :width 400px
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :width 300px
+#+ATTR_LATEX: :width 300px
 [[./docs/images/emacs.png]]
 
 #+NAME: module-emacs
@@ -2748,9 +2748,9 @@ epkgs.doom-modeline
 
 ** Website Configuration
 
-#+ATTR_ORG: :width 400px
-#+ATTR_HTML: :width 400px
-#+ATTR_LATEX: :width 400px
+#+ATTR_ORG: :width 800px
+#+ATTR_HTML: :width 800px
+#+ATTR_LATEX: :width 800px
 [[./docs/images/website.png]]
 
 My [[https://chrishayward.xyz][personal website]] is a static HTML page written with [[https://gohugo.io][Hugo]], and is fully integrated into this configuration. It uses the ~config.toml~, ~config.yaml~, or ~config.json~ file (found in the sites root directory) as the default site config. Working with this requires the module to be enabled.
@@ -2764,7 +2764,8 @@ theme                  = "hello-friend-ng"
 languageCode           = "en-us"
 defaultContentLanguage = "en"
 pygmentsCodefences     = true
-pygmentsUseClasses     = true
+pygmentsUseClasses     = false
+pygmentsStyle          = "dracula"
 
 <<website-params>>
 <<website-privacy>>
@@ -2778,13 +2779,14 @@ Dates are important in [[https://gohugo.io][Hugo]], and they configure how dates
 #+NAME: website-params
 #+BEGIN_SRC conf
 [params]
-  dateform        = "Jan 2, 2006"
-  dateformShort   = "Jan 2"
-  dateformNum     = "2006-01-02"
-  dateformNumTime = "2006-01-02 15:04 -0700"
-  authorName      = "Christopher James Hayward"
-  homeSubtitle    = "Airplanes, Linux, and Metalcore"
-  footerCopyright = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
+  dateform          = "Jan 2, 2006"
+  dateformShort     = "Jan 2"
+  dateformNum       = "2006-01-02"
+  dateformNumTime   = "2006-01-02 15:04 -0700"
+  authorName        = "Christopher James Hayward"
+  homeSubtitle      = "Airplanes, Linux, and Metalcore"
+  footerCopyright   = ' &#183; <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>'
+  enableThemeToggle = true
 
   [[params.social]]
     name = "paypal"
