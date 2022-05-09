@@ -3,7 +3,7 @@
 
 let
   mySiteDir = "/etc/dotfiles/docs/public/";
-  mySiteTgt = "ubuntu@chrishayward.xyz:/var/www/wedding";
+  mySiteTgt = "ubuntu@chrishayward.xyz:/var/www/chrishayward";
   mySiteBuild = pkgs.writeShellScriptBin "my-site-build" ''
     pushd ${mySiteDir}../ > /dev/null &&
     ${pkgs.hugo}/bin/hugo -v ;
