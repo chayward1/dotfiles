@@ -124,9 +124,7 @@ RUN nix-shell /etc/dotfiles/shell.nix
   };
 
   outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, ... }: {
-    nixosConfigurations = {
-      <<host-default>>
-    };
+    <<host-configurations>>
   } //
     <<development-shells>>
 }
@@ -493,7 +491,18 @@ mkShell {
 
 * Host Configurations
 
-[[https://nixos.org/][NixOS]] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial. It also makes it easier to share common configurations amongst all of the hosts, such as with pre-configured wireless networking:
+[[https://nixos.org/][NixOS]] typically stores the current machine configuration in =/etc/nixos/configuration.nix=. In this project, this file is stored in =/etc/dotfiles/hosts/$HOSTNAME/...=, and imported, along with the generated hardware configurations. This ensures that multiple host machines can share the same modules, and generating new host definitions is trivial. 
+
+#+NAME: host-configurations
+#+BEGIN_SRC nix :noweb yes
+nixosConfigurations = {
+  <<host-default>>
+};
+#+END_SRC
+
+** Shared
+
+NixOS makes it easier to share common configurations amongst all of the hosts, such as with pre-configured wireless networking:
 
 #+NAME: host-config-wifi
 #+BEGIN_SRC nix
