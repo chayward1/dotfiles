@@ -4,12 +4,12 @@
 let
   mySiteDir = "/etc/dotfiles/docs/public/";
   mySiteTgt = "ubuntu@chrishayward.xyz:/var/www/chrishayward";
-  mySiteBuild = pkgs.writeShellScriptBin "my-site-build" ''
+  mySiteBuild = pkgs.writeShellScriptBin "site-build" ''
     pushd ${mySiteDir}../ > /dev/null &&
     ${pkgs.hugo}/bin/hugo -v ;
     popd > /dev/null
   '';
-  mySiteUpdate = pkgs.writeShellScriptBin "my-site-update" ''
+  mySiteUpdate = pkgs.writeShellScriptBin "site-update" ''
     ${pkgs.rsync}/bin/rsync -aP ${mySiteDir} ${mySiteTgt}
   '';
 
