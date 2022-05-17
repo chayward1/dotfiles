@@ -2554,12 +2554,16 @@ The built in [[https://emacswiki.org/emacs/PythonProgrammingInEmacs][Python Mode
 epkgs.protobuf-mode
 #+END_SRC
 
+Protobuf mode is an Emacs major mode for editing protocol buffers.
+
 *** Typescript Mode
 
 #+NAME: emacs-typescript-package
 #+BEGIN_SRC nix
 epkgs.typescript-mode
 #+END_SRC
+
+Typescript.el is a self-contained, lightweight and minimalist major-mode focused on providing basic font-lock/syntax-highlighting and indentation for Typescript syntax, without any external dependencies.
 
 *** PlantUML
 
