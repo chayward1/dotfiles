@@ -209,9 +209,9 @@ inputs.flake-utils.lib.eachDefaultSystem (system:
 
 ** Nix
 
-#+ATTR_ORG: :width 400px
-#+ATTR_HTML: :width 400px
-#+ATTR_LATEX: :width 400px
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :width 300px
+#+ATTR_LATEX: :width 300px
 [[./docs/images/nix.png]]
 
 This shell adds a version of the ~nix~ command that is pre-configured to support Flakes. Flakes are the unit for packaging Nix code in a reproducible and discoverable way. They can have dependencies on other flakes, making it possible to have multi-repository Nix projects. A flake is a filesystem tree that contains a file named =flake.nix=. It specifies some metadata about the flake such as dependencies (inputs), as well as the values such as packages or modules (outputs).
