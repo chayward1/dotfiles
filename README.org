@@ -117,6 +117,7 @@ RUN nix-shell /etc/dotfiles/shell.nix
 
   inputs = {
     <<os-nixpkgs>>
+    <<os-flake-utils>>
     <<os-home-manager>>
     <<os-emacs-overlay>>
     <<os-nixos-hardware>>
@@ -126,7 +127,9 @@ RUN nix-shell /etc/dotfiles/shell.nix
     nixosConfigurations = {
       <<host-default>>
     };
-  };
+  } // inputs.flake-utils.lib.eachDefaultSystem (system:
+    <<development-shells>>
+  );
 }
 #+END_SRC
 
@@ -141,6 +144,15 @@ RUN nix-shell /etc/dotfiles/shell.nix
 #+BEGIN_SRC nix
 nixpkgs.url = "nixpkgs/nixos-unstable";
 nixpkgs-unstable.url = "nixpkgs/master";
+#+END_SRC
+
+** Flake Utils
+
+[[https://github.com/numtide/flake-utils][Flake Utils]] is a collection of pure Nix functions that don't depend on Nixpkgs, and that are useful in the context of writing other Nix Flakes.
+
+#+NAME: os-flake-utils
+#+BEGIN_SRC nix
+flake-utils.url = "github:numtide/flake-utils";
 #+END_SRC
 
 ** Home Manager
@@ -173,9 +185,34 @@ nixos-hardware.url = "github:nixos/nixos-hardware";
 
 * Development Shells
 
-The command ~nix-shell~ will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation /path/ have been set to their corresponding values.
+The command ~nix develop~ will run a bash shell that provides the build environment of a derivation. It's an experimental replacement for the ~nix-shell~ command that is compliant with Nix Flakes. It provides an interactive build environment nearly identical to what Nix would use to build /installable/. Inside this shell, environment variables and shell functions are set up so that you can interactively and incrementally build your package(s).
 
-Import this shell with ~nix-shell /etc/dotfiles/shell.nix~.
+#+NAME: development-shells
+#+BEGIN_SRC nix
+let
+  pkgs = inputs.nixpkgs.legacyPackages.${system};
+in
+  rec {
+    devShells = {
+      default = import ./shell.nix { inherit pkgs; };
+      cc = import ./shells/cc.nix { inherit pkgs; };
+      docker = import ./shells/docker.nix { inherit pkgs; };
+      go = import ./shells/go.nix { inherit pkgs; };
+      grpc = import ./shells/grpc.nix { inherit pkgs; };
+      heroku = import ./shells/heroku.nix { inherit pkgs; };
+      java = import ./shells/java.nix { inherit pkgs; };
+      node = import ./shells/node.nix { inherit pkgs; };
+      python = import ./shells/python.nix { inherit pkgs; };
+      rust = import ./shells/rust.nix { inherit pkgs; };
+    };
+  }
+#+END_SRC
+
+** Nix
+
+This shell adds a version of the ~nix~ command that is pre-configured to support Flakes. Flakes are the unit for packaging Nix code in a reproducible and discoverable way. They can have dependencies on other flakes, making it possible to have multi-repository Nix projects. A flake is a filesystem tree that contains a file named =flake.nix=. It specifies some metadata about the flake such as dependencies (inputs), as well as the values such as packages or modules (outputs).
+
+Import this shell with ~nix develop $DOTFILES~
 
 #+BEGIN_SRC nix :noweb yes :tangle shell.nix
 # <<file-warning>>
@@ -208,7 +245,7 @@ in mkShell {
 
 [[https://golang.org][Go]] is an open-source programming language that makes it easy to build simple, reliable, and efficient software. It's statically typed and compiled programming language. It's syntactically similar to C, but with memory safety, garbage collection, structural typing, and CSP-style concurrency.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/go.nix~
+Import this shell with ~nix develop $DOTFILES#go~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/go.nix
 # <<file-warning>>
@@ -239,7 +276,7 @@ mkShell {
 
 [[https://rust-lang.org/][Rust]] is a multi-paradigm programming language designed for performance and safety, especially safe concurrency. It is syntactically similar to C++, but can garantee memory safety by using a borrow checker to validate references. Rust achieves memory safety /without/ garbage collection, and reference counting is optional.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/rust.nix~.
+Import this shell with ~nix develop $DOTFILES#rust~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/rust.nix
 # <<file-warning>>
@@ -267,7 +304,7 @@ mkShell {
 
 [[https://nodejs.org][NodeJS]] is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine, and executes JavaScript code outside of a web browser. NodeJS lets developers user JavaScript to write command line tools, and for server-side scripting to produce dynamic web page content.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/node.nix~.
+Import this shell with ~nix develop $DOTFILES#node~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/node.nix
 # <<file-warning>>
@@ -297,7 +334,7 @@ mkShell {
 
 [[https://openjdk.java.net][OpenJDK]] is a free and open-source implementation of the [[https://en.wikipedia.org/wiki/Java_(software_platform)][Java]] Platform, Standard Edition. It is the result of an effort Sun Microsystems began in 2006. The implementation is licensed under the GNU General Public License Version 2 with a linking exception.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/java.nix~.
+Import this shell with ~nix develop $DOTFILES#java~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/java.nix
 # <<file-warning>>
@@ -306,9 +343,8 @@ Import this shell with ~nix-shell /etc/dotfiles/shells/java.nix~.
 with pkgs;
 mkShell {
   buildInputs = [
-    # openjdk8  # Legacy Java 8 VM.
-    # openjdk11 # Current LTS version of OpenJDK.
-    openjdk14   # Current version of OpenJDK.
+    jre8
+    jdk8
   ];
   shellHook = ''
   '';
@@ -324,7 +360,7 @@ mkShell {
 
 [[https://grpc.io][gRPC]] is a modern open-source, high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking, and authentication.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/grpc.nix~.
+Import this shell with ~nix develop $DOTFILES#grpc~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/grpc.nix
 # <<file-warning>>
@@ -353,7 +389,7 @@ mkShell {
 [[https://iso.org/standard/74528.html][C]] is a general-purpose, procedural computer programming language support structured programming, lexical variable scope, and recursion. It has a static type system, and by design provides constructs that map efficiently to typical machine instructions. [[https://en.wikipedia.org/wiki/C++/][C++]] is a general-purpose programming language created as an extension of the C programming language.
 
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/cc.nix~.
+Import this shell with ~nix develop $DOTFILES#cc~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/cc.nix
 # <<file-warning>>
@@ -383,7 +419,7 @@ mkShell {
 
 [[https://python.org][Python]] is an interpreted high-level, general-purpose programming language. Its design philosophy emphasizes code readability, with its notable use of significant indentation. Its language constructs, as well as its object-oriented approach aim to help programmers write clear, logical, code for small and large projects.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/python.nix~
+Import this shell with ~nix develop $DOTFILES#python~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/python.nix
 # <<file-warning>>
@@ -394,9 +430,9 @@ mkShell {
   buildInputs = [
     python310Packages.pip
     python310Packages.pip-tools
-    python310Packages.python-lsp-black
-    python310Packages.python-lsp-server
-    python310Packages.python-lsp-jsonrpc
+    # python310Packages.python-lsp-black    #TODO: Marked broken.
+    # python310Packages.python-lsp-server   #TODO: Marked broken.
+    # python310Packages.python-lsp-jsonrpc  #TODO: Marked broken.
   ];
   shellHook = ''
   '';
@@ -410,13 +446,9 @@ mkShell {
 #+ATTR_LATEX: :width 400px
 [[./docs/images/docker.png]]
 
-[[https://docker.org][Docker]] is a set of platform as a service tools that use OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuratuion files.
+[[https://docker.org][Docker]] is a set of platform as a service tools that use OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuratuion files. [[https://docs.docker.com/compose/][Compose]] is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application services. Then, with a single command, you create and start all of the services from your configuration. [[https://docs.docker.com/machine/][Machine]] is a tool that lets you install Docker Engine on virtual hosts, and manage the hosts with ~docker-machine~ commands. You can use Machine to create hosts on your local box, company network, data center, or on any cloud provider.
 
-[[https://docs.docker.com/compose/][Compose]] is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application services. Then, with a single command, you create and start all of the services from your configuration.
-
-[[https://docs.docker.com/machine/][Machine]] is a tool that lets you install Docker Engine on virtual hosts, and manage the hosts with ~docker-machine~ commands. You can use Machine to create hosts on your local box, company network, data center, or on any cloud provider.
-
-Import this shell with ~nix-shell /etc/dotfiles/shells/docker.nix~
+Import this shell with ~nix develop $DOTFILES#docker~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/docker.nix
 # <<file-warning>>
@@ -442,7 +474,7 @@ mkShell {
 
 [[https://heroku.com][Heroku]] is a cloud platform as a service supporting several programming languages. One of the first cloud platforms, Heroku has been in development since June 2007, when it supported only the Ruby programming language. It now supports Java, Node.js, Scala, Clojure, Python, PHP, and Go.
 
-Import this shell with ~nix-shell /etc/dotfiles/shells/heroku.nix~
+Import this shell with ~nix develop $DOTFILES#heroku~
 
 #+BEGIN_SRC nix :noweb yes :tangle shells/heroku.nix
 # <<file-warning>>
