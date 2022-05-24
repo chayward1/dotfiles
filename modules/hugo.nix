@@ -15,6 +15,7 @@ let
 
 in {
   environment.systemPackages = [
+    pkgs.hugo
     mySiteBuild
     mySiteUpdate
   ];
