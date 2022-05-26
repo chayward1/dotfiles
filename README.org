@@ -194,10 +194,8 @@ inputs.flake-utils.lib.eachDefaultSystem (system:
       devShells = {
         default = import ./shell.nix { inherit pkgs; };
         cc = import ./shells/cc.nix { inherit pkgs; };
-        docker = import ./shells/docker.nix { inherit pkgs; };
         go = import ./shells/go.nix { inherit pkgs; };
         grpc = import ./shells/grpc.nix { inherit pkgs; };
-        heroku = import ./shells/heroku.nix { inherit pkgs; };
         java = import ./shells/java.nix { inherit pkgs; };
         node = import ./shells/node.nix { inherit pkgs; };
         python = import ./shells/python.nix { inherit pkgs; };
@@ -493,57 +491,6 @@ mkShell {
     # python310Packages.python-lsp-black    #TODO: Marked broken.
     # python310Packages.python-lsp-server   #TODO: Marked broken.
     # python310Packages.python-lsp-jsonrpc  #TODO: Marked broken.
-  ];
-  shellHook = ''
-  '';
-}
-#+END_SRC
-
-** Docker
-
-#+ATTR_ORG: :width 400px
-#+ATTR_HTML: :width 400px
-#+ATTR_LATEX: :width 400px
-[[./docs/images/docker.png]]
-
-[[https://docker.org][Docker]] is a set of platform as a service tools that use OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuratuion files. [[https://docs.docker.com/compose/][Compose]] is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application services. Then, with a single command, you create and start all of the services from your configuration. [[https://docs.docker.com/machine/][Machine]] is a tool that lets you install Docker Engine on virtual hosts, and manage the hosts with ~docker-machine~ commands. You can use Machine to create hosts on your local box, company network, data center, or on any cloud provider.
-
-Import this shell with ~nix develop $DOTFILES#docker~
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/docker.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    docker-compose
-    docker-machine
-  ];
-  shellHook = ''
-  '';
-}
-#+END_SRC
-
-** Heroku
-
-#+ATTR_ORG: :width 400px
-#+ATTR_HTML: :width 400px
-#+ATTR_LATEX: :width 400px
-[[./docs/images/heroku.png]]
-
-[[https://heroku.com][Heroku]] is a cloud platform as a service supporting several programming languages. One of the first cloud platforms, Heroku has been in development since June 2007, when it supported only the Ruby programming language. It now supports Java, Node.js, Scala, Clojure, Python, PHP, and Go.
-
-Import this shell with ~nix develop $DOTFILES#heroku~
-
-#+BEGIN_SRC nix :noweb yes :tangle shells/heroku.nix
-# <<file-warning>>
-{ pkgs ? import <nixpkgs> { } }:
-
-with pkgs;
-mkShell {
-  buildInputs = [
-    heroku
   ];
   shellHook = ''
   '';
@@ -906,6 +853,7 @@ in {
 [[https://docker.org][Docker]] is a set of platform as a service tools that use OS level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries, and configuration files; they can communicate with each other through well-defined channels.
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/docker.nix
+# <<file-warning>>
 { config, pkgs, ... }:
 
 {
@@ -918,6 +866,12 @@ in {
 
   # Required for the `docker' command.
   users.users.chris.extraGroups = [ "docker" ];
+
+  # Add docker extensions.
+  environment.systemPackages = [
+    pkgs.docker-compose
+    pkgs.docker-machine
+  ];
 }
 #+END_SRC
 
