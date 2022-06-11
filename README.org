@@ -50,7 +50,7 @@ This file is controlled by /etc/dotfiles/README.org
 1) [[https://nixos.org/download.html][Download the latest version of NixOS]]
 2) [[https://nixos.org/manual/nixos/stable/#sec-installation-partitioning][Partition your drives and mount the file system]]
 3) Clone the project  ~git clone git@git.chrishayward.xyz:chris/dotfiles /mnt/etc/dotfiles~
-4) Load the default shell ~nix-shell /mnt/etc/dotfiles~
+4) Load the default shell ~nix develop /mnt/etc/dotfiles~
 5) Install the system ~sudo nixos-install --impure --flake /mnt/etc/dotfiles#nixos~
 6) Reboot, login and start a graphical system ~startx~
 
