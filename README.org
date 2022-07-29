@@ -195,6 +195,7 @@ inputs.flake-utils.lib.eachDefaultSystem (system:
         default = import ./shell.nix { inherit pkgs; };
         cc = import ./shells/cc.nix { inherit pkgs; };
         go = import ./shells/go.nix { inherit pkgs; };
+        dart = import ./shells/dart.nix { inherit pkgs; };
         grpc = import ./shells/grpc.nix { inherit pkgs; };
         java = import ./shells/java.nix { inherit pkgs; };
         node = import ./shells/node.nix { inherit pkgs; };
@@ -275,6 +276,33 @@ mkShell {
     export GO111MODULE=on
     export GOPATH=$XDG_DATA_HOME/go
     export PATH=$GOPATH/bin:$PATH
+  '';
+}
+#+END_SRC
+
+** Dart
+
+#+ATTR_ORG: :width 400px
+#+ATTR_HTML: :width 400px
+#+ATTR_LATEX: :width 400px
+[[./docs/images/dart.png]]
+
+[[https://dart.dev][Dart]] is a programming language designed for client development, such as for the web and mobile apps. It is developed by Google and can be used to build server and desktop applications. It is an object-oriented, class-based, garbage-collected language with C-style syntax.
+
+Import this shell with ~nix develop $DOTFILES#dart~
+
+#+BEGIN_SRC nix :noweb yes :tangle shells/dart.nix
+#<<file-warning>>
+{ pkgs ? import <nixpkgs> { } }:
+
+with pkgs;
+mkShell {
+  buildInputs = [
+    dart
+    flutter
+  ];
+  shellHook = ''
+    FLUTTER_SDK_DIR=${flutter}/bin/cache/dart-sdk/
   '';
 }
 #+END_SRC
@@ -2528,6 +2556,26 @@ epkgs.go-mode
 
 ;; Configure a custom `before-save-hook'.
 (add-hook 'go-mode-hook #'dotfiles/go-hook)
+#+END_SRC
+
+*** Dart Mode
+
+#+NAME: emacs-dart-package
+#+BEGIN_SRC nix
+epkgs.dart-mode
+epkgs.lsp-dart
+epkgs.hover
+#+END_SRC
+
+[[https://github.com/emacs-lsp/lsp-dart][Emacs Dart IDE]] using LSP Mode to connect to Dart Analysis Server.
+
+#+NAME: emacs-dart-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `dart-mode' to work with `lsp-mode'.
+(add-hook 'dart-mode-hook 'lsp)
+
+;; Help Emacs find Flutter packages.
+(setq lsp-dart-sdk-dir (getenv "$FLUTTER_SDK_DIR"))
 #+END_SRC
 
 *** Rustic

@@ -52,6 +52,7 @@
             default = import ./shell.nix { inherit pkgs; };
             cc = import ./shells/cc.nix { inherit pkgs; };
             go = import ./shells/go.nix { inherit pkgs; };
+            dart = import ./shells/dart.nix { inherit pkgs; };
             grpc = import ./shells/grpc.nix { inherit pkgs; };
             java = import ./shells/java.nix { inherit pkgs; };
             node = import ./shells/node.nix { inherit pkgs; };
