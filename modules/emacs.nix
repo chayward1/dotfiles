@@ -51,6 +51,9 @@ let
       epkgs.gdscript-mode
       epkgs.ccls
       epkgs.go-mode
+      epkgs.dart-mode
+      epkgs.lsp-dart
+      epkgs.hover
       epkgs.pretty-mode
       epkgs.rustic
       epkgs.protobuf-mode

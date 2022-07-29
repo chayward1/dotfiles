@@ -1204,6 +1204,7 @@ let
       <<emacs-gdscript-package>>
       <<emacs-ccls-package>>
       <<emacs-golang-package>>
+      <<emacs-dart-package>>
       <<emacs-python-package>>
       <<emacs-rustic-package>>
       <<emacs-protobuf-package>>
@@ -1283,6 +1284,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-company-elisp>>
 <<emacs-gdscript-elisp>>
 <<emacs-golang-elisp>>
+<<emacs-dart-elisp>>
 <<emacs-python-elisp>>
 <<emacs-rustic-elisp>>
 <<emacs-plantuml-elisp>>
