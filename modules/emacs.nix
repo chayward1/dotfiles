@@ -34,6 +34,7 @@ let
       epkgs.dockerfile-mode
       epkgs.mu4e-alert
       epkgs.dired-single
+      epkgs.nerd-icons
       epkgs.all-the-icons
       epkgs.all-the-icons-dired
       epkgs.all-the-icons-ivy-rich

@@ -1539,7 +1539,7 @@ home.file.".xinitrc" = {
 epkgs.general
 #+END_SRC
 
-[[https://github.com/noctuid/general.el][General.el]] provides a more convenient method for binding keys in [[https://gnu.org/software/emacs/][Emacs]], providing a unified interface for key definitions. Its primary purpose is to build on /existing/ functionality to make key definitions more clear and concise.
+[[https://github.com/noctuid/general.el][General.el]] provides a more conven1ent method for binding keys in [[https://gnu.org/software/emacs/][Emacs]], providing a unified interface for key definitions. Its primary purpose is to build on /existing/ functionality to make key definitions more clear and concise.
 
 #+NAME: emacs-general-elisp
 #+BEGIN_SRC emacs-lisp
@@ -1671,6 +1671,7 @@ epkgs.dired-single
 
 #+NAME: emacs-icons-package
 #+BEGIN_SRC nix
+epkgs.nerd-icons
 epkgs.all-the-icons
 epkgs.all-the-icons-dired
 epkgs.all-the-icons-ivy-rich
@@ -1703,7 +1704,7 @@ epkgs.emojify
 #+BEGIN_SRC emacs-lisp
 ;; Setup `emojify'.
 ;; TODO: Causes an exception.
-;;(add-hook 'after-init-hook 'global-emojify-mode)
+(add-hook 'after-init-hook 'global-emojify-mode)
 #+END_SRC
 
 *** EShell
