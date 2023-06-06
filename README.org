@@ -640,6 +640,8 @@ This is a basic default configuration that specified the indended default config
     isNormalUser = true;
     extraGroups = [ "wheel" ];
   };
+
+  system.stateVersion = "23.05";
 }
 #+END_SRC
 
@@ -939,6 +941,7 @@ inputs.home-manager.nixosModules.home-manager {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.chris = {
+    stateVersion = "23.05";
     imports = [
       <<module-git>>
       <<module-gpg>>
@@ -1698,7 +1701,8 @@ epkgs.emojify
 #+NAME: emacs-emoji-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Setup `emojify'.
-(add-hook 'after-init-hook 'global-emojify-mode)
+;; TODO: Causes an exception.
+;;(add-hook 'after-init-hook 'global-emojify-mode)
 #+END_SRC
 
 *** EShell
