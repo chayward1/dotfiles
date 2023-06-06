@@ -5,7 +5,7 @@
 let
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
     config = ../README.org;
-    package = pkgs.emacsNativeComp;
+    package = pkgs.emacs-unstable;
     alwaysEnsure = true;
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [

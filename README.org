@@ -664,7 +664,6 @@ The file system for this host is a single 24GB =QCOW= file, a format for disk im
   boot.extraModulePackages = [ ];
 
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/sda";
 
   fileSystems."/" =
@@ -754,8 +753,10 @@ Apply some configuration to the default settings:
 {
   services.openssh = {
     enable = true;
-    permitRootLogin = "no";
-    passwordAuthentication = false;
+    settings = {
+      PermitRootLogin = false;
+      PasswordAuthentication = false;
+    };
   };
 }
 #+END_SRC
@@ -941,7 +942,7 @@ inputs.home-manager.nixosModules.home-manager {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.chris = {
-    stateVersion = "23.05";
+    home.stateVersion = "23.05";
     imports = [
       <<module-git>>
       <<module-gpg>>
@@ -1315,7 +1316,7 @@ It's somtimes desirable to have customization that takes effect during Emacs sta
 
 #+NAME: emacs-native-comp-package
 #+BEGIN_SRC nix
-pkgs.emacsNativeComp;
+pkgs.emacs-unstable;
 #+END_SRC
 
 Native Comp, also known as GccEmacs, refers to the ~--with-native-compilation~ configuration option when building [[https://gnu.org/software/emacs/][GNU/Emacs]]. It adds support for compiling [[https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html][Emacs Lisp]] to native code using ~libgccjit~. All of the Emacs Lisp packages shipped with Emacs are native-compiled, providing a noticable performance iomprovement out-of-the-box.

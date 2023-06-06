@@ -30,7 +30,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.chris = {
-              stateVersion = "23.05";
+              home.stateVersion = "23.05";
               imports = [
                 ./modules/git.nix
                 ./modules/gpg.nix
