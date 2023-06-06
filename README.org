@@ -754,8 +754,8 @@ Apply some configuration to the default settings:
   services.openssh = {
     enable = true;
     settings = {
-      PermitRootLogin = false;
-      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+      PasswordAuthentication = "no";
     };
   };
 }
@@ -814,7 +814,7 @@ in {
     pkgs.godot
     pkgs.godot-server
     pkgs.godot-headless
-    pkgs.python310Packages.gdtoolkit
+    pkgs.gdtoolkit
   ];
 }
 #+END_SRC

@@ -7,6 +7,6 @@
     pkgs.godot
     pkgs.godot-server
     pkgs.godot-headless
-    pkgs.python310Packages.gdtoolkit
+    pkgs.gdtoolkit
   ];
 }
