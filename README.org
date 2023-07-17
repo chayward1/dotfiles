@@ -1213,6 +1213,7 @@ let
       <<emacs-rustic-package>>
       <<emacs-protobuf-package>>
       <<emacs-typescript-package>>
+      <<emacs-yaml-mode-package>>
       <<emacs-plantuml-package>>
 
       # User interface packages.
@@ -2637,6 +2638,15 @@ epkgs.typescript-mode
 #+END_SRC
 
 Typescript.el is a self-contained, lightweight and minimalist major-mode focused on providing basic font-lock/syntax-highlighting and indentation for Typescript syntax, without any external dependencies.
+
+*** YAML Mode
+
+#+NAME: emacs-yaml-mode-package
+#+BEGIN_SRC nix
+epkgs.yaml-mode
+#+END_SRC
+
+YAML Mode helps you edit =YAML= ~.yml~ and ~.yaml~ files. It features font locking for data forms and comments, and some electric keys to help with block literals.
 
 *** PlantUML
 

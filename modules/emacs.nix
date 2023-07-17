@@ -59,6 +59,7 @@ let
       epkgs.rustic
       epkgs.protobuf-mode
       epkgs.typescript-mode
+      epkgs.yaml-mode
       epkgs.plantuml-mode
 
       # User interface packages.
