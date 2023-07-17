@@ -1460,6 +1460,7 @@ epkgs.exwm
 
 #+NAME: emacs-exwm-extras
 #+BEGIN_SRC nix
+pkgs.arandr
 pkgs.nitrogen
 pkgs.autorandr
 #+END_SRC
