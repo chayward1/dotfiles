@@ -4,10 +4,12 @@
 with pkgs;
 mkShell {
   buildInputs = [
+    buf
     grpc
     grpcui
     grpcurl
     grpc-tools
+    grpc-gateway
   ];
   shellHook = ''
   '';

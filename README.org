@@ -442,10 +442,12 @@ Import this shell with ~nix develop $DOTFILES#grpc~
 with pkgs;
 mkShell {
   buildInputs = [
+    buf
     grpc
     grpcui
     grpcurl
     grpc-tools
+    grpc-gateway
   ];
   shellHook = ''
   '';
@@ -590,6 +592,7 @@ nixos = nixpkgs.lib.nixosSystem {
     <<module-ssh>>
     <<module-hugo>>
     <<module-godot>>
+    <<module-docker>>
     <<module-flakes>>
     <<module-cachix>>
     <<module-firefox>>
@@ -2461,7 +2464,8 @@ The [[https://microsoft.github.io/language-server-protocol][Language Server Prot
 ;; Add custom keybindings for `lsp'.
 (dotfiles/leader
   "l" '(:ignore t :which-key "LSP")
-  "ll" '(lsp :which-key "LSP"))
+  "ll" '(lsp :which-key "LSP")
+  "lr" '(lsp-rename :which-key "Rename"))
 #+END_SRC
 
 *** CCLS
@@ -2757,8 +2761,9 @@ epkgs.doom-themes
       doom-themes-enable-italic t)
 
 ;; Load the `doom-nord' and `doom-nord-light' themes.
+(load-theme 'doom-nord-aurora t)
 ;; (load-theme 'doom-nord-light t)
-(load-theme 'doom-nord t)
+;; (load-theme 'doom-nord t)
 
 ;; Define a method for returning information about the current theme.
 ;; This is based off the function `org-roam-ui-get-theme'.

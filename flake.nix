@@ -23,6 +23,7 @@
           ./modules/ssh.nix
           ./modules/hugo.nix
           ./modules/godot.nix
+          ./modules/docker.nix
           ./modules/flakes.nix
           ./modules/cachix.nix
           ./modules/firefox.nix
