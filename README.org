@@ -2264,6 +2264,10 @@ epkgs.ox-hugo
 #+NAME: emacs-pass-extras
 #+BEGIN_SRC nix
 pkgs.pass
+(pkgs.writeShellScriptBin "pass-init" ''
+  ${pkgs.git}/bin/git clone git@git.chrishayward.xyz:chris/passwords /home/chris/.password-store
+  ${pkgs.pass}/bin/pass init
+'')
 #+END_SRC
 
 With [[https://password-store.org][Pass]], each password lives inside of an encrypted [[https://gnupg.org][GPG]] file, whose name is the title of the website or resource that requires the password. These encrypted files may be organized into meaningful folder hierarchies, compies from computer to computer, and in general, manipulated using standard command line tools.
@@ -2315,8 +2319,8 @@ Manage Docker from inside of Emacs using [[https://github.com/Silex/docker.el][D
 pkgs.mu
 pkgs.isync
 (pkgs.writeShellScriptBin "mail-init" ''
-  ${pkgs.mu} init --maildir="/home/chris/.cache/mail" --my-address="chris@chrishayward.xyz"
-  ${pkgs.mu} index
+  ${pkgs.mu}/bin/mu init --maildir="/home/chris/.cache/mail" --my-address="chris@chrishayward.xyz"
+  ${pkgs.mu}/bin/mu index
 '')
 (pkgs.writeShellScriptBin "mail-sync" ''
   ${pkgs.isync}/bin/mbsync -a

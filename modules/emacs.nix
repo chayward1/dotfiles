@@ -80,11 +80,15 @@ in {
     pkgs.nitrogen
     pkgs.autorandr
     pkgs.pass
+    (pkgs.writeShellScriptBin "pass-init" ''
+      ${pkgs.git}/bin/git clone git@git.chrishayward.xyz:chris/passwords /home/chris/.password-store
+      ${pkgs.pass}/bin/pass init
+    '')
     pkgs.mu
     pkgs.isync
     (pkgs.writeShellScriptBin "mail-init" ''
-      ${pkgs.mu} init --maildir="/home/chris/.cache/mail" --my-address="chris@chrishayward.xyz"
-      ${pkgs.mu} index
+      ${pkgs.mu}/bin/mu init --maildir="/home/chris/.cache/mail" --my-address="chris@chrishayward.xyz"
+      ${pkgs.mu}/bin/mu index
     '')
     (pkgs.writeShellScriptBin "mail-sync" ''
       ${pkgs.isync}/bin/mbsync -a
