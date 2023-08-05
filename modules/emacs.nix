@@ -83,7 +83,7 @@ in {
     pkgs.mu
     pkgs.isync
     (pkgs.writeShellScriptBin "mail-init" ''
-      ${pkgs.mu} init --maildir="~/.cache/mail" --my-address="chris@chrishayward.xyz"
+      ${pkgs.mu} init --maildir="/home/chris/.cache/mail" --my-address="chris@chrishayward.xyz"
       ${pkgs.mu} index
     '')
     (pkgs.writeShellScriptBin "mail-sync" ''
