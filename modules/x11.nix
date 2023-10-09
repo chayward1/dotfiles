@@ -34,6 +34,7 @@
 
   fonts.fonts = with pkgs; [
     iosevka-bin
+    fira-code-symbols
     emacs-all-the-icons-fonts
   ];
 }

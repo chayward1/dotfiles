@@ -730,6 +730,7 @@ Modules are files combined by [[https://nixos.org/][NixOS]] to produce the full 
 
   fonts.fonts = with pkgs; [
     iosevka-bin
+    fira-code-symbols
     emacs-all-the-icons-fonts
   ];
 }
@@ -1203,6 +1204,7 @@ let
       <<emacs-vterm-package>>
       <<emacs-magit-package>>
       <<emacs-hydra-package>>
+      <<emacs-ligatures-package>>
       <<emacs-elfeed-package>>
       <<emacs-nix-mode-package>>
       <<emacs-projectile-package>>
@@ -1286,12 +1288,15 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-magit-elisp>>
 <<emacs-fonts-elisp>>
 <<emacs-frames-elisp>>
+<<emacs-ligatures-elisp>>
 <<emacs-elfeed-elisp>>
 <<emacs-projectile-elisp>>
+<<emacs-electric-pair-elisp>>
 <<emacs-lsp-elisp>>
 <<emacs-company-elisp>>
 <<emacs-gdscript-elisp>>
 <<emacs-golang-elisp>>
+<<emacs-typescript-elisp>>
 <<emacs-dart-elisp>>
 <<emacs-python-elisp>>
 <<emacs-rustic-elisp>>
@@ -1801,6 +1806,40 @@ epkgs.hydra
 ;; Create keybinding for calling the function.
 (dotfiles/leader
   "tf" '(hydra-text-scale/body :which-key "Font"))
+#+END_SRC
+
+*** Ligatures
+
+#+NAME: emacs-ligatures-package
+#+BEGIN_SRC nix
+epkgs.ligature
+#+END_SRC
+
+Ligature.el maps ordinary graphmemes (characters) to fancy ligatures, if both the version of [[https://gnu.org/software/emacs/][Emacs]] and the font supports it. It can control where [[https://gnu.org/software/emacs/][Emacs]] must display ligatures, useful if only a subset of the ligatures in certain major modes is required.
+
+#+NAME: emacs-ligatures-elisp
+#+BEGIN_SRC emacs-lisp
+(ligature-set-ligatures 't '("www"))
+;; Enable traditional ligature support in eww-mode, if the
+;; `variable-pitch' face supports it
+(ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+;; Enable all Cascadia Code ligatures in programming modes
+(ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                     ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                     "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                     "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                     "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                     "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                     "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                     "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                     ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                     "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                     "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                     "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                     "\\\\" "://"))
+;; Enables ligature checks globally in all buffers. You can also do it
+;; per mode with `ligature-mode'.
+(global-ligature-mode t)
 #+END_SRC
 
 *** Frames
@@ -2441,6 +2480,15 @@ epkgs.projectile
 (projectile-mode +1)
 #+END_SRC
 
+*** Electric Pair
+
+#+NAME: electric-pair-elisp
+#+BEGIN_SRC emacs-lisp
+;; Enable smart parenthesis.
+(electric-pair-mode 1)
+(setq electric-pair-preserve-balance nil)
+#+END_SRC
+
 *** LSP Mode
 
 #+NAME: emacs-lsp-package
@@ -2646,6 +2694,21 @@ epkgs.typescript-mode
 #+END_SRC
 
 Typescript.el is a self-contained, lightweight and minimalist major-mode focused on providing basic font-lock/syntax-highlighting and indentation for Typescript syntax, without any external dependencies.
+
+#+NAME: emacs-typescript-elisp
+#+BEGIN_SRC emacs-lisp
+;; Use spaces instead of tabs.
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+
+;; Create a custom hook for typescript mode.
+(defun dotfiles/typescript-hook ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+;; Apply the hook.
+(add-hook 'typescript-mode-hook #'dotfilers/typescript-hook)
+#+END_SRC
 
 *** YAML Mode
 

@@ -43,6 +43,7 @@ let
       epkgs.vterm
       epkgs.magit
       epkgs.hydra
+      epkgs.ligature
       epkgs.elfeed
       epkgs.nix-mode
       epkgs.projectile
