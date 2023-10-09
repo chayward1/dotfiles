@@ -1586,6 +1586,10 @@ epkgs.general
 ;; Add keybindings for toggles / tweaks.
 (dotfiles/leader
   "t" '(:ignore t :which-key "Toggle / Tweak"))
+
+;; Add keybinding to navigate to scratch buffer.
+(dotfiles/leader
+  "s" '((lambda () (interactive) (switch-to-buffer "*scratch*")) :which-key "Scratch"))
 #+END_SRC
 
 *** Which Key
@@ -1748,13 +1752,22 @@ epkgs.eshell-prompt-extras
 #+NAME: emacs-vterm-package
 #+BEGIN_SRC nix
 epkgs.vterm
+epkgs.multi-vterm
 #+END_SRC
 
 #+NAME: emacs-vterm-elisp
 #+BEGIN_SRC emacs-lisp
+;; Set the dedicated terminal height.
+(setq multi-vterm-dedicated-window-height-percent 30)
+
 ;; Add keybindings for interacting with the shell(s).
 (dotfiles/leader
-  "v" '(vterm :which-key "VTerm"))
+  "v" '(:ignore t :which-key "VTerm")
+  "vn" '(multi-vterm :which-key "VTerm")
+  "vl" '(multi-vterm-next :which-key "Next")
+  "vh" '(multi-vterm-prev :which-key "Previous")
+  "vp" '(multi-vterm-project :which-key "Project")
+  "vv" '(multi-vterm-dedicated-toggle :which-key "Dedicated"))
 #+END_SRC
 
 *** Magit
@@ -2482,7 +2495,7 @@ epkgs.projectile
 
 *** Electric Pair
 
-#+NAME: electric-pair-elisp
+#+NAME: emacs-electric-pair-elisp
 #+BEGIN_SRC emacs-lisp
 ;; Enable smart parenthesis.
 (electric-pair-mode 1)

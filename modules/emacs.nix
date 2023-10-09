@@ -41,6 +41,7 @@ let
       epkgs.emojify
       epkgs.eshell-prompt-extras
       epkgs.vterm
+      epkgs.multi-vterm
       epkgs.magit
       epkgs.hydra
       epkgs.ligature
