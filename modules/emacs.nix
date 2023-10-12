@@ -65,6 +65,7 @@ let
       epkgs.plantuml-mode
 
       # User interface packages.
+      epkgs.neotree
       epkgs.ivy
       epkgs.counsel
       epkgs.ivy-rich
