@@ -2772,6 +2772,10 @@ epkgs.neotree
 
 #+NAME: emacs-neotree-elisp
 #+BEGIN_SRC emacs-lisp
+;; Enable all-the-icons font support.
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+;; Add a key to toggle the window.
 (dotfiles/leader
   "tr" '(neotree-toggle :which-key "Neotree"))
 #+END_SRC
