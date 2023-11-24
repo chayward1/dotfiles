@@ -36,6 +36,7 @@ let
       epkgs.password-store
       epkgs.docker
       epkgs.dockerfile-mode
+      epkgs.mu4e
       epkgs.mu4e-alert
       epkgs.dired-single
       epkgs.nerd-icons
@@ -55,7 +56,6 @@ let
       epkgs.lsp-mode
       epkgs.lsp-ui
       epkgs.company
-      epkgs.gdscript-mode
       epkgs.ccls
       epkgs.go-mode
       epkgs.dart-mode
