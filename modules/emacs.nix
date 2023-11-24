@@ -1,8 +1,12 @@
 # This file is controlled by /etc/dotfiles/README.org
 # This module MUST be included within home manager
-{ pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
+with lib;
+with lib.types;
 let
+  cfg = config.modules.emacs;
+  
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
     config = ../README.org;
     package = pkgs.emacs-unstable;
@@ -78,80 +82,89 @@ let
   };
 
 in {
-  home.packages = [
-    pkgs.arandr
-    pkgs.nitrogen
-    pkgs.autorandr
-    pkgs.pass
-    (pkgs.writeShellScriptBin "pass-init" ''
-      ${pkgs.git}/bin/git clone git@git.chrishayward.xyz:chris/passwords /home/chris/.password-store
-      ${pkgs.pass}/bin/pass init
-    '')
-    pkgs.mu
-    pkgs.isync
-    (pkgs.writeShellScriptBin "mail-init" ''
-      ${pkgs.mu}/bin/mu init --maildir="/home/chris/.cache/mail" --my-address="chris@chrishayward.xyz"
-      ${pkgs.mu}/bin/mu index
-    '')
-    (pkgs.writeShellScriptBin "mail-sync" ''
-      ${pkgs.isync}/bin/mbsync -a
-    '')
-    pkgs.aspell
-    pkgs.aspellDicts.en
-    pkgs.aspellDicts.en-science
-    pkgs.aspellDicts.en-computers
-    # pkgs.texlive.combined.scheme-full
-    pkgs.brightnessctl
-    pkgs.plantuml
-    pkgs.nixfmt
-    pkgs.rnix-lsp
-    (pkgs.writeShellScriptBin "dotfiles-theme" ''
-      ${myEmacs}/bin/emacsclient --no-wait --eval '(json-encode (dotfiles/theme))' | sed "s/\\\\//g" | sed -e 's/^"//' -e 's/"$//'
-    '')
-  ];
-
-  programs.emacs = {
-    enable = true;
-    package = myEmacs;
+  options.modules.emacs = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
   };
 
-  xsession = {
-    enable = true;
-    windowManager.command = ''
-      ${pkgs.nitrogen}/bin/nitrogen --restore
-      ${myEmacs}/bin/emacs --daemon -f exwm-enable
-      ${myEmacs}/bin/emacsclient -c
-    '';
-  };
-  home.file.".xinitrc" = {
-    text = ''
-      exec ./.xsession
-    '';
-  };
-  # Deploy the authinfo file.
-  home.file.".authinfo.gpg".source = ../config/authinfo.gpg;
-  
-  # Deploy the isync configuration file.
-  home.file.".mbsyncrc" = {
-    text = ''
-      IMAPStore xyz-remote
-      Host mail.chrishayward.xyz
-      User chris@chrishayward.xyz
-      PassCmd "pass chrishayward.xyz/chris"
-      SSLType IMAPS
-      
-      MaildirStore xyz-local
-      Path ~/.cache/mail/
-      Inbox ~/.cache/mail/inbox
-      SubFolders Verbatim
-      
-      Channel xyz
-      Far :xyz-remote:
-      Near :xyz-local:
-      Patterns * !Archives
-      Create Both
-      Expunge Both
-      SyncState *
-    '';
+  config = mkIf cfg.enable {
+    home.packages = [
+      pkgs.arandr
+      pkgs.nitrogen
+      pkgs.autorandr
+      pkgs.pass
+      (pkgs.writeShellScriptBin "pass-init" ''
+        ${pkgs.git}/bin/git clone git@git.chrishayward.xyz:chris/passwords /home/chris/.password-store
+        ${pkgs.pass}/bin/pass init
+      '')
+      pkgs.mu
+      pkgs.isync
+      (pkgs.writeShellScriptBin "mail-init" ''
+        ${pkgs.mu}/bin/mu init --maildir="/home/chris/.cache/mail" --my-address="chris@chrishayward.xyz"
+        ${pkgs.mu}/bin/mu index
+      '')
+      (pkgs.writeShellScriptBin "mail-sync" ''
+        ${pkgs.isync}/bin/mbsync -a
+      '')
+      pkgs.aspell
+      pkgs.aspellDicts.en
+      pkgs.aspellDicts.en-science
+      pkgs.aspellDicts.en-computers
+      # pkgs.texlive.combined.scheme-full
+      pkgs.brightnessctl
+      pkgs.plantuml
+      pkgs.nixfmt
+      pkgs.rnix-lsp
+      (pkgs.writeShellScriptBin "dotfiles-theme" ''
+        ${myEmacs}/bin/emacsclient --no-wait --eval '(json-encode (dotfiles/theme))' | sed "s/\\\\//g" | sed -e 's/^"//' -e 's/"$//'
+      '')
+    ];
+
+    programs.emacs = {
+      enable = true;
+      package = myEmacs;
+    };
+
+    xsession = {
+      enable = true;
+      windowManager.command = ''
+        ${pkgs.nitrogen}/bin/nitrogen --restore
+        ${myEmacs}/bin/emacs --daemon -f exwm-enable
+        ${myEmacs}/bin/emacsclient -c
+      '';
+    };
+    home.file.".xinitrc" = {
+      text = ''
+        exec ./.xsession
+      '';
+    };
+    # Deploy the authinfo file.
+    home.file.".authinfo.gpg".source = ../config/authinfo.gpg;
+    
+    # Deploy the isync configuration file.
+    home.file.".mbsyncrc" = {
+      text = ''
+        IMAPStore xyz-remote
+        Host mail.chrishayward.xyz
+        User chris@chrishayward.xyz
+        PassCmd "pass chrishayward.xyz/chris"
+        SSLType IMAPS
+        
+        MaildirStore xyz-local
+        Path ~/.cache/mail/
+        Inbox ~/.cache/mail/inbox
+        SubFolders Verbatim
+        
+        Channel xyz
+        Far :xyz-remote:
+        Near :xyz-local:
+        Patterns * !Archives
+        Create Both
+        Expunge Both
+        SyncState *
+      '';
+    };
   };
 }

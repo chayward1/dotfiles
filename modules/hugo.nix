@@ -1,7 +1,10 @@
 # This file is controlled by /etc/dotfiles/README.org
-{ config, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
+with lib;
+with lib.types;
 let
+  cfg = config.modules.hugo;
   mySiteDir = "/etc/dotfiles/docs/public/";
   mySiteTgt = "ubuntu@chrishayward.xyz:/var/www/chrishayward";
   mySiteBuild = pkgs.writeShellScriptBin "site-build" ''
@@ -14,9 +17,18 @@ let
   '';
 
 in {
-  environment.systemPackages = [
-    pkgs.hugo
-    mySiteBuild
-    mySiteUpdate
-  ];
+  options.modules.hugo = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+  
+  config = mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.hugo
+      mySiteBuild
+      mySiteUpdate
+    ];
+  };
 }

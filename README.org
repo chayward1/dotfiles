@@ -605,13 +605,22 @@ Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#nixo
 
 #+BEGIN_SRC nix :noweb yes :tangle hosts/nixos/default.nix
 # <<file-warning>>
-{ ... }:
+{ config, ... }:
 
 {
   imports = [
     ./configuration.nix
     ./hardware.nix
   ];
+
+  modules.x11.enable = true;
+  modules.ssh.enable = true;
+  modules.hugo.enable = true;
+  modules.godot.enable = true;
+  modules.flakes.enable = true;
+  modules.cachix.enable = true;
+  modules.docker.enable = true;
+  modules.firefox.enable = true;
 }
 #+END_SRC
 
@@ -695,44 +704,56 @@ Modules are files combined by [[https://nixos.org/][NixOS]] to produce the full 
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/x11.nix
 # <<file-warning>>
-{ config, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.libinput.enable = true;
-  services.xserver.displayManager.startx.enable = true;
-
-  environment = {
-    variables = {
-      XDG_DESKTOP_DIR = "$HOME/";
-      XDG_CACHE_HOME = "$HOME/.cache";
-      XDG_CONFIG_HOME = "$HOME/.config";
-      XDG_DATA_HOME = "$HOME/.local/share";
-      XDG_BIN_HOME = "$HOME/.local/bin";
+with lib;
+with lib.types;
+let cfg = config.modules.x11;
+in {
+  options.modules.x11 = {
+    enable = mkOption {
+      type = bool;
+      default = false;
     };
-    systemPackages = with pkgs; [
-      pkgs.sqlite
-      pkgs.pfetch
-      pkgs.cmatrix
-      pkgs.asciiquarium
-    ];
-    extraInit = ''
-      export XAUTHORITY=/tmp/Xauthority
-      export xserverauthfile=/tmp/xserverauth
-      [ -e ~/.Xauthority ] && mv -f ~/.Xauthority "$XAUTHORITY"
-      [ -e ~/.serverauth.* ] && mv -f ~/.serverauth.* "$xserverauthfile"
-    '';
   };
 
-  services.picom.enable = true;
-  services.printing.enable = true;
+  config = mkIf cfg.enable {
+    services.xserver.enable = true;
+    services.xserver.layout = "us";
+    services.xserver.libinput.enable = true;
+    services.xserver.displayManager.startx.enable = true;
 
-  fonts.fonts = with pkgs; [
-    iosevka-bin
-    fira-code-symbols
-    emacs-all-the-icons-fonts
-  ];
+    environment = {
+      variables = {
+        XDG_DESKTOP_DIR = "$HOME/";
+        XDG_CACHE_HOME = "$HOME/.cache";
+        XDG_CONFIG_HOME = "$HOME/.config";
+        XDG_DATA_HOME = "$HOME/.local/share";
+        XDG_BIN_HOME = "$HOME/.local/bin";
+      };
+      systemPackages = with pkgs; [
+        pkgs.sqlite
+        pkgs.pfetch
+        pkgs.cmatrix
+        pkgs.asciiquarium
+      ];
+      extraInit = ''
+        export XAUTHORITY=/tmp/Xauthority
+        export xserverauthfile=/tmp/xserverauth
+        [ -e ~/.Xauthority ] && mv -f ~/.Xauthority "$XAUTHORITY"
+        [ -e ~/.serverauth.* ] && mv -f ~/.serverauth.* "$xserverauthfile"
+      '';
+    };
+
+    services.picom.enable = true;
+    services.printing.enable = true;
+
+    fonts.fonts = with pkgs; [
+      iosevka-bin
+      fira-code-symbols
+      emacs-all-the-icons-fonts
+    ];
+  };
 }
 #+END_SRC
 
@@ -752,14 +773,26 @@ Apply some configuration to the default settings:
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/ssh.nix
 # <<file-warning>>
-{ config, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  services.openssh = {
-    enable = true;
-    settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = false;
+with lib;
+with lib.types;
+let cfg = config.modules.ssh;
+in {
+  options.modules.ssh = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+
+  config = mkIf cfg.enable {
+    services.openssh = {
+      enable = true;
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+      };
     };
   };
 }
@@ -776,9 +809,12 @@ Apply some configuration to the default settings:
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/hugo.nix
 # <<file-warning>>
-{ config, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
+with lib;
+with lib.types;
 let
+  cfg = config.modules.hugo;
   mySiteDir = "/etc/dotfiles/docs/public/";
   mySiteTgt = "ubuntu@chrishayward.xyz:/var/www/chrishayward";
   mySiteBuild = pkgs.writeShellScriptBin "site-build" ''
@@ -791,11 +827,20 @@ let
   '';
 
 in {
-  environment.systemPackages = [
-    pkgs.hugo
-    mySiteBuild
-    mySiteUpdate
-  ];
+  options.modules.hugo = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+  
+  config = mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.hugo
+      mySiteBuild
+      mySiteUpdate
+    ];
+  };
 }
 #+END_SRC
 
@@ -810,16 +855,30 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/godot.nix
 # <<file-warning>>
-{ config, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  environment.systemPackages = [
-    pkgs.tiled
-    pkgs.godot
-    pkgs.godot-server
-    pkgs.godot-headless
-    pkgs.gdtoolkit
-  ];
+with lib;
+with lib.types;
+let
+  cfg = config.modules.godot;
+
+in {
+  options.modules.godot = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+
+  config = mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.tiled
+      pkgs.godot
+      pkgs.godot-server
+      pkgs.godot-headless
+      pkgs.gdtoolkit
+    ];
+  };
 }
 #+END_SRC
 
@@ -834,19 +893,31 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/flakes.nix
 # <<file-warning>>
-{ config, pkgs, inputs, ... }:
+{ config, options, lib, pkgs, inputs, ... }:
 
-{
-  nix = {
-    package = pkgs.nixUnstable;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
+with lib;
+with lib.types;
+let cfg = config.modules.flakes;
+in {
+  options.modules.flakes = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
   };
 
-  nixpkgs = {
-    config = { allowUnfree = true; };
-    overlays = [ inputs.emacs-overlay.overlay ];
+  config = mkIf cfg.enable {
+    nix = {
+      package = pkgs.nixUnstable;
+      extraOptions = ''
+        experimental-features = nix-command flakes
+      '';
+    };
+
+    nixpkgs = {
+      config = { allowUnfree = true; };
+      overlays = [ inputs.emacs-overlay.overlay ];
+    };
   };
 }
 #+END_SRC
@@ -862,17 +933,31 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/cachix.nix
 # <<file-warning>>
-{ config, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  nix = {
-    settings = {
-      substituters = [
-        "https://nix-community.cachix.org"
-      ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      ];
+with lib;
+with lib.types;
+let
+  cfg = config.modules.cachix;
+
+in {
+  options.modules.cachix = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+
+  config = mkIf cfg.enable {
+    nix = {
+      settings = {
+        substituters = [
+          "https://nix-community.cachix.org"
+        ];
+        trusted-public-keys = [
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
+      };
     };
   };
 }
@@ -889,24 +974,36 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/docker.nix
 # <<file-warning>>
-{ config, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  # Enable the docker virutalization platform.
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
-    autoPrune.enable = true;
+with lib;
+with lib.types;
+let cfg = config.modules.docker;
+in {
+  options.modules.docker = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
   };
 
-  # Required for the `docker' command.
-  users.users.chris.extraGroups = [ "docker" ];
-
-  # Add docker extensions.
-  environment.systemPackages = [
-    pkgs.docker-compose
-    pkgs.docker-machine
-  ];
+  config = mkIf cfg.enable {
+    # Enable the docker virutalization platform.
+    virtualisation.docker = {
+      enable = true;
+      enableOnBoot = true;
+      autoPrune.enable = true;
+    };
+    
+    # Required for the `docker' command.
+    users.users.chris.extraGroups = [ "docker" ];
+    
+    # Add docker extensions.
+    environment.systemPackages = [
+      pkgs.docker-compose
+      pkgs.docker-machine
+    ];
+  };
 }
 #+END_SRC
 
@@ -921,18 +1018,30 @@ in {
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/firefox.nix
 # <<file-warning>>
-{ config, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
+with lib;
+with lib.types;
 let
+  cfg = config.modules.firefox;
   myFirefox = pkgs.writeShellScriptBin "firefox" ''
     HOME=~/.local/share/mozilla ${pkgs.firefox-bin}/bin/firefox
   '';
 
 in {
-  # NOTE: Use the binary until module is developed.
-  environment.systemPackages = [
-    myFirefox
-  ];
+  options.modules.firefox = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+
+  config = mkIf cfg.enable {
+    # NOTE: Use the binary until module is developed.
+    environment.systemPackages = [
+      myFirefox
+    ];
+  };
 }
 #+END_SRC
 
@@ -947,6 +1056,7 @@ inputs.home-manager.nixosModules.home-manager {
   home-manager.useUserPackages = true;
   home-manager.users.chris = {
     home.stateVersion = "23.05";
+    
     imports = [
       <<module-git>>
       <<module-gpg>>
@@ -954,6 +1064,18 @@ inputs.home-manager.nixosModules.home-manager {
       <<module-gtk>>
       <<module-emacs>>
     ];
+    
+    modules.git = {
+      enable = true;
+      name = "Christopher James Hayward";
+      email = "chris@chrishayward.xyz";
+      key = "37AB1CB72B741E478CA026D43025DCBD46F81C0F";
+    };
+
+    modules.gpg.enable = true;
+    modules.vim.enable = true;
+    modules.gtk.enable = true;
+    modules.emacs.enable = true;
   };
 }
 #+END_SRC
@@ -977,9 +1099,13 @@ This module MUST be included within home manager
 #+BEGIN_SRC nix :noweb yes :tangle modules/git.nix
 # <<file-warning>>
 # <<home-manager-warning>>
-{ pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
+with lib;
+with lib.types;
 let
+  cfg = config.modules.git;
+  
   # Fix any corruptions in the local copy.
   myGitFix = pkgs.writeShellScriptBin "git-fix" ''
     if [ -d .git/objects/ ]; then
@@ -991,16 +1117,40 @@ let
   '';
 
 in {
-  home.packages = [ myGitFix ];
+  options.modules.git = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
 
-  programs.git = {
-    enable = true;
-    userName = "Christopher James Hayward";
-    userEmail = "chris@chrishayward.xyz";
+    name = mkOption {
+      type = str;
+      default = "Anon";
+    };
 
-    signing = {
-      key = "37AB1CB72B741E478CA026D43025DCBD46F81C0F";
-      signByDefault = true;
+    email = mkOption {
+      type = str;
+      default = "anon@devnull.com";
+    };
+
+    key = mkOption {
+      type = str;
+      default = "ABCD1234";
+    };
+  };
+
+  config = mkIf cfg.enable {
+    home.packages = [ myGitFix ];
+    
+    programs.git = {
+      enable = true;
+      userName = cfg.name;
+      userEmail = cfg.email;
+      
+      signing = {
+        key = cfg.key;
+        signByDefault = true;
+      };
     };
   };
 }
@@ -1018,14 +1168,27 @@ in {
 #+BEGIN_SRC nix :noweb yes :tangle modules/gpg.nix
 # <<file-warning>>
 # <<home-manager-warning>>
-{ pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  services.gpg-agent = {
-    enable = true;
-    defaultCacheTtl = 1800;
-    enableSshSupport = true;
-    pinentryFlavor = "gtk2";
+with lib;
+with lib.types;
+let
+  cfg = config.modules.gpg;
+in {
+  options.modules.gpg = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+
+  config = mkIf cfg.enable {
+    services.gpg-agent = {
+      enable = true;
+      defaultCacheTtl = 1800;
+      enableSshSupport = true;
+      pinentryFlavor = "gtk2";
+    };
   };
 }
 #+END_SRC
@@ -1047,26 +1210,38 @@ in {
 #+BEGIN_SRC nix :noweb yes :tangle modules/vim.nix
 # <<file-warning>>
 # <<home-manager-warning>>
-{ pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-    extraConfig = ''
-      set number relativenumber
-      set nobackup
-    '';
-    extraPackages = [
-      pkgs.nixfmt
-    ];
-    plugins = with pkgs.vimPlugins; [
-      vim-nix
-      vim-airline
-      vim-polyglot
-    ];
+with lib;
+with lib.types;
+let cfg = config.modules.vim;
+in {
+  options.modules.vim = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+
+  config = mkIf cfg.enable {
+    programs.neovim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      extraConfig = ''
+        set number relativenumber
+        set nobackup
+      '';
+      extraPackages = [
+        pkgs.nixfmt
+      ];
+      plugins = with pkgs.vimPlugins; [
+        vim-nix
+        vim-airline
+        vim-polyglot
+      ];
+    };
   };
 }
 #+END_SRC
@@ -1083,66 +1258,78 @@ in {
 #+BEGIN_SRC nix :noweb yes :tangle modules/gtk.nix
 # <<file-warning>>
 # <<home-manager-warning>>
-{ pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  home.packages = [
-    pkgs.nordic
-    pkgs.arc-icon-theme
-    pkgs.lxappearance
-  ];
-
-  home.file.".gtkrc-2.0" = {
-    text = ''
-      gtk-theme-name="Nordic-darker"
-      gtk-icon-theme-name="Arc"
-      gtk-font-name="Iosevka 11"
-      gtk-cursor-theme-size=0
-      gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-      gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-      gtk-button-images=0
-      gtk-menu-images=0
-      gtk-enable-event-sounds=1
-      gtk-enable-input-feedback-sounds=1
-      gtk-xft-antialias=1
-      gtk-xft-hinting=1
-      gtk-xft-hintstyle="hintmedium"
-    '';
+with lib;
+with lib.types;
+let cfg = config.modules.gtk;
+in {
+  options.modules.gtk = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
   };
 
-  home.file.".config/gtk-2.0/gtkfilechooser.ini" = {
-    text = ''
-      [Filechooser Settings]
-      LocationMode=path-bar
-      ShowHidden=false
-      ShowSizeColumn=true
-      GeometryX=442
-      GeometryY=212
-      GeometryWidth=1036
-      GeometryHeight=609
-      SortColumn=name
-      SortOrder=ascending
-      StartupMode=recent
-    '';
-  };
+  config = mkIf cfg.enable {
+    home.packages = [
+      pkgs.nordic
+      pkgs.arc-icon-theme
+      pkgs.lxappearance
+    ];
+
+    home.file.".gtkrc-2.0" = {
+      text = ''
+        gtk-theme-name="Nordic-darker"
+        gtk-icon-theme-name="Arc"
+        gtk-font-name="Iosevka 11"
+        gtk-cursor-theme-size=0
+        gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+        gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+        gtk-button-images=0
+        gtk-menu-images=0
+        gtk-enable-event-sounds=1
+        gtk-enable-input-feedback-sounds=1
+        gtk-xft-antialias=1
+        gtk-xft-hinting=1
+        gtk-xft-hintstyle="hintmedium"
+      '';
+    };
+
+    home.file.".config/gtk-2.0/gtkfilechooser.ini" = {
+      text = ''
+        [Filechooser Settings]
+        LocationMode=path-bar
+        ShowHidden=false
+        ShowSizeColumn=true
+        GeometryX=442
+        GeometryY=212
+        GeometryWidth=1036
+        GeometryHeight=609
+        SortColumn=name
+        SortOrder=ascending
+        StartupMode=recent
+      '';
+    };
   
-  home.file.".config/gtk-3.0/settings.ini" = {
-    text = ''
-      [Settings]
-      gtk-theme-name=Nordic-darker
-      gtk-icon-theme-name=Arc
-      gtk-font-name=Iosevka 11
-      gtk-cursor-theme-size=0
-      gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-      gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-      gtk-button-images=0
-      gtk-menu-images=0
-      gtk-enable-event-sounds=1
-      gtk-enable-input-feedback-sounds=1
-      gtk-xft-antialias=1
-      gtk-xft-hinting=1
-      gtk-xft-hintstyle=hintmedium
-    '';
+    home.file.".config/gtk-3.0/settings.ini" = {
+      text = ''
+        [Settings]
+        gtk-theme-name=Nordic-darker
+        gtk-icon-theme-name=Arc
+        gtk-font-name=Iosevka 11
+        gtk-cursor-theme-size=0
+        gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+        gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+        gtk-button-images=0
+        gtk-menu-images=0
+        gtk-enable-event-sounds=1
+        gtk-enable-input-feedback-sounds=1
+        gtk-xft-antialias=1
+        gtk-xft-hinting=1
+        gtk-xft-hintstyle=hintmedium
+      '';
+    };
   };
 }
 #+END_SRC
@@ -1170,9 +1357,13 @@ in {
 #+BEGIN_SRC nix :noweb yes :tangle modules/emacs.nix
 # <<file-warning>>
 # <<home-manager-warning>>
-{ pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
+with lib;
+with lib.types;
 let
+  cfg = config.modules.emacs;
+  
   myEmacs = pkgs.emacsWithPackagesFromUsePackage {
     config = ../README.org;
     package = <<emacs-native-comp-package>>
@@ -1231,26 +1422,35 @@ let
   };
 
 in {
-  home.packages = [
-    <<emacs-exwm-extras>>
-    <<emacs-pass-extras>>
-    <<emacs-mu4e-extras>>
-    <<emacs-aspell-extras>>
-    <<emacs-texlive-extras>>
-    <<emacs-desktop-extras>>
-    <<emacs-plantuml-extras>>
-    <<emacs-nix-mode-extras>>
-    <<emacs-doom-themes-extras>>
-  ];
-
-  programs.emacs = {
-    enable = true;
-    package = myEmacs;
+  options.modules.emacs = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
   };
 
-  <<emacs-exwm-config>>
-  <<emacs-exwm-xinitrc>>
-  <<emacs-mu4e-config>>
+  config = mkIf cfg.enable {
+    home.packages = [
+      <<emacs-exwm-extras>>
+      <<emacs-pass-extras>>
+      <<emacs-mu4e-extras>>
+      <<emacs-aspell-extras>>
+      <<emacs-texlive-extras>>
+      <<emacs-desktop-extras>>
+      <<emacs-plantuml-extras>>
+      <<emacs-nix-mode-extras>>
+      <<emacs-doom-themes-extras>>
+    ];
+
+    programs.emacs = {
+      enable = true;
+      package = myEmacs;
+    };
+
+    <<emacs-exwm-config>>
+    <<emacs-exwm-xinitrc>>
+    <<emacs-mu4e-config>>
+  };
 }
 #+END_SRC
 
@@ -1809,7 +2009,7 @@ epkgs.hydra
 #+BEGIN_SRC emacs-lisp
 ;; Configure the font when running as `emacs-server'.
 (custom-set-faces
-  '(default ((t (:inherit nil :height 120 :family "Iosevka")))))
+  '(default ((t (:inherit nil :height 120 :family "Iosevka Term")))))
 
 ;; Define a `hydra' function for scaling the text interactively.
 (defhydra hydra-text-scale (:timeout 4)

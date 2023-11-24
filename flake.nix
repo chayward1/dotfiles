@@ -32,6 +32,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.chris = {
               home.stateVersion = "23.05";
+              
               imports = [
                 ./modules/git.nix
                 ./modules/gpg.nix
@@ -39,6 +40,18 @@
                 ./modules/gtk.nix
                 ./modules/emacs.nix
               ];
+              
+              modules.git = {
+                enable = true;
+                name = "Christopher James Hayward";
+                email = "chris@chrishayward.xyz";
+                key = "37AB1CB72B741E478CA026D43025DCBD46F81C0F";
+              };
+          
+              modules.gpg.enable = true;
+              modules.vim.enable = true;
+              modules.gtk.enable = true;
+              modules.emacs.enable = true;
             };
           }
         ];
