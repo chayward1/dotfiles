@@ -8,6 +8,7 @@ mkShell {
     flutter
   ];
   shellHook = ''
-    FLUTTER_SDK_DIR=${flutter}/bin/cache/dart-sdk/
+    export FLUTTER_SDK_DIR=${flutter}/bin/cache/dart-sdk/
+    export PATH="$HOME/.pub-cache/bin":"$PATH"
   '';
 }

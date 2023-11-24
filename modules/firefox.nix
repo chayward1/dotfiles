@@ -5,6 +5,7 @@ with lib;
 with lib.types;
 let
   cfg = config.modules.firefox;
+  
   myFirefox = pkgs.writeShellScriptBin "firefox" ''
     HOME=~/.local/share/mozilla ${pkgs.firefox-bin}/bin/firefox
   '';
