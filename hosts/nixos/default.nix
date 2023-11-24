@@ -10,7 +10,6 @@
   modules.x11.enable = true;
   modules.ssh.enable = true;
   modules.hugo.enable = true;
-  modules.godot.enable = true;
   modules.flakes.enable = true;
   modules.cachix.enable = true;
   modules.docker.enable = true;
