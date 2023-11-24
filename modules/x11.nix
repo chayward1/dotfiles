@@ -43,7 +43,7 @@ in {
     services.picom.enable = true;
     services.printing.enable = true;
 
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
       iosevka-bin
       fira-code-symbols
       emacs-all-the-icons-fonts
