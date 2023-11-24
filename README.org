@@ -17,8 +17,8 @@
 #+HUGO_DRAFT: false
 
 #+HTML: <a href="https://nixos.org"><img src="https://img.shields.io/badge/NixOS-unstable-blue.svg?style=flat-square&logo=NixOS&logoColor=white"></a>
-#+HTML: <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Emacs-29.0-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a>
-#+HTML: <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-9.6.6-%2377aa99?style=flat-square&logo=org&logoColor=white"></a>
+#+HTML: <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Emacs-29.1-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a>
+#+HTML: <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-9.6.12-%2377aa99?style=flat-square&logo=org&logoColor=white"></a>
 
 #+NAME: description
 #+BEGIN_SRC text
@@ -591,7 +591,6 @@ nixos = nixpkgs.lib.nixosSystem {
     <<module-x11>>
     <<module-ssh>>
     <<module-hugo>>
-    <<module-godot>>
     <<module-docker>>
     <<module-flakes>>
     <<module-cachix>>
@@ -616,7 +615,6 @@ Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#nixo
   modules.x11.enable = true;
   modules.ssh.enable = true;
   modules.hugo.enable = true;
-  modules.godot.enable = true;
   modules.flakes.enable = true;
   modules.cachix.enable = true;
   modules.docker.enable = true;
@@ -748,7 +746,7 @@ in {
     services.picom.enable = true;
     services.printing.enable = true;
 
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
       iosevka-bin
       fira-code-symbols
       emacs-all-the-icons-fonts
@@ -839,44 +837,6 @@ in {
       pkgs.hugo
       mySiteBuild
       mySiteUpdate
-    ];
-  };
-}
-#+END_SRC
-
-** Godot
-
-#+NAME: module-godot
-#+BEGIN_SRC nix
-./modules/godot.nix
-#+END_SRC
-
-[[https://godotengine.org][Godot]] is a cross-platform, free and open-source game engine released under the MIT license. It provides a huge set of common tools, so you can focus on making your game without reinventing the wheel. It's completely free and open-source, no strings attached, no royalties. The game belongs to the creator down to each line of the engine code.
-
-#+BEGIN_SRC nix :noweb yes :tangle modules/godot.nix
-# <<file-warning>>
-{ config, options, lib, pkgs, ... }:
-
-with lib;
-with lib.types;
-let
-  cfg = config.modules.godot;
-
-in {
-  options.modules.godot = {
-    enable = mkOption {
-      type = bool;
-      default = false;
-    };
-  };
-
-  config = mkIf cfg.enable {
-    environment.systemPackages = [
-      pkgs.tiled
-      pkgs.godot
-      pkgs.godot-server
-      pkgs.godot-headless
-      pkgs.gdtoolkit
     ];
   };
 }
@@ -1401,7 +1361,6 @@ let
       <<emacs-projectile-package>>
       <<emacs-lsp-package>>
       <<emacs-company-package>>
-      <<emacs-gdscript-package>>
       <<emacs-ccls-package>>
       <<emacs-golang-package>>
       <<emacs-dart-package>>
@@ -1488,6 +1447,7 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-vterm-elisp>>
 <<emacs-magit-elisp>>
 <<emacs-fonts-elisp>>
+<<emacs-line-numbers-elisp>>
 <<emacs-frames-elisp>>
 <<emacs-ligatures-elisp>>
 <<emacs-elfeed-elisp>>
@@ -1495,7 +1455,6 @@ When Emacs is started, it normally tries to load a Lisp program from an ititiali
 <<emacs-electric-pair-elisp>>
 <<emacs-lsp-elisp>>
 <<emacs-company-elisp>>
-<<emacs-gdscript-elisp>>
 <<emacs-golang-elisp>>
 <<emacs-typescript-elisp>>
 <<emacs-dart-elisp>>
@@ -2021,6 +1980,24 @@ epkgs.hydra
 ;; Create keybinding for calling the function.
 (dotfiles/leader
   "tf" '(hydra-text-scale/body :which-key "Font"))
+#+END_SRC
+
+*** Line Numbers
+
+With relative line numbers, each line in a file is numbered relative to the cursor's current position to show the distance to that line. The current line is marked 0, the ones above and below are marked 1, and so on.
+
+#+NAME: emacs-line-numbers-elisp
+#+BEGIN_SRC emacs-lisp
+;; Enable relative line numbers.
+;; (global-display-line-numbers-mode +1)
+(setq display-line-numbers-type 'relative)
+
+;; Enable line numbering for all programming modes.
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+;; Add a shortcut to toggle line numbers.
+(dotfiles/leader
+  "tl" '(display-line-numbers-mode :which-key "Line Numbers"))
 #+END_SRC
 
 *** Ligatures
@@ -2585,6 +2562,7 @@ pkgs.isync
 
 #+NAME: emacs-mu4e-package
 #+BEGIN_SRC nix
+epkgs.mu4e
 epkgs.mu4e-alert
 #+END_SRC
 
@@ -2777,48 +2755,6 @@ epkgs.company
 
 ;; Enable it globally.
 (global-company-mode +1)
-#+END_SRC
-
-*** GDScript Mode
-
-#+NAME: emacs-gdscript-package
-#+BEGIN_SRC nix
-epkgs.gdscript-mode
-#+END_SRC
-
-https://github.com/godotengine/emacs-gdscript-mode is an Emacs package to get GDScript support and syntax highlighting. Some of its features include:
-
-+ Syntax highlighting
-+ Code folding
-+ Debugger support
-+ Support for scenes and script files
-+ Comment wrapping
-+ Indentation
-+ Automatic parsing
-+ Code formatting
-
-#+NAME: emacs-gdscript-elisp
-#+BEGIN_SRC emacs-lisp
-(require 'gdscript-mode)
-
-;; Silence lsp warnings for gdscript.
-(defun lsp--gdscript-ignore-errors (original-function &rest args)
-  "Ignore the error message resulting from Godot not replying to the `JSONRPC' request."
-  (if (string-equal major-mode "gdscript-mode")
-      (let ((json-data (nth 0 args)))
-	(if (and (string= (gethash "jsonrpc" json-data "") "2.0")
-		 (not (gethash "id" json-data nil))
-		 (not (gethash "method" json-data nil)))
-	    nil; (message "Method not found")
-	  (apply original-function args)))
-    (apply original-function args)))
-
-;; Run the function around `lsp--get-message-type' to suppress warnings.
-(advice-add #'lsp--get-message-type :around #'lsp--gdscript-ignore-errors)
-
-;; Add custom keybinds.
-(dotfiles/leader
-  "lg" '(gdscript-hydra-show :which-key "GDScript"))
 #+END_SRC
 
 *** Go Mode
