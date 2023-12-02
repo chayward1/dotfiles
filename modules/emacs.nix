@@ -94,6 +94,11 @@ in {
       pkgs.arandr
       pkgs.nitrogen
       pkgs.autorandr
+      (pkgs.writeShellScriptBin "g" ''
+        pushd $HOME
+        startx
+        popd /dev/null
+      '')
       pkgs.pass
       (pkgs.writeShellScriptBin "pass-init" ''
         ${pkgs.git}/bin/git clone git@git.chrishayward.xyz:chris/passwords /home/chris/.password-store

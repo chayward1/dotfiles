@@ -1647,6 +1647,11 @@ epkgs.exwm
 pkgs.arandr
 pkgs.nitrogen
 pkgs.autorandr
+(pkgs.writeShellScriptBin "g" ''
+  pushd $HOME
+  startx
+  popd /dev/null
+'')
 #+END_SRC
   
 I wanted to leave ~(exwm-enable)~ out of my Emacs configuration (which does no harm anyways). This can be called when using the daemon to start [[https://github.com/ch11ng/exwm][EXWM]].
@@ -1717,6 +1722,23 @@ home.file.".xinitrc" = {
     (dotfiles/run-in-background "autorandr --change --force"))) ;; Swap to the next screen config.
 #+END_SRC
 
+*** Which Key
+
+[[https://github.com/justbur/emacs-which-key][Which Key]] is an [[https://gnu.org/software/emacs/][Emacs]] minor mode that displays the key bindings following your currently entered incomplete command (prefix) in a popup or mini-buffer.
+
+#+NAME: emacs-which-key-package
+#+BEGIN_SRC nix
+epkgs.which-key
+#+END_SRC
+
+#+NAME: emacs-which-key-elisp
+#+BEGIN_SRC emacs-lisp
+;; Configure `which-key' to see keyboard bindings in the
+;; mini-buffer and when using M-x.
+(setq which-key-idle-delay 0.0)
+(which-key-mode +1)
+#+END_SRC
+
 *** General
 
 #+NAME: emacs-general-package
@@ -1765,23 +1787,6 @@ epkgs.general
 ;; Add keybinding to navigate to scratch buffer.
 (dotfiles/leader
   "s" '((lambda () (interactive) (switch-to-buffer "*scratch*")) :which-key "Scratch"))
-#+END_SRC
-
-*** Which Key
-
-[[https://github.com/justbur/emacs-which-key][Which Key]] is an [[https://gnu.org/software/emacs/][Emacs]] minor mode that displays the key bindings following your currently entered incomplete command (prefix) in a popup or mini-buffer.
-
-#+NAME: emacs-which-key-package
-#+BEGIN_SRC nix
-epkgs.which-key
-#+END_SRC
-
-#+NAME: emacs-which-key-elisp
-#+BEGIN_SRC emacs-lisp
-;; Configure `which-key' to see keyboard bindings in the
-;; mini-buffer and when using M-x.
-(setq which-key-idle-delay 0.0)
-(which-key-mode +1)
 #+END_SRC
 
 *** EWW
