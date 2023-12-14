@@ -8,6 +8,7 @@
   ];
 
   modules.x11.enable = true;
+  modules.xdg.enable = true;
   modules.ssh.enable = true;
   modules.hugo.enable = true;
   modules.flakes.enable = true;

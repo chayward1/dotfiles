@@ -590,6 +590,7 @@ nixos = nixpkgs.lib.nixosSystem {
   modules = [
     ./hosts/nixos
     <<module-x11>>
+    <<module-xdg>>
     <<module-ssh>>
     <<module-hugo>>
     <<module-docker>>
@@ -614,6 +615,7 @@ Deploy this configuration with ~nixos-rebuild switch --flake /etc/dotfiles/#nixo
   ];
 
   modules.x11.enable = true;
+  modules.xdg.enable = true;
   modules.ssh.enable = true;
   modules.hugo.enable = true;
   modules.flakes.enable = true;
@@ -723,13 +725,6 @@ in {
     services.xserver.displayManager.startx.enable = true;
 
     environment = {
-      variables = {
-        XDG_DESKTOP_DIR = "$HOME/";
-        XDG_CACHE_HOME = "$HOME/.cache";
-        XDG_CONFIG_HOME = "$HOME/.config";
-        XDG_DATA_HOME = "$HOME/.local/share";
-        XDG_BIN_HOME = "$HOME/.local/bin";
-      };
       systemPackages = with pkgs; [
         pkgs.sqlite
         pkgs.pfetch
@@ -752,6 +747,50 @@ in {
       fira-code-symbols
       emacs-all-the-icons-fonts
     ];
+  };
+}
+#+END_SRC
+
+** XDG
+
+#+NAME: module-xdg
+#+BEGIN_SRC nix
+./modules/x11.nix
+#+END_SRC
+
+The [[https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html][XDG Base Directory Specification]] is based on the following concepts:
+
+| Environment Variable | Default            | Purpose                                                                   |
+|----------------------+--------------------+---------------------------------------------------------------------------|
+| XDG_CONFIG_HOME      | $HOME/.config      | Where user-specific configurations should be written                      |
+| XDG_CACHE_HOME       | $HOME/.cache       | Where user-specific non essential date should be written                  |
+| XDG_DATA_HOME        | $HOME/.local/share | Where user-specific data files should be written                          |
+| XDG_STATE_HOME       | $HOME/.local/state | Where user-sspecific state files should be written                        |
+| XDG_RUNTIME_DIR      | /run/user/$UID     | Non-essential, user-specific date files such as sockets, named pipes, etc |
+
+#+BEGIN_SRC nix :noweb yes :tangle modules/xdg.nix
+<<file-warning>
+{ config, options, lib, pkgs, ... }:
+
+with lib;
+with lib.types;
+let cfg = config.modules.xdg;
+in {
+  options.modules.xdg = {
+    enable = mkOption {
+      type = bool;
+      default = false;
+    };
+  };
+
+  config = mkIf cfg.enable {
+    environment.variables = {
+      XDG_DESKTOP_DIR = "$HOME/";
+      XDG_CACHE_HOME = "$HOME/.cache";
+      XDG_CONFIG_HOME = "$HOME/.config";
+      XDG_DATA_HOME = "$HOME/.local/share";
+      XDG_BIN_HOME = "$HOME/.local/bin";
+    };
   };
 }
 #+END_SRC

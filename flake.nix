@@ -20,6 +20,7 @@
         modules = [
           ./hosts/nixos
           ./modules/x11.nix
+          ./modules/x11.nix
           ./modules/ssh.nix
           ./modules/hugo.nix
           ./modules/docker.nix
