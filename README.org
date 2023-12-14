@@ -769,7 +769,7 @@ The [[https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.ht
 | XDG_RUNTIME_DIR      | /run/user/$UID     | Non-essential, user-specific date files such as sockets, named pipes, etc |
 
 #+BEGIN_SRC nix :noweb yes :tangle modules/xdg.nix
-<<file-warning>
+<<file-warning>>
 { config, options, lib, pkgs, ... }:
 
 with lib;

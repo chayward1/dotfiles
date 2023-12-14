@@ -1,4 +1,4 @@
-<<file-warning>
+This file is controlled by /etc/dotfiles/README.org
 { config, options, lib, pkgs, ... }:
 
 with lib;
